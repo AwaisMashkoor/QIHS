@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="634">
+    <foreignObject width="100%" height="100%">
+      <div xmlns="http://www.w3.org/1999/xhtml" class="card" id="card">
+    <div class="head">
+      <h1>Global → National → Local: Quality Drivers</h1>
+      <div class="sub">How priorities cascade from international bodies to policy/regulators and into everyday practice.</div>
+    </div>
+    <div class="content">
+      <div class="grid">
+        <div class="panel global">
+          <h2>🌍 Global (e.g., WHO)</h2>
+          <div class="chips">
+            <span class="chip c1">Patient Safety Action Plan</span>
+            <span class="chip c1">Hand Hygiene Standards</span>
+            <span class="chip c1">Antimicrobial Stewardship</span>
+            <span class="chip c1">Safe Surgery Guidelines</span>
+          </div>
+        </div>
+        <div class="panel national">
+          <h2>🏛️ National / Regulators</h2>
+          <div class="chips">
+            <span class="chip c2">Care Inspectorate Indicators</span>
+            <span class="chip c2">Never Event Policies</span>
+            <span class="chip c2">Infection Control Standards</span>
+            <span class="chip c2">Staffing &amp; Skill-mix Guidance</span>
+          </div>
+        </div>
+        <div class="panel local">
+          <h2>🏥 Local / Service / Ward</h2>
+          <div class="chips">
+            <span class="chip c3">Safety Huddles</span>
+            <span class="chip c3">Audit &amp; PDSA Cycles</span>
+            <span class="chip c3">Patient Experience Feedback</span>
+            <span class="chip c3">Incident Learning Reviews</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrows">
+        <div class="arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10" preserveAspectRatio="none">
+            <defs>
+              <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                <polygon points="0 0, 6 2, 0 4" fill="#4f46e5"/>
+              </marker>
+            </defs>
+            <line x1="5" y1="5" x2="95" y2="5" stroke="#4f46e5" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel" style="border-style:dashed">
+        <h2>🔎 Quick Task</h2>
+        <p class="note">Identify one driver that influences your practice. What problem does it address, and how does it connect to this week’s learning?</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="note">Tip: Global priorities set direction → National policy/regulators adapt &amp; measure → Local teams deliver and learn.</div>
+      <button class="btn" onclick="downloadPNG()">Download as PNG</button>
+    </div>
+  </div>
+    </foreignObject>
+  </svg>
