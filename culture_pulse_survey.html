@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culture Pulse Survey – Blame vs Just</title>
+  <style>
+    body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{background:#fff;border-radius:18px;box-shadow:0 15px 40px rgba(0,0,0,.25);max-width:860px;width:100%;padding:28px}
+    h1{margin:0 0 6px;color:#333} p.subtitle{color:#666;margin:0 0 18px}
+    .q{margin:16px 0;padding:16px;border:2px solid #eef2ff;border-radius:12px;background:#f8f9ff}
+    .q h3{font-size:1em;color:#334155;margin:0 0 10px}
+    .likert{display:flex;gap:10px;flex-wrap:wrap}
+    .likert label{background:#fff;border:2px solid #c7d2fe;border-radius:999px;padding:8px 12px;cursor:pointer;transition:.2s;user-select:none}
+    .likert input{display:none}
+    .likert input:checked+span{background:#4f46e5;color:#fff;border-color:#4f46e5}
+    .likert label:hover{transform:translateY(-1px)}
+    .actions{display:flex;gap:12px;justify-content:center;margin-top:18px}
+    .btn{padding:12px 22px;border:none;border-radius:10px;font-weight:700;cursor:pointer}
+    .primary{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+    .secondary{background:#fff;border:2px solid #667eea;color:#667eea}
+    .results{display:none;margin-top:22px}
+    .bar{height:12px;background:#eef2ff;border-radius:8px;overflow:hidden}
+    .fill{height:100%;width:0;background:#4f46e5;transition:width .6s}
+    .row{display:grid;grid-template-columns:190px 1fr 60px;align-items:center;gap:12px;margin:10px 0}
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;font-size:.85em;font-weight:700}
+    .good{background:#dcfce7;color:#166534}
+    .ok{background:#fef9c3;color:#854d0e}
+    .bad{background:#fee2e2;color:#991b1b}
+    .note{color:#475569;margin-top:8px}
+    .foot{margin-top:16px;text-align:center;color:#64748b;font-size:.9em}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Culture Pulse Survey</h1>
+    <p class="subtitle">Anonymous, 5 quick statements. Higher scores indicate a stronger <em>Just Culture</em> (psychological safety, system learning).</p>
+
+    <form id="survey">
+      <div class="q">
+        <h3>1) I feel safe raising concerns without fear of blame.</h3>
+        <div class="likert">
+          <label><input type="radio" name="q1" value="1"><span>Strongly disagree</span></label>
+          <label><input type="radio" name="q1" value="2"><span>Disagree</span></label>
+          <label><input type="radio" name="q1" value="3"><span>Neutral</span></label>
+          <label><input type="radio" name="q1" value="4"><span>Agree</span></label>
+          <label><input type="radio" name="q1" value="5"><span>Strongly agree</span></label>
+        </div>
+      </div>
+
+      <div class="q">
+        <h3>2) When incidents happen, we focus on system factors rather than individual blame.</h3>
+        <div class="likert">
+          <label><input type="radio" name="q2" value="1"><span>Strongly disagree</span></label>
+          <label><input type="radio" name="q2" value="2"><span>Disagree</span></label>
+          <label><input type="radio" name="q2" value="3"><span>Neutral</span></label>
+          <label><input type="radio" name="q2" value="4"><span>Agree</span></label>
+          <label><input type="radio" name="q2" value="5"><span>Strongly agree</span></label>
+        </div>
+      </div>
+
+      <div class="q">
+        <h3>3) We routinely share learning from incidents across the team/organisation.</h3>
+        <div class="likert">
+          <label><input type="radio" name="q3" value="1"><span>Strongly disagree</span></label>
+          <label><input type="radio" name="q3" value="2"><span>Disagree</span></label>
+          <label><input type="radio" name="q3" value="3"><span>Neutral</span></label>
+          <label><input type="radio" name="q3" value="4"><span>Agree</span></label>
+          <label><input type="radio" name="q3" value="5"><span>Strongly agree</span></label>
+        </div>
+      </div>
+
+      <div class="q">
+        <h3>4) Leaders model psychological safety (invite questions, admit mistakes).</h3>
+        <div class="likert">
+          <label><input type="radio" name="q4" value="1"><span>Strongly disagree</span></label>
+          <label><input type="radio" name="q4" value="2"><span>Disagree</span></label>
+          <label><input type="radio" name="q4" value="3"><span>Neutral</span></label>
+          <label><input type="radio" name="q4" value="4"><span>Agree</span></label>
+          <label><input type="radio" name="q4" value="5"><span>Strongly agree</span></label>
+        </div>
+      </div>
+
+      <div class="q">
+        <h3>5) Improvements are implemented after incidents (not just more training or memos).</h3>
+        <div class="likert">
+          <label><input type="radio" name="q5" value="1"><span>Strongly disagree</span></label>
+          <label><input type="radio" name="q5" value="2"><span>Disagree</span></label>
+          <label><input type="radio" name="q5" value="3"><span>Neutral</span></label>
+          <label><input type="radio" name="q5" value="4"><span>Agree</span></label>
+          <label><input type="radio" name="q5" value="5"><span>Strongly agree</span></label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn primary" type="button" onclick="score()">See my results</button>
+        <button class="btn secondary" type="button" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+
+    <div class="results" id="results">
+      <h2>Your Culture Snapshot</h2>
+      <div class="row"><div>Psychological Safety</div><div class="bar"><div class="fill" id="b1"></div></div><div id="p1">0%</div></div>
+      <div class="row"><div>Systems Thinking</div><div class="bar"><div class="fill" id="b2"></div></div><div id="p2">0%</div></div>
+      <div class="row"><div>Learning & Sharing</div><div class="bar"><div class="fill" id="b3"></div></div><div id="p3">0%</div></div>
+      <div class="row"><div>Leadership Behaviours</div><div class="bar"><div class="fill" id="b4"></div></div><div id="p4">0%</div></div>
+      <div class="row"><div>Real Change After Incidents</div><div class="bar"><div class="fill" id="b5"></div></div><div id="p5">0%</div></div>
+
+      <p class="note" id="summary"></p>
+      <p class="note"><span id="tag" class="tag"> </span></p>
+      <div class="actions">
+        <button class="btn secondary" onclick="download()">Download my snapshot</button>
+      </div>
+      <div class="foot">This survey runs entirely in your browser. No data is sent or stored.</div>
+    </div>
+  </div>
+
+<script>
+  function score(){
+    const vals = [1,2,3,4,5].map(i => {
+      const v = document.querySelector('input[name="q'+i+'"]:checked');
+      return v ? parseInt(v.value) : 0;
+    });
+    if(vals.some(v=>v===0)){ alert('Please answer all 5 statements.'); return; }
+    // Convert each to % (1..5 → 0..100)
+    const pct = vals.map(v => Math.round(((v-1)/4)*100));
+    ['b1','b2','b3','b4','b5'].forEach((id,i)=>{ 
+      document.getElementById(id).style.width = pct[i] + '%';
+      document.getElementById('p'+(i+1)).textContent = pct[i] + '%';
+    });
+    const avg = Math.round(pct.reduce((a,b)=>a+b,0)/pct.length);
+    const results = document.getElementById('results');
+    results.style.display = 'block';
+    const tag = document.getElementById('tag');
+    const summary = document.getElementById('summary');
+    if(avg >= 70){ tag.textContent='Strong Just Culture signal'; tag.className='tag good'; summary.textContent='Great foundations. Keep inviting reporting, sharing learning, and strengthening system defenses.'; }
+    else if(avg >= 40){ tag.textContent='Mixed signals'; tag.className='tag ok'; summary.textContent='Some Just Culture elements exist, but there may be pockets of blame. Focus on leadership behaviours and turning learning into change.'; }
+    else { tag.textContent='Blame Culture tendencies'; tag.className='tag bad'; summary.textContent='Psychological safety is likely low. Prioritise “how did this happen?” over “who did this?”, and make improvements visible.'; }
+  }
+  function resetForm(){
+    document.getElementById('survey').reset();
+    document.getElementById('results').style.display='none';
+    ['b1','b2','b3','b4','b5'].forEach(id=>document.getElementById(id).style.width='0%');
+  }
+  function download(){
+    const txt = `Culture Pulse Survey – Snapshot
+===============================
+Date: ${new Date().toLocaleString()}
+
+1) Psychological Safety: ${document.getElementById('p1').textContent}
+2) Systems Thinking: ${document.getElementById('p2').textContent}
+3) Learning & Sharing: ${document.getElementById('p3').textContent}
+4) Leadership Behaviours: ${document.getElementById('p4').textContent}
+5) Real Change After Incidents: ${document.getElementById('p5').textContent}
+
+Summary: ${document.getElementById('summary').textContent}
+Tag: ${document.getElementById('tag').textContent}
+`;
+    const blob = new Blob([txt], {type:'text/plain'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'culture_pulse_snapshot.txt'; a.click();
+  }
+</script>
+</body>
+</html>

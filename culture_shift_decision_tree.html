@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culture Shift: Blame vs Just - Interactive Pathway</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      max-width: 900px;
+      width: 100%;
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #555;
+      font-size: 1.1em;
+      line-height: 1.6;
+    }
+    .choices {
+      margin-top: 25px;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .choice {
+      flex: 1 1 250px;
+      background: #f9f9ff;
+      border: 2px solid #667eea;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .choice:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-3px);
+    }
+    .outcome {
+      display: none;
+      margin-top: 25px;
+      text-align: left;
+    }
+    .outcome.active {
+      display: block;
+    }
+    .outcome h2 {
+      margin-bottom: 10px;
+    }
+    .restart-btn {
+      margin-top: 25px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .restart-btn:hover {
+      background: #764ba2;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚖️ Culture Shift: From Blame to Just</h1>
+    <p>A medication error occurs. How does your organisation respond?</p>
+    <div class="choices">
+      <div class="choice" onclick="showOutcome('blame')">🚫 Blame Culture Response</div>
+      <div class="choice" onclick="showOutcome('just')">✅ Just Culture Response</div>
+    </div>
+
+    <div id="blame" class="outcome">
+      <h2>🚫 Blame Culture Path</h2>
+      <ul>
+        <li>Nurse suspended → Investigation → Disciplinary</li>
+        <li>Fear and defensiveness spread</li>
+        <li>Incidents hidden rather than reported</li>
+        <li>Errors repeat because system flaws remain unexamined</li>
+      </ul>
+      <p><strong>Outcome:</strong> A culture of fear and recurring harm.</p>
+      <button class="restart-btn" onclick="restart()">🔄 Try Again</button>
+    </div>
+
+    <div id="just" class="outcome">
+      <h2>✅ Just Culture Path</h2>
+      <ul>
+        <li>Team huddle after the incident</li>
+        <li>Focus on system analysis and contributing factors</li>
+        <li>Learning shared openly across the team</li>
+        <li>Preventative measures introduced to strengthen defenses</li>
+      </ul>
+      <p><strong>Outcome:</strong> A culture of openness, learning, and continuous improvement.</p>
+      <button class="restart-btn" onclick="restart()">🔄 Try Again</button>
+    </div>
+  </div>
+
+  <script>
+    function showOutcome(path) {
+      document.querySelectorAll('.outcome').forEach(o => o.classList.remove('active'));
+      document.getElementById(path).classList.add('active');
+    }
+    function restart() {
+      document.querySelectorAll('.outcome').forEach(o => o.classList.remove('active'));
+    }
+  </script>
+</body>
+</html>
