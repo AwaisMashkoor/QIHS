@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality vs Safety: Two Sides of the Same Coin - Week 3 QISC (Fixed)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh; padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; }
+        .header h1 { font-size: 2.2em; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .header p { font-size: 1.1em; opacity: 0.95; }
+        .main-content { padding: 40px; }
+        .comparison-section { margin-bottom: 50px; }
+        .comparison-section h2 { color: #333; margin-bottom: 20px; text-align: center; font-size: 1.8em; }
+        .scenario-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .scenario-btn {
+            padding: 12px 25px; background: white; border: 2px solid #667eea; border-radius: 10px; color: #667eea;
+            font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1em;
+        }
+        .scenario-btn:hover { background: #667eea; color: white; transform: translateY(-2px); }
+        .scenario-btn.active { background: #667eea; color: white; box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+        .split-screen { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; min-height: 400px; }
+        .lens-view { background: #f8f9ff; border-radius: 15px; padding: 25px; border: 2px solid #e5e7eb; position: relative; overflow: hidden; }
+        .quality-lens { border-color: #22c55e; background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); }
+        .safety-lens { border-color: #ef4444; background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); }
+        .lens-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid rgba(0,0,0,0.1); }
+        .lens-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5em; }
+        .quality-lens .lens-icon { background: #22c55e; color: white; }
+        .safety-lens .lens-icon { background: #ef4444; color: white; }
+        .lens-title { font-size: 1.3em; font-weight: 700; }
+        .lens-content { font-size: 1em; line-height: 1.8; color: #333; }
+        .focus-point { background: white; border-radius: 10px; padding: 12px; margin: 15px 0; border-left: 4px solid; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .quality-lens .focus-point { border-color: #22c55e; }
+        .safety-lens .focus-point { border-color: #ef4444; }
+        .focus-label { font-weight: 600; color: #666; font-size: 0.9em; margin-bottom: 5px; }
+        .case-studies { margin: 50px 0; }
+        .case-studies h2 { color: #333; margin-bottom: 30px; text-align: center; font-size: 1.8em; }
+        .cases-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .case-card { background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%); border-radius: 15px; padding: 25px; border: 2px solid #e5e7eb;
+            transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden; }
+        .case-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-color: #667eea; }
+        .case-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #ef4444, #f59e0b); }
+        .case-title { font-size: 1.3em; font-weight: 700; color: #333; margin-bottom: 10px; }
+        .case-subtitle { color: #666; font-size: 0.95em; margin-bottom: 15px; }
+        .case-details { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+        .case-details.active { display: block; animation: slideDown 0.3s ease; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px);} to { opacity: 1; transform: translateY(0);} }
+        .failure-list { list-style: none; margin-top: 15px; }
+        .failure-list li { padding: 8px 0; padding-left: 25px; position: relative; color: #666; }
+        .failure-list li::before { content: '⚠️'; position: absolute; left: 0; }
+        .user-example { background: #f0f4ff; border-radius: 15px; padding: 30px; margin-bottom: 40px; text-align: center; }
+        .user-example h3 { color: #667eea; margin-bottom: 20px; font-size: 1.4em; }
+        .example-input { width: 100%; max-width: 600px; margin: 0 auto; }
+        .example-input textarea { width: 100%; min-height: 120px; padding: 15px; border: 2px solid #e5e7eb; border-radius: 10px;
+            font-family: inherit; font-size: 1em; resize: vertical; transition: border-color 0.3s ease; }
+        .example-input textarea:focus { outline: none; border-color: #667eea; }
+        .submit-btn { margin-top: 15px; padding: 12px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102,126,234,0.4); }
+        .shared-examples { margin-top: 30px; max-height: 300px; overflow-y: auto; padding: 20px; background: white; border-radius: 10px; border: 1px solid #e5e7eb; }
+        .shared-example-item { padding: 15px; margin-bottom: 10px; background: #f8f9ff; border-radius: 8px; border-left: 4px solid #667eea; }
+        .example-timestamp { font-size: 0.85em; color: #999; margin-top: 5px; }
+        .poll-section { background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); border-radius: 15px; padding: 30px; margin: 40px 0; }
+        .poll-section h2 { color: #92400e; margin-bottom: 15px; text-align: center; font-size: 1.6em; }
+        .poll-question { text-align: center; font-size: 1.2em; color: #78350f; margin-bottom: 25px; }
+        .poll-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; max-width: 800px; margin: 0 auto; }
+        .poll-option { background: white; border: 2px solid #fbbf24; border-radius: 10px; padding: 15px; cursor: pointer; transition: all 0.3s ease; text-align: center; position: relative; overflow: hidden; }
+        .poll-option:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(251,191,36,0.3); }
+        .poll-option.selected { background: #fbbf24; color: white; border-color: #f59e0b; }
+        .poll-option-text { font-weight: 600; margin-bottom: 5px; }
+        .poll-percentage { font-size: 2em; font-weight: 700; color: #f59e0b; margin: 10px 0; }
+        .poll-bar { width: 100%; height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .poll-fill { height: 100%; background: linear-gradient(90deg, #fbbf24, #f59e0b); width: 0%; transition: width 1s ease; }
+        .poll-results { display: none; margin-top: 30px; padding: 20px; background: white; border-radius: 10px; text-align: center; }
+        .poll-results.active { display: block; }
+        .total-votes { color: #666; font-size: 0.9em; margin-top: 15px; }
+        .insights { background: #f8f9ff; border-radius: 15px; padding: 25px; margin-top: 30px; border: 2px solid #667eea; }
+        .insights h3 { color: #667eea; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .insight-point { padding: 10px 0; border-bottom: 1px solid #e5e7eb; color: #666; }
+        .insight-point:last-child { border-bottom: none; }
+        @media (max-width: 768px) { .split-screen { grid-template-columns: 1fr; } .cases-grid { grid-template-columns: 1fr; } .poll-options { grid-template-columns: 1fr; } .header h1 { font-size: 1.5em; } .main-content { padding: 20px; } }
+        .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid #f3f4f6; border-radius: 50%; border-top-color: #667eea; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚖️ Quality vs Safety: Two Sides of the Same Coin</h1>
+            <p>Explore how the same healthcare scenario looks through different lenses</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Interactive Comparison Tool -->
+            <div class="comparison-section">
+                <h2>Interactive Comparison Tool</h2>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;">
+                    Select a scenario to see how quality and safety perspectives differ yet complement each other
+                </p>
+
+                <div class="scenario-selector">
+                    <button class="scenario-btn active" onclick="showScenario('medication', this)">
+                        💊 Medication Delay
+                    </button>
+                    <button class="scenario-btn" onclick="showScenario('discharge', this)">
+                        🏥 Delayed Discharge
+                    </button>
+                    <button class="scenario-btn" onclick="showScenario('surgery', this)">
+                        🔪 Surgery Cancellation
+                    </button>
+                    <button class="scenario-btn" onclick="showScenario('emergency', this)">
+                        🚨 A&amp;E Wait
+                    </button>
+                </div>
+
+                <div class="split-screen" id="splitScreen">
+                    <!-- Quality Lens -->
+                    <div class="lens-view quality-lens">
+                        <div class="lens-header">
+                            <div class="lens-icon">📊</div>
+                            <div class="lens-title">Quality Lens</div>
+                        </div>
+                        <div class="lens-content" id="qualityContent">
+                            <!-- Content dynamically loaded -->
+                        </div>
+                    </div>
+
+                    <!-- Safety Lens -->
+                    <div class="lens-view safety-lens">
+                        <div class="lens-header">
+                            <div class="lens-icon">🛡️</div>
+                            <div class="lens-title">Safety Lens</div>
+                        </div>
+                        <div class="lens-content" id="safetyContent">
+                            <!-- Content dynamically loaded -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case Studies Section -->
+            <div class="case-studies">
+                <h2>📚 Real Examples - What Went Wrong?</h2>
+                
+                <div class="cases-grid">
+                    <!-- Mid Staffordshire Case -->
+                    <div class="case-card" onclick="toggleCase('midstaff')">
+                        <div class="case-title">Mid Staffordshire NHS Trust</div>
+                        <div class="case-subtitle">Quality &amp; Safety System Failure (2005-2009)</div>
+                        <div class="case-summary">
+                            <strong>What happened:</strong> Hundreds of patients died due to poor care, with focus on targets over patient welfare.
+                        </div>
+                        <div class="case-details" id="midstaff-details">
+                            <strong>Quality Failures:</strong>
+                            <ul class="failure-list">
+                                <li>Focus on financial targets over care quality</li>
+                                <li>Insufficient staffing levels</li>
+                                <li>Poor hygiene standards</li>
+                                <li>Inadequate nutrition and hydration</li>
+                            </ul>
+                            <strong>Safety Failures:</strong>
+                            <ul class="failure-list">
+                                <li>Ignored early warning signs</li>
+                                <li>No effective incident reporting</li>
+                                <li>Culture of fear and silence</li>
+                                <li>Failed regulatory oversight</li>
+                            </ul>
+                            <strong>Key Learning:</strong>
+                            <p style="margin-top: 10px; color: #667eea; font-style: italic;">
+                                "Patients must be the first priority... not targets, not finance."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Winterbourne View Case -->
+                    <div class="case-card" onclick="toggleCase('winterbourne')">
+                        <div class="case-title">Winterbourne View Hospital</div>
+                        <div class="case-subtitle">Culture &amp; Safety Breakdown (2011)</div>
+                        <div class="case-summary">
+                            <strong>What happened:</strong> Systematic abuse of adults with learning disabilities by staff members.
+                        </div>
+                        <div class="case-details" id="winterbourne-details">
+                            <strong>Quality Failures:</strong>
+                            <ul class="failure-list">
+                                <li>No person-centered care approach</li>
+                                <li>Inappropriate use of restraint</li>
+                                <li>Lack of therapeutic interventions</li>
+                                <li>Poor staff training and supervision</li>
+                            </ul>
+                            <strong>Safety Failures:</strong>
+                            <ul class="failure-list">
+                                <li>Toxic organizational culture</li>
+                                <li>Whistleblowing ignored</li>
+                                <li>Failed safeguarding procedures</li>
+                                <li>No external oversight</li>
+                            </ul>
+                            <strong>Key Learning:</strong>
+                            <p style="margin-top: 10px; color: #667eea; font-style: italic;">
+                                "Culture eats strategy for breakfast - toxic cultures destroy both quality and safety."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Example Section -->
+            <div class="user-example">
+                <h3>📝 Share Your Example</h3>
+                <p style="color: #666; margin-bottom: 20px;">
+                    Think of a quality or safety issue from your workplace (anonymized)
+                </p>
+                <div class="example-input">
+                    <textarea id="userExample" placeholder="Describe a quality or safety issue you've observed (no names or identifying details)..."></textarea>
+                    <button class="submit-btn" onclick="submitExample()">Share Example</button>
+                </div>
+                <div class="shared-examples" id="sharedExamples" style="display: none;">
+                    <h4 style="margin-bottom: 15px; color: #667eea;">Shared Examples from Peers:</h4>
+                    <div id="examplesList"></div>
+                </div>
+            </div>
+
+            <!-- Workplace Poll -->
+            <div class="poll-section">
+                <h2>📊 Quick Poll</h2>
+                <div class="poll-question">In your workplace, which gets more attention?</div>
+                
+                <div class="poll-options">
+                    <div class="poll-option" onclick="vote('quality', this)">
+                        <div class="poll-option-text">Quality Metrics</div>
+                        <div class="poll-percentage" id="quality-percent">0%</div>
+                        <div class="poll-bar"><div class="poll-fill" id="quality-bar"></div></div>
+                    </div>
+
+                    <div class="poll-option" onclick="vote('safety', this)">
+                        <div class="poll-option-text">Safety Incidents</div>
+                        <div class="poll-percentage" id="safety-percent">0%</div>
+                        <div class="poll-bar"><div class="poll-fill" id="safety-bar"></div></div>
+                    </div>
+
+                    <div class="poll-option" onclick="vote('equal', this)">
+                        <div class="poll-option-text">Equal Focus</div>
+                        <div class="poll-percentage" id="equal-percent">0%</div>
+                        <div class="poll-bar"><div class="poll-fill" id="equal-bar"></div></div>
+                    </div>
+
+                    <div class="poll-option" onclick="vote('neither', this)">
+                        <div class="poll-option-text">Neither</div>
+                        <div class="poll-percentage" id="neither-percent">0%</div>
+                        <div class="poll-bar"><div class="poll-fill" id="neither-bar"></div></div>
+                    </div>
+                </div>
+
+                <div class="poll-results" id="pollResults">
+                    <h3>Poll Insights</h3>
+                    <p id="pollInsight"></p>
+                    <div class="total-votes" id="totalVotes">Total responses: 0</div>
+                </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="insights">
+                <h3>💡 Key Takeaways</h3>
+                <div class="insight-point"><strong>Quality Focus:</strong> Effectiveness, efficiency, equity, patient-centeredness, timeliness</div>
+                <div class="insight-point"><strong>Safety Focus:</strong> Prevention of harm, risk reduction, error prevention, system reliability</div>
+                <div class="insight-point"><strong>Integration:</strong> Quality without safety is incomplete; safety without quality is insufficient</div>
+                <div class="insight-point"><strong>Remember:</strong> Both perspectives are essential for excellent healthcare delivery</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scenario Data (unchanged)
+        const scenarios = {
+            medication: {
+                quality: {
+                    title: "Medication Delay Scenario",
+                    points: [
+                        { label: "Timeliness", content: "Patient waited 6 hours for pain relief - failed STEEEP 'Timely' dimension" },
+                        { label: "Effectiveness", content: "Delay reduced treatment effectiveness, prolonged suffering" },
+                        { label: "Person-Centered", content: "Patient experience poor, dignity compromised" },
+                        { label: "Efficiency", content: "Ward rounds disrupted, resources wasted on complaints" }
+                    ]
+                },
+                safety: {
+                    title: "Medication Delay Scenario",
+                    points: [
+                        { label: "Risk Assessment", content: "What if delay caused deterioration? Near-miss potential" },
+                        { label: "System Failure", content: "Why did pharmacy process fail? Where were the barriers?" },
+                        { label: "Error Chain", content: "Multiple failures aligned: prescribing, dispensing, administration" },
+                        { label: "Harm Prevention", content: "Focus on preventing future delays through system redesign" }
+                    ]
+                }
+            },
+            discharge: {
+                quality: {
+                    title: "Delayed Discharge",
+                    points: [
+                        { label: "Efficiency", content: "Bed blocked for 3 extra days - resource waste" },
+                        { label: "Timeliness", content: "Patient ready but system not - coordination failure" },
+                        { label: "Equity", content: "Another patient denied admission due to bed shortage" },
+                        { label: "Effectiveness", content: "Increased risk of hospital-acquired infection" }
+                    ]
+                },
+                safety: {
+                    title: "Delayed Discharge",
+                    points: [
+                        { label: "Infection Risk", content: "Each extra day increases HAI risk by 6%" },
+                        { label: "Deconditioning", content: "Functional decline from unnecessary hospitalization" },
+                        { label: "Medication Errors", content: "Transition risks increase with delays" },
+                        { label: "Psychological Harm", content: "Anxiety and institutionalization effects" }
+                    ]
+                }
+            },
+            surgery: {
+                quality: {
+                    title: "Surgery Cancellation",
+                    points: [
+                        { label: "Timeliness", content: "3-month wait wasted, must restart queue" },
+                        { label: "Person-Centered", content: "Patient prepared mentally/physically for nothing" },
+                        { label: "Efficiency", content: "Theatre time lost, staff underutilized" },
+                        { label: "Equity", content: "Another patient could have used that slot" }
+                    ]
+                },
+                safety: {
+                    title: "Surgery Cancellation",
+                    points: [
+                        { label: "Clinical Risk", content: "Condition may deteriorate during new wait" },
+                        { label: "Process Failure", content: "Why wasn't issue identified earlier?" },
+                        { label: "Communication", content: "Information cascade breakdown" },
+                        { label: "System Learning", content: "Pattern of cancellations indicates systemic issue" }
+                    ]
+                }
+            },
+            emergency: {
+                quality: {
+                    title: "A&E 8-Hour Wait",
+                    points: [
+                        { label: "Timeliness", content: "Breached 4-hour target by 100%" },
+                        { label: "Person-Centered", content: "Dignity lost - patient in corridor" },
+                        { label: "Effectiveness", content: "Delayed diagnosis affects outcomes" },
+                        { label: "Efficiency", content: "Multiple reassessments waste resources" }
+                    ]
+                },
+                safety: {
+                    title: "A&E 8-Hour Wait",
+                    points: [
+                        { label: "Clinical Deterioration", content: "Unmonitored patient at risk" },
+                        { label: "Crowding Hazards", content: "Infection spread, violence risk" },
+                        { label: "Diagnostic Delays", content: "Critical conditions missed" },
+                        { label: "Staff Burnout", content: "Exhausted staff make more errors" }
+                    ]
+                }
+            }
+        };
+
+        // Poll Data (simulated)
+        let pollData = { quality: 245, safety: 389, equal: 156, neither: 89 };
+
+        // Load initial scenario
+        window.addEventListener('load', function() {
+            // IMPORTANT: do not rely on `event` here; call without button element
+            showScenario('medication');
+            updatePollDisplay();
+            displayExamples();
+        });
+
+        // Show selected scenario (FIXED: accept the clicked element instead of using global `event`)
+        function showScenario(scenarioKey, btnEl) {
+            // Update button states only if a button element was provided
+            if (btnEl) {
+                document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+                btnEl.classList.add('active');
+            }
+
+            const scenario = scenarios[scenarioKey];
+            if (!scenario) return;
+
+            let qualityHTML = `<h4>${scenario.quality.title}</h4>`;
+            scenario.quality.points.forEach(point => {
+                qualityHTML += `<div class="focus-point"><div class="focus-label">${point.label}</div><div>${point.content}</div></div>`;
+            });
+            document.getElementById('qualityContent').innerHTML = qualityHTML;
+
+            let safetyHTML = `<h4>${scenario.safety.title}</h4>`;
+            scenario.safety.points.forEach(point => {
+                safetyHTML += `<div class="focus-point"><div class="focus-label">${point.label}</div><div>${point.content}</div></div>`;
+            });
+            document.getElementById('safetyContent').innerHTML = safetyHTML;
+        }
+
+        // Toggle case study details
+        function toggleCase(caseId) {
+            const details = document.getElementById(caseId + '-details');
+            const allDetails = document.querySelectorAll('.case-details');
+            allDetails.forEach(detail => { if (detail.id !== caseId + '-details') detail.classList.remove('active'); });
+            details.classList.toggle('active');
+        }
+
+        // Submit user example
+        function submitExample() {
+            const exampleText = document.getElementById('userExample').value.trim();
+            if (!exampleText) { alert('Please enter an example before submitting.'); return; }
+            let examples = JSON.parse(localStorage.getItem('qisc_examples') || '[]');
+            const newExample = { text: exampleText, timestamp: new Date().toLocaleString(), id: Date.now() };
+            examples.unshift(newExample);
+            examples = examples.slice(0, 10);
+            localStorage.setItem('qisc_examples', JSON.stringify(examples));
+            document.getElementById('userExample').value = '';
+            displayExamples();
+            showNotification('Thank you for sharing! Your example helps others learn.');
+        }
+
+        // Display shared examples
+        function displayExamples() {
+            const examples = JSON.parse(localStorage.getItem('qisc_examples') || '[]');
+            const container = document.getElementById('sharedExamples');
+            const list = document.getElementById('examplesList');
+            if (examples.length > 0) {
+                container.style.display = 'block';
+                list.innerHTML = examples.map(ex => `<div class="shared-example-item"><div>${ex.text}</div><div class="example-timestamp">${ex.timestamp}</div></div>`).join('');
+            }
+        }
+
+        // Voting function (accepts clicked element for selected styling)
+        function vote(option, element) {
+            if (localStorage.getItem('qisc_voted')) { showNotification('You have already voted in this poll.'); return; }
+            pollData[option]++;
+            localStorage.setItem('qisc_voted', 'true');
+            localStorage.setItem('qisc_vote_option', option);
+            updatePollDisplay();
+            document.querySelectorAll('.poll-option').forEach(opt => opt.classList.remove('selected'));
+            if (element) element.classList.add('selected');
+            document.getElementById('pollResults').classList.add('active');
+            generatePollInsight();
+        }
+
+        // Update poll display
+        function updatePollDisplay() {
+            const total = pollData.quality + pollData.safety + pollData.equal + pollData.neither;
+            updatePollOption('quality', pollData.quality, total);
+            updatePollOption('safety',  pollData.safety,  total);
+            updatePollOption('equal',   pollData.equal,   total);
+            updatePollOption('neither', pollData.neither, total);
+            document.getElementById('totalVotes').textContent = `Total responses: ${total}`;
+            const votedOption = localStorage.getItem('qisc_vote_option');
+            if (votedOption) {
+                document.getElementById('pollResults').classList.add('active');
+                document.querySelectorAll('.poll-option').forEach((opt, index) => {
+                    const options = ['quality', 'safety', 'equal', 'neither'];
+                    if (options[index] === votedOption) opt.classList.add('selected');
+                });
+                generatePollInsight();
+            }
+        }
+
+        function updatePollOption(option, count, total) {
+            const percentage = total > 0 ? Math.round((count / total) * 100) : 0;
+            document.getElementById(`${option}-percent`).textContent = `${percentage}%`;
+            setTimeout(() => { document.getElementById(`${option}-bar`).style.width = `${percentage}%`; }, 100);
+        }
+
+        function generatePollInsight() {
+            const total = pollData.quality + pollData.safety + pollData.equal + pollData.neither;
+            const safetyPercent = Math.round((pollData.safety / total) * 100);
+            const qualityPercent = Math.round((pollData.quality / total) * 100);
+            const equalPercent   = Math.round((pollData.equal  / total) * 100);
+            let insight = '';
+            if (safetyPercent > 40) {
+                insight = `📊 ${safetyPercent}% report safety gets more attention. This might indicate reactive cultures responding to incidents rather than proactive quality improvement.`;
+            } else if (qualityPercent > 40) {
+                insight = `📊 ${qualityPercent}% say quality metrics dominate. While important, remember that quality without safety consideration can miss critical risks.`;
+            } else if (equalPercent > 30) {
+                insight = `✅ ${equalPercent}% report balanced focus. This integration of quality and safety is ideal for comprehensive care improvement.`;
+            } else {
+                insight = `⚠️ Concerning that many report neither quality nor safety gets adequate attention. Both are essential for patient care.`;
+            }
+            document.getElementById('pollInsight').textContent = insight;
+        }
+
+        // Simple toast notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; animation: slideIn 0.3s ease;`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => { notification.style.animation = 'slideOut 0.3s ease'; setTimeout(() => { document.body.removeChild(notification); }, 300); }, 3000);
+        }
+        const style = document.createElement('style');
+        style.textContent = `@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+                             @keyframes slideOut{ from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }`;
+        document.head.appendChild(style);
+
+        // Progress tracking
+        function trackCompletion() {
+            let activities = JSON.parse(localStorage.getItem('week3_activities') || '[]');
+            if (!activities.includes('quality-safety-comparison')) {
+                activities.push('quality-safety-comparison');
+                localStorage.setItem('week3_activities', JSON.stringify(activities));
+            }
+        }
+        trackCompletion();
+
+        // Auto-save draft
+        window.addEventListener('beforeunload', function() {
+            const exampleText = document.getElementById('userExample').value;
+            if (exampleText) localStorage.setItem('qisc_draft_example', exampleText);
+        });
+        window.addEventListener('load', function() {
+            const draft = localStorage.getItem('qisc_draft_example');
+            if (draft) document.getElementById('userExample').value = draft;
+        });
+    </script>
+</body>
+</html>
