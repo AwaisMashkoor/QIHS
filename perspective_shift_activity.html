@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perspective Shift Activity - Person vs System Approach</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .timer-display {
+            background: rgba(231, 76, 60, 0.2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 15px 0;
+            display: inline-block;
+        }
+        
+        .scenario-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-left: 8px solid #e74c3c;
+        }
+        
+        .scenario-title {
+            font-size: 1.6em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scenario-content {
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            color: #2d3436;
+            font-weight: 600;
+            text-align: center;
+            border: 3px solid #e17055;
+        }
+        
+        .approaches-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .approach-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+        
+        .approach-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .person-approach {
+            border-left: 8px solid #e74c3c;
+        }
+        
+        .system-approach {
+            border-left: 8px solid #27ae60;
+        }
+        
+        .approach-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .approach-icon {
+            font-size: 2.5em;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .person-approach .approach-icon {
+            background: linear-gradient(135deg, #ff7675, #e17055);
+        }
+        
+        .system-approach .approach-icon {
+            background: linear-gradient(135deg, #00b894, #27ae60);
+        }
+        
+        .approach-title {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        .person-approach .approach-title {
+            color: #e74c3c;
+        }
+        
+        .system-approach .approach-title {
+            color: #27ae60;
+        }
+        
+        .approach-subtitle {
+            font-size: 1em;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        
+        .response-area {
+            margin-bottom: 25px;
+        }
+        
+        .response-label {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .response-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+        
+        .response-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .person-approach .response-textarea:focus {
+            border-color: #e74c3c;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
+        }
+        
+        .system-approach .response-textarea:focus {
+            border-color: #27ae60;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.2);
+        }
+        
+        .prompt-questions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .prompt-questions h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .prompt-questions ul {
+            margin-left: 20px;
+            color: #5a6c7d;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .compare-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(45deg, #a0a0a0, #808080);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .comparison-results {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+        
+        .comparison-title {
+            font-size: 2em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .response-display {
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+        }
+        
+        .person-response {
+            background: linear-gradient(135deg, #ffe8e8, #ffebee);
+            border-color: #e74c3c;
+        }
+        
+        .system-response {
+            background: linear-gradient(135deg, #e8f8e8, #eef8ee);
+            border-color: #27ae60;
+        }
+        
+        .response-display h4 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .person-response h4 {
+            color: #e74c3c;
+        }
+        
+        .system-response h4 {
+            color: #27ae60;
+        }
+        
+        .insights-section {
+            background: linear-gradient(135deg, #e3f2fd, #f8f9ff);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #2196f3;
+        }
+        
+        .insights-title {
+            font-size: 1.4em;
+            color: #1976d2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .insight-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .insight-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .insight-item h5 {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .person-insight h5 {
+            color: #e74c3c;
+        }
+        
+        .system-insight h5 {
+            color: #27ae60;
+        }
+        
+        .example-responses {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .example-title {
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .word-count {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            text-align: right;
+            margin-top: 5px;
+        }
+        
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .step-indicator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            background: #bdc3c7;
+            transition: all 0.3s ease;
+        }
+        
+        .step-indicator.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+        
+        .step-indicator.completed {
+            background: #27ae60;
+        }
+        
+        @media (max-width: 768px) {
+            .approaches-container,
+            .comparison-grid,
+            .insight-comparison {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .approach-title {
+                font-size: 1.4em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Perspective Shift Activity</h1>
+            <p>Experience the paradigm shift from Person to System thinking</p>
+            <div class="timer-display" id="timer">⏱️ 7 minutes remaining</div>
+        </div>
+        
+        <div class="progress-indicator">
+            <div class="step-indicator active" id="step1">1</div>
+            <div style="width: 50px; height: 2px; background: #bdc3c7;"></div>
+            <div class="step-indicator" id="step2">2</div>
+            <div style="width: 50px; height: 2px; background: #bdc3c7;"></div>
+            <div class="step-indicator" id="step3">3</div>
+        </div>
+        
+        <div class="scenario-card">
+            <div class="scenario-title">🚨 Critical Incident Scenario</div>
+            <div class="scenario-content">
+                "A junior doctor prescribes a 10x overdose of insulin to a diabetic patient during their first week on rotation. The patient experiences severe hypoglycemia and requires emergency treatment."
+            </div>
+        </div>
+        
+        <div class="approaches-container">
+            <div class="approach-section person-approach">
+                <div class="approach-header">
+                    <div class="approach-icon">👤</div>
+                    <div>
+                        <div class="approach-title">Person Approach</div>
+                        <div class="approach-subtitle">(Traditional Response)</div>
+                    </div>
+                </div>
+                
+                <div class="prompt-questions">
+                    <h4>🤔 Consider from this perspective:</h4>
+                    <ul>
+                        <li>What questions would you ask about the individual?</li>
+                        <li>What actions would you take regarding this doctor?</li>
+                        <li>What would be the likely outcome for future incidents?</li>
+                    </ul>
+                </div>
+                
+                <div class="response-area">
+                    <div class="response-label">Your Person Approach Response (2-3 sentences):</div>
+                    <textarea 
+                        class="response-textarea" 
+                        id="personResponse"
+                        placeholder="Focus on individual failure, blame, discipline... What went wrong with this person? What should happen to them?"
+                        maxlength="500">
+                    </textarea>
+                    <div class="word-count" id="personWordCount">0/500 characters</div>
+                </div>
+            </div>
+            
+            <div class="approach-section system-approach">
+                <div class="approach-header">
+                    <div class="approach-icon">⚙️</div>
+                    <div>
+                        <div class="approach-title">System Approach</div>
+                        <div class="approach-subtitle">(Modern Response)</div>
+                    </div>
+                </div>
+                
+                <div class="prompt-questions">
+                    <h4>🤔 Consider from this perspective:</h4>
+                    <ul>
+                        <li>What questions would you ask about the system?</li>
+                        <li>What actions would you take to prevent recurrence?</li>
+                        <li>What would be the likely outcome for patient safety?</li>
+                    </ul>
+                </div>
+                
+                <div class="response-area">
+                    <div class="response-label">Your System Approach Response (2-3 sentences):</div>
+                    <textarea 
+                        class="response-textarea" 
+                        id="systemResponse"
+                        placeholder="Focus on conditions that enabled the error... How did the system allow this? What barriers can we build?"
+                        maxlength="500">
+                    </textarea>
+                    <div class="word-count" id="systemWordCount">0/500 characters</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn compare-btn" id="compareBtn" onclick="showComparison()">📊 Compare My Responses</button>
+            <button class="btn reset-btn" id="resetBtn" onclick="resetActivity()">↻ Start Over</button>
+        </div>
+        
+        <div class="comparison-results" id="comparisonResults">
+            <div class="comparison-title">
+                🔍 Your Perspective Analysis
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="response-display person-response">
+                    <h4>👤 Your Person Approach</h4>
+                    <div id="personResponseDisplay"></div>
+                </div>
+                
+                <div class="response-display system-response">
+                    <h4>⚙️ Your System Approach</h4>
+                    <div id="systemResponseDisplay"></div>
+                </div>
+            </div>
+            
+            <div class="insights-section">
+                <div class="insights-title">
+                    💡 Key Insights & Learning Points
+                </div>
+                
+                <div class="insight-comparison">
+                    <div class="insight-item person-insight">
+                        <h5>Person Approach Typically Leads To:</h5>
+                        <ul>
+                            <li>Blame and punishment culture</li>
+                            <li>70% of errors hidden from reporting</li>
+                            <li>Same errors recurring</li>
+                            <li>Defensive medical practice</li>
+                            <li>Focus on "bad apples"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="insight-item system-insight">
+                        <h5>System Approach Typically Leads To:</h5>
+                        <ul>
+                            <li>Learning and improvement culture</li>
+                            <li>Increased incident reporting</li>
+                            <li>System-wide improvements</li>
+                            <li>Proactive safety measures</li>
+                            <li>Recognition of human fallibility</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="example-responses">
+                    <div class="example-title">📝 Sample Expert Responses</div>
+                    
+                    <div class="insight-comparison">
+                        <div class="insight-item person-insight">
+                            <h5>Person Approach Example:</h5>
+                            <p><em>"This junior doctor was clearly careless and didn't double-check the dosage. They need immediate retraining on insulin protocols and should be closely supervised. If this happens again, disciplinary action may be necessary."</em></p>
+                        </div>
+                        
+                        <div class="insight-item system-insight">
+                            <h5>System Approach Example:</h5>
+                            <p><em>"How did our system allow a dangerous 10x overdose to reach the patient? We need to examine our dosing protocols, implement forcing functions in our prescribing system, and ensure junior doctors have adequate support during critical first weeks."</em></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 25px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 10px;">
+                    <h3>🎯 The Paradigm Shift</h3>
+                    <p>Moving from <strong>"Who is to blame?"</strong> to <strong>"How can we prevent this?"</strong> transforms healthcare safety culture and dramatically reduces future incidents.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let startTime = new Date().getTime();
+        let timerInterval;
+        
+        // Initialize activity
+        document.addEventListener('DOMContentLoaded', function() {
+            startTimer();
+            updateWordCounts();
+            
+            // Add event listeners for text areas
+            document.getElementById('personResponse').addEventListener('input', function() {
+                updateWordCount('personResponse', 'personWordCount');
+                updateProgress();
+            });
+            
+            document.getElementById('systemResponse').addEventListener('input', function() {
+                updateWordCount('systemResponse', 'systemWordCount');
+                updateProgress();
+            });
+        });
+        
+        function startTimer() {
+            const duration = 7 * 60 * 1000; // 7 minutes in milliseconds
+            const endTime = startTime + duration;
+            
+            timerInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const timeLeft = endTime - now;
+                
+                if (timeLeft > 0) {
+                    const minutes = Math.floor(timeLeft / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    document.getElementById('timer').textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')} remaining`;
+                } else {
+                    document.getElementById('timer').textContent = '⏱️ Time complete!';
+                    document.getElementById('timer').style.background = 'rgba(39, 174, 96, 0.8)';
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+        }
+        
+        function updateWordCount(textareaId, countId) {
+            const textarea = document.getElementById(textareaId);
+            const count = document.getElementById(countId);
+            const length = textarea.value.length;
+            count.textContent = `${length}/500 characters`;
+            
+            if (length > 400) {
+                count.style.color = '#e74c3c';
+            } else {
+                count.style.color = '#7f8c8d';
+            }
+        }
+        
+        function updateWordCounts() {
+            updateWordCount('personResponse', 'personWordCount');
+            updateWordCount('systemResponse', 'systemWordCount');
+        }
+        
+        function updateProgress() {
+            const personText = document.getElementById('personResponse').value.trim();
+            const systemText = document.getElementById('systemResponse').value.trim();
+            
+            // Update step indicators
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const step3 = document.getElementById('step3');
+            
+            if (personText.length > 50) {
+                step1.classList.add('completed');
+                step1.classList.remove('active');
+                step2.classList.add('active');
+            }
+            
+            if (systemText.length > 50) {
+                step2.classList.add('completed');
+                step2.classList.remove('active');
+                step3.classList.add('active');
+            }
+            
+            // Enable compare button if both responses have content
+            const compareBtn = document.getElementById('compareBtn');
+            if (personText.length > 50 && systemText.length > 50) {
+                compareBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                compareBtn.innerHTML = '✅ Ready to Compare';
+            } else {
+                compareBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+                compareBtn.innerHTML = '📊 Compare My Responses';
+            }
+        }
+        
+        function showComparison() {
+            const personResponse = document.getElementById('personResponse').value.trim();
+            const systemResponse = document.getElementById('systemResponse').value.trim();
+            
+            if (personResponse.length < 20 || systemResponse.length < 20) {
+                alert('Please provide more detailed responses (at least 2-3 sentences each) before comparing.');
+                return;
+            }
+            
+            // Display user responses
+            document.getElementById('personResponseDisplay').innerHTML = `<p>${personResponse}</p>`;
+            document.getElementById('systemResponseDisplay').innerHTML = `<p>${systemResponse}</p>`;
+            
+            // Show results section
+            document.getElementById('comparisonResults').style.display = 'block';
+            
+            // Update final step
+            document.getElementById('step3').classList.add('completed');
+            
+            // Scroll to results
+            document.getElementById('comparisonResults').scrollIntoView({ behavior: 'smooth' });
+            
+            // Stop timer
+            clearInterval(timerInterval);
+            document.getElementById('timer').textContent = '✅ Activity Complete!';
+            document.getElementById('timer').style.background = 'rgba(39, 174, 96, 0.8)';
+        }
+        
+        function resetActivity() {
+            // Clear text areas
+            document.getElementById('personResponse').value = '';
+            document.getElementById('systemResponse').value = '';
+            
+            // Hide results
+            document.getElementById('comparisonResults').style.display = 'none';
+            
+            // Reset progress indicators
+            const steps = ['step1', 'step2', 'step3'];
+            steps.forEach((stepId, index) => {
+                const step = document.getElementById(stepId);
+                step.classList.remove('completed', 'active');
+                if (index === 0) {
+                    step.classList.add('active');
+                }
+            });
+            
+            // Reset timer
+            clearInterval(timerInterval);
+            startTime = new Date().getTime();
+            startTimer();
+            
+            // Reset word counts
+            updateWordCounts();
+            
+            // Reset compare button
+            const compareBtn = document.getElementById('compareBtn');
+            compareBtn.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+            compareBtn.innerHTML = '📊 Compare My Responses';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
