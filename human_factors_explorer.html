@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Factors Explorer - HLTH09013</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .domain-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .cognitive::before {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .social::before {
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .organizational::before {
+            background: linear-gradient(90deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        .domain-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .domain-icon {
+            font-size: 2.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .domain-title {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .factors-list {
+            list-style: none;
+        }
+        
+        .factor-item {
+            padding: 12px;
+            margin: 8px 0;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .factor-item:hover {
+            background: rgba(0, 0, 0, 0.08);
+            transform: translateX(5px);
+        }
+        
+        .factor-name {
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        .factor-description {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+        
+        .explore-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .explore-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .modal-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .detail-section {
+            margin-bottom: 30px;
+        }
+        
+        .detail-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .close:hover {
+            transform: scale(1.1);
+        }
+        
+        .activity-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 40px;
+        }
+        
+        .activity-title {
+            font-size: 1.8em;
+            color: #d35400;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .scenario-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .input-group {
+            margin: 15px 0;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feedback {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 Human Factors Explorer</h1>
+            <p>Interactive Deep Dive into the Three Domains of Human Factors</p>
+            <p><strong>HLTH09013 - Week 4 Distance Learning Module</strong></p>
+        </div>
+        
+        <div class="domains-grid">
+            <!-- Cognitive Factors Card -->
+            <div class="domain-card cognitive" onclick="openModal('cognitive')">
+                <div class="domain-header">
+                    <div class="domain-icon">🧠</div>
+                    <div class="domain-title">Cognitive Factors</div>
+                </div>
+                <ul class="factors-list">
+                    <li class="factor-item">
+                        <div class="factor-name">Attention and vigilance</div>
+                        <div class="factor-description">How we maintain focus</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Memory limitations</div>
+                        <div class="factor-description">Working memory holds only 7±2 items</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Decision-making under pressure</div>
+                        <div class="factor-description">Time constraints affect choices</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Cognitive biases</div>
+                        <div class="factor-description">Mental shortcuts that can mislead</div>
+                    </li>
+                </ul>
+                <button class="explore-btn">🔍 Explore Detailed Research</button>
+            </div>
+            
+            <!-- Social Factors Card -->
+            <div class="domain-card social" onclick="openModal('social')">
+                <div class="domain-header">
+                    <div class="domain-icon">👥</div>
+                    <div class="domain-title">Social Factors</div>
+                </div>
+                <ul class="factors-list">
+                    <li class="factor-item">
+                        <div class="factor-name">Team dynamics</div>
+                        <div class="factor-description">How groups interact</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Communication patterns</div>
+                        <div class="factor-description">Information flow between team members</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Authority gradients</div>
+                        <div class="factor-description">Power differences affecting speaking up</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Cultural influences</div>
+                        <div class="factor-description">Organizational and professional cultures</div>
+                    </li>
+                </ul>
+                <button class="explore-btn">🔍 Explore Detailed Research</button>
+            </div>
+            
+            <!-- Organizational Factors Card -->
+            <div class="domain-card organizational" onclick="openModal('organizational')">
+                <div class="domain-header">
+                    <div class="domain-icon">🏢</div>
+                    <div class="domain-title">Organizational Factors</div>
+                </div>
+                <ul class="factors-list">
+                    <li class="factor-item">
+                        <div class="factor-name">Policies and procedures</div>
+                        <div class="factor-description">Written rules and guidelines</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Resource allocation</div>
+                        <div class="factor-description">Staffing, equipment, time</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Training systems</div>
+                        <div class="factor-description">How knowledge and skills are developed</div>
+                    </li>
+                    <li class="factor-item">
+                        <div class="factor-name">Work schedules</div>
+                        <div class="factor-description">Fatigue and workload management</div>
+                    </li>
+                </ul>
+                <button class="explore-btn">🔍 Explore Detailed Research</button>
+            </div>
+        </div>
+        
+        <!-- Practice Activity Section -->
+        <div class="activity-section">
+            <h2 class="activity-title">📝 Practice Activity: Factor Identification (5 minutes)</h2>
+            <div class="scenario-box">
+                <p><strong>Scenario:</strong> "A nurse administers 10mg instead of 1mg of a medication at the end of a 12-hour shift. The ward was short-staffed, the drug chart was handwritten, and she was interrupted twice during preparation."</p>
+            </div>
+            
+            <div class="input-group">
+                <label>Identify 2 Cognitive factors:</label>
+                <input type="text" id="cognitive1" placeholder="Factor 1: e.g., fatigue affecting attention...">
+                <input type="text" id="cognitive2" placeholder="Factor 2: e.g., interruptions disrupting memory...">
+            </div>
+            
+            <div class="input-group">
+                <label>Identify 2 Social factors:</label>
+                <input type="text" id="social1" placeholder="Factor 1: e.g., communication issues...">
+                <input type="text" id="social2" placeholder="Factor 2: e.g., handwritten orders...">
+            </div>
+            
+            <div class="input-group">
+                <label>Identify 2 Organizational factors:</label>
+                <input type="text" id="organizational1" placeholder="Factor 1: e.g., staffing levels...">
+                <input type="text" id="organizational2" placeholder="Factor 2: e.g., shift length policies...">
+            </div>
+            
+            <button class="submit-btn" onclick="checkAnswers()">Submit Analysis</button>
+            
+            <div class="feedback" id="feedback">
+                <h3>✅ Excellent Analysis!</h3>
+                <p><strong>Sample answers include:</strong></p>
+                <ul>
+                    <li><strong>Cognitive:</strong> End-of-shift fatigue affecting concentration, interruptions disrupting working memory</li>
+                    <li><strong>Social:</strong> Handwritten charts creating communication barriers, potential reluctance to ask for help</li>
+                    <li><strong>Organizational:</strong> Short staffing creating time pressure, 12-hour shift policies contributing to fatigue</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals for detailed content -->
+    <div id="cognitiveModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal('cognitiveModal')">&times;</span>
+                <h2 class="modal-title">🧠 Cognitive Factors: Deep Dive</h2>
+                <p>Understanding the mental processes that influence human performance</p>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-title">📊 Working Memory Limitations</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">7±2</span>
+                            <div class="stat-label">Items capacity (Miller, 1956)</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">15-30s</span>
+                            <div class="stat-label">Duration without rehearsal</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">40%</span>
+                            <div class="stat-label">Reduction under stress</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">27%</span>
+                            <div class="stat-label">Higher error rates when interrupted</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">👁️ Attention and Vigilance</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">20min</span>
+                            <div class="stat-label">Max attention span for complex tasks</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">30%</span>
+                            <div class="stat-label">Vigilance reduction after 30 minutes</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">6-12min</span>
+                            <div class="stat-label">Interruption frequency in clinical settings</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">25%</span>
+                            <div class="stat-label">Extra time needed for task-switching</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">⚡ Decision-Making Under Pressure</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">45%</span>
+                            <div class="stat-label">Increased error risk under time pressure</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">80%</span>
+                            <div class="stat-label">Decisions made with incomplete info</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">100%</span>
+                            <div class="stat-label">Decision-makers affected by cognitive biases</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">Similar</span>
+                            <div class="stat-label">Fatigue effects vs alcohol impairment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="socialModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal('socialModal')">&times;</span>
+                <h2 class="modal-title">👥 Social Factors: Deep Dive</h2>
+                <p>How interpersonal dynamics impact safety and performance</p>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-title">🤝 Team Dynamics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">30%</span>
+                            <div class="stat-label">Error reduction with effective teamwork</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">80%</span>
+                            <div class="stat-label">Serious incidents involve poor handovers</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">18%</span>
+                            <div class="stat-label">Adverse event reduction with team training</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">💬 Communication Patterns</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">60%</span>
+                            <div class="stat-label">Errors involving communication failures</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">40%</span>
+                            <div class="stat-label">Safety concerns not raised due to hierarchy</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">85%</span>
+                            <div class="stat-label">Error reduction with closed-loop communication</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">📊 Authority Gradients</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">30%</span>
+                            <div class="stat-label">Time junior staff speak up when concerned</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">25%</span>
+                            <div class="stat-label">Improved error detection with flat hierarchies</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">47%</span>
+                            <div class="stat-label">Increased reporting with psychological safety</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="organizationalModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeModal('organizationalModal')">&times;</span>
+                <h2 class="modal-title">🏢 Organizational Factors: Deep Dive</h2>
+                <p>System-level influences on safety and quality</p>
+            </div>
+            <div class="modal-body">
+                <div class="detail-section">
+                    <h3 class="detail-title">📋 Policies and Procedures</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">50%</span>
+                            <div class="stat-label">Procedures not followed as written</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">2 weeks</span>
+                            <div class="stat-label">Time for workarounds to develop</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">60%</span>
+                            <div class="stat-label">Variation reduction with well-designed protocols</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">💼 Resource Allocation</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">2-3x</span>
+                            <div class="stat-label">Error increase with understaffing</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">15%</span>
+                            <div class="stat-label">Incidents involving equipment failures</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">50%</span>
+                            <div class="stat-label">Medication errors citing time pressure</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-title">🎓 Training Systems</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <span class="stat-number">30%</span>
+                            <div class="stat-label">Error reduction with simulation training</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">40%</span>
+                            <div class="stat-label">Staff reporting inadequate training</div>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number">25%</span>
+                            <div class="stat-label">Performance improvement with regular refreshers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function openModal(type) {
+            document.getElementById(type + 'Modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function checkAnswers() {
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = 'block';
+            feedback.scrollIntoView({ behavior: 'smooth' });
+            
+            // Simple validation - in a real implementation, you might want more sophisticated checking
+            const inputs = ['cognitive1', 'cognitive2', 'social1', 'social2', 'organizational1', 'organizational2'];
+            let allFilled = true;
+            
+            inputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input.value.trim() === '') {
+                    allFilled = false;
+                    input.style.borderColor = '#e74c3c';
+                } else {
+                    input.style.borderColor = '#27ae60';
+                }
+            });
+            
+            if (!allFilled) {
+                feedback.innerHTML = '<h3>⚠️ Please complete all fields</h3><p>Make sure you identify factors for all three domains before submitting.</p>';
+                feedback.style.background = '#f8d7da';
+                feedback.style.color = '#721c24';
+            }
+        }
+        
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+        
+        // Add keyboard support for accessibility
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let modal of modals) {
+                    if (modal.style.display === 'block') {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
