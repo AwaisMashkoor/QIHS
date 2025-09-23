@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBAR Communication Practice Activity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.3em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .timer-display {
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 15px 0;
+            display: inline-block;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        .sbar-framework {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .framework-title {
+            font-size: 1.6em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .framework-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .framework-item h4 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .scenario-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-left: 8px solid #e67e22;
+        }
+        
+        .scenario-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scenario-content {
+            font-size: 1.2em;
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            padding: 20px;
+            border-radius: 10px;
+            color: #856404;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid #ffc107;
+        }
+        
+        .sbar-practice {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .practice-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .sbar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .sbar-section {
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .sbar-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .situation-section {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-color: #2196f3;
+        }
+        
+        .background-section {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border-color: #9c27b0;
+        }
+        
+        .assessment-section {
+            background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+            border-color: #4caf50;
+        }
+        
+        .recommendation-section {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border-color: #ff9800;
+        }
+        
+        .sbar-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .sbar-letter {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .situation-section .sbar-letter {
+            background: #2196f3;
+        }
+        
+        .background-section .sbar-letter {
+            background: #9c27b0;
+        }
+        
+        .assessment-section .sbar-letter {
+            background: #4caf50;
+        }
+        
+        .recommendation-section .sbar-letter {
+            background: #ff9800;
+        }
+        
+        .sbar-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .sbar-description {
+            font-size: 0.95em;
+            color: #5a6c7d;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .word-limit {
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .sbar-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            font-family: inherit;
+            line-height: 1.5;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        .sbar-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .situation-section .sbar-textarea:focus {
+            border-color: #2196f3;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
+        }
+        
+        .background-section .sbar-textarea:focus {
+            border-color: #9c27b0;
+            box-shadow: 0 0 10px rgba(156, 39, 176, 0.2);
+        }
+        
+        .assessment-section .sbar-textarea:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+        }
+        
+        .recommendation-section .sbar-textarea:focus {
+            border-color: #ff9800;
+            box-shadow: 0 0 10px rgba(255, 152, 0, 0.2);
+        }
+        
+        .word-count {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 0.9em;
+        }
+        
+        .count-display {
+            font-weight: 600;
+        }
+        
+        .count-ok {
+            color: #27ae60;
+        }
+        
+        .count-warning {
+            color: #f39c12;
+        }
+        
+        .count-over {
+            color: #e74c3c;
+        }
+        
+        .progress-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #bdc3c7;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-dot.completed {
+            background: #27ae60;
+            transform: scale(1.2);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 150px;
+        }
+        
+        .review-btn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        
+        .reset-btn {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .results-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+        }
+        
+        .results-title {
+            font-size: 2em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .sbar-review {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .review-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+        
+        .review-item.situation {
+            background: rgba(33, 150, 243, 0.1);
+            border-color: #2196f3;
+        }
+        
+        .review-item.background {
+            background: rgba(156, 39, 176, 0.1);
+            border-color: #9c27b0;
+        }
+        
+        .review-item.assessment {
+            background: rgba(76, 175, 80, 0.1);
+            border-color: #4caf50;
+        }
+        
+        .review-item.recommendation {
+            background: rgba(255, 152, 0, 0.1);
+            border-color: #ff9800;
+        }
+        
+        .review-item h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .example-section {
+            background: linear-gradient(135deg, #e8f4fd, #cce7f0);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .example-title {
+            font-size: 1.4em;
+            color: #2980b9;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tips-section {
+            background: linear-gradient(135deg, #fff9e6, #fef3c7);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #f59e0b;
+        }
+        
+        .tips-title {
+            font-size: 1.3em;
+            color: #d97706;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .sbar-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .framework-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📞 SBAR Communication Practice</h1>
+            <p>Master structured clinical communication for patient safety</p>
+            <div class="timer-display" id="timer">⏱️ 8 minutes remaining</div>
+        </div>
+        
+        <div class="sbar-framework">
+            <div class="framework-title">
+                📋 SBAR Framework Reference
+            </div>
+            <div class="framework-grid">
+                <div class="framework-item">
+                    <h4>🔵 Situation</h4>
+                    <p>What's happening right now?</p>
+                </div>
+                <div class="framework-item">
+                    <h4>🟣 Background</h4>
+                    <p>What's the relevant context?</p>
+                </div>
+                <div class="framework-item">
+                    <h4>🟢 Assessment</h4>
+                    <p>What do I think is going on?</p>
+                </div>
+                <div class="framework-item">
+                    <h4>🟠 Recommendation</h4>
+                    <p>What do I need/recommend?</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scenario-card">
+            <div class="scenario-title">🏥 Clinical Scenario</div>
+            <div class="scenario-content">
+                "You're worried about a patient who seems confused post-surgery. You need to communicate your concerns to the attending physician using SBAR format."
+            </div>
+        </div>
+        
+        <div class="sbar-practice">
+            <div class="practice-title">
+                ✍️ Write Your SBAR Communication
+            </div>
+            
+            <div class="progress-indicators">
+                <div class="progress-dot" id="dot1"></div>
+                <div class="progress-dot" id="dot2"></div>
+                <div class="progress-dot" id="dot3"></div>
+                <div class="progress-dot" id="dot4"></div>
+            </div>
+            
+            <div class="sbar-grid">
+                <div class="sbar-section situation-section">
+                    <div class="sbar-header">
+                        <div class="sbar-letter">S</div>
+                        <div>
+                            <div class="sbar-title">Situation</div>
+                            <div class="sbar-description">What's happening right now?</div>
+                        </div>
+                    </div>
+                    <div class="word-limit">📏 Maximum 20 words</div>
+                    <textarea 
+                        class="sbar-textarea" 
+                        id="situationText"
+                        placeholder="e.g., 'Patient Jones in room 302 is increasingly confused post-op, not responding appropriately to questions'"
+                        maxlength="200">
+                    </textarea>
+                    <div class="word-count">
+                        <span class="count-display" id="situationCount">0/20 words</span>
+                        <span id="situationStatus">✏️ Start typing...</span>
+                    </div>
+                </div>
+                
+                <div class="sbar-section background-section">
+                    <div class="sbar-header">
+                        <div class="sbar-letter">B</div>
+                        <div>
+                            <div class="sbar-title">Background</div>
+                            <div class="sbar-description">What's the relevant context?</div>
+                        </div>
+                    </div>
+                    <div class="word-limit">📏 Maximum 30 words</div>
+                    <textarea 
+                        class="sbar-textarea" 
+                        id="backgroundText"
+                        placeholder="e.g., 'Post-op day 1 from abdominal surgery, was alert and oriented pre-op, no history of confusion or dementia'"
+                        maxlength="300">
+                    </textarea>
+                    <div class="word-count">
+                        <span class="count-display" id="backgroundCount">0/30 words</span>
+                        <span id="backgroundStatus">✏️ Start typing...</span>
+                    </div>
+                </div>
+                
+                <div class="sbar-section assessment-section">
+                    <div class="sbar-header">
+                        <div class="sbar-letter">A</div>
+                        <div>
+                            <div class="sbar-title">Assessment</div>
+                            <div class="sbar-description">What do I think is going on?</div>
+                        </div>
+                    </div>
+                    <div class="word-limit">📏 Maximum 20 words</div>
+                    <textarea 
+                        class="sbar-textarea" 
+                        id="assessmentText"
+                        placeholder="e.g., 'I'm concerned about post-operative delirium or possible medication reaction causing altered mental status'"
+                        maxlength="200">
+                    </textarea>
+                    <div class="word-count">
+                        <span class="count-display" id="assessmentCount">0/20 words</span>
+                        <span id="assessmentStatus">✏️ Start typing...</span>
+                    </div>
+                </div>
+                
+                <div class="sbar-section recommendation-section">
+                    <div class="sbar-header">
+                        <div class="sbar-letter">R</div>
+                        <div>
+                            <div class="sbar-title">Recommendation</div>
+                            <div class="sbar-description">What do I need/recommend?</div>
+                        </div>
+                    </div>
+                    <div class="word-limit">📏 Maximum 20 words</div>
+                    <textarea 
+                        class="sbar-textarea" 
+                        id="recommendationText"
+                        placeholder="e.g., 'Please assess patient urgently, consider cognitive assessment and review current medications'"
+                        maxlength="200">
+                    </textarea>
+                    <div class="word-count">
+                        <span class="count-display" id="recommendationCount">0/20 words</span>
+                        <span id="recommendationStatus">✏️ Start typing...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn review-btn" id="reviewBtn" onclick="showReview()">📋 Review My SBAR</button>
+            <button class="btn reset-btn" id="resetBtn" onclick="resetActivity()">↻ Start Over</button>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <div class="results-title">
+                📋 Your SBAR Communication Review
+            </div>
+            
+            <div class="sbar-review">
+                <div class="review-item situation">
+                    <h4>🔵 Situation</h4>
+                    <div id="situationReview"></div>
+                </div>
+                
+                <div class="review-item background">
+                    <h4>🟣 Background</h4>
+                    <div id="backgroundReview"></div>
+                </div>
+                
+                <div class="review-item assessment">
+                    <h4>🟢 Assessment</h4>
+                    <div id="assessmentReview"></div>
+                </div>
+                
+                <div class="review-item recommendation">
+                    <h4>🟠 Recommendation</h4>
+                    <div id="recommendationReview"></div>
+                </div>
+            </div>
+            
+            <div class="example-section">
+                <div class="example-title">
+                    💡 Expert Example for Comparison
+                </div>
+                <div class="sbar-review">
+                    <div class="review-item situation">
+                        <h4>🔵 Situation</h4>
+                        <p><strong>Expert version:</strong> "Mrs. Smith in bed 4 is confused and disoriented, unable to state her name or location post-surgery."</p>
+                        <p><em>Word count: 17/20 - Clear, specific, immediate concern stated</em></p>
+                    </div>
+                    
+                    <div class="review-item background">
+                        <h4>🟣 Background</h4>
+                        <p><strong>Expert version:</strong> "Post-op day 1 from gallbladder surgery, was alert and oriented pre-operatively, no prior history of confusion or cognitive impairment documented."</p>
+                        <p><em>Word count: 22/30 - Relevant context, comparison to baseline</em></p>
+                    </div>
+                    
+                    <div class="review-item assessment">
+                        <h4>🟢 Assessment</h4>
+                        <p><strong>Expert version:</strong> "I'm concerned about post-operative delirium or possible adverse medication reaction affecting her mental status."</p>
+                        <p><em>Word count: 16/20 - Clear clinical thinking, specific concerns</em></p>
+                    </div>
+                    
+                    <div class="review-item recommendation">
+                        <h4>🟠 Recommendation</h4>
+                        <p><strong>Expert version:</strong> "Please evaluate immediately, consider cognitive assessment and review all current medications for side effects."</p>
+                        <p><em>Word count: 16/20 - Specific, actionable requests</em></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tips-section">
+                <div class="tips-title">
+                    💡 SBAR Best Practice Tips
+                </div>
+                <ul>
+                    <li><strong>Be specific:</strong> Use exact patient identifiers, room numbers, and measurements</li>
+                    <li><strong>Stay objective:</strong> Report facts and observations, not interpretations in S and B</li>
+                    <li><strong>Think clinically:</strong> Show your reasoning in Assessment section</li>
+                    <li><strong>Be clear about urgency:</strong> Make your timeframe expectations clear in Recommendation</li>
+                    <li><strong>Practice brevity:</strong> Concise communication reduces errors and improves response</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let startTime = new Date().getTime();
+        let timerInterval;
+        
+        const wordLimits = {
+            situation: 20,
+            background: 30,
+            assessment: 20,
+            recommendation: 20
+        };
+        
+        // Initialize activity
+        document.addEventListener('DOMContentLoaded', function() {
+            startTimer();
+            initializeEventListeners();
+        });
+        
+        function startTimer() {
+            const duration = 8 * 60 * 1000; // 8 minutes in milliseconds
+            const endTime = startTime + duration;
+            
+            timerInterval = setInterval(function() {
+                const now = new Date().getTime();
+                const timeLeft = endTime - now;
+                
+                if (timeLeft > 0) {
+                    const minutes = Math.floor(timeLeft / (1000 * 60));
+                    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                    document.getElementById('timer').textContent = `⏱️ ${minutes}:${seconds.toString().padStart(2, '0')} remaining`;
+                } else {
+                    document.getElementById('timer').textContent = '✅ Time complete!';
+                    document.getElementById('timer').style.background = 'rgba(39, 174, 96, 0.8)';
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
+        }
+        
+        function initializeEventListeners() {
+            const textareas = ['situation', 'background', 'assessment', 'recommendation'];
+            
+            textareas.forEach(type => {
+                const textarea = document.getElementById(type + 'Text');
+                textarea.addEventListener('input', () => updateWordCount(type));
+                textarea.addEventListener('input', updateProgress);
+            });
+        }
+        
+        function countWords(text) {
+            return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        }
+        
+        function updateWordCount(type) {
+            const textarea = document.getElementById(type + 'Text');
+            const countDisplay = document.getElementById(type + 'Count');
+            const statusDisplay = document.getElementById(type + 'Status');
+            
+            const text = textarea.value;
+            const wordCount = countWords(text);
+            const limit = wordLimits[type];
+            
+            countDisplay.textContent = `${wordCount}/${limit} words`;
+            
+            // Update styling based on word count
+            if (wordCount === 0) {
+                countDisplay.className = 'count-display';
+                statusDisplay.textContent = '✏️ Start typing...';
+            } else if (wordCount <= limit) {
+                countDisplay.className = 'count-display count-ok';
+                statusDisplay.textContent = '✅ Good';
+            } else if (wordCount <= limit + 3) {
+                countDisplay.className = 'count-display count-warning';
+                statusDisplay.textContent = '⚠️ Close to limit';
+            } else {
+                countDisplay.className = 'count-display count-over';
+                statusDisplay.textContent = '❌ Over limit';
+            }
+        }
+        
+        function updateProgress() {
+            const textareas = ['situation', 'background', 'assessment', 'recommendation'];
+            let completedSections = 0;
+            
+            textareas.forEach((type, index) => {
+                const textarea = document.getElementById(type + 'Text');
+                const dot = document.getElementById('dot' + (index + 1));
+                
+                if (textarea.value.trim().length > 10) { // At least some meaningful content
+                    dot.classList.add('completed');
+                    completedSections++;
+                } else {
+                    dot.classList.remove('completed');
+                }
+            });
+            
+            // Enable review button if all sections have content
+            const reviewBtn = document.getElementById('reviewBtn');
+            if (completedSections === 4) {
+                reviewBtn.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                reviewBtn.innerHTML = '✅ Review Complete SBAR';
+            } else {
+                reviewBtn.style.background = 'linear-gradient(45deg, #95a5a6, #7f8c8d)';
+                reviewBtn.innerHTML = '📋 Review My SBAR';
+            }
+        }
+        
+        function showReview() {
+            const sections = ['situation', 'background', 'assessment', 'recommendation'];
+            let hasContent = true;
+            
+            // Check if all sections have content
+            sections.forEach(section => {
+                const text = document.getElementById(section + 'Text').value.trim();
+                if (text.length < 5) {
+                    hasContent = false;
+                }
+            });
+            
+            if (!hasContent) {
+                alert('Please complete all four SBAR sections before reviewing.');
+                return;
+            }
+            
+            // Populate review sections
+            sections.forEach(section => {
+                const text = document.getElementById(section + 'Text').value;
+                const wordCount = countWords(text);
+                const limit = wordLimits[section];
+                const reviewDiv = document.getElementById(section + 'Review');
+                
+                const statusIcon = wordCount <= limit ? '✅' : '⚠️';
+                const statusText = wordCount <= limit ? 'Within limit' : 'Over limit';
+                
+                reviewDiv.innerHTML = `
+                    <p><strong>Your response:</strong> "${text}"</p>
+                    <p><em>Word count: ${wordCount}/${limit} ${statusIcon} ${statusText}</em></p>
+                `;
+            });
+            
+            // Show results section
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // Stop timer
+            clearInterval(timerInterval);
+            document.getElementById('timer').textContent = '✅ SBAR Practice Complete!';
+            document.getElementById('timer').style.background = 'rgba(39, 174, 96, 0.8)';
+            
+            // Scroll to results
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetActivity() {
+            // Clear all textareas
+            const textareas = ['situation', 'background', 'assessment', 'recommendation'];
+            textareas.forEach(type => {
+                document.getElementById(type + 'Text').value = '';
+                updateWordCount(type);
+            });
+            
+            // Reset progress dots
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById('dot' + i).classList.remove('completed');
+            }
+            
+            // Hide results
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            // Reset timer
+            clearInterval(timerInterval);
+            startTime = new Date().getTime();
+            startTimer();
+            
+            // Reset button
+            const reviewBtn = document.getElementById('reviewBtn');
+            reviewBtn.style.background = 'linear-gradient(45deg, #95a5a6, #7f8c8d)';
+            reviewBtn.innerHTML = '📋 Review My SBAR';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Initialize word counts on page load
+        window.addEventListener('load', function() {
+            const textareas = ['situation', 'background', 'assessment', 'recommendation'];
+            textareas.forEach(type => {
+                updateWordCount(type);
+            });
+        });
+    </script>
+</body>
+</html>
