@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Vulnerability Assessment</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .question {
+            font-size: 1.1em;
+            color: #34495e;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+        .option input[type="radio"] {
+            margin-right: 15px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            color: #2c3e50;
+        }
+        .option.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        .option.selected label {
+            color: white;
+        }
+        .reflection-box {
+            margin-top: 25px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: none;
+        }
+        .reflection-box.show {
+            opacity: 1;
+            display: block;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1em;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .word-count {
+            text-align: right;
+            color: #7f8c8d;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .results.show {
+            display: block;
+        }
+        .result-bar {
+            margin: 10px 0;
+        }
+        .result-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+        .bar-container {
+            background: #e9ecef;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 30px;
+            position: relative;
+        }
+        .bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 20px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            color: white;
+            font-weight: bold;
+        }
+        .instruction {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>💡 Activity 1: Systems Vulnerability Assessment</h2>
+        
+        <div class="instruction">
+            📝 This quick assessment helps identify primary infection risk factors in healthcare settings. Your response will contribute to our understanding of system vulnerabilities.
+        </div>
+
+        <div class="question">
+            Consider your current or most recent healthcare workplace. Which factor do you believe contributes most significantly to infection risk?
+        </div>
+
+        <div class="options">
+            <div class="option" onclick="selectOption(this, 'staffing')">
+                <input type="radio" name="risk" id="staffing" value="staffing">
+                <label for="staffing">Staffing pressures and workforce burnout</label>
+            </div>
+            <div class="option" onclick="selectOption(this, 'infrastructure')">
+                <input type="radio" name="risk" id="infrastructure" value="infrastructure">
+                <label for="infrastructure">Infrastructure limitations and equipment availability</label>
+            </div>
+            <div class="option" onclick="selectOption(this, 'governance')">
+                <input type="radio" name="risk" id="governance" value="governance">
+                <label for="governance">Policy and governance gaps</label>
+            </div>
+            <div class="option" onclick="selectOption(this, 'patient')">
+                <input type="radio" name="risk" id="patient" value="patient">
+                <label for="patient">Patient behaviour and compliance</label>
+            </div>
+            <div class="option" onclick="selectOption(this, 'communication')">
+                <input type="radio" name="risk" id="communication" value="communication">
+                <label for="communication">Communication breakdowns between teams</label>
+            </div>
+        </div>
+
+        <div class="reflection-box" id="reflectionBox">
+            <p style="color: #2c3e50; font-weight: 500;">Please explain why this factor is particularly challenging in your context (minimum 50 words):</p>
+            <textarea id="reflection" placeholder="Consider how this factor connects to other system components and impacts infection prevention efforts..."></textarea>
+            <div class="word-count">Words: <span id="wordCount">0</span> / 50 minimum</div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submitResponse()" disabled>Submit Response</button>
+
+        <div class="results" id="results">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">📊 Class Response Summary</h3>
+            <div id="resultBars"></div>
+            <p style="margin-top: 20px; color: #7f8c8d; font-style: italic;">
+                Note: These results represent simulated class responses for demonstration purposes. 
+                In a live environment, this would show actual peer responses.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let selectedOption = null;
+        const mockData = {
+            'staffing': 35,
+            'infrastructure': 25,
+            'governance': 15,
+            'patient': 10,
+            'communication': 15
+        };
+
+        function selectOption(element, value) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            selectedOption = value;
+            
+            // Show reflection box
+            document.getElementById('reflectionBox').classList.add('show');
+            checkSubmitButton();
+        }
+
+        document.getElementById('reflection').addEventListener('input', function() {
+            const words = this.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            document.getElementById('wordCount').textContent = words;
+            checkSubmitButton();
+        });
+
+        function checkSubmitButton() {
+            const words = document.getElementById('reflection').value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (selectedOption && words >= 50) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitResponse() {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.textContent = 'Submitted ✓';
+            submitBtn.disabled = true;
+            
+            // Increment the selected option in mock data
+            mockData[selectedOption] += 1;
+            
+            // Calculate total responses
+            const total = Object.values(mockData).reduce((a, b) => a + b, 0);
+            
+            // Display results
+            displayResults(total);
+        }
+
+        function displayResults(total) {
+            const resultsDiv = document.getElementById('results');
+            const resultBarsDiv = document.getElementById('resultBars');
+            
+            const labels = {
+                'staffing': 'Staffing pressures',
+                'infrastructure': 'Infrastructure',
+                'governance': 'Governance gaps',
+                'patient': 'Patient behaviour',
+                'communication': 'Communication'
+            };
+            
+            resultBarsDiv.innerHTML = '';
+            
+            for (const [key, value] of Object.entries(mockData)) {
+                const percentage = Math.round((value / total) * 100);
+                const barHtml = `
+                    <div class="result-bar">
+                        <div class="result-label">${labels[key]}</div>
+                        <div class="bar-container">
+                            <div class="bar" style="width: 0%;" data-width="${percentage}%">
+                                ${percentage}%
+                            </div>
+                        </div>
+                    </div>
+                `;
+                resultBarsDiv.innerHTML += barHtml;
+            }
+            
+            resultsDiv.classList.add('show');
+            
+            // Animate bars after a short delay
+            setTimeout(() => {
+                document.querySelectorAll('.bar').forEach(bar => {
+                    bar.style.width = bar.dataset.width;
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>

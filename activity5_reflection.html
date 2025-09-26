@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflective Portfolio Entry</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #F093FB;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .reflection-framework {
+            background: #fdf2ff;
+            border: 2px solid #F093FB;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .framework-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .framework-btn {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .framework-btn:hover {
+            border-color: #F093FB;
+            transform: translateY(-2px);
+        }
+        .framework-btn.selected {
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            color: white;
+            border: none;
+        }
+        .reflection-sections {
+            margin: 25px 0;
+        }
+        .section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .section-number {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+        .word-requirement {
+            margin-left: auto;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #F093FB;
+            box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+        }
+        .guiding-questions {
+            background: white;
+            border-left: 3px solid #F093FB;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .guiding-questions h4 {
+            margin: 0 0 8px 0;
+            color: #495057;
+            font-size: 0.95em;
+        }
+        .guiding-questions ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .word-counter {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .word-count {
+            color: #6c757d;
+        }
+        .word-count.complete {
+            color: #28a745;
+        }
+        .word-count.incomplete {
+            color: #dc3545;
+        }
+        .tags-section {
+            background: #fff9e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .tag-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .tag-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .add-tag-btn {
+            padding: 8px 15px;
+            background: #F093FB;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .tags-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .tag {
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tag .remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .progress-tracker {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #F093FB 0%, #F5576C 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            color: #495057;
+        }
+        .checklist-item input {
+            margin-right: 8px;
+        }
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            border-radius: 10px;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .timestamp {
+            text-align: right;
+            color: #6c757d;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 Activity 5: Reflective Portfolio Entry</h2>
+        
+        <div class="reflection-framework">
+            <h3>Select Your Reflection Framework:</h3>
+            <div class="framework-selector">
+                <button class="framework-btn" onclick="selectFramework('gibbs')">
+                    <strong>Gibbs' Reflective Cycle</strong><br>
+                    <small>6-stage structured reflection</small>
+                </button>
+                <button class="framework-btn" onclick="selectFramework('johns')">
+                    <strong>Johns' Model</strong><br>
+                    <small>Guided reflection approach</small>
+                </button>
+            </div>
+            <div id="framework-description" style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; display: none;">
+            </div>
+        </div>
+
+        <div class="reflection-sections">
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <div class="section-title">Personal Impact</div>
+                    <div class="word-requirement">100 words required</div>
+                </div>
+                
+                <div class="guiding-questions">
+                    <h4>Reflection prompts:</h4>
+                    <ul>
+                        <li>How has this unit changed your understanding of infection risk?</li>
+                        <li>What assumption about infection control have you challenged?</li>
+                        <li>What surprised you most about systems thinking in healthcare?</li>
+                    </ul>
+                </div>
+                
+                <textarea id="section1" placeholder="Reflect on how this unit has impacted your personal understanding..."></textarea>
+                <div class="word-counter">
+                    <span class="word-count" id="count1">Words: 0 / 100</span>
+                    <span id="status1"></span>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <div class="section-title">Professional Application</div>
+                    <div class="word-requirement">100 words required</div>
+                </div>
+                
+                <div class="guiding-questions">
+                    <h4>Application prompts:</h4>
+                    <ul>
+                        <li>Which concept can you immediately apply in practice?</li>
+                        <li>How will you implement this learning?</li>
+                        <li>What barriers might you face and how will you overcome them?</li>
+                    </ul>
+                </div>
+                
+                <textarea id="section2" placeholder="Identify specific applications for your practice or studies..."></textarea>
+                <div class="word-counter">
+                    <span class="word-count" id="count2">Words: 0 / 100</span>
+                    <span id="status2"></span>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <div class="section-number">3</div>
+                    <div class="section-title">System Perspective</div>
+                    <div class="word-requirement">100 words required</div>
+                </div>
+                
+                <div class="guiding-questions">
+                    <h4>Systems thinking prompts:</h4>
+                    <ul>
+                        <li>How does staff wellbeing affect patient safety in your context?</li>
+                        <li>What system interventions could improve both simultaneously?</li>
+                        <li>How do different system components interact in your workplace?</li>
+                    </ul>
+                </div>
+                
+                <textarea id="section3" placeholder="Analyze the systemic factors and propose interventions..."></textarea>
+                <div class="word-counter">
+                    <span class="word-count" id="count3">Words: 0 / 100</span>
+                    <span id="status3"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="tags-section">
+            <h3>🏷️ Add Portfolio Tags</h3>
+            <p>Tag your reflection for easy portfolio organization:</p>
+            <div class="tag-input">
+                <input type="text" id="tagInput" placeholder="Enter a tag (e.g., #SystemsThinking)">
+                <button class="add-tag-btn" onclick="addTag()">Add Tag</button>
+            </div>
+            <div class="tags-display" id="tagsDisplay">
+                <span class="tag">#SystemsThinking <span class="remove" onclick="removeTag(this)">×</span></span>
+                <span class="tag">#IPC <span class="remove" onclick="removeTag(this)">×</span></span>
+                <span class="tag">#QualityImprovement <span class="remove" onclick="removeTag(this)">×</span></span>
+                <span class="tag">#Week5 <span class="remove" onclick="removeTag(this)">×</span></span>
+            </div>
+        </div>
+
+        <div class="progress-tracker">
+            <h3>📊 Completion Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress" style="width: 0%">0%</div>
+            </div>
+            <div class="checklist">
+                <label class="checklist-item">
+                    <input type="checkbox" id="check1" onchange="updateProgress()">
+                    Framework selected
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" id="check2" onchange="updateProgress()">
+                    Personal impact complete
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" id="check3" onchange="updateProgress()">
+                    Professional application complete
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" id="check4" onchange="updateProgress()">
+                    System perspective complete
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" id="check5" onchange="updateProgress()">
+                    Tags added
+                </label>
+                <label class="checklist-item">
+                    <input type="checkbox" id="check6" onchange="updateProgress()">
+                    Self-review complete
+                </label>
+            </div>
+        </div>
+
+        <div class="submit-section">
+            <h3>Ready to Submit?</h3>
+            <p>Ensure all sections meet the word requirements before submitting.</p>
+            <button class="submit-btn" id="submitBtn" onclick="submitReflection()" disabled>Submit to Portfolio</button>
+            <div class="timestamp" id="timestamp"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFramework = '';
+        let sectionWords = {1: 0, 2: 0, 3: 0};
+        
+        function selectFramework(framework) {
+            selectedFramework = framework;
+            document.querySelectorAll('.framework-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.closest('.framework-btn').classList.add('selected');
+            
+            const descriptions = {
+                'gibbs': `<h4>Gibbs' Reflective Cycle</h4>
+                          <p><strong>Description:</strong> What happened?<br>
+                          <strong>Feelings:</strong> What were you thinking and feeling?<br>
+                          <strong>Evaluation:</strong> What was good and bad?<br>
+                          <strong>Analysis:</strong> What sense can you make of it?<br>
+                          <strong>Conclusion:</strong> What else could you have done?<br>
+                          <strong>Action Plan:</strong> What will you do next time?</p>`,
+                'johns': `<h4>Johns' Model of Reflection</h4>
+                          <p><strong>Aesthetics:</strong> What was I trying to achieve?<br>
+                          <strong>Personal:</strong> How was I feeling and what influenced me?<br>
+                          <strong>Ethics:</strong> Were my actions ethical?<br>
+                          <strong>Empirics:</strong> What knowledge informed me?<br>
+                          <strong>

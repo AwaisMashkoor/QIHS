@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Decision-Making Framework</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #6B73FF;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .scenario-box {
+            background: #f0f4ff;
+            border-left: 5px solid #6B73FF;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .scenario-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: #6c757d;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .tab.active {
+            color: #6B73FF;
+            font-weight: bold;
+        }
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #6B73FF;
+        }
+        .tab:hover:not(.active) {
+            color: #495057;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .principle-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .principle-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .principle-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .principle-score {
+            display: flex;
+            gap: 5px;
+        }
+        .score-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .score-btn:hover {
+            background: #e9ecef;
+        }
+        .score-btn.selected {
+            background: #6B73FF;
+            color: white;
+            border-color: #6B73FF;
+        }
+        .stakeholder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .stakeholder-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .stakeholder-name {
+            font-weight: bold;
+            color: #6B73FF;
+            margin-bottom: 10px;
+        }
+        .concern-list {
+            list-style: none;
+            padding: 0;
+        }
+        .concern-list li {
+            padding: 5px 0;
+            color: #495057;
+        }
+        .concern-list li:before {
+            content: "▸ ";
+            color: #6B73FF;
+        }
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #6B73FF;
+            box-shadow: 0 0 0 3px rgba(107, 115, 255, 0.1);
+        }
+        .framework-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .framework-btn {
+            padding: 8px 15px;
+            border: 2px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .framework-btn:hover {
+            border-color: #6B73FF;
+        }
+        .framework-btn.selected {
+            background: #6B73FF;
+            color: white;
+            border-color: #6B73FF;
+        }
+        .submit-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f4ff;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(107, 115, 255, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .word-count {
+            text-align: right;
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #3498db;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .checklist {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .progress-circle {
+            width: 40px;
+            height: 40px;
+            background: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #6c757d;
+        }
+        .progress-step.completed .progress-circle {
+            background: #6B73FF;
+            color: white;
+        }
+        .progress-label {
+            font-size: 0.9em;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚖️ Activity 3: Ethical Decision-Making Framework</h2>
+        
+        <div class="scenario-box">
+            <div class="scenario-title">📋 Scenario: Mrs. Thompson's Dilemma</div>
+            <p>Mrs. Thompson, an 82-year-old care home resident with moderate dementia, has tested positive for COVID-19. She becomes extremely distressed when isolated in her room and repeatedly attempts to leave, increasing her fall risk. Staff are concerned about transmission to other vulnerable residents but also about Mrs. Thompson's psychological wellbeing and dignity.</p>
+            <p><em>Your task: Navigate this ethical dilemma using a structured decision-making framework.</em></p>
+        </div>
+
+        <div class="progress-indicator">
+            <div class="progress-step" id="step1">
+                <div class="progress-circle">1</div>
+                <div class="progress-label">Principles</div>
+            </div>
+            <div class="progress-step" id="step2">
+                <div class="progress-circle">2</div>
+                <div class="progress-label">Stakeholders</div>
+            </div>
+            <div class="progress-step" id="step3">
+                <div class="progress-circle">3</div>
+                <div class="progress-label">Framework</div>
+            </div>
+            <div class="progress-step" id="step4">
+                <div class="progress-circle">4</div>
+                <div class="progress-label">Solution</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('principles')">Step 1: Ethical Principles</button>
+            <button class="tab" onclick="showTab('stakeholders')">Step 2: Stakeholders</button>
+            <button class="tab" onclick="showTab('framework')">Step 3: Framework</button>
+            <button class="tab" onclick="showTab('solution')">Step 4: Your Solution</button>
+        </div>
+
+        <div id="principles" class="tab-content active">
+            <h3>Identify Ethical Principles at Stake</h3>
+            <p>Rate the relevance of each principle to this scenario (1 = low, 5 = high):</p>
+            
+            <div class="principle-card">
+                <div class="principle-header">
+                    <span class="principle-name">Autonomy</span>
+                    <div class="principle-score" data-principle="autonomy">
+                        <button class="score-btn" onclick="setPrincipleScore('autonomy', 1)">1</button>
+                        <button class="score-btn" onclick="setPrincipleScore('autonomy', 2)">2</button>
+                        <button class="score-btn" onclick="setPrincipleScore('autonomy', 3)">3</button>
+                        <button class="score-btn" onclick="setPrincipleScore('autonomy', 4)">4</button>
+                        <button class="score-btn" onclick="setPrincipleScore('autonomy', 5)">5</button>
+                    </div>
+                </div>
+                <p>Respecting Mrs. Thompson's wishes, preferences, and right to make decisions about her own care.</p>
+            </div>
+
+            <div class="principle-card">
+                <div class="principle-header">
+                    <span class="principle-name">Beneficence</span>
+                    <div class="principle-score" data-principle="beneficence">
+                        <button class="score-btn" onclick="setPrincipleScore('beneficence', 1)">1</button>
+                        <button class="score-btn" onclick="setPrincipleScore('beneficence', 2)">2</button>
+                        <button class="score-btn" onclick="setPrincipleScore('beneficence', 3)">3</button>
+                        <button class="score-btn" onclick="setPrincipleScore('beneficence', 4)">4</button>
+                        <button class="score-btn" onclick="setPrincipleScore('beneficence', 5)">5</button>
+                    </div>
+                </div>
+                <p>Acting in Mrs. Thompson's best interests, promoting her wellbeing and quality of life.</p>
+            </div>
+
+            <div class="principle-card">
+                <div class="principle-header">
+                    <span class="principle-name">Non-maleficence</span>
+                    <div class="principle-score" data-principle="nonmaleficence">
+                        <button class="score-btn" onclick="setPrincipleScore('nonmaleficence', 1)">1</button>
+                        <button class="score-btn" onclick="setPrincipleScore('nonmaleficence', 2)">2</button>
+                        <button class="score-btn" onclick="setPrincipleScore('nonmaleficence', 3)">3</button>
+                        <button class="score-btn" onclick="setPrincipleScore('nonmaleficence', 4)">4</button>
+                        <button class="score-btn" onclick="setPrincipleScore('nonmaleficence', 5)">5</button>
+                    </div>
+                </div>
+                <p>Avoiding harm to Mrs. Thompson (physical falls, psychological distress) and others (infection risk).</p>
+            </div>
+
+            <div class="principle-card">
+                <div class="principle-header">
+                    <span class="principle-name">Justice</span>
+                    <div class="principle-score" data-principle="justice">
+                        <button class="score-btn" onclick="setPrincipleScore('justice', 1)">1</button>
+                        <button class="score-btn" onclick="setPrincipleScore('justice', 2)">2</button>
+                        <button class="score-btn" onclick="setPrincipleScore('justice', 3)">3</button>
+                        <button class="score-btn" onclick="setPrincipleScore('justice', 4)">4</button>
+                        <button class="score-btn" onclick="setPrincipleScore('justice', 5)">5</button>
+                    </div>
+                </div>
+                <p>Fairness to all residents, equitable distribution of resources, and protecting vulnerable populations.</p>
+            </div>
+        </div>
+
+        <div id="stakeholders" class="tab-content">
+            <h3>Consider Stakeholder Perspectives</h3>
+            
+            <div class="stakeholder-grid">
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Mrs. Thompson</div>
+                    <ul class="concern-list">
+                        <li>Freedom of movement</li>
+                        <li>Social connection needs</li>
+                        <li>Confusion and distress</li>
+                        <li>Dignity and personhood</li>
+                    </ul>
+                </div>
+                
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Other Residents</div>
+                    <ul class="concern-list">
+                        <li>Protection from infection</li>
+                        <li>Anxiety about outbreak</li>
+                        <li>Their own care needs</li>
+                        <li>Quality of life maintenance</li>
+                    </ul>
+                </div>
+                
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Care Staff</div>
+                    <ul class="concern-list">
+                        <li>Professional duty of care</li>
+                        <li>Personal safety concerns</li>
+                        <li>Workload management</li>
+                        <li>Emotional burden</li>
+                    </ul>
+                </div>
+                
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Family Members</div>
+                    <ul class="concern-list">
+                        <li>Mrs. Thompson's wellbeing</li>
+                        <li>Communication barriers</li>
+                        <li>Trust in care quality</li>
+                        <li>Visiting restrictions</li>
+                    </ul>
+                </div>
+                
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Care Home Management</div>
+                    <ul class="concern-list">
+                        <li>Legal responsibilities</li>
+                        <li>Regulatory compliance</li>
+                        <li>Reputation management</li>
+                        <li>Resource allocation</li>
+                    </ul>
+                </div>
+                
+                <div class="stakeholder-card">
+                    <div class="stakeholder-name">Healthcare System</div>
+                    <ul class="concern-list">
+                        <li>Public health priorities</li>
+                        <li>Hospital capacity</li>
+                        <li>Outbreak prevention</li>
+                        <li>Guidelines adherence</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="framework" class="tab-content">
+            <h3>Select and Apply an Ethical Framework</h3>
+            
+            <div class="info-box">
+                <strong>Choose a framework to guide your decision-making:</strong>
+            </div>
+            
+            <div class="framework-selector">
+                <button class="framework-btn" onclick="selectFramework('consequentialism')">Consequentialism</button>
+                <button class="framework-btn" onclick="selectFramework('deontology')">Deontology</button>
+                <button class="framework-btn" onclick="selectFramework('virtue')">Virtue Ethics</button>
+                <button class="framework-btn" onclick="selectFramework('principlism')">Principlism</button>
+                <button class="framework-btn" onclick="selectFramework('care')">Care Ethics</button>
+            </div>
+            
+            <div id="framework-description" style="padding: 15px; background: #f8f9fa; border-radius: 8px; margin-top: 15px; min-height: 100px;">
+                <p style="color: #6c757d; text-align: center;">Select a framework above to see its description and application guidance.</p>
+            </div>
+            
+            <div class="checklist">
+                <h4>Framework Application Checklist</h4>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1">
+                    <label for="check1">I have identified the key ethical question</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2">
+                    <label for="check2">I have considered all relevant facts</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3">
+                    <label for="check3">I have applied my chosen framework consistently</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4">
+                    <label for="check4">I have considered alternative actions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5">
+                    <label for="check5">I have evaluated potential consequences</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="solution" class="tab-content">
+            <h3>Develop Your Balanced Approach</h3>
+            
+            <p><strong>Based on your analysis, describe your recommended approach (minimum 150 words):</strong></p>
+            
+            <textarea id="solution-text" placeholder="Consider:
+- Alternative interventions to strict isolation
+- Risk mitigation strategies
+- Communication with all stakeholders
+- Monitoring and review processes
+- How your chosen ethical framework guides your decision"></textarea>
+            <div class="word-count">Words: <span id="wordCount">0</span> / 150 minimum</div>
+            
+            <div class="submit-section">
+                <p>Ready to submit your ethical analysis?</p>
+                <button class="submit-btn" id="submitBtn" onclick="submitSolution()" disabled>Submit Analysis</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let principleScores = {};
+        let selectedFramework = '';
+        let completedSteps = [];
+
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Update progress indicator
+            updateProgress(tabName);
+        }
+
+        function updateProgress(currentTab) {
+            const steps = {
+                'principles': 'step1',
+                'stakeholders': 'step2',
+                'framework': 'step3',
+                'solution': 'step4'
+            };
+            
+            const currentStepId = steps[currentTab];
+            if (currentStepId && !completedSteps.includes(currentStepId)) {
+                completedSteps.push(currentStepId);
+                document.getElementById(currentStepId).classList.add('completed');
+            }
+        }
+
+        function setPrincipleScore(principle, score) {
+            principleScores[principle] = score;
+            
+            // Update UI
+            const buttons = document.querySelectorAll(`[data-principle="${principle}"] .score-btn`);
+            buttons.forEach((btn, index) => {
+                btn.classList.toggle('selected', index + 1 === score);
+            });
+            
+            checkCompletion();
+        }
+
+        function selectFramework(framework) {
+            selectedFramework = framework;
+            
+            // Update UI
+            document.querySelectorAll('.framework-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            
+            // Show framework description
+            const descriptions = {
+                'consequentialism': '<h4>Consequentialism / Utilitarianism</h4><p>Focus on outcomes and consequences. The right action is the one that produces the best overall results for the greatest number of people.</p><p><strong>Application:</strong> Calculate the potential harms and benefits of different approaches. Consider: How many people are affected? What is the severity of potential harm? What approach minimizes overall suffering?</p>',
+                'deontology': '<h4>Deontological Ethics</h4><p>Focus on duties and rules. Some actions are inherently right or wrong, regardless of consequences. Respect for persons and their rights is paramount.</p><p><strong>Application:</strong> What are your professional duties? What rules or policies apply? Are there any actions that would violate fundamental rights or treat someone merely as a means to an end?</p>',
+                'virtue': '<h4>Virtue Ethics</h4><p>Focus on character and virtues. The right action is what a virtuous person would do in this situation.</p><p><strong>Application:</strong> What virtues are relevant (compassion, courage, honesty, justice)? How would an ideal healthcare professional handle this? What action best exemplifies professional excellence?</p>',
+                'principlism': '<h4>Principlism (Four Principles)</h4><p>Balance four key principles: Autonomy, Beneficence, Non-maleficence, and Justice. Most widely used in healthcare ethics.</p><p><strong>Application:</strong> Systematically consider each principle. When principles conflict, determine which takes priority in this context. Seek creative solutions that honor multiple principles.</p>',
+                'care': '<h4>Ethics of Care</h4><p>Focus on relationships, context, and caring responses. Emphasizes empathy, relationships, and responding to vulnerability.</p><p><strong>Application:</strong> What does caring look like in this situation? How can we maintain relationships? What response best preserves dignity and connection while addressing needs?</p>'
+            };
+            
+            document.getElementById('framework-description').innerHTML = descriptions[framework];
+            checkCompletion();
+        }
+
+        document.getElementById('solution-text').addEventListener('input', function() {
+            const words = this.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            document.getElementById('wordCount').textContent = words;
+            checkCompletion();
+        });
+
+        function checkCompletion() {
+            const words = document.getElementById('solution-text').value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            const hasFramework = selectedFramework !== '';
+            const submitBtn = document.getElementById('submitBtn');
+            
+            if (words >= 150 && hasFramework) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        function submitSolution() {
+            const solution = document.getElementById('solution-text').value;
+            const checkedItems = document.querySelectorAll('.checklist-item input:checked').length;
+            
+            if (checkedItems < 3) {
+                alert('Please complete at least 3 items in the framework application checklist before submitting.');
+                return;
+            }
+            
+            // Create submission summary
+            let summary = `✅ Ethical Analysis Submitted Successfully!\n\n`;
+            summary += `Framework Used: ${selectedFramework.charAt(0).toUpperCase() + selectedFramework.slice(1)}\n`;
+            summary += `Principle Ratings:\n`;
+            for (const [principle, score] of Object.entries(principleScores)) {
+                summary += `  - ${principle}: ${score}/5\n`;
+            }
+            summary += `\nYour analysis has been recorded for peer review and discussion.`;
+            
+            alert(summary);
+            
+            // Update button
+            document.getElementById('submitBtn').textContent = 'Submitted ✓';
+            document.getElementById('submitBtn').disabled = true;
+        }
+
+        // Add smooth scrolling
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
