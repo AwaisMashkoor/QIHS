@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vincent's Framework: Interactive Incident Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .scenario-selector {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .scenario-selector select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #764ba2;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .scenario-display {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+            display: none;
+        }
+        
+        .scenario-display.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .domain-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .domain-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .domain-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .domain-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .domain-title {
+            font-size: 1.2em;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .domain-examples {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .factor-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+        }
+        
+        .factor-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .factor-input.completed {
+            border-color: #27ae60;
+            background: #f0fdf4;
+        }
+        
+        .prompts {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            font-size: 0.85em;
+        }
+        
+        .prompt-question {
+            margin: 5px 0;
+            color: #555;
+            cursor: pointer;
+        }
+        
+        .prompt-question:hover {
+            color: #667eea;
+        }
+        
+        .analysis-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .priority-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .priority-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .priority-high {
+            background: #ffe4e4;
+            border: 2px solid #ff6b6b;
+        }
+        
+        .priority-medium {
+            background: #fff4e4;
+            border: 2px solid #ffa500;
+        }
+        
+        .priority-low {
+            background: #e4f4ff;
+            border: 2px solid #4a90e2;
+        }
+        
+        .priority-item.selected {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .summary-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .summary-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .tips-box {
+            background: #fffbeb;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .tips-box h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+        
+        .tips-box ul {
+            margin-left: 20px;
+            color: #78350f;
+        }
+        
+        @media (max-width: 768px) {
+            .framework-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vincent's Framework Analysis Tool</h1>
+        <p class="subtitle">Systematic Analysis of Healthcare Incidents</p>
+        
+        <div class="scenario-selector">
+            <label for="scenario-select"><strong>Select a Scenario to Analyze:</strong></label>
+            <select id="scenario-select">
+                <option value="">-- Choose a scenario --</option>
+                <option value="medication">Medication Error in Elderly Care</option>
+                <option value="fall">Patient Fall with Injury</option>
+                <option value="communication">Communication Failure in Emergency</option>
+                <option value="custom">Enter Your Own Scenario</option>
+            </select>
+        </div>
+        
+        <div id="scenario-display" class="scenario-display">
+            <h3>Scenario:</h3>
+            <p id="scenario-text"></p>
+        </div>
+        
+        <div class="tips-box">
+            <h3>💡 How to Use This Tool:</h3>
+            <ul>
+                <li>Select a scenario above or enter your own</li>
+                <li>For each domain, identify contributing factors</li>
+                <li>Use the prompt questions to guide your analysis</li>
+                <li>Click on factors to copy them as examples</li>
+                <li>Generate a summary report when complete</li>
+            </ul>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill">0% Complete</div>
+        </div>
+        
+        <div class="framework-grid">
+            <div class="domain-card" data-domain="1">
+                <div class="domain-header">
+                    <div class="domain-number">1</div>
+                    <div class="domain-title">Institutional Context</div>
+                </div>
+                <div class="domain-examples">Regulatory environment, NHS policies, legal pressures, CQC standards</div>
+                <textarea class="factor-input" placeholder="Identify institutional factors that may have contributed..." data-domain="1"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• What external pressures existed?</div>
+                    <div class="prompt-question">• Were there regulatory constraints?</div>
+                    <div class="prompt-question">• How did policies influence the situation?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="2">
+                <div class="domain-header">
+                    <div class="domain-number">2</div>
+                    <div class="domain-title">Organizational & Management</div>
+                </div>
+                <div class="domain-examples">Financial resources, safety culture, staffing policies, organizational structure</div>
+                <textarea class="factor-input" placeholder="Identify organizational factors..." data-domain="2"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• Were resources adequate?</div>
+                    <div class="prompt-question">• How did management decisions contribute?</div>
+                    <div class="prompt-question">• What was the safety culture like?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="3">
+                <div class="domain-header">
+                    <div class="domain-number">3</div>
+                    <div class="domain-title">Work Environment</div>
+                </div>
+                <div class="domain-examples">Staffing levels, workload, equipment availability, physical environment</div>
+                <textarea class="factor-input" placeholder="Identify environmental factors..." data-domain="3"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• Was the environment conducive to safe practice?</div>
+                    <div class="prompt-question">• Were there equipment issues?</div>
+                    <div class="prompt-question">• How did workload affect performance?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="4">
+                <div class="domain-header">
+                    <div class="domain-number">4</div>
+                    <div class="domain-title">Team Factors</div>
+                </div>
+                <div class="domain-examples">Communication, supervision, team dynamics, leadership</div>
+                <textarea class="factor-input" placeholder="Identify team-related factors..." data-domain="4"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• How effective was team communication?</div>
+                    <div class="prompt-question">• Were roles and responsibilities clear?</div>
+                    <div class="prompt-question">• Did hierarchy affect speaking up?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="5">
+                <div class="domain-header">
+                    <div class="domain-number">5</div>
+                    <div class="domain-title">Individual Staff</div>
+                </div>
+                <div class="domain-examples">Knowledge, skills, experience, fatigue, stress, health</div>
+                <textarea class="factor-input" placeholder="Identify individual factors..." data-domain="5"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• Was training adequate?</div>
+                    <div class="prompt-question">• Were there fatigue or stress factors?</div>
+                    <div class="prompt-question">• Did experience level play a role?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="6">
+                <div class="domain-header">
+                    <div class="domain-number">6</div>
+                    <div class="domain-title">Task & Technology</div>
+                </div>
+                <div class="domain-examples">Protocol clarity, task complexity, technology design, decision aids</div>
+                <textarea class="factor-input" placeholder="Identify task-related factors..." data-domain="6"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• Were protocols clear and accessible?</div>
+                    <div class="prompt-question">• How complex was the task?</div>
+                    <div class="prompt-question">• Did technology help or hinder?</div>
+                </div>
+            </div>
+            
+            <div class="domain-card" data-domain="7">
+                <div class="domain-header">
+                    <div class="domain-number">7</div>
+                    <div class="domain-title">Patient Factors</div>
+                </div>
+                <div class="domain-examples">Clinical complexity, communication barriers, social factors</div>
+                <textarea class="factor-input" placeholder="Identify patient-related factors..." data-domain="7"></textarea>
+                <div class="prompts">
+                    <div class="prompt-question">• How did patient complexity contribute?</div>
+                    <div class="prompt-question">• Were there communication challenges?</div>
+                    <div class="prompt-question">• Did social factors play a role?</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="analysis-section">
+            <h3>Prioritize Contributing Factors</h3>
+            <p>Select the priority level for your most significant findings:</p>
+            <div class="priority-grid">
+                <div class="priority-item priority-high" data-priority="high">
+                    <strong>HIGH PRIORITY</strong><br>
+                    Immediate action required
+                </div>
+                <div class="priority-item priority-medium" data-priority="medium">
+                    <strong>MEDIUM PRIORITY</strong><br>
+                    Address within 3 months
+                </div>
+                <div class="priority-item priority-low" data-priority="low">
+                    <strong>LOW PRIORITY</strong><br>
+                    Monitor and review
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-secondary" onclick="clearAnalysis()">Clear Analysis</button>
+            <button class="btn btn-primary" onclick="saveProgress()">Save Progress</button>
+            <button class="btn btn-success" onclick="generateSummary()">Generate Summary</button>
+        </div>
+    </div>
+    
+    <div id="summary-modal" class="summary-modal">
+        <div class="summary-content">
+            <span class="close-modal" onclick="closeSummary()">&times;</span>
+            <h2>Vincent's Framework Analysis Summary</h2>
+            <div id="summary-text"></div>
+            <button class="btn btn-primary" onclick="downloadSummary()">Download Report</button>
+        </div>
+    </div>
+    
+    <script>
+        const scenarios = {
+            medication: "An 82-year-old patient with dementia received another patient's cardiac medication for three consecutive days. The error occurred during the morning medication round on a busy geriatric ward. The patient experienced bradycardia and dizziness before the error was discovered during a routine medication audit.",
+            fall: "A 75-year-old patient recovering from hip surgery fell while attempting to reach the bathroom unassisted at 3 AM. The call bell was out of reach, and the patient didn't want to 'bother' the nurses. The fall resulted in a head laceration requiring sutures and extended the hospital stay by a week.",
+            communication: "During a busy night shift in A&E, a patient with chest pain waited 4 hours to be seen. The triage nurse's handover to the doctor was interrupted three times. Critical ECG findings were not communicated effectively, delaying treatment for an evolving MI.",
+            custom: "Enter your own scenario here..."
+        };
+        
+        document.getElementById('scenario-select').addEventListener('change', function(e) {
+            const scenario = e.target.value;
+            const display = document.getElementById('scenario-display');
+            const text = document.getElementById('scenario-text');
+            
+            if (scenario) {
+                display.classList.add('active');
+                if (scenario === 'custom') {
+                    text.innerHTML = '<textarea style="width:100%; min-height:100px; padding:10px; border:1px solid #ddd; border-radius:5px;" placeholder="Describe your incident scenario here..."></textarea>';
+                } else {
+                    text.textContent = scenarios[scenario];
+                }
+            } else {
+                display.classList.remove('active');
+            }
+            updateProgress();
+        });
+        
+        // Track progress
+        document.querySelectorAll('.factor-input').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim().length > 10) {
+                    this.classList.add('completed');
+                } else {
+                    this.classList.remove('completed');
+                }
+                updateProgress();
+            });
+        });
+        
+        function updateProgress() {
+            const total = document.querySelectorAll('.factor-input').length;
+            const completed = document.querySelectorAll('.factor-input.completed').length;
+            const percentage = Math.round((completed / total) * 100);
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '% Complete';
+        }
+        
+        // Priority selection
+        document.querySelectorAll('.priority-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.priority-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+        
+        // Prompt questions - click to add to analysis
+        document.querySelectorAll('.prompt-question').forEach(prompt => {
+            prompt.addEventListener('click', function() {
+                const card = this.closest('.domain-card');
+                const input = card.querySelector('.factor-input');
+                if (input.value && !input.value.endsWith('\n')) {
+                    input.value += '\n';
+                }
+                input.value += this.textContent + ' ';
+                input.focus();
+                updateProgress();
+            });
+        });
+        
+        function clearAnalysis() {
+            if (confirm('Are you sure you want to clear all your analysis?')) {
+                document.querySelectorAll('.factor-input').forEach(input => {
+                    input.value = '';
+                    input.classList.remove('completed');
+                });
+                document.querySelectorAll('.priority-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                updateProgress();
+            }
+        }
+        
+        function saveProgress() {
+            const data = {};
+            document.querySelectorAll('.factor-input').forEach(input => {
+                data['domain_' + input.dataset.domain] = input.value;
+            });
+            localStorage.setItem('vincentAnalysis', JSON.stringify(data));
+            alert('Progress saved! Your analysis will be restored when you return.');
+        }
+        
+        // Load saved progress
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('vincentAnalysis');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const domain = key.replace('domain_', '');
+                    const input = document.querySelector(`.factor-input[data-domain="${domain}"]`);
+                    if (input && data[key]) {
+                        input.value = data[key];
+                        if (data[key].trim().length > 10) {
+                            input.classList.add('completed');
+                        }
+                    }
+                });
+                updateProgress();
+            }
+        });
+        
+        function generateSummary() {
+            const modal = document.getElementById('summary-modal');
+            const summaryText = document.getElementById('summary-text');
+            
+            let html = '<h3>Incident Analysis Using Vincent\'s Framework</h3>';
+            
+            const scenario = document.getElementById('scenario-text').textContent || 
+                          document.getElementById('scenario-text').querySelector('textarea')?.value || 
+                          'No scenario selected';
+            
+            html += '<div style="background:#f0f0f0; padding:15px; border-radius:8px; margin:15px 0;">';
+            html += '<strong>Scenario:</strong><br>' + scenario;
+            html += '</div>';
+            
+            const domains = [
+                'Institutional Context',
+                'Organizational & Management',
+                'Work Environment',
+                'Team Factors',
+                'Individual Staff',
+                'Task & Technology',
+                'Patient Factors'
+            ];
+            
+            html += '<h4>Contributing Factors by Domain:</h4>';
+            
+            let hasContent = false;
+            domains.forEach((domain, index) => {
+                const input = document.querySelector(`.factor-input[data-domain="${index + 1}"]`);
+                if (input && input.value.trim()) {
+                    hasContent = true;
+                    html += `<div style="margin:15px 0; padding:15px; background:#f8f9fa; border-left:4px solid #667eea; border-radius:5px;">`;
+                    html += `<strong>${index + 1}. ${domain}:</strong><br>`;
+                    html += `<div style="margin-top:10px; white-space:pre-wrap;">${input.value}</div>`;
+                    html += `</div>`;
+                }
+            });
+            
+            if (!hasContent) {
+                html += '<p style="color:#e74c3c;">No factors have been identified yet. Please complete the analysis.</p>';
+            }
+            
+            const selectedPriority = document.querySelector('.priority-item.selected');
+            if (selectedPriority) {
+                html += '<h4>Priority Level:</h4>';
+                html += '<p>' + selectedPriority.innerHTML + '</p>';
+            }
+            
+            html += '<h4>Next Steps:</h4>';
+            html += '<ol>';
+            html += '<li>Review identified factors with the team</li>';
+            html += '<li>Develop SMART action plans for high-priority items</li>';
+            html += '<li>Implement using PDSA cycles</li>';
+            html += '<li>Monitor and measure improvement</li>';
+            html += '<li>Share learning across the organization</li>';
+            html += '</ol>';
+            
+            summaryText.innerHTML = html;
+            modal.style.display = 'flex';
+        }
+        
+        function closeSummary() {
+            document.getElementById('summary-modal').style.display = 'none';
+        }
+        
+        function downloadSummary() {
+            const content = document.getElementById('summary-text').innerText;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'vincent_framework_analysis_' + new Date().toISOString().split('T')[0] + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('summary-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
