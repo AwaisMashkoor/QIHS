@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systems Mapping Exercise - Infection Pathways</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #3494E6 0%, #EC6EAD 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3494E6;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background: #e8f4fd;
+            border-left: 4px solid #3494E6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .tool-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            padding: 5px 10px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        .tool-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-right: 5px;
+            font-weight: 600;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        .tool-btn {
+            background: #e9ecef;
+            color: #495057;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .tool-btn.active {
+            background: linear-gradient(135deg, #3494E6 0%, #EC6EAD 100%);
+            color: white;
+        }
+        .tool-btn:hover:not(.active) {
+            background: #dee2e6;
+        }
+        .color-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            padding: 0;
+            border: 3px solid transparent;
+            position: relative;
+        }
+        .color-btn.active {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 3px rgba(52, 148, 230, 0.2);
+        }
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+        .action-btn {
+            background: #6c757d;
+            color: white;
+        }
+        .action-btn:hover {
+            background: #5a6268;
+        }
+        .export-btn {
+            background: linear-gradient(135deg, #3494E6 0%, #EC6EAD 100%);
+            color: white;
+            padding: 10px 20px;
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 148, 230, 0.3);
+        }
+        .canvas-container {
+            position: relative;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #canvas {
+            display: block;
+            cursor: crosshair;
+            background: white;
+        }
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .legend-title {
+            grid-column: span 3;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+        .legend-text {
+            font-size: 0.9em;
+            color: #495057;
+        }
+        .analysis-section {
+            margin-top: 30px;
+            padding: 25px;
+            background: #fff9e6;
+            border-radius: 10px;
+            border: 1px solid #ffc107;
+        }
+        .analysis-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-family: inherit;
+            resize: vertical;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #3494E6;
+            box-shadow: 0 0 0 3px rgba(52, 148, 230, 0.1);
+        }
+        .word-count {
+            text-align: right;
+            color: #6c757d;
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .submit-analysis-btn {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        .submit-analysis-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+        }
+        .submit-analysis-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .line-width-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .line-width-slider {
+            width: 100px;
+        }
+        .line-width-display {
+            font-size: 0.9em;
+            color: #495057;
+            min-width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🗺️ Activity 2: Systems Mapping Exercise</h2>
+        
+        <div class="instructions">
+            <strong>Create a visual map of infection transmission pathways:</strong>
+            <ol style="margin: 10px 0;">
+                <li>Use different colors to represent different system components</li>
+                <li>Draw connections between components to show interactions</li>
+                <li>Use red circles to mark vulnerability points</li>
+                <li>Add text labels to identify key areas</li>
+                <li>Use arrows to show direction of transmission or influence</li>
+            </ol>
+            <em>Tip: Think about how people, infrastructure, processes, and information flow in your healthcare setting.</em>
+        </div>
+
+        <div class="toolbar">
+            <div class="tool-group">
+                <span class="tool-label">Drawing Tools:</span>
+                <button class="tool-btn active" onclick="setTool('draw')" title="Freehand drawing">
+                    ✏️ Draw
+                </button>
+                <button class="tool-btn" onclick="setTool('line')" title="Straight line">
+                    📏 Line
+                </button>
+                <button class="tool-btn" onclick="setTool('circle')" title="Circle/vulnerability point">
+                    ⭕ Circle
+                </button>
+                <button class="tool-btn" onclick="setTool('rectangle')" title="Rectangle/box">
+                    ⬜ Box
+                </button>
+                <button class="tool-btn" onclick="setTool('arrow')" title="Direction arrow">
+                    ➡️ Arrow
+                </button>
+                <button class="tool-btn" onclick="setTool('text')" title="Add text label">
+                    📝 Text
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <span class="tool-label">Colors:</span>
+                <button class="color-btn active" style="background: #2c3e50;" onclick="setColor('#2c3e50')" title="General/Connections"></button>
+                <button class="color-btn" style="background: #3498db;" onclick="setColor('#3498db')" title="People"></button>
+                <button class="color-btn" style="background: #27ae60;" onclick="setColor('#27ae60')" title="Infrastructure"></button>
+                <button class="color-btn" style="background: #f39c12;" onclick="setColor('#f39c12')" title="Processes"></button>
+                <button class="color-btn" style="background: #e74c3c;" onclick="setColor('#e74c3c')" title="Vulnerabilities"></button>
+                <button class="color-btn" style="background: #9b59b6;" onclick="setColor('#9b59b6')" title="Information"></button>
+            </div>
+
+            <div class="tool-group line-width-group">
+                <span class="tool-label">Line Width:</span>
+                <input type="range" class="line-width-slider" id="lineWidth" min="1" max="10" value="2" onchange="setLineWidth(this.value)">
+                <span class="line-width-display" id="lineWidthDisplay">2px</span>
+            </div>
+            
+            <div class="tool-group">
+                <button class="action-btn" onclick="clearCanvas()">🗑️ Clear All</button>
+                <button class="action-btn" onclick="undo()">↩️ Undo</button>
+                <button class="action-btn" onclick="redo()">↪️ Redo</button>
+                <button class="export-btn" onclick="exportCanvas()">💾 Save Image</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="1140" height="600"></canvas>
+        </div>
+
+        <div class="legend">
+            <div class="legend-title">Component Color Legend:</div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db;"></div>
+                <span class="legend-text">People (Patients, Staff, Visitors)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60;"></div>
+                <span class="legend-text">Infrastructure (Rooms, Equipment, Ventilation)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f39c12;"></div>
+                <span class="legend-text">Processes (Procedures, Protocols, Workflows)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c;"></div>
+                <span class="legend-text">Vulnerability Points (Risk Areas)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9b59b6;"></div>
+                <span class="legend-text">Information Flows (Documentation, Communication)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #2c3e50;"></div>
+                <span class="legend-text">General Connections & Labels</span>
+            </div>
+        </div>
+
+        <div class="analysis-section">
+            <h3>📋 System Vulnerability Analysis</h3>
+            <p>After completing your map, identify and describe the most significant vulnerability in your system:</p>
+            <textarea id="analysis" placeholder="Describe the vulnerability you've identified, its potential impact on infection transmission, and possible intervention strategies. Consider:&#10;&#10;• What makes this point particularly vulnerable?&#10;• How does it connect to other system components?&#10;• What are the potential consequences if this vulnerability is exploited?&#10;• What interventions could strengthen this weak point?&#10;&#10;(Minimum 100 words)"></textarea>
+            <div class="word-count">Words: <span id="wordCount">0</span> / 100 minimum</div>
+            <button class="submit-analysis-btn" id="submitBtn" onclick="submitAnalysis()" disabled>Submit Map & Analysis</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let currentTool = 'draw';
+        let currentColor = '#2c3e50';
+        let currentLineWidth = 2;
+        let startX, startY;
+        let history = [];
+        let historyStep = -1;
+        
+        // Initialize with blank canvas in history
+        saveState();
+
+        function setTool(tool) {
+            currentTool = tool;
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update cursor based on tool
+            if (tool === 'text') {
+                canvas.style.cursor = 'text';
+            } else if (tool === 'draw') {
+                canvas.style.cursor = 'crosshair';
+            } else {
+                canvas.style.cursor = 'crosshair';
+            }
+        }
+
+        function setColor(color) {
+            currentColor = color;
+            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function setLineWidth(width) {
+            currentLineWidth = width;
+            document.getElementById('lineWidthDisplay').textContent = width + 'px';
+        }
+
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+
+        // Touch support for mobile devices
+        canvas.addEventListener('touchstart', handleTouch);
+        canvas.addEventListener('touchmove', handleTouch);
+        canvas.addEventListener('touchend', stopDrawing);
+
+        function handleTouch(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            canvas.dispatchEvent(mouseEvent);
+        }
+
+        function startDrawing(e) {
+            const rect = canvas.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
+            
+            if (currentTool === 'text') {
+                const text = prompt('Enter text label:');
+                if (text) {
+                    ctx.font = 'bold 16px Segoe UI';
+                    ctx.fillStyle = currentColor;
+                    ctx.fillText(text, startX, startY);
+                    saveState();
+                }
+            } else if (currentTool === 'draw') {
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.strokeStyle = currentColor;
+                ctx.lineWidth = currentLineWidth;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+            } else {
+                isDrawing = true;
+                // Save the current canvas state for shapes
+                ctx.save();
+            }
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
+            
+            if (currentTool === 'draw') {
+                ctx.lineTo(currentX, currentY);
+                ctx.stroke();
+            }
+        }
+
+        function stopDrawing(e) {
+            if (!isDrawing) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const endX = e.clientX - rect.left;
+            const endY = e.clientY - rect.top;
+            
+            ctx.strokeStyle = currentColor;
+            ctx.fillStyle = currentColor;
+            ctx.lineWidth = currentLineWidth;
+            ctx.lineCap = 'round';
+            
+            if (currentTool === 'line') {
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+            } else if (currentTool === 'circle') {
+                const radius = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                ctx.beginPath();
+                ctx.arc(startX, startY, radius, 0, 2 * Math.PI);
+                ctx.stroke();
+            } else if (currentTool === 'rectangle') {
+                ctx.strokeRect(startX, startY, endX - startX, endY - startY);
+            } else if (currentTool === 'arrow') {
+                drawArrow(startX, startY, endX, endY);
+            }
+            
+            isDrawing = false;
+            ctx.restore();
+            saveState();
+        }
+
+        function drawArrow(fromX, fromY, toX, toY) {
+            const headLength = 20;
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+            
+            // Draw the main line
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+            
+            // Draw the arrow head
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLength * Math.cos(angle - Math.PI/6), toY - headLength * Math.sin(angle - Math.PI/6));
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLength * Math.cos(angle + Math.PI/6), toY - headLength * Math.sin(angle + Math.PI/6));
+            ctx.stroke();
+        }
+
+        function clearCanvas() {
+            if (confirm('Are you sure you want to clear the entire canvas? This action cannot be undone.')) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                history = [];
+                historyStep = -1;
+                saveState();
+            }
+        }
+
+        function saveState() {
+            historyStep++;
+            if (historyStep < history.length) {
+                history.length = historyStep;
+            }
+            history.push(canvas.toDataURL());
+            
+            // Limit history to last 20 states
+            if (history.length > 20) {
+                history.shift();
+                historyStep--;
+            }
+        }
+
+        function undo() {
+            if (historyStep > 0) {
+                historyStep--;
+                const canvasImage = new Image();
+                canvasImage.src = history[historyStep];
+                canvasImage.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvasImage, 0, 0);
+                }
+            }
+        }
+
+        function redo() {
+            if (historyStep < history.length - 1) {
+                historyStep++;
+                const canvasImage = new Image();
+                canvasImage.src = history[historyStep];
+                canvasImage.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(canvasImage, 0, 0);
+                }
+            }
+        }
+
+        function exportCanvas() {
+            const link = document.createElement('a');
+            link.download = 'infection-system-map-' + Date.now() + '.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Word count for analysis
+        document.getElementById('analysis').addEventListener('input', function() {
+            const words = this.value.trim().split(/\s+/).filter(word => word.length > 0).length;
+            document.getElementById('wordCount').textContent = words;
+            
+            const submitBtn = document.getElementById('submitBtn');
+            if (words >= 100) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        });
+
+        function submitAnalysis() {
+            const analysis = document.getElementById('analysis').value;
+            const words = analysis.trim().split(/\s+/).filter(word => word.length > 0).length;
+            
+            if (words < 100) {
+                alert('Please provide at least 100 words in your analysis to adequately describe the vulnerability.');
+                return;
+            }
+            
+            // Check if canvas has content
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const hasContent = imageData.data.some((channel, index) => {
+                // Check alpha channel for non-transparent pixels
+                return index % 4 === 3 && channel > 0;
+            });
+            
+            if (!hasContent) {
+                alert('Please create your system map before submitting.');
+                return;
+            }
+            
+            alert('✅ Success! Your system map and vulnerability analysis have been submitted.\n\nYour map has been saved and your analysis recorded for peer review and discussion.');
+            
+            // Update button to show submitted
+            document.getElementById('submitBtn').textContent = 'Submitted ✓';
+            document.getElementById('submitBtn').disabled = true;
+            
+            // Optionally export the canvas automatically
+            exportCanvas();
+        }
+    </script>
+</body>
+</html>
