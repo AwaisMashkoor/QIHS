@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment Categorizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .instructions p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 3fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .scenarios-bank {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 500px;
+        }
+        
+        .scenarios-bank h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .scenario-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-left: 5px solid #95a5a6;
+            cursor: move;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .scenario-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .scenario-card.dragging {
+            opacity: 0.5;
+        }
+        
+        .scenario-text {
+            color: #2c3e50;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .categories-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .category-zone {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 3px dashed #ddd;
+            min-height: 230px;
+            transition: all 0.3s;
+        }
+        
+        .category-zone.drag-over {
+            background: #e8f8f5;
+            border-color: #27ae60;
+            transform: scale(1.02);
+        }
+        
+        .category-zone h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid;
+        }
+        
+        .never-event {
+            border-color: #e74c3c;
+        }
+        
+        .never-event h3 {
+            color: #e74c3c;
+            border-bottom-color: #e74c3c;
+        }
+        
+        .serious-incident {
+            border-color: #f39c12;
+        }
+        
+        .serious-incident h3 {
+            color: #f39c12;
+            border-bottom-color: #f39c12;
+        }
+        
+        .near-miss {
+            border-color: #3498db;
+        }
+        
+        .near-miss h3 {
+            color: #3498db;
+            border-bottom-color: #3498db;
+        }
+        
+        .safeguarding {
+            border-color: #9b59b6;
+        }
+        
+        .safeguarding h3 {
+            color: #9b59b6;
+            border-bottom-color: #9b59b6;
+        }
+        
+        .dropped-scenario {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 5px solid;
+            font-size: 14px;
+            line-height: 1.4;
+            position: relative;
+        }
+        
+        .never-event .dropped-scenario {
+            border-left-color: #e74c3c;
+        }
+        
+        .serious-incident .dropped-scenario {
+            border-left-color: #f39c12;
+        }
+        
+        .near-miss .dropped-scenario {
+            border-left-color: #3498db;
+        }
+        
+        .safeguarding .dropped-scenario {
+            border-left-color: #9b59b6;
+        }
+        
+        .feedback-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .correct {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .incorrect {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .feedback-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 500px;
+            z-index: 1000;
+        }
+        
+        .feedback-popup.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        
+        .overlay.show {
+            display: block;
+        }
+        
+        .feedback-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .feedback-title.correct {
+            color: #27ae60;
+        }
+        
+        .feedback-title.incorrect {
+            color: #e74c3c;
+        }
+        
+        .feedback-text {
+            color: #2c3e50;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .close-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: #2980b9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-check {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-check:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .btn-reset {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #7f8c8d;
+            transform: translateY(-2px);
+        }
+        
+        .completion-message {
+            display: none;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .completion-message.show {
+            display: block;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .completion-message h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        
+        .completion-message p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Interactive Risk Assessment Categorizer</h1>
+        <p class="subtitle">Drag incidents to their correct category. Get immediate feedback on your understanding.</p>
+        
+        <div class="instructions">
+            <h3>Instructions</h3>
+            <p><strong>Your task:</strong> Drag each incident scenario from the left panel into the correct category on the right. Categories include Never Events (entirely preventable with strong barriers), Serious Incidents (requiring investigation), Near Miss (caught before harm), and Safeguarding Issues (social care concerns). Drop the scenario and you'll receive immediate feedback explaining why it belongs in that category.</p>
+        </div>
+        
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Categorized</div>
+                <div class="score-value" id="categorized">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Correct</div>
+                <div class="score-value" id="correct">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Accuracy</div>
+                <div class="score-value" id="accuracy">0%</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Remaining</div>
+                <div class="score-value" id="remaining">10</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="scenarios-bank">
+                <h3>Incident Scenarios</h3>
+                <div id="scenariosContainer"></div>
+            </div>
+            
+            <div class="categories-area">
+                <div class="category-zone never-event" data-category="never-event">
+                    <h3>Never Event</h3>
+                    <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Serious, preventable, strong barriers available</p>
+                </div>
+                
+                <div class="category-zone serious-incident" data-category="serious-incident">
+                    <h3>Serious Incident</h3>
+                    <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">High harm/risk requiring investigation</p>
+                </div>
+                
+                <div class="category-zone near-miss" data-category="near-miss">
+                    <h3>Near Miss</h3>
+                    <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Caught before harm occurred</p>
+                </div>
+                
+                <div class="category-zone safeguarding" data-category="safeguarding">
+                    <h3>Safeguarding Issue</h3>
+                    <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Social care protection concerns</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn btn-reset" onclick="resetActivity()">Reset All</button>
+        </div>
+        
+        <div class="completion-message" id="completionMessage">
+            <h2>Excellent Work!</h2>
+            <p>You've categorized all scenarios. Review your results above and consider: What patterns do you notice? Which categories were easiest/hardest to identify? How does this inform your understanding of risk in practice?</p>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+    <div class="feedback-popup" id="feedbackPopup">
+        <div class="feedback-title" id="feedbackTitle"></div>
+        <div class="feedback-text" id="feedbackText"></div>
+        <button class="close-btn" onclick="closeFeedback()">Continue</button>
+    </div>
+    
+    <script>
+        const scenarios = [
+            {
+                id: 1,
+                text: "Wrong-site surgery performed on patient's left knee instead of right knee",
+                correct: "never-event",
+                feedback: {
+                    correct: "Correct! Wrong-site surgery is a classic Never Event. It's entirely preventable with proper surgical safety checklists, site marking, and team time-outs. Strong barriers exist (WHO Surgical Safety Checklist) making this inexcusable.",
+                    incorrect: "Not quite. This is actually a Never Event - the most serious category. Wrong-site surgery is entirely preventable with proper protocols like surgical safety checklists and site marking."
+                }
+            },
+            {
+                id: 2,
+                text: "Resident with dementia has unexplained bruises on arms, staff dismiss family concerns as 'confusion'",
+                correct: "safeguarding",
+                feedback: {
+                    correct: "Correct! This is a safeguarding concern. Unexplained injuries combined with dismissed concerns triggers safeguarding protocols. The resident's vulnerability (dementia) and power imbalance (staff dismissing family) are key indicators.",
+                    incorrect: "This is a Safeguarding Issue, not a clinical incident. The unexplained bruises, vulnerable resident, and dismissed concerns all trigger adult protection procedures under the Care Act 2014."
+                }
+            },
+            {
+                id: 3,
+                text: "Nurse catches medication error before administration - wrong patient's digoxin nearly given",
+                correct: "near-miss",
+                feedback: {
+                    correct: "Correct! This is a Near Miss. The error was caught before reaching the patient, so no harm occurred. However, it reveals system weaknesses that need addressing before a similar error causes actual harm.",
+                    incorrect: "This is a Near Miss because the error was caught before harm occurred. Near misses are valuable learning opportunities - they show where system weaknesses exist without actual patient harm."
+                }
+            },
+            {
+                id: 4,
+                text: "Post-operative infection requiring ICU admission and extended hospital stay",
+                correct: "serious-incident",
+                feedback: {
+                    correct: "Correct! This is a Serious Incident. Post-surgical infections causing significant harm require structured investigation. While not entirely preventable (unlike Never Events), they need RCA to understand contributing factors and improve practice.",
+                    incorrect: "This is a Serious Incident requiring investigation. It caused significant harm but isn't a Never Event because some level of post-surgical infection risk exists despite best practice. RCA would explore if preventable factors contributed."
+                }
+            },
+            {
+                id: 5,
+                text: "Retained surgical swab discovered in patient during follow-up scan",
+                correct: "never-event",
+                feedback: {
+                    correct: "Correct! Retained foreign objects after surgery are Never Events. Surgical count procedures and swab tracking systems provide strong barriers. This should never happen with proper protocols followed.",
+                    incorrect: "This is a Never Event. Retained surgical swabs/instruments are entirely preventable with proper counting protocols and swab tracking systems. Strong barriers exist, making this inexcusable."
+                }
+            },
+            {
+                id: 6,
+                text: "Care home resident missed three medication doses over weekend due to agency staff unfamiliarity",
+                correct: "serious-incident",
+                feedback: {
+                    correct: "Correct! This is a Serious Incident requiring investigation. Medication omissions causing potential harm need RCA to understand handover failures, staffing issues, and system gaps that allowed this.",
+                    incorrect: "This is a Serious Incident. While medication errors can be Never Events in specific circumstances (e.g., insulin abbreviation), this scenario involves systemic failures in handover and staffing requiring investigation."
+                }
+            },
+            {
+                id: 7,
+                text: "Financial exploitation suspected - resident's bank account accessed by staff member",
+                correct: "safeguarding",
+                feedback: {
+                    correct: "Correct! This is a safeguarding issue involving financial abuse. Even suspected exploitation triggers adult protection procedures. The power imbalance (staff access to vulnerable resident's finances) is a key concern.",
+                    incorrect: "This is a Safeguarding Issue, specifically financial abuse. Any suspected exploitation of vulnerable adults triggers adult protection procedures under safeguarding frameworks, regardless of proof at this stage."
+                }
+            },
+            {
+                id: 8,
+                text: "Pharmacy flags potential drug interaction before dispensing, prescription clarified with doctor",
+                correct: "near-miss",
+                feedback: {
+                    correct: "Correct! This is a Near Miss. The safety system worked - pharmacy caught the error before it reached the patient. This is exactly what near miss reporting should capture: where systems successfully prevented harm.",
+                    incorrect: "This is a Near Miss. The error was caught by the system (pharmacy check) before harm occurred. Near misses show where safety nets work, but also reveal that the error originated somewhere upstream."
+                }
+            },
+            {
+                id: 9,
+                text: "Patient fall from bed resulting in hip fracture requiring surgery",
+                correct: "serious-incident",
+                feedback: {
+                    correct: "Correct! This is a Serious Incident. While falls aren't entirely preventable (unlike Never Events), those resulting in serious harm like fractures require investigation to understand contributing factors and prevention opportunities.",
+                    incorrect: "This is a Serious Incident requiring RCA. Patient falls resulting in fractures need investigation to understand risk assessment, environment, staffing, and equipment factors. Not a Never Event as falls aren't entirely preventable."
+                }
+            },
+            {
+                id: 10,
+                text: "Self-neglect concerns - resident refusing meals, personal care deteriorating, living in unsafe conditions",
+                correct: "safeguarding",
+                feedback: {
+                    correct: "Correct! This is a safeguarding issue. Self-neglect is one of the six abuse categories in the Care Act 2014. Even when the person refuses help, safeguarding procedures apply to assess capacity and ensure appropriate support.",
+                    incorrect: "This is a Safeguarding Issue. Self-neglect is explicitly recognized in the Care Act 2014 as a safeguarding concern. Mental capacity assessment and appropriate intervention are required even when the person refuses help."
+                }
+            }
+        ];
+        
+        let stats = {
+            categorized: 0,
+            correct: 0
+        };
+        
+        function initActivity() {
+            const container = document.getElementById('scenariosContainer');
+            scenarios.forEach(scenario => {
+                const card = document.createElement('div');
+                card.className = 'scenario-card';
+                card.draggable = true;
+                card.dataset.id = scenario.id;
+                card.dataset.correct = scenario.correct;
+                card.innerHTML = `<div class="scenario-text">${scenario.text}</div>`;
+                
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                
+                container.appendChild(card);
+            });
+            
+            document.querySelectorAll('.category-zone').forEach(zone => {
+                zone.addEventListener('dragover', handleDragOver);
+                zone.addEventListener('dragleave', handleDragLeave);
+                zone.addEventListener('drop', handleDrop);
+            });
+        }
+        
+        let draggedElement = null;
+        
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+        
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('drag-over');
+            return false;
+        }
+        
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            e.preventDefault();
+            
+            const zone = e.currentTarget;
+            zone.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const scenarioId = parseInt(draggedElement.dataset.id);
+                const correctCategory = draggedElement.dataset.correct;
+                const droppedCategory = zone.dataset.category;
+                const scenario = scenarios.find(s => s.id === scenarioId);
+                
+                const isCorrect = correctCategory === droppedCategory;
+                
+                const droppedCard = document.createElement('div');
+                droppedCard.className = 'dropped-scenario';
+                droppedCard.innerHTML = `
+                    ${draggedElement.querySelector('.scenario-text').innerHTML}
+                    <span class="feedback-badge ${isCorrect ? 'correct' : 'incorrect'}">
+                        ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                    </span>
+                `;
+                
+                zone.appendChild(droppedCard);
+                draggedElement.remove();
+                
+                stats.categorized++;
+                if (isCorrect) stats.correct++;
+                
+                updateStats();
+                showFeedback(isCorrect, scenario, droppedCategory);
+                
+                if (stats.categorized === scenarios.length) {
+                    setTimeout(() => {
+                        document.getElementById('completionMessage').classList.add('show');
+                    }, 500);
+                }
+            }
+            
+            return false;
+        }
+        
+        function showFeedback(isCorrect, scenario, droppedCategory) {
+            const popup = document.getElementById('feedbackPopup');
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('feedbackTitle');
+            const text = document.getElementById('feedbackText');
+            
+            title.textContent = isCorrect ? '✓ Correct!' : '✗ Not Quite';
+            title.className = 'feedback-title ' + (isCorrect ? 'correct' : 'incorrect');
+            text.textContent = isCorrect ? scenario.feedback.correct : scenario.feedback.incorrect;
+            
+            popup.classList.add('show');
+            overlay.classList.add('show');
+        }
+        
+        function closeFeedback() {
+            document.getElementById('feedbackPopup').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+        
+        function updateStats() {
+            document.getElementById('categorized').textContent = stats.categorized;
+            document.getElementById('correct').textContent = stats.correct;
+            document.getElementById('remaining').textContent = scenarios.length - stats.categorized;
+            
+            const accuracy = stats.categorized > 0 ? Math.round((stats.correct / stats.categorized) * 100) : 0;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+        }
+        
+        function resetActivity() {
+            stats = { categorized: 0, correct: 0 };
+            updateStats();
+            
+            document.querySelectorAll('.category-zone').forEach(zone => {
+                const dropped = zone.querySelectorAll('.dropped-scenario');
+                dropped.forEach(card => card.remove());
+            });
+            
+            document.getElementById('scenariosContainer').innerHTML = '';
+            document.getElementById('completionMessage').classList.remove('show');
+            
+            initActivity();
+        }
+        
+        initActivity();
+    </script>
+</body>
+</html>

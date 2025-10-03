@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Narrative Detective - Hidden Risk Revealer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        .scenario-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .scenario-btn {
+            padding: 12px 24px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .scenario-btn:hover {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+        
+        .scenario-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #ecf0f1;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .progress-step.active {
+            background: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .progress-step.completed {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .content-area {
+            min-height: 500px;
+        }
+        
+        .metric-display {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-display .big-stat {
+            font-size: 96px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .metric-display .stat-label {
+            font-size: 24px;
+            opacity: 0.95;
+        }
+        
+        .survey-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .survey-question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 2px solid #ddd;
+        }
+        
+        .radio-option.selected {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+        
+        .radio-option input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .radio-option label {
+            font-size: 16px;
+            color: #2c3e50;
+        }
+        
+        .narrative-container {
+            background: #fff3cd;
+            border: 3px solid #f39c12;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .narrative-intro {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .narrative-intro h3 {
+            color: #d68910;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .narrative-intro p {
+            color: #856404;
+            font-size: 16px;
+        }
+        
+        .narrative-text {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 17px;
+            line-height: 1.8;
+            color: #2c3e50;
+            font-style: italic;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .highlight-instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .highlight-instructions h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-instructions p {
+            color: #34495e;
+            line-height: 1.6;
+        }
+        
+        .categorization-area {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .categorization-area h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .risk-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .risk-checkbox {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .risk-checkbox:hover {
+            border-color: #3498db;
+            background: #e8f4f8;
+        }
+        
+        .risk-checkbox.selected {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+        
+        .risk-checkbox input[type="checkbox"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .risk-checkbox label {
+            font-size: 15px;
+            color: #2c3e50;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .comparison-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-panel h3 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .comparison-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .comparison-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .comparison-stat .percentage {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .comparison-stat .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .insight-box {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid white;
+        }
+        
+        .insight-box h4 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .insight-box p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Patient Narrative Detective</h1>
+        <p class="subtitle">Uncover hidden risks that satisfaction surveys miss</p>
+        
+        <div class="scenario-selector">
+            <button class="scenario-btn active" onclick="loadScenario(0)">Scenario 1: Discharge</button>
+            <button class="scenario-btn" onclick="loadScenario(1)">Scenario 2: PTSD Trigger</button>
+            <button class="scenario-btn" onclick="loadScenario(2)">Scenario 3: Transport</button>
+            <button class="scenario-btn" onclick="loadScenario(3)">Scenario 4: Power Dynamic</button>
+        </div>
+        
+        <div class="progress-indicator">
+            <div class="progress-step active" id="step1Indicator">
+                <span class="step-number">1</span>
+                <span>Metric</span>
+            </div>
+            <div class="progress-step" id="step2Indicator">
+                <span class="step-number">2</span>
+                <span>Survey</span>
+            </div>
+            <div class="progress-step" id="step3Indicator">
+                <span class="step-number">3</span>
+                <span>Narrative</span>
+            </div>
+            <div class="progress-step" id="step4Indicator">
+                <span class="step-number">4</span>
+                <span>Identify Risks</span>
+            </div>
+            <div class="progress-step" id="step5Indicator">
+                <span class="step-number">5</span>
+                <span>Compare</span>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <div id="step1" class="fade-in">
+                <div class="metric-display">
+                    <div class="big-stat" id="metricValue">85%</div>
+                    <div class="stat-label" id="metricLabel">of patients satisfied with discharge process</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="nextStep(2)">See Survey Response</button>
+                </div>
+            </div>
+            
+            <div id="step2" class="hidden">
+                <div class="survey-card">
+                    <div class="survey-question" id="surveyQuestion">How satisfied were you with your discharge from hospital?</div>
+                    <div class="radio-option selected">
+                        <input type="radio" id="satisfied" name="satisfaction" checked disabled>
+                        <label for="satisfied">Very satisfied</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="neutral" name="satisfaction" disabled>
+                        <label for="neutral">Neither satisfied nor dissatisfied</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="dissatisfied" name="satisfaction" disabled>
+                        <label for="dissatisfied">Dissatisfied</label>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #7f8c8d; font-size: 16px; margin-bottom: 20px;">
+                    This looks good, right? But what if we heard the patient's full story?
+                </p>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="nextStep(1)">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(3)">Hear the Full Story</button>
+                </div>
+            </div>
+            
+            <div id="step3" class="hidden">
+                <div class="narrative-container">
+                    <div class="narrative-intro">
+                        <h3>What the Patient Actually Said:</h3>
+                        <p>Read the patient's narrative below</p>
+                    </div>
+                    <div class="narrative-text" id="narrativeText">
+                        Loading narrative...
+                    </div>
+                </div>
+                <div class="highlight-instructions">
+                    <h4>What do you notice?</h4>
+                    <p>The metric said 85% satisfied, and the survey showed "very satisfied." But reading between the lines of this narrative, what hidden risks can you identify? Continue to categorize the risks you've spotted.</p>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="nextStep(2)">Back</button>
+                    <button class="btn btn-primary" onclick="nextStep(4)">Identify Hidden Risks</button>
+                </div>
+            </div>
+            
+            <div id="step4" class="hidden">
+                <div class="categorization-area">
+                    <h3>What hidden risks did this narrative reveal?</h3>
+                    <p style="color: #7f8c8d; margin-bottom: 20px;">Select all risk types you identified in the patient's story:</p>
+                    <div class="risk-checkboxes" id="riskCheckboxes">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="nextStep(3)">Back</button>
+                    <button class="btn btn-success" onclick="submitAnalysis()">Submit & Compare with Peers</button>
+                </div>
+            </div>
+            
+            <div id="step5" class="hidden">
+                <div class="comparison-panel">
+                    <h3>How Your Analysis Compares</h3>
+                    <div class="comparison-stats" id="comparisonStats">
+                    </div>
+                    <div class="insight-box" id="insightBox">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="loadScenario(currentScenario)">Try This Scenario Again</button>
+                    <button class="btn btn-primary" onclick="loadNextScenario()">Next Scenario</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const scenarios = [
+            {
+                id: 0,
+                name: "Discharge Confusion",
+                metric: "85%",
+                metricLabel: "of patients satisfied with discharge process",
+                surveyQuestion: "How satisfied were you with your discharge from hospital?",
+                narrative: "I smiled and said everything was fine because I didn't want to seem ungrateful. They were all so busy and doing their best. But honestly, I had no idea what medications to take when I got home. The bag they gave me had no instructions I could understand—lots of big medical words. I tried to ask questions but the doctor was rushed and I felt embarrassed for not understanding. I'm worried I'll take something wrong. My daughter lives two hours away so I can't ask her to check every day. I've just been taking what looks familiar and hoping for the best.",
+                riskTypes: [
+                    { id: "health-literacy", label: "Health Literacy / Communication Barrier", peerPercent: 92, isKey: true },
+                    { id: "power-dynamic", label: "Power Dynamic / Fear of Speaking Up", peerPercent: 78, isKey: true },
+                    { id: "social-isolation", label: "Social Isolation / Lack of Support", peerPercent: 65, isKey: true },
+                    { id: "medication-error", label: "Medication Error Risk", peerPercent: 88, isKey: true },
+                    { id: "sensory", label: "Sensory / Environmental Issue", peerPercent: 12, isKey: false },
+                    { id: "access", label: "Access / Transport Barrier", peerPercent: 8, isKey: false }
+                ],
+                insight: "This narrative reveals multiple hidden risks that the satisfaction score completely missed. The patient self-censored due to feeling grateful and not wanting to burden busy staff (power dynamic). Health literacy gaps mean medication instructions weren't understood, creating serious safety risk. Social isolation (daughter lives far away) compounds the problem. Standard discharge metrics captured none of this."
+            },
+            {
+                id: 1,
+                name: "PTSD Trigger",
+                metric: "78%",
+                metricLabel: "of patients reported adequate sleep during hospital stay",
+                surveyQuestion: "How would you rate your ability to sleep during your hospital stay?",
+                narrative: "The constant beeping of the machines triggered something in me. I'm a veteran and those sounds—the alarms, the beeps—they brought me right back. I couldn't sleep for three nights. My heart was racing every time an alarm went off. I was too embarrassed to say anything because I know the machines are saving lives, they're just doing their job. But I was exhausted and the lack of sleep made my pain worse. One nurse noticed I wasn't sleeping and offered sleeping pills, but medication wasn't the problem. The sounds were the problem. I just suffered through it.",
+                riskTypes: [
+                    { id: "sensory", label: "Sensory / Environmental Issue", peerPercent: 95, isKey: true },
+                    { id: "mental-health", label: "Mental Health / Trauma Impact", peerPercent: 89, isKey: true },
+                    { id: "power-dynamic", label: "Power Dynamic / Fear of Speaking Up", peerPercent: 71, isKey: true },
+                    { id: "communication", label: "Communication Breakdown", peerPercent: 68, isKey: true },
+                    { id: "medication-error", label: "Medication Error Risk", peerPercent: 15, isKey: false },
+                    { id: "access", label: "Access / Transport Barrier", peerPercent: 5, isKey: false }
+                ],
+                insight: "Environmental factors affecting recovery are invisible to standard sleep metrics. The patient didn't report the real problem (PTSD trigger from sounds) because they felt embarrassed and didn't want to seem 'difficult.' Staff offered a medical solution (sleeping pills) without understanding the root cause. This shows how metrics can miss trauma-informed care needs and how power dynamics prevent patients from voicing true concerns."
+            },
+            {
+                id: 2,
+                name: "Transport Barrier",
+                metric: "68%",
+                metricLabel: "of patients attended their follow-up appointments",
+                surveyQuestion: "Did you attend your scheduled follow-up appointment?",
+                narrative: "They scheduled my appointment for 9am. I wanted to go, I really did. But the first bus from my estate doesn't get to the hospital until 10:30am. I tried to explain this when they were booking it, but the receptionist said 9am was the only slot available that week. I've now missed three appointments and I got a letter saying I'm 'non-compliant' and might be discharged from the service. I can't afford a taxi—I'm on benefits. My daughter could drive me but she works during the day and can't take time off or she'll lose pay. No one ever asked me about transport. They just assumed I could get there.",
+                riskTypes: [
+                    { id: "access", label: "Access / Transport Barrier", peerPercent: 96, isKey: true },
+                    { id: "socioeconomic", label: "Socioeconomic Disadvantage", peerPercent: 88, isKey: true },
+                    { id: "system-rigidity", label: "System Inflexibility", peerPercent: 82, isKey: true },
+                    { id: "communication", label: "Communication Breakdown", peerPercent: 75, isKey: true },
+                    { id: "power-dynamic", label: "Power Dynamic / Blame", peerPercent: 70, isKey: true },
+                    { id: "health-literacy", label: "Health Literacy Barrier", peerPercent: 18, isKey: false }
+                ],
+                insight: "This patient is labeled 'non-compliant' when the real issue is structural inequality. Transport poverty (no car, can't afford taxi, bus schedule doesn't align) creates a barrier the health system doesn't accommodate. The system's inflexibility (only one appointment slot) and failure to ask about transport perpetuates the problem. The 'non-compliant' label blames the victim rather than addressing systemic barriers. Metrics count attendance but not reasons for non-attendance."
+            },
+            {
+                id: 3,
+                name: "Power Dynamic & Fear",
+                metric: "91%",
+                metricLabel: "of care home residents satisfied with care received",
+                surveyQuestion: "How satisfied are you with the care you receive?",
+                narrative: "What am I supposed to say? If I complain, they might treat me worse. I've seen it happen to others—you become 'difficult' and then staff avoid you or rush through your care. So yes, I said I'm satisfied on the form. But the truth is, sometimes I wait an hour for help to the toilet because they're understaffed. I've had accidents because I couldn't wait any longer. It's humiliating. And one of the night staff is quite rough when they help me dress, like they're annoyed at me for needing help. But who would I even tell? The manager did the survey. I'm not risking making things worse. I just keep my head down and try not to be a bother.",
+                riskTypes: [
+                    { id: "power-dynamic", label: "Power Dynamic / Fear of Retaliation", peerPercent: 97, isKey: true },
+                    { id: "safeguarding", label: "Potential Safeguarding Concern", peerPercent: 85, isKey: true },
+                    { id: "dignity", label: "Dignity & Respect Compromised", peerPercent: 92, isKey: true },
+                    { id: "staffing", label: "Understaffing Impact", peerPercent: 78, isKey: true },
+                    { id: "survey-validity", label: "Survey Methodology Flaw", peerPercent: 88, isKey: true },
+                    { id: "access", label: "Access / Transport Barrier", peerPercent: 8, isKey: false }
+                ],
+                insight: "This narrative exposes how satisfaction surveys can be fundamentally flawed when conducted without addressing power imbalances. The resident fears retaliation, has witnessed others being labeled 'difficult,' and knows the manager conducted the survey—completely invalidating the data. Hidden beneath the 91% satisfaction are potential safeguarding concerns (rough handling), dignity violations (incontinence due to waits), and systemic understaffing. This is why co-produced, independently collected narratives are essential—especially for vulnerable populations."
+            }
+        ];
+        
+        let currentScenario = 0;
+        let currentStep = 1;
+        let selectedRisks = [];
+        
+        function loadScenario(index) {
+            currentScenario = index;
+            currentStep = 1;
+            selectedRisks = [];
+            
+            document.querySelectorAll('.scenario-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+            
+            const scenario = scenarios[index];
+            
+            document.getElementById('metricValue').textContent = scenario.metric;
+            document.getElementById('metricLabel').textContent = scenario.metricLabel;
+            document.getElementById('surveyQuestion').textContent = scenario.surveyQuestion;
+            document.getElementById('narrativeText').textContent = scenario.narrative;
+            
+            const checkboxContainer = document.getElementById('riskCheckboxes');
+            checkboxContainer.innerHTML = '';
+            scenario.riskTypes.forEach(risk => {
+                const div = document.createElement('div');
+                div.className = 'risk-checkbox';
+                div.onclick = () => toggleRisk(risk.id, div);
+                div.innerHTML = `
+                    <input type="checkbox" id="risk-${risk.id}" />
+                    <label for="risk-${risk.id}">${risk.label}</label>
+                `;
+                checkboxContainer.appendChild(div);
+            });
+            
+            nextStep(1);
+        }
+        
+        function toggleRisk(riskId, element) {
+            const checkbox = element.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            element.classList.toggle('selected', checkbox.checked);
+            
+            if (checkbox.checked) {
+                if (!selectedRisks.includes(riskId)) {
+                    selectedRisks.push(riskId);
+                }
+            } else {
+                selectedRisks = selectedRisks.filter(id => id !== riskId);
+            }
+        }
+        
+        function nextStep(step) {
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById('step' + i).classList.add('hidden');
+                document.getElementById('step' + i + 'Indicator').classList.remove('active', 'completed');
+            }
+            
+            document.getElementById('step' + step).classList.remove('hidden');
+            document.getElementById('step' + step).classList.add('fade-in');
+            document.getElementById('step' + step + 'Indicator').classList.add('active');
+            
+            for (let i = 1; i < step; i++) {
+                document.getElementById('step' + i + 'Indicator').classList.add('completed');
+            }
+            
+            currentStep = step;
+        }
+        
+        function submitAnalysis() {
+            const scenario = scenarios[currentScenario];
+            const keyRisks = scenario.riskTypes.filter(r => r.isKey).map(r => r.id);
+            const matchedKey = selectedRisks.filter(id => keyRisks.includes(id));
+            const missedKey = keyRisks.filter(id => !selectedRisks.includes(id));
+            
+            const statsHtml = matchedKey.map(id => {
+                const risk = scenario.riskTypes.find(r => r.id === id);
+                return `
+                    <div class="comparison-stat">
+                        <div class="percentage">${risk.peerPercent}%</div>
+                        <div class="label">of peers also identified:<br><strong>${risk.label}</strong></div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('comparisonStats').innerHTML = statsHtml || 
+                '<p style="text-align: center; font-size: 18px;">You didn\'t identify any of the key hidden risks. Review the narrative again to spot what metrics missed.</p>';
+            
+            let insightHtml = `<h4>Analysis:</h4><p>${scenario.insight}</p>`;
+            
+            if (missedKey.length > 0) {
+                const missedLabels = missedKey.map(id => {
+                    const risk = scenario.riskTypes.find(r => r.id === id);
+                    return risk.label;
+                }).join(', ');
+                insightHtml += `<p style="margin-top: 15px;"><strong>Key risks you missed:</strong> ${missedLabels}. Consider what these reveal about limitations of standard metrics and importance of patient narratives.</p>`;
+            }
+            
+            if (matchedKey.length === keyRisks.length) {
+                insightHtml += `<p style="margin-top: 15px; color: #d4edda; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 8px;"><strong>Excellent work!</strong> You identified all the key hidden risks that satisfaction metrics completely missed.</p>`;
+            }
+            
+            document.getElementById('insightBox').innerHTML = insightHtml;
+            
+            nextStep(5);
+        }
+        
+        function loadNextScenario() {
+            const nextIndex = (currentScenario + 1) % scenarios.length;
+            loadScenario(nextIndex);
+        }
+        
+        loadScenario(0);
+    </script>
+</body>
+</html>

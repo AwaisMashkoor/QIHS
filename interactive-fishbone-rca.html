@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Fishbone RCA Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .scenario-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .scenario-box h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        
+        .scenario-box p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        
+        .instructions {
+            background: #e8f4f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .instructions p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .toggle-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #95a5a6;
+            transition: 0.4s;
+            border-radius: 30px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .toggle-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: #229954;
+            transform: translateY(-2px);
+        }
+        
+        .btn-reset {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #7f8c8d;
+        }
+        
+        .main-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .factors-bank {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+        
+        .factors-bank h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            position: sticky;
+            top: 0;
+            background: #f8f9fa;
+            padding: 10px 0;
+            z-index: 10;
+        }
+        
+        .factor-card {
+            background: white;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+            cursor: move;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .factor-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+        
+        .factor-card.used {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        .factor-card.equity-only {
+            border-left-color: #f39c12;
+            background: #fff8e7;
+        }
+        
+        .fishbone-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #ddd;
+            position: relative;
+            min-height: 600px;
+        }
+        
+        .fishbone-svg {
+            width: 100%;
+            height: 550px;
+        }
+        
+        .branch-zone {
+            position: absolute;
+            border: 2px dashed transparent;
+            border-radius: 8px;
+            padding: 10px;
+            min-height: 80px;
+            transition: all 0.3s;
+        }
+        
+        .branch-zone.drag-over {
+            background: rgba(52, 152, 219, 0.1);
+            border-color: #3498db;
+        }
+        
+        .branch-zone h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .dropped-factor {
+            background: white;
+            padding: 8px;
+            margin-bottom: 6px;
+            border-radius: 6px;
+            border-left: 4px solid;
+            font-size: 13px;
+            line-height: 1.3;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .dropped-factor .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .dropped-factor:hover .remove-btn {
+            opacity: 1;
+        }
+        
+        .people-zone { top: 50px; left: 80px; width: 180px; }
+        .people-zone .dropped-factor { border-left-color: #3498db; }
+        
+        .process-zone { top: 50px; left: 300px; width: 180px; }
+        .process-zone .dropped-factor { border-left-color: #9b59b6; }
+        
+        .equipment-zone { top: 50px; left: 520px; width: 180px; }
+        .equipment-zone .dropped-factor { border-left-color: #e67e22; }
+        
+        .environment-zone { bottom: 50px; left: 80px; width: 180px; }
+        .environment-zone .dropped-factor { border-left-color: #27ae60; }
+        
+        .communication-zone { bottom: 50px; left: 300px; width: 180px; }
+        .communication-zone .dropped-factor { border-left-color: #e74c3c; }
+        
+        .organization-zone { bottom: 50px; left: 520px; width: 180px; }
+        .organization-zone .dropped-factor { border-left-color: #95a5a6; }
+        
+        .outcome-box {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #c0392b;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+            width: 150px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .analysis-panel {
+            display: none;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            border-left: 5px solid #27ae60;
+        }
+        
+        .analysis-panel.show {
+            display: block;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .analysis-panel h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .comparison-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .comparison-section h4 {
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        .factor-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #ecf0f1;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .factor-item.matched {
+            background: #d5f4e6;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .factor-item.missed {
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .equity-highlight {
+            background: #fff3cd;
+            border: 2px solid #f39c12;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .equity-highlight h4 {
+            color: #d68910;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        .equity-highlight p {
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+        
+        .stats-box {
+            display: flex;
+            justify-content: space-around;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .equity-badge {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Build Your Own RCA - Interactive Fishbone</h1>
+        
+        <div class="scenario-box">
+            <h2>Scenario: Resident Fall with Hip Fracture</h2>
+            <p>An 82-year-old resident with dementia fell from their bed at 3am in a care home, sustaining a hip fracture requiring surgery. Staff found the resident on the floor during routine checks. This is the third fall in this care home in the past month.</p>
+        </div>
+        
+        <div class="instructions">
+            <p><strong>Your task:</strong> Drag contributing factors from the left panel onto the fishbone diagram branches. Think about what might have contributed to this fall across all six domains. Toggle "Equity Lens" to reveal additional factors often missed in standard RCA. When ready, click "Show Expert Analysis" to compare your analysis with a professional RCA and see what you might have overlooked.</p>
+        </div>
+        
+        <div class="controls">
+            <div class="toggle-container">
+                <span class="toggle-label">Standard RCA</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="equityToggle" onchange="toggleEquityFactors()">
+                    <span class="slider"></span>
+                </label>
+                <span class="toggle-label">Equity Lens</span>
+            </div>
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-submit" onclick="showAnalysis()">Show Expert Analysis</button>
+                <button class="btn btn-reset" onclick="resetDiagram()">Reset Diagram</button>
+            </div>
+        </div>
+        
+        <div class="main-layout">
+            <div class="factors-bank">
+                <h3>Contributing Factors</h3>
+                <div id="factorsContainer"></div>
+            </div>
+            
+            <div class="fishbone-container">
+                <svg class="fishbone-svg" viewBox="0 0 800 550">
+                    <!-- Main spine -->
+                    <line x1="100" y1="275" x2="700" y2="275" stroke="#2c3e50" stroke-width="4"/>
+                    <polygon points="700,275 685,268 685,282" fill="#2c3e50"/>
+                    
+                    <!-- Top branches -->
+                    <line x1="170" y1="275" x2="140" y2="180" stroke="#3498db" stroke-width="3"/>
+                    <circle cx="140" cy="180" r="4" fill="#3498db"/>
+                    
+                    <line x1="340" y1="275" x2="340" y2="180" stroke="#9b59b6" stroke-width="3"/>
+                    <circle cx="340" cy="180" r="4" fill="#9b59b6"/>
+                    
+                    <line x1="510" y1="275" x2="540" y2="180" stroke="#e67e22" stroke-width="3"/>
+                    <circle cx="540" cy="180" r="4" fill="#e67e22"/>
+                    
+                    <!-- Bottom branches -->
+                    <line x1="170" y1="275" x2="140" y2="370" stroke="#27ae60" stroke-width="3"/>
+                    <circle cx="140" cy="370" r="4" fill="#27ae60"/>
+                    
+                    <line x1="340" y1="275" x2="340" y2="370" stroke="#e74c3c" stroke-width="3"/>
+                    <circle cx="340" cy="370" r="4" fill="#e74c3c"/>
+                    
+                    <line x1="510" y1="275" x2="540" y2="370" stroke="#95a5a6" stroke-width="3"/>
+                    <circle cx="540" cy="370" r="4" fill="#95a5a6"/>
+                </svg>
+                
+                <div class="branch-zone people-zone" data-branch="people">
+                    <h4>PEOPLE</h4>
+                </div>
+                
+                <div class="branch-zone process-zone" data-branch="process">
+                    <h4>PROCESS</h4>
+                </div>
+                
+                <div class="branch-zone equipment-zone" data-branch="equipment">
+                    <h4>EQUIPMENT</h4>
+                </div>
+                
+                <div class="branch-zone environment-zone" data-branch="environment">
+                    <h4>ENVIRONMENT</h4>
+                </div>
+                
+                <div class="branch-zone communication-zone" data-branch="communication">
+                    <h4>COMMUNICATION</h4>
+                </div>
+                
+                <div class="branch-zone organization-zone" data-branch="organization">
+                    <h4>ORGANIZATION</h4>
+                </div>
+                
+                <div class="outcome-box">
+                    Fall with<br>Hip Fracture<br>Requiring Surgery
+                </div>
+            </div>
+        </div>
+        
+        <div class="analysis-panel" id="analysisPanel">
+            <h3>Expert RCA Analysis & Comparison</h3>
+            
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="stat-value" id="factorsPlaced">0</div>
+                    <div class="stat-label">Factors You Identified</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="factorsMatched">0</div>
+                    <div class="stat-label">Matched Expert Analysis</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="factorsMissed">0</div>
+                    <div class="stat-label">Critical Factors Missed</div>
+                </div>
+            </div>
+            
+            <div class="comparison-grid">
+                <div class="comparison-section">
+                    <h4>Factors You Identified</h4>
+                    <div id="studentFactorsList"></div>
+                </div>
+                
+                <div class="comparison-section">
+                    <h4>Expert Analysis - Key Factors</h4>
+                    <div id="expertFactorsList"></div>
+                </div>
+            </div>
+            
+            <div class="equity-highlight">
+                <h4>What the Equity Lens Reveals</h4>
+                <p>Standard RCA often focuses on visible, documented failures. An equity-enhanced approach asks: <strong>Who was most at risk?</strong> This resident had dementia (communication barriers), was likely on multiple medications (polypharmacy common in older adults), and the fall happened at night when staffing is lowest. Equity lens also questions: Are fall prevention strategies designed for cognitively intact residents? Do risk assessments account for progressive conditions? Is the care home adequately resourced to meet complex needs? These questions surface systemic inequities that technical fixes alone won't address.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const factors = [
+            // Standard factors
+            { id: 1, text: "Night shift understaffing - one carer for 30 residents", branches: ["people", "organization"], equity: false, expert: true },
+            { id: 2, text: "No bed rails due to restraint concerns", branches: ["equipment", "process"], equity: false, expert: true },
+            { id: 3, text: "Resident confused, wandering at night", branches: ["people"], equity: false, expert: false },
+            { id: 4, text: "Poor lighting in bedroom at night", branches: ["environment"], equity: false, expert: true },
+            { id: 5, text: "No pressure mat alarm beside bed", branches: ["equipment"], equity: false, expert: true },
+            { id: 6, text: "Falls risk assessment not updated after previous fall", branches: ["process"], equity: false, expert: true },
+            { id: 7, text: "Agency staff unfamiliar with resident's routine", branches: ["people", "communication"], equity: false, expert: true },
+            { id: 8, text: "Medication causing dizziness/confusion not reviewed", branches: ["process"], equity: false, expert: true },
+            { id: 9, text: "No handover of increased fall risk to night staff", branches: ["communication"], equity: false, expert: true },
+            { id: 10, text: "Call bell out of reach on bedside table", branches: ["equipment", "environment"], equity: false, expert: false },
+            { id: 11, text: "Slippery floor surface near bed", branches: ["environment"], equity: false, expert: false },
+            { id: 12, text: "Inadequate staff training on dementia care", branches: ["people", "organization"], equity: false, expert: true },
+            
+            // Equity-focused factors
+            { id: 13, text: "Care home in deprived area with chronic staff shortages", branches: ["organization"], equity: true, expert: true },
+            { id: 14, text: "Risk assessment tools designed for cognitively intact residents", branches: ["process"], equity: true, expert: true },
+            { id: 15, text: "Resident unable to advocate for needs due to dementia", branches: ["people", "communication"], equity: true, expert: true },
+            { id: 16, text: "Family concerns about understaffing previously dismissed", branches: ["communication", "organization"], equity: true, expert: true },
+            { id: 17, text: "Low-paid staff working multiple jobs, high turnover", branches: ["people", "organization"], equity: true, expert: true },
+            { id: 18, text: "Care home prioritizes efficiency over person-centered care", branches: ["organization"], equity: true, expert: true },
+            { id: 19, text: "No cognitive assessment informing care planning", branches: ["process"], equity: true, expert: false },
+            { id: 20, text: "Cultural assumption that confusion is 'just dementia'", branches: ["people", "organization"], equity: true, expert: true }
+        ];
+        
+        let placedFactors = [];
+        let equityMode = false;
+        
+        function initFactors() {
+            const container = document.getElementById('factorsContainer');
+            container.innerHTML = '';
+            
+            factors.forEach(factor => {
+                if (!factor.equity || equityMode) {
+                    const card = document.createElement('div');
+                    card.className = 'factor-card' + (factor.equity ? ' equity-only' : '');
+                    card.draggable = true;
+                    card.dataset.id = factor.id;
+                    card.innerHTML = factor.text + (factor.equity ? '<span class="equity-badge">EQUITY</span>' : '');
+                    
+                    if (!placedFactors.includes(factor.id)) {
+                        card.addEventListener('dragstart', handleDragStart);
+                        card.addEventListener('dragend', handleDragEnd);
+                    } else {
+                        card.classList.add('used');
+                        card.draggable = false;
+                    }
+                    
+                    container.appendChild(card);
+                }
+            });
+        }
+        
+        let draggedElement = null;
+        
+        function handleDragStart(e) {
+            draggedElement = e.target;
+            e.target.style.opacity = '0.5';
+        }
+        
+        function handleDragEnd(e) {
+            e.target.style.opacity = '1';
+        }
+        
+        document.querySelectorAll('.branch-zone').forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            
+            zone.addEventListener('dragleave', e => {
+                zone.classList.remove('drag-over');
+            });
+            
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                
+                if (draggedElement) {
+                    const factorId = parseInt(draggedElement.dataset.id);
+                    const factor = factors.find(f => f.id === factorId);
+                    const branch = zone.dataset.branch;
+                    
+                    const droppedItem = document.createElement('div');
+                    droppedItem.className = 'dropped-factor';
+                    droppedItem.dataset.factorId = factorId;
+                    droppedItem.innerHTML = `
+                        ${factor.text}
+                        <button class="remove-btn" onclick="removeFactor(${factorId}, '${branch}')">×</button>
+                    `;
+                    
+                    zone.appendChild(droppedItem);
+                    
+                    if (!placedFactors.includes(factorId)) {
+                        placedFactors.push(factorId);
+                    }
+                    
+                    initFactors();
+                }
+            });
+        });
+        
+        function removeFactor(factorId, branch) {
+            const zones = document.querySelectorAll('.branch-zone');
+            zones.forEach(zone => {
+                const items = zone.querySelectorAll('.dropped-factor');
+                items.forEach(item => {
+                    if (parseInt(item.dataset.factorId) === factorId) {
+                        item.remove();
+                    }
+                });
+            });
+            
+            placedFactors = placedFactors.filter(id => id !== factorId);
+            initFactors();
+        }
+        
+        function toggleEquityFactors() {
+            equityMode = document.getElementById('equityToggle').checked;
+            initFactors();
+        }
+        
+        function showAnalysis() {
+            const panel = document.getElementById('analysisPanel');
+            panel.classList.add('show');
+            
+            const expertFactors = factors.filter(f => f.expert).map(f => f.id);
+            const matched = placedFactors.filter(id => expertFactors.includes(id));
+            const missed = expertFactors.filter(id => !placedFactors.includes(id));
+            
+            document.getElementById('factorsPlaced').textContent = placedFactors.length;
+            document.getElementById('factorsMatched').textContent = matched.length;
+            document.getElementById('factorsMissed').textContent = missed.length;
+            
+            // Student factors list
+            const studentList = document.getElementById('studentFactorsList');
+            studentList.innerHTML = '';
+            placedFactors.forEach(id => {
+                const factor = factors.find(f => f.id === id);
+                const item = document.createElement('div');
+                item.className = 'factor-item ' + (expertFactors.includes(id) ? 'matched' : '');
+                item.textContent = factor.text;
+                studentList.appendChild(item);
+            });
+            
+            // Expert factors list
+            const expertList = document.getElementById('expertFactorsList');
+            expertList.innerHTML = '';
+            expertFactors.forEach(id => {
+                const factor = factors.find(f => f.id === id);
+                const item = document.createElement('div');
+                item.className = 'factor-item ' + (placedFactors.includes(id) ? 'matched' : 'missed');
+                item.textContent = factor.text;
+                expertList.appendChild(item);
+            });
+            
+            panel.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function resetDiagram() {
+            document.querySelectorAll('.dropped-factor').forEach(el => el.remove());
+            placedFactors = [];
+            document.getElementById('analysisPanel').classList.remove('show');
+            initFactors();
+        }
+        
+        initFactors();
+    </script>
+</body>
+</html>
