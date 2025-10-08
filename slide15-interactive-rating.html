@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity: Rating Current Practice Against NICE QS15</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .activity-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 22px;
+            opacity: 0.95;
+        }
+
+        .scenario-section {
+            background: #f8f9fa;
+            padding: 40px;
+            border-bottom: 3px solid #dee2e6;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .scenario-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .scenario-icon {
+            width: 50px;
+            height: 50px;
+            background: #e3f2fd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .scenario-text {
+            font-size: 20px;
+            line-height: 1.6;
+            color: #34495e;
+            background: #fef5e7;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .rating-section {
+            padding: 40px;
+        }
+
+        .rating-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .rating-item {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .rating-item:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .statement-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .statement-number {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .statement-1 { background: #e74c3c; }
+        .statement-2 { background: #3498db; }
+        .statement-3 { background: #27ae60; }
+        .statement-6 { background: #f39c12; }
+
+        .statement-title {
+            font-size: 22px;
+            color: #2c3e50;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .rating-option {
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rating-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #dee2e6;
+            background: white;
+            color: #7f8c8d;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 auto 10px;
+        }
+
+        .rating-button:hover {
+            transform: scale(1.1);
+        }
+
+        .rating-button.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .rating-label {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .rating-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            display: none;
+        }
+
+        .rating-feedback.show {
+            display: block;
+        }
+
+        .feedback-poor {
+            background: #ffeaa7;
+            border: 2px solid #fdcb6e;
+            color: #6c5ce7;
+        }
+
+        .feedback-good {
+            background: #81ecec;
+            border: 2px solid #00b894;
+            color: #00b894;
+        }
+
+        .discussion-section {
+            background: #e8f6ff;
+            padding: 40px;
+            margin: 40px;
+            border-radius: 15px;
+            display: none;
+        }
+
+        .discussion-section.show {
+            display: block;
+        }
+
+        .discussion-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .discussion-prompts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .prompt-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .prompt-question {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .prompt-hint {
+            font-size: 16px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        .submit-section {
+            padding: 40px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            border-radius: 50px;
+            font-size: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .results-visualization {
+            display: none;
+            padding: 40px;
+            background: white;
+        }
+
+        .results-visualization.show {
+            display: block;
+        }
+
+        .results-title {
+            font-size: 32px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .results-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 300px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .bar {
+            width: 80px;
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 10px 10px 0 0;
+            transition: all 0.5s ease;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .bar-label {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .timer {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-icon {
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="activity-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Activity: Rating Current Practice</h1>
+            <p>Assess this scenario against NICE QS15 Standards</p>
+        </div>
+
+        <!-- Scenario -->
+        <div class="scenario-section">
+            <div class="scenario-card">
+                <div class="scenario-title">
+                    <div class="scenario-icon">📋</div>
+                    <span>Scenario: Maria's Diabetes Appointment</span>
+                </div>
+                <div class="scenario-text">
+                    Maria, 68, arrives for her diabetes review. The nurse, running late, calls her "love" and immediately starts checking her feet without explaining why. When Maria tries to mention her recent dizziness, the nurse says "Let's focus on your diabetes today." Maria's daughter, who drove her, waits outside as the nurse didn't invite her in. The nurse presents Maria with three medication options using medical terms Maria doesn't understand, then asks her to choose quickly as other patients are waiting.
+                </div>
+            </div>
+        </div>
+
+        <!-- Rating Section -->
+        <div class="rating-section">
+            <div class="rating-grid">
+                <!-- Statement 1 Rating -->
+                <div class="rating-item">
+                    <div class="statement-header">
+                        <div class="statement-number statement-1">1</div>
+                        <div class="statement-title">Dignity, Respect & Compassion</div>
+                    </div>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating(1, 1, this)">
+                            <button class="rating-button">1</button>
+                            <div class="rating-label">Poor</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(1, 2, this)">
+                            <button class="rating-button">2</button>
+                            <div class="rating-label">Fair</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(1, 3, this)">
+                            <button class="rating-button">3</button>
+                            <div class="rating-label">Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(1, 4, this)">
+                            <button class="rating-button">4</button>
+                            <div class="rating-label">Very Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(1, 5, this)">
+                            <button class="rating-button">5</button>
+                            <div class="rating-label">Excellent</div>
+                        </div>
+                    </div>
+                    <div class="rating-feedback" id="feedback-1"></div>
+                </div>
+
+                <!-- Statement 2 Rating -->
+                <div class="rating-item">
+                    <div class="statement-header">
+                        <div class="statement-number statement-2">2</div>
+                        <div class="statement-title">Effective Interactions</div>
+                    </div>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating(2, 1, this)">
+                            <button class="rating-button">1</button>
+                            <div class="rating-label">Poor</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2, 2, this)">
+                            <button class="rating-button">2</button>
+                            <div class="rating-label">Fair</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2, 3, this)">
+                            <button class="rating-button">3</button>
+                            <div class="rating-label">Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2, 4, this)">
+                            <button class="rating-button">4</button>
+                            <div class="rating-label">Very Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(2, 5, this)">
+                            <button class="rating-button">5</button>
+                            <div class="rating-label">Excellent</div>
+                        </div>
+                    </div>
+                    <div class="rating-feedback" id="feedback-2"></div>
+                </div>
+
+                <!-- Statement 3 Rating -->
+                <div class="rating-item">
+                    <div class="statement-header">
+                        <div class="statement-number statement-3">3</div>
+                        <div class="statement-title">Family & Carer Involvement</div>
+                    </div>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating(3, 1, this)">
+                            <button class="rating-button">1</button>
+                            <div class="rating-label">Poor</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3, 2, this)">
+                            <button class="rating-button">2</button>
+                            <div class="rating-label">Fair</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3, 3, this)">
+                            <button class="rating-button">3</button>
+                            <div class="rating-label">Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3, 4, this)">
+                            <button class="rating-button">4</button>
+                            <div class="rating-label">Very Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(3, 5, this)">
+                            <button class="rating-button">5</button>
+                            <div class="rating-label">Excellent</div>
+                        </div>
+                    </div>
+                    <div class="rating-feedback" id="feedback-3"></div>
+                </div>
+
+                <!-- Statement 6 Rating -->
+                <div class="rating-item">
+                    <div class="statement-header">
+                        <div class="statement-number statement-6">6</div>
+                        <div class="statement-title">Shared Decision Making</div>
+                    </div>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating(6, 1, this)">
+                            <button class="rating-button">1</button>
+                            <div class="rating-label">Poor</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(6, 2, this)">
+                            <button class="rating-button">2</button>
+                            <div class="rating-label">Fair</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(6, 3, this)">
+                            <button class="rating-button">3</button>
+                            <div class="rating-label">Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(6, 4, this)">
+                            <button class="rating-button">4</button>
+                            <div class="rating-label">Very Good</div>
+                        </div>
+                        <div class="rating-option" onclick="selectRating(6, 5, this)">
+                            <button class="rating-button">5</button>
+                            <div class="rating-label">Excellent</div>
+                        </div>
+                    </div>
+                    <div class="rating-feedback" id="feedback-6"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Section -->
+        <div class="submit-section">
+            <button class="submit-button" onclick="showResults()">View Class Results & Discussion Points</button>
+        </div>
+
+        <!-- Results Visualization -->
+        <div class="results-visualization" id="results">
+            <h2 class="results-title">Class Average Ratings</h2>
+            <div class="results-chart">
+                <div class="bar-group">
+                    <div class="bar" id="bar-1" style="height: 60px;">1.2</div>
+                    <div class="bar-label">Statement 1</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" id="bar-2" style="height: 80px;">1.6</div>
+                    <div class="bar-label">Statement 2</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" id="bar-3" style="height: 40px;">0.8</div>
+                    <div class="bar-label">Statement 3</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" id="bar-6" style="height: 50px;">1.0</div>
+                    <div class="bar-label">Statement 6</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discussion Prompts -->
+        <div class="discussion-section" id="discussion">
+            <h2 class="discussion-title">Discussion Points</h2>
+            <div class="discussion-prompts">
+                <div class="prompt-card">
+                    <div class="prompt-question">What went wrong?</div>
+                    <div class="prompt-hint">Identify specific behaviors that violated NICE standards</div>
+                </div>
+                <div class="prompt-card">
+                    <div class="prompt-question">Impact on Maria?</div>
+                    <div class="prompt-hint">Consider emotional and health outcomes</div>
+                </div>
+                <div class="prompt-card">
+                    <div class="prompt-question">How to improve?</div>
+                    <div class="prompt-hint">Specific changes the nurse could make</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer -->
+    <div class="timer">
+        <span class="timer-icon">⏱️</span>
+        <span id="timer">15:00</span>
+    </div>
+
+    <script>
+        let ratings = {};
+        let timeLeft = 900; // 15 minutes in seconds
+
+        function selectRating(statement, score, element) {
+            // Clear previous selections for this statement
+            const parent = element.parentElement;
+            parent.querySelectorAll('.rating-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Mark selected
+            element.querySelector('.rating-button').classList.add('selected');
+            
+            // Store rating
+            ratings[statement] = score;
+            
+            // Show feedback
+            const feedback = document.getElementById(`feedback-${statement}`);
+            if (score <= 2) {
+                feedback.className = 'rating-feedback feedback-poor show';
+                feedback.innerHTML = getPoorfeedback(statement);
+            } else if (score >= 4) {
+                feedback.className = 'rating-feedback feedback-good show';
+                feedback.innerHTML = 'Good observation! But this scenario shows poor practice.';
+            } else {
+                feedback.className = 'rating-feedback show';
+                feedback.style.background = '#f8f9fa';
+                feedback.innerHTML = 'Consider the specific behaviors described.';
+            }
+        }
+
+        function getPoorfeedback(statement) {
+            const feedbacks = {
+                1: "✓ Correct - Using 'love' and not explaining procedures shows lack of respect",
+                2: "✓ Correct - Dismissing concerns and using jargon shows poor communication",
+                3: "✓ Correct - Not inviting the daughter in missed support opportunity",
+                6: "✓ Correct - Rushed choices with medical jargon isn't shared decision-making"
+            };
+            return feedbacks[statement];
+        }
+
+        function showResults() {
+            document.getElementById('results').classList.add('show');
+            document.getElementById('discussion').classList.add('show');
+            
+            // Animate bars
+            setTimeout(() => {
+                document.getElementById('bar-1').style.height = '60px';
+                document.getElementById('bar-2').style.height = '80px';
+                document.getElementById('bar-3').style.height = '40px';
+                document.getElementById('bar-6').style.height = '50px';
+            }, 100);
+        }
+
+        // Timer function
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                document.getElementById('timer').textContent = "Time's up!";
+                showResults();
+            }
+        }
+
+        // Start timer when page loads
+        window.onload = function() {
+            updateTimer();
+        };
+    </script>
+</body>
+</html>

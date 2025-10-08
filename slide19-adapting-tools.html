@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adapting Personalisation Tools for Different Needs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-container {
+            width: 1920px;
+            height: 1080px;
+            background: #ffffff;
+            padding: 80px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .header-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: linear-gradient(90deg, #00b894 0%, #00cec9 25%, #6c5ce7 50%, #fd79a8 75%, #fdcb6e 100%);
+        }
+
+        .slide-title {
+            font-size: 56px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #7f8c8d;
+            text-align: center;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            gap: 50px;
+        }
+
+        /* Left Panel - Categories */
+        .categories-panel {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .category-tab {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .category-tab.active {
+            background: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateX(10px);
+        }
+
+        .category-1 { border-left-color: #00b894; }
+        .category-2 { border-left-color: #6c5ce7; }
+        .category-3 { border-left-color: #fd79a8; }
+        .category-4 { border-left-color: #fdcb6e; }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .category-1 .category-icon { background: #00b894; }
+        .category-2 .category-icon { background: #6c5ce7; }
+        .category-3 .category-icon { background: #fd79a8; }
+        .category-4 .category-icon { background: #fdcb6e; }
+
+        .category-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .category-description {
+            font-size: 16px;
+            color: #7f8c8d;
+            line-height: 1.4;
+        }
+
+        /* Right Panel - Adaptation Details */
+        .adaptation-panel {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 40px;
+            display: none;
+        }
+
+        .adaptation-panel.active {
+            display: block;
+        }
+
+        .adaptation-header {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #dee2e6;
+        }
+
+        .adaptations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .adaptation-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-top: 4px solid;
+        }
+
+        .cognitive-card { border-top-color: #00b894; }
+        .sensory-card { border-top-color: #6c5ce7; }
+        .language-card { border-top-color: #fd79a8; }
+        .digital-card { border-top-color: #fdcb6e; }
+
+        .tool-name {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .standard-version {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .standard-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .standard-text {
+            font-size: 16px;
+            color: #34495e;
+        }
+
+        .adapted-version {
+            background: #e8f8f5;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .adapted-label {
+            font-size: 14px;
+            color: #00b894;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .adapted-text {
+            font-size: 16px;
+            color: #2c3e50;
+            line-height: 1.5;
+        }
+
+        .adaptation-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .adaptation-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 15px;
+        }
+
+        .adaptation-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #00b894;
+            font-weight: bold;
+        }
+
+        /* Key Principles Box */
+        .principles-box {
+            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .principles-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .principle-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            font-size: 20px;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="header-accent"></div>
+        
+        <h1 class="slide-title">Adapting Personalisation Tools for Different Needs</h1>
+        <div class="subtitle">Ensuring person-centred tools work for everyone</div>
+        
+        <div class="main-content">
+            <!-- Left Panel - Categories -->
+            <div class="categories-panel">
+                <div class="category-tab category-1 active" onclick="showAdaptation('cognitive')">
+                    <div class="category-header">
+                        <div class="category-icon">🧠</div>
+                        <div class="category-title">Cognitive Needs</div>
+                    </div>
+                    <div class="category-description">
+                        Dementia, learning disabilities, brain injury
+                    </div>
+                </div>
+
+                <div class="category-tab category-2" onclick="showAdaptation('sensory')">
+                    <div class="category-header">
+                        <div class="category-icon">👁️</div>
+                        <div class="category-title">Sensory Needs</div>
+                    </div>
+                    <div class="category-description">
+                        Visual, hearing, dual sensory impairments
+                    </div>
+                </div>
+
+                <div class="category-tab category-3" onclick="showAdaptation('language')">
+                    <div class="category-header">
+                        <div class="category-icon">💬</div>
+                        <div class="category-title">Language & Culture</div>
+                    </div>
+                    <div class="category-description">
+                        Non-English speakers, cultural differences
+                    </div>
+                </div>
+
+                <div class="category-tab category-4" onclick="showAdaptation('digital')">
+                    <div class="category-header">
+                        <div class="category-icon">📱</div>
+                        <div class="category-title">Digital Access</div>
+                    </div>
+                    <div class="category-description">
+                        Limited technology access or skills
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel - Cognitive Adaptations -->
+            <div class="adaptation-panel active" id="cognitive-panel">
+                <h2 class="adaptation-header">Adaptations for Cognitive Needs</h2>
+                <div class="adaptations-grid">
+                    <div class="adaptation-card cognitive-card">
+                        <div class="tool-name">One-Page Profile</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Written bullet points about preferences</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Use photos instead of text</li>
+                                    <li>Simple yes/no choices</li>
+                                    <li>Visual symbols (happy/sad faces)</li>
+                                    <li>Family helps create it</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card cognitive-card">
+                        <div class="tool-name">Communication Chart</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Grid with emotions and responses</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Large pictures with clear emotions</li>
+                                    <li>Familiar objects person can point to</li>
+                                    <li>Record non-verbal cues</li>
+                                    <li>Include routine preferences</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card cognitive-card">
+                        <div class="tool-name">Decision-Making Tool</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Written options with pros/cons</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>One choice at a time</li>
+                                    <li>Use real objects to show options</li>
+                                    <li>Allow time for processing</li>
+                                    <li>Repeat choices consistently</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card cognitive-card">
+                        <div class="tool-name">Relationship Circle</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Names in circles showing closeness</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Photos of people instead of names</li>
+                                    <li>Use hearts for loved ones</li>
+                                    <li>Color coding for roles</li>
+                                    <li>Update with person present</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sensory Adaptations Panel -->
+            <div class="adaptation-panel" id="sensory-panel">
+                <h2 class="adaptation-header">Adaptations for Sensory Needs</h2>
+                <div class="adaptations-grid">
+                    <div class="adaptation-card sensory-card">
+                        <div class="tool-name">One-Page Profile</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Visual document with text</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted for Visual</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Large print (18pt+) or Braille</li>
+                                    <li>High contrast colors</li>
+                                    <li>Audio version available</li>
+                                    <li>Tactile elements for key points</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card sensory-card">
+                        <div class="tool-name">Communication Chart</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Visual grid format</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted for Hearing</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Visual cues emphasized</li>
+                                    <li>Written preferences clear</li>
+                                    <li>Sign language preferences noted</li>
+                                    <li>Vibration/light alerts included</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card sensory-card">
+                        <div class="tool-name">Decision-Making Tool</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Written/verbal discussion</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted for Dual Sensory</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Tactile communication methods</li>
+                                    <li>Hands-on demonstration</li>
+                                    <li>Deafblind manual alphabet</li>
+                                    <li>Extended time for communication</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card sensory-card">
+                        <div class="tool-name">Support Planning</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Meeting with verbal discussion</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Interpreter present if needed</li>
+                                    <li>Loop system for hearing aids</li>
+                                    <li>Good lighting for lip reading</li>
+                                    <li>Written summary provided</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Language Adaptations Panel -->
+            <div class="adaptation-panel" id="language-panel">
+                <h2 class="adaptation-header">Adaptations for Language & Cultural Needs</h2>
+                <div class="adaptations-grid">
+                    <div class="adaptation-card language-card">
+                        <div class="tool-name">One-Page Profile</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">English language document</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Translated to preferred language</li>
+                                    <li>Cultural preferences included</li>
+                                    <li>Religious/dietary needs clear</li>
+                                    <li>Family naming conventions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card language-card">
+                        <div class="tool-name">Communication Chart</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">English phrases and concepts</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Key phrases in both languages</li>
+                                    <li>Cultural gestures noted</li>
+                                    <li>Gender preferences for care</li>
+                                    <li>Prayer/spiritual needs timing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card language-card">
+                        <div class="tool-name">Decision-Making Tool</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Individual-focused choices</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Include family decision-makers</li>
+                                    <li>Professional interpreter used</li>
+                                    <li>Cultural context explained</li>
+                                    <li>Allow time for family discussion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card language-card">
+                        <div class="tool-name">Care Planning</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Medical model focus</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Include traditional healing views</li>
+                                    <li>Respect cultural health beliefs</li>
+                                    <li>Gender-specific care options</li>
+                                    <li>Festival/religious observances</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Adaptations Panel -->
+            <div class="adaptation-panel" id="digital-panel">
+                <h2 class="adaptation-header">Adaptations for Digital Access Barriers</h2>
+                <div class="adaptations-grid">
+                    <div class="adaptation-card digital-card">
+                        <div class="tool-name">Digital Tools</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">App-based or online tools</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Paper versions always available</li>
+                                    <li>Phone call options</li>
+                                    <li>Face-to-face support offered</li>
+                                    <li>Library/community center help</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card digital-card">
+                        <div class="tool-name">Information Sharing</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Email or patient portal</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Printed copies posted</li>
+                                    <li>Text message updates</li>
+                                    <li>Telephone reminders</li>
+                                    <li>Family member can access</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card digital-card">
+                        <div class="tool-name">Virtual Appointments</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Video consultation expected</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Phone call alternative</li>
+                                    <li>In-person option maintained</li>
+                                    <li>Support to set up technology</li>
+                                    <li>Test call before appointment</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="adaptation-card digital-card">
+                        <div class="tool-name">Self-Management Tools</div>
+                        <div class="standard-version">
+                            <div class="standard-label">Standard</div>
+                            <div class="standard-text">Smartphone apps for tracking</div>
+                        </div>
+                        <div class="adapted-version">
+                            <div class="adapted-label">Adapted</div>
+                            <div class="adapted-text">
+                                <ul class="adaptation-list">
+                                    <li>Paper diaries provided</li>
+                                    <li>Simple charts and stickers</li>
+                                    <li>Family member can track</li>
+                                    <li>Regular check-in calls</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Principles -->
+        <div class="principles-box">
+            <div class="principles-title">Universal Principles for Adaptation</div>
+            <div class="principles-grid">
+                <div class="principle-item">Ask don't assume</div>
+                <div class="principle-item">Co-create with person</div>
+                <div class="principle-item">Regular review & update</div>
+                <div class="principle-item">Multiple formats available</div>
+            </div>
+        </div>
+
+        <div class="slide-number">Slide 19</div>
+    </div>
+
+    <script>
+        function showAdaptation(type) {
+            // Hide all panels
+            document.querySelectorAll('.adaptation-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(type + '-panel').classList.add('active');
+            
+            // Add active to clicked tab
+            event.currentTarget.classList.add('active');
+        }
+    </script>
+</body>
+</html>
