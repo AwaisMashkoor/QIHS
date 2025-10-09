@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDSA Cycle Development Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .progress-container {
+            background: #e9ecef;
+            border-radius: 15px;
+            height: 40px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .problem-selection {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .problem-selection h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .problem-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-color: #667eea;
+        }
+
+        .problem-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .problem-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .problem-desc {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .pdsa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .pdsa-phase {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            min-height: 350px;
+        }
+
+        .pdsa-phase.plan {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .pdsa-phase.do {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .pdsa-phase.study {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .pdsa-phase.act {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .phase-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            margin-right: 15px;
+        }
+
+        .phase-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .phase-status {
+            margin-left: auto;
+            padding: 5px 15px;
+            background: white;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .status-incomplete {
+            color: #dc3545;
+        }
+
+        .status-complete {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .prompts {
+            background: white;
+            border-left: 3px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .prompts h4 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .prompts ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        .prompts li {
+            margin-bottom: 5px;
+        }
+
+        .timeline-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .timeline-btn {
+            flex: 1;
+            padding: 10px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-btn:hover {
+            border-color: #667eea;
+        }
+
+        .timeline-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .smart-indicators {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .smart-badge {
+            padding: 5px 12px;
+            background: #e9ecef;
+            border-radius: 20px;
+            font-size: 0.85em;
+            color: #6c757d;
+        }
+
+        .smart-badge.active {
+            background: #28a745;
+            color: white;
+        }
+
+        .export-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .export-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .export-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .export-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .export-btn.secondary {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .pdsa-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .problems-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .export-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDSA Cycle Development Tool</h1>
+        <p class="subtitle">Plan-Do-Study-Act Quality Improvement Framework</p>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar">0% Complete</div>
+        </div>
+        
+        <div class="problem-selection">
+            <h2>Step 1: Select Your Infection Risk Focus</h2>
+            <div class="problems-grid">
+                <div class="problem-card" onclick="selectProblem('hygiene', this)">
+                    <div class="problem-title">Hand Hygiene</div>
+                    <div class="problem-desc">Compliance below 70%</div>
+                </div>
+                <div class="problem-card" onclick="selectProblem('antibiotics', this)">
+                    <div class="problem-title">Antibiotic Stewardship</div>
+                    <div class="problem-desc">Inappropriate prescribing</div>
+                </div>
+                <div class="problem-card" onclick="selectProblem('cleaning', this)">
+                    <div class="problem-title">Environmental Cleaning</div>
+                    <div class="problem-desc">Inadequate protocols</div>
+                </div>
+                <div class="problem-card" onclick="selectProblem('documentation', this)">
+                    <div class="problem-title">Risk Documentation</div>
+                    <div class="problem-desc">Poor recording practices</div>
+                </div>
+                <div class="problem-card" onclick="selectProblem('isolation', this)">
+                    <div class="problem-title">Patient Isolation</div>
+                    <div class="problem-desc">Delayed implementation</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pdsa-grid">
+            <div class="pdsa-phase plan">
+                <div class="phase-header">
+                    <div class="phase-icon">📋</div>
+                    <div class="phase-title">PLAN</div>
+                    <span class="phase-status status-incomplete" id="plan-status">Incomplete</span>
+                </div>
+                
+                <textarea id="plan-text" placeholder="What specific change will you test? Be clear about your intervention..." onkeyup="updatePhase('plan')"></textarea>
+                
+                <div class="prompts">
+                    <h4>Consider:</h4>
+                    <ul>
+                        <li>What is your prediction?</li>
+                        <li>How will you measure success?</li>
+                        <li>Who needs to be involved?</li>
+                        <li>What resources are required?</li>
+                    </ul>
+                </div>
+                
+                <div class="smart-indicators">
+                    <span class="smart-badge" id="smart-s">Specific</span>
+                    <span class="smart-badge" id="smart-m">Measurable</span>
+                    <span class="smart-badge" id="smart-a">Achievable</span>
+                    <span class="smart-badge" id="smart-r">Relevant</span>
+                    <span class="smart-badge" id="smart-t">Time-bound</span>
+                </div>
+            </div>
+            
+            <div class="pdsa-phase do">
+                <div class="phase-header">
+                    <div class="phase-icon">🚀</div>
+                    <div class="phase-title">DO</div>
+                    <span class="phase-status status-incomplete" id="do-status">Incomplete</span>
+                </div>
+                
+                <textarea id="do-text" placeholder="Describe implementation steps in detail..." onkeyup="updatePhase('do')"></textarea>
+                
+                <div class="prompts">
+                    <h4>Implementation Plan:</h4>
+                    <ul>
+                        <li>Key implementation steps</li>
+                        <li>Anticipated barriers</li>
+                        <li>Risk mitigation strategies</li>
+                    </ul>
+                </div>
+                
+                <label style="margin-top: 10px; display: block; color: #495057;">Timeline:</label>
+                <div class="timeline-buttons">
+                    <button class="timeline-btn" onclick="selectTimeline('1week', this)">1 Week</button>
+                    <button class="timeline-btn" onclick="selectTimeline('2weeks', this)">2 Weeks</button>
+                    <button class="timeline-btn" onclick="selectTimeline('1month', this)">1 Month</button>
+                    <button class="timeline-btn" onclick="selectTimeline('3months', this)">3 Months</button>
+                </div>
+            </div>
+            
+            <div class="pdsa-phase study">
+                <div class="phase-header">
+                    <div class="phase-icon">📊</div>
+                    <div class="phase-title">STUDY</div>
+                    <span class="phase-status status-incomplete" id="study-status">Incomplete</span>
+                </div>
+                
+                <textarea id="study-text" placeholder="How will you collect and analyze data?" onkeyup="updatePhase('study')"></textarea>
+                
+                <div class="prompts">
+                    <h4>Analysis Plan:</h4>
+                    <ul>
+                        <li>Data collection methods</li>
+                        <li>Analysis approach</li>
+                        <li>Success criteria</li>
+                        <li>Unintended consequences monitoring</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pdsa-phase act">
+                <div class="phase-header">
+                    <div class="phase-icon">✅</div>
+                    <div class="phase-title">ACT</div>
+                    <span class="phase-status status-incomplete" id="act-status">Incomplete</span>
+                </div>
+                
+                <textarea id="act-text" placeholder="What are the next steps based on results?" onkeyup="updatePhase('act')"></textarea>
+                
+                <div class="prompts">
+                    <h4>Next Steps:</h4>
+                    <ul>
+                        <li>If successful: scaling strategy</li>
+                        <li>If unsuccessful: modifications</li>
+                        <li>Sustainability plan</li>
+                        <li>Communication strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <h2>Quality Check & Export</h2>
+            
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" id="check1" onchange="updateProgress()">
+                    <label for="check1">Clear problem definition</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check2" onchange="updateProgress()">
+                    <label for="check2">Measurable outcomes</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check3" onchange="updateProgress()">
+                    <label for="check3">Realistic timeline</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check4" onchange="updateProgress()">
+                    <label for="check4">Stakeholder involvement</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check5" onchange="updateProgress()">
+                    <label for="check5">Data collection plan</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="check6" onchange="updateProgress()">
+                    <label for="check6">Sustainability addressed</label>
+                </div>
+            </div>
+            
+            <div class="export-buttons">
+                <button class="export-btn" id="downloadText" onclick="downloadTextSummary()" disabled>
+                    📄 Download Text Summary
+                </button>
+                <button class="export-btn secondary" id="downloadHTML" onclick="downloadHTMLSummary()" disabled>
+                    📑 Download Formatted Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let selectedProblem = '';
+        let selectedTimeline = '';
+        let phaseData = {
+            plan: '',
+            do: '',
+            study: '',
+            act: ''
+        };
+
+        // Problem selection
+        function selectProblem(problem, element) {
+            selectedProblem = problem;
+            
+            // Update UI
+            document.querySelectorAll('.problem-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            
+            updateProgress();
+        }
+
+        // Timeline selection
+        function selectTimeline(timeline, element) {
+            selectedTimeline = timeline;
+            
+            // Update UI
+            document.querySelectorAll('.timeline-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            
+            updateProgress();
+        }
+
+        // Update phase completion
+        function updatePhase(phase) {
+            const textarea = document.getElementById(phase + '-text');
+            const statusElement = document.getElementById(phase + '-status');
+            phaseData[phase] = textarea.value;
+            
+            // Check if phase is complete (minimum 50 characters)
+            const isComplete = textarea.value.length >= 50;
+            
+            if (isComplete) {
+                statusElement.textContent = 'Complete';
+                statusElement.classList.remove('status-incomplete');
+                statusElement.classList.add('status-complete');
+            } else {
+                statusElement.textContent = 'Incomplete';
+                statusElement.classList.remove('status-complete');
+                statusElement.classList.add('status-incomplete');
+            }
+            
+            // Update SMART criteria for PLAN phase
+            if (phase === 'plan') {
+                updateSMARTCriteria(textarea.value);
+            }
+            
+            updateProgress();
+        }
+
+        // Update SMART criteria indicators
+        function updateSMARTCriteria(text) {
+            const criteria = {
+                's': text.length > 30 && /\b(will|implement|test|introduce)\b/i.test(text),
+                'm': /\b(\d+|percent|%|measure|increase|decrease|count)\b/i.test(text),
+                'a': text.length > 40,
+                'r': selectedProblem !== '',
+                't': /\b(week|day|month|hour|minute|by|within|during)\b/i.test(text)
+            };
+            
+            Object.keys(criteria).forEach(key => {
+                const element = document.getElementById('smart-' + key);
+                if (criteria[key]) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+        }
+
+        // Update overall progress
+        function updateProgress() {
+            let totalSteps = 11; // 1 problem + 4 phases + 6 checklist items
+            let completedSteps = 0;
+            
+            // Check problem selection
+            if (selectedProblem) completedSteps++;
+            
+            // Check phase completion
+            ['plan', 'do', 'study', 'act'].forEach(phase => {
+                if (phaseData[phase].length >= 50) completedSteps++;
+            });
+            
+            // Check checklist items
+            for (let i = 1; i <= 6; i++) {
+                if (document.getElementById('check' + i).checked) {
+                    completedSteps++;
+                }
+            }
+            
+            // Calculate percentage
+            const percentage = Math.round((completedSteps / totalSteps) * 100);
+            
+            // Update progress bar
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '% Complete';
+            
+            // Enable/disable export buttons
+            const canExport = percentage >= 60;
+            document.getElementById('downloadText').disabled = !canExport;
+            document.getElementById('downloadHTML').disabled = !canExport;
+        }
+
+        // Download text summary
+        function downloadTextSummary() {
+            const timestamp = new Date().toISOString().slice(0, 10);
+            let content = 'PDSA CYCLE SUMMARY\n';
+            content += '==================\n\n';
+            content += 'Date: ' + new Date().toLocaleDateString() + '\n';
+            content += 'Problem Focus: ' + (selectedProblem || 'Not selected') + '\n';
+            content += 'Timeline: ' + (selectedTimeline || 'Not specified') + '\n\n';
+            
+            content += 'PLAN\n';
+            content += '----\n';
+            content += (phaseData.plan || 'Not completed') + '\n\n';
+            
+            content += 'DO\n';
+            content += '--\n';
+            content += (phaseData.do || 'Not completed') + '\n\n';
+            
+            content += 'STUDY\n';
+            content += '-----\n';
+            content += (phaseData.study || 'Not completed') + '\n\n';
+            
+            content += 'ACT\n';
+            content += '---\n';
+            content += (phaseData.act || 'Not completed') + '\n\n';
+            
+            content += 'Quality Checklist:\n';
+            for (let i = 1; i <= 6; i++) {
+                const checkbox = document.getElementById('check' + i);
+                const label = checkbox.nextElementSibling.textContent;
+                content += (checkbox.checked ? '[✓] ' : '[ ] ') + label + '\n';
+            }
+            
+            // Create and download file
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'PDSA_' + selectedProblem + '_' + timestamp + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Download HTML summary
+        function downloadHTMLSummary() {
+            const timestamp = new Date().toISOString().slice(0, 10);
+            let html = '<!DOCTYPE html><html><head>';
+            html += '<title>PDSA Cycle Report</title>';
+            html += '<style>';
+            html += 'body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }';
+            html += 'h1 { color: #2c3e50; border-bottom: 3px solid #667eea; padding-bottom: 10px; }';
+            html += 'h2 { color: #667eea; margin-top: 30px; }';
+            html += '.meta { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }';
+            html += '.section { background: #fff; border-left: 4px solid #667eea; padding: 15px; margin: 20px 0; }';
+            html += '.checklist { margin-top: 20px; }';
+            html += '.checklist-item { margin: 8px 0; }';
+            html += '</style>';
+            html += '</head><body>';
+            
+            html += '<h1>PDSA Cycle Report</h1>';
+            html += '<div class="meta">';
+            html += '<strong>Date:</strong> ' + new Date().toLocaleDateString() + '<br>';
+            html += '<strong>Problem Focus:</strong> ' + (selectedProblem || 'Not selected') + '<br>';
+            html += '<strong>Timeline:</strong> ' + (selectedTimeline || 'Not specified');
+            html += '</div>';
+            
+            html += '<div class="section">';
+            html += '<h2>PLAN</h2>';
+            html += '<p>' + (phaseData.plan || 'Not completed').replace(/\n/g, '<br>') + '</p>';
+            html += '</div>';
+            
+            html += '<div class="section">';
+            html += '<h2>DO</h2>';
+            html += '<p>' + (phaseData.do || 'Not completed').replace(/\n/g, '<br>') + '</p>';
+            html += '</div>';
+            
+            html += '<div class="section">';
+            html += '<h2>STUDY</h2>';
+            html += '<p>' + (phaseData.study || 'Not completed').replace(/\n/g, '<br>') + '</p>';
+            html += '</div>';
+            
+            html += '<div class="section">';
+            html += '<h2>ACT</h2>';
+            html += '<p>' + (phaseData.act || 'Not completed').replace(/\n/g, '<br>') + '</p>';
+            html += '</div>';
+            
+            html += '<div class="checklist">';
+            html += '<h2>Quality Checklist</h2>';
+            for (let i = 1; i <= 6; i++) {
+                const checkbox = document.getElementById('check' + i);
+                const label = checkbox.nextElementSibling.textContent;
+                html += '<div class="checklist-item">';
+                html += (checkbox.checked ? '✓ ' : '☐ ') + label;
+                html += '</div>';
+            }
+            html += '</div>';
+            
+            html += '</body></html>';
+            
+            // Create and download file
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'PDSA_Report_' + selectedProblem + '_' + timestamp + '.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            updateProgress();
+        };
+    </script>
+</body>
+</html>
