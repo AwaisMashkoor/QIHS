@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 4: Methodology Matching Challenge</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #fa709a;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .intro-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .methodology-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+        .method-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .method-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 18px;
+        }
+        .method-card p {
+            font-size: 13px;
+            margin: 5px 0;
+            opacity: 0.9;
+        }
+        .scenario-card {
+            background: #f5f5f5;
+            border: 3px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        .scenario-card.selected {
+            border-color: #fa709a;
+            background: #fff3f3;
+        }
+        .scenario-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .scenario-description {
+            color: #616161;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .scenario-details {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+        .method-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .method-btn {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .method-btn:hover {
+            border-color: #fa709a;
+            transform: scale(1.05);
+        }
+        .method-btn.selected {
+            background: #fa709a;
+            color: white;
+            border-color: #fa709a;
+        }
+        .method-btn.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+        .method-btn.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+        .feedback-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        .feedback-box.show {
+            display: block;
+        }
+        .feedback-box.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+        .feedback-box.incorrect {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 25px auto;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(250, 112, 154, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .score-display {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .complete-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Activity 4: Methodology Matching Challenge</h2>
+        
+        <div class="intro-box">
+            <h3>Match the Right QI Methodology to Each Scenario</h3>
+            <p>Read each clinical scenario and select which methodology (PDSA, LEAN, or Six Sigma) would be most appropriate. Consider the problem type, resources available, and improvement goals.</p>
+        </div>
+
+        <div class="methodology-grid">
+            <div class="method-card">
+                <h3>PDSA</h3>
+                <p><strong>Focus:</strong> Iterative testing</p>
+                <p><strong>Speed:</strong> Rapid cycles</p>
+                <p><strong>Best for:</strong> Quick learning, uncertain solutions</p>
+            </div>
+            <div class="method-card">
+                <h3>LEAN</h3>
+                <p><strong>Focus:</strong> Waste elimination</p>
+                <p><strong>Speed:</strong> Fast, continuous</p>
+                <p><strong>Best for:</strong> Process flow, efficiency</p>
+            </div>
+            <div class="method-card">
+                <h3>Six Sigma</h3>
+                <p><strong>Focus:</strong> Reducing variation</p>
+                <p><strong>Speed:</strong> Project-based</p>
+                <p><strong>Best for:</strong> Complex problems, data available</p>
+            </div>
+        </div>
+
+        <div id="scenarios">
+            <div class="scenario-card" id="scenario1">
+                <h4>Scenario 1: Emergency Department Wait Times</h4>
+                <p class="scenario-description">
+                    The ED has 90-minute average wait times. Observation shows patients moving between 
+                    multiple waiting areas, duplicate registration steps, and supplies stored far from 
+                    point of use. Staff report frustration with inefficient workflows.
+                </p>
+                <div class="scenario-details">
+                    <strong>Key indicators:</strong> Obvious waste, staff frustration with workflow, process flow issues
+                </div>
+                <div class="method-selector">
+                    <button class="method-btn" onclick="selectMethod(1, 'pdsa')">PDSA</button>
+                    <button class="method-btn" onclick="selectMethod(1, 'lean')">LEAN</button>
+                    <button class="method-btn" onclick="selectMethod(1, 'six-sigma')">Six Sigma</button>
+                </div>
+                <div class="feedback-box" id="feedback1"></div>
+            </div>
+
+            <div class="scenario-card" id="scenario2">
+                <h4>Scenario 2: New Communication Protocol</h4>
+                <p class="scenario-description">
+                    A ward wants to test a new handover protocol to reduce communication errors. 
+                    They're unsure if SBAR or a different format will work best. The team wants 
+                    to try something quickly with one shift and adjust based on feedback.
+                </p>
+                <div class="scenario-details">
+                    <strong>Key indicators:</strong> Testing uncertainty, need for rapid feedback, small-scale trial
+                </div>
+                <div class="method-selector">
+                    <button class="method-btn" onclick="selectMethod(2, 'pdsa')">PDSA</button>
+                    <button class="method-btn" onclick="selectMethod(2, 'lean')">LEAN</button>
+                    <button class="method-btn" onclick="selectMethod(2, 'six-sigma')">Six Sigma</button>
+                </div>
+                <div class="feedback-box" id="feedback2"></div>
+            </div>
+
+            <div class="scenario-card" id="scenario3">
+                <h4>Scenario 3: Surgical Site Infection Rates</h4>
+                <p class="scenario-description">
+                    Infection rates vary widely between surgical teams (2%-8%) despite supposedly 
+                    identical protocols. The hospital has good data systems and wants to understand 
+                    what's causing the variation and standardize the process for consistent outcomes.
+                </p>
+                <div class="scenario-details">
+                    <strong>Key indicators:</strong> Unexplained variation, good data available, need for standardization
+                </div>
+                <div class="method-selector">
+                    <button class="method-btn" onclick="selectMethod(3, 'pdsa')">PDSA</button>
+                    <button class="method-btn" onclick="selectMethod(3, 'lean')">LEAN</button>
+                    <button class="method-btn" onclick="selectMethod(3, 'six-sigma')">Six Sigma</button>
+                </div>
+                <div class="feedback-box" id="feedback3"></div>
+            </div>
+
+            <div class="scenario-card" id="scenario4">
+                <h4>Scenario 4: Medication Administration Delays</h4>
+                <p class="scenario-description">
+                    Nurses walk an average of 5km per shift, mostly to the medication room located 
+                    far from patient bays. Medications are organized alphabetically rather than by 
+                    frequency of use. Time-to-first-dose averages 45 minutes.
+                </p>
+                <div class="scenario-details">
+                    <strong>Key indicators:</strong> Excessive motion, poor organization, clear waste in process
+                </div>
+                <div class="method-selector">
+                    <button class="method-btn" onclick="selectMethod(4, 'pdsa')">PDSA</button>
+                    <button class="method-btn" onclick="selectMethod(4, 'lean')">LEAN</button>
+                    <button class="method-btn" onclick="selectMethod(4, 'six-sigma')">Six Sigma</button>
+                </div>
+                <div class="feedback-box" id="feedback4"></div>
+            </div>
+        </div>
+
+        <div class="score-display">
+            <h3>Your Score</h3>
+            <div class="score-number"><span id="score">0</span>/4</div>
+        </div>
+
+        <button class="submit-btn" id="completeBtn" onclick="complete()" disabled>Complete Activity</button>
+
+        <div id="complete" class="hidden"></div>
+    </div>
+
+    <script>
+        const state = {
+            answers: {},
+            score: 0
+        };
+
+        const correctAnswers = {
+            1: 'lean',
+            2: 'pdsa',
+            3: 'six-sigma',
+            4: 'lean'
+        };
+
+        const explanations = {
+            1: {
+                correct: 'Correct! <strong>LEAN</strong> is perfect here. The scenario shows obvious waste (duplicate registration, multiple waiting areas, poor supply location) and staff frustration with workflow. LEAN tools like value stream mapping and 5S would eliminate these inefficiencies quickly.',
+                incorrect: 'Not quite. This scenario shows obvious waste and inefficient processes - LEAN would be most appropriate for eliminating waste and improving flow.'
+            },
+            2: {
+                correct: 'Correct! <strong>PDSA</strong> is ideal here. They want to test a new protocol with uncertainty about what will work best. PDSA allows rapid small-scale testing with one shift, learning from feedback, and iterating quickly.',
+                incorrect: 'Not quite. This scenario involves testing something new with uncertainty about the best approach - PDSA rapid cycles would be most appropriate.'
+            },
+            3: {
+                correct: 'Correct! <strong>Six Sigma</strong> is the best choice. The problem is unexplained variation between teams despite identical protocols, and good data is available. Six Sigma tools (DMAIC, statistical analysis) would identify root causes and standardize for consistency.',
+                incorrect: 'Not quite. This scenario involves unexplained variation and good data availability - Six Sigma would be most appropriate for analyzing and reducing variation.'
+            },
+            4: {
+                correct: 'Correct! <strong>LEAN</strong> is perfect here. The scenario clearly shows motion waste (excessive walking), poor organization (alphabetical vs frequency-based), and inefficiency. LEAN 5S and layout redesign would address these issues directly.',
+                incorrect: 'Not quite. This scenario shows clear motion waste and poor organization - LEAN would be most appropriate for eliminating waste and improving efficiency.'
+            }
+        };
+
+        function selectMethod(scenarioNum, method) {
+            if (state.answers[scenarioNum]) return; // Already answered
+
+            state.answers[scenarioNum] = method;
+            const correct = correctAnswers[scenarioNum];
+            const isCorrect = method === correct;
+
+            // Update button styling
+            const buttons = document.querySelectorAll(`#scenario${scenarioNum} .method-btn`);
+            buttons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                if (btn.textContent.toLowerCase().includes(method)) {
+                    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+            });
+
+            // Show feedback
+            const feedback = document.getElementById(`feedback${scenarioNum}`);
+            feedback.classList.add('show', isCorrect ? 'correct' : 'incorrect');
+            feedback.innerHTML = isCorrect ? explanations[scenarioNum].correct : explanations[scenarioNum].incorrect;
+
+            // Update score
+            if (isCorrect) {
+                state.score++;
+                document.getElementById('score').textContent = state.score;
+            }
+
+            // Enable complete button when all answered
+            if (Object.keys(state.answers).length === 4) {
+                document.getElementById('completeBtn').disabled = false;
+            }
+        }
+
+        function complete() {
+            const complete = document.getElementById('complete');
+            complete.classList.remove('hidden');
+            
+            const percentage = Math.round((state.score / 4) * 100);
+            
+            complete.innerHTML = `
+                <div class="complete-box">
+                    <div style="font-size:60px">🎯</div>
+                    <h2>Methodology Matching Complete!</h2>
+                    <div style="font-size:36px; color:#667eea; margin:20px 0">
+                        ${state.score}/4 Correct
+                    </div>
+                    
+                    <div style="background:white; padding:20px; border-radius:10px; text-align:left; margin:20px 0">
+                        <h3>Key Decision Criteria:</h3>
+                        <ul>
+                            <li><strong>Use PDSA when:</strong> Testing new ideas, rapid learning needed, uncertain about best solution</li>
+                            <li><strong>Use LEAN when:</strong> Obvious waste present, process flow issues, want to engage frontline staff</li>
+                            <li><strong>Use Six Sigma when:</strong> Unexplained variation, complex root causes, good data available</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background:#fff3e0; padding:15px; border-radius:8px; font-size:14px; text-align:left">
+                        <strong>Remember:</strong> In practice, you can combine methodologies! Use PDSA cycles to test 
+                        LEAN improvements, or apply Six Sigma analysis before designing PDSA tests. Choose based on 
+                        context, resources, and improvement aims.
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="location.reload()">Try Again</button>
+            `;
+            
+            window.scrollTo({ top: complete.offsetTop - 100, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
