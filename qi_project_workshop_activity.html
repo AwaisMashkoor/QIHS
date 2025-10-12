@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 5: Mini QI Project Workshop</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #43cea2;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .intro-box {
+            background: #e8f5e9;
+            border-left: 4px solid #43cea2;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            position: relative;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #e0e0e0;
+            color: #757575;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+        .step.active .step-number {
+            background: #43cea2;
+            color: white;
+        }
+        .step.complete .step-number {
+            background: #4caf50;
+            color: white;
+        }
+        .step-label {
+            font-size: 12px;
+            color: #757575;
+        }
+        .step.active .step-label {
+            color: #43cea2;
+            font-weight: 600;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .problem-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .problem-card:hover {
+            border-color: #43cea2;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(67, 206, 162, 0.2);
+        }
+        .problem-card.selected {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+            border-color: transparent;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #43cea2;
+        }
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .helper-text {
+            font-size: 13px;
+            color: #757575;
+            margin-top: 5px;
+        }
+        .smart-check {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .smart-item {
+            display: inline-block;
+            padding: 5px 12px;
+            margin: 5px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 13px;
+        }
+        .smart-item.met {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+        .driver-section {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .driver-input-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .driver-list {
+            margin: 10px 0;
+        }
+        .driver-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .add-btn {
+            background: #43cea2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .add-btn:hover {
+            background: #38b894;
+        }
+        .remove-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(67, 206, 162, 0.3);
+        }
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #757575;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .summary-box {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .summary-item {
+            margin: 15px 0;
+        }
+        .summary-item strong {
+            color: #2e7d32;
+        }
+        .complete-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Activity 5: Mini QI Project Workshop</h2>
+        
+        <div class="intro-box">
+            <h3>Plan Your Quality Improvement Project</h3>
+            <p>This workshop guides you through planning a complete QI project. You'll select a problem, define a SMART aim, identify drivers, and outline your PDSA approach.</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step1">
+                <div class="step-number">1</div>
+                <div class="step-label">Problem</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-number">2</div>
+                <div class="step-label">Aim</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-number">3</div>
+                <div class="step-label">Drivers</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-number">4</div>
+                <div class="step-label">PDSA</div>
+            </div>
+            <div class="step" id="step5">
+                <div class="step-number">5</div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <!-- Step 1: Select Problem -->
+        <div class="section active" id="section1">
+            <h3>Step 1: Select Your Improvement Focus</h3>
+            <div class="problem-grid">
+                <div class="problem-card" onclick="selectProblem('falls')">
+                    <h4>Patient Falls</h4>
+                    <p>High fall rates in elderly care ward</p>
+                </div>
+                <div class="problem-card" onclick="selectProblem('discharge')">
+                    <h4>Discharge Delays</h4>
+                    <p>Patients waiting for discharge summaries</p>
+                </div>
+                <div class="problem-card" onclick="selectProblem('handover')">
+                    <h4>Handover Errors</h4>
+                    <p>Information lost during shift changes</p>
+                </div>
+                <div class="problem-card" onclick="selectProblem('medication')">
+                    <h4>Medication Safety</h4>
+                    <p>Prescribing errors in acute admissions</p>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" disabled>Previous</button>
+                <button class="btn btn-primary" onclick="nextStep(2)" id="next1" disabled>Next: Define Aim</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Define Aim -->
+        <div class="section" id="section2">
+            <h3>Step 2: Define Your SMART Aim</h3>
+            <div class="form-group">
+                <label>Write your improvement aim:</label>
+                <textarea class="form-input" id="aimInput" 
+                    placeholder="Example: Reduce patient falls in Ward 5 by 30% within 3 months"
+                    oninput="checkAim()"></textarea>
+                <div class="helper-text">Make it Specific, Measurable, Achievable, Relevant, Time-bound</div>
+            </div>
+            <div class="smart-check">
+                <strong>SMART Check:</strong>
+                <span class="smart-item" id="specific">Specific</span>
+                <span class="smart-item" id="measurable">Measurable</span>
+                <span class="smart-item" id="achievable">Achievable</span>
+                <span class="smart-item" id="relevant">Relevant</span>
+                <span class="smart-item" id="timebound">Time-bound</span>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep(1)">Previous</button>
+                <button class="btn btn-primary" onclick="nextStep(3)" id="next2" disabled>Next: Identify Drivers</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Identify Drivers -->
+        <div class="section" id="section3">
+            <h3>Step 3: Identify Key Drivers</h3>
+            <p>What are the main factors that influence your aim? Add 2-3 primary drivers.</p>
+            
+            <div class="driver-section">
+                <label>Primary Drivers:</label>
+                <div class="driver-input-group">
+                    <input type="text" class="form-input" id="driverInput" placeholder="e.g., Staff training, Environment safety">
+                    <button class="add-btn" onclick="addDriver()">Add Driver</button>
+                </div>
+                <div class="driver-list" id="driverList"></div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep(2)">Previous</button>
+                <button class="btn btn-primary" onclick="nextStep(4)" id="next3" disabled>Next: Plan PDSA</button>
+            </div>
+        </div>
+
+        <!-- Step 4: PDSA Outline -->
+        <div class="section" id="section4">
+            <h3>Step 4: Outline Your First PDSA Cycle</h3>
+            
+            <div class="form-group">
+                <label>PLAN: What change will you test?</label>
+                <textarea class="form-input" id="planInput" 
+                    placeholder="Describe the specific intervention you'll test..."
+                    oninput="checkPDSA()"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>DO: How will you implement it? (small-scale)</label>
+                <input type="text" class="form-input" id="doInput" 
+                    placeholder="e.g., Test with 2 nurses on day shift for 1 week"
+                    oninput="checkPDSA()">
+            </div>
+            
+            <div class="form-group">
+                <label>STUDY: What will you measure?</label>
+                <input type="text" class="form-input" id="studyInput" 
+                    placeholder="e.g., Number of falls per week, staff feedback"
+                    oninput="checkPDSA()">
+            </div>
+            
+            <div class="form-group">
+                <label>ACT: What are possible next steps?</label>
+                <input type="text" class="form-input" id="actInput" 
+                    placeholder="e.g., If successful, expand to night shift; if not, modify approach"
+                    oninput="checkPDSA()">
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep(3)">Previous</button>
+                <button class="btn btn-primary" onclick="nextStep(5)" id="next4" disabled>Next: Review</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Review & Submit -->
+        <div class="section" id="section5">
+            <h3>Step 5: Review Your QI Project Plan</h3>
+            
+            <div class="summary-box">
+                <div class="summary-item">
+                    <strong>Problem Focus:</strong>
+                    <p id="summaryProblem"></p>
+                </div>
+                <div class="summary-item">
+                    <strong>SMART Aim:</strong>
+                    <p id="summaryAim"></p>
+                </div>
+                <div class="summary-item">
+                    <strong>Primary Drivers:</strong>
+                    <ul id="summaryDrivers"></ul>
+                </div>
+                <div class="summary-item">
+                    <strong>PDSA Cycle:</strong>
+                    <p><strong>Plan:</strong> <span id="summaryPlan"></span></p>
+                    <p><strong>Do:</strong> <span id="summaryDo"></span></p>
+                    <p><strong>Study:</strong> <span id="summaryStudy"></span></p>
+                    <p><strong>Act:</strong> <span id="summaryAct"></span></p>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="prevStep(4)">Previous</button>
+                <button class="btn btn-primary" onclick="submitProject()">Submit Project Plan</button>
+            </div>
+        </div>
+
+        <div id="complete" class="hidden"></div>
+    </div>
+
+    <script>
+        const state = {
+            problem: '',
+            aim: '',
+            drivers: [],
+            pdsa: { plan: '', do: '', study: '', act: '' }
+        };
+
+        function selectProblem(problem) {
+            state.problem = problem;
+            document.querySelectorAll('.problem-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.problem-card').classList.add('selected');
+            document.getElementById('next1').disabled = false;
+        }
+
+        function checkAim() {
+            const aim = document.getElementById('aimInput').value;
+            state.aim = aim;
+            
+            const checks = {
+                specific: aim.length > 20,
+                measurable: /\d+|percent|%/.test(aim),
+                achievable: aim.length > 30,
+                relevant: state.problem !== '',
+                timebound: /week|month|day|within|by/.test(aim)
+            };
+            
+            Object.keys(checks).forEach(key => {
+                document.getElementById(key).classList.toggle('met', checks[key]);
+            });
+            
+            const allMet = Object.values(checks).every(v => v);
+            document.getElementById('next2').disabled = !allMet;
+        }
+
+        function addDriver() {
+            const input = document.getElementById('driverInput');
+            const value = input.value.trim();
+            
+            if (value && state.drivers.length < 5) {
+                state.drivers.push(value);
+                updateDriverList();
+                input.value = '';
+                document.getElementById('next3').disabled = state.drivers.length < 2;
+            }
+        }
+
+        function removeDriver(index) {
+            state.drivers.splice(index, 1);
+            updateDriverList();
+            document.getElementById('next3').disabled = state.drivers.length < 2;
+        }
+
+        function updateDriverList() {
+            const list = document.getElementById('driverList');
+            list.innerHTML = state.drivers.map((driver, i) => `
+                <div class="driver-item">
+                    <span>${driver}</span>
+                    <button class="remove-btn" onclick="removeDriver(${i})">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function checkPDSA() {
+            state.pdsa = {
+                plan: document.getElementById('planInput').value,
+                do: document.getElementById('doInput').value,
+                study: document.getElementById('studyInput').value,
+                act: document.getElementById('actInput').value
+            };
+            
+            const allFilled = Object.values(state.pdsa).every(v => v.length > 10);
+            document.getElementById('next4').disabled = !allFilled;
+        }
+
+        function nextStep(step) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step${i}`).classList.add('complete');
+            }
+            
+            document.getElementById(`section${step}`).classList.add('active');
+            document.getElementById(`step${step}`).classList.add('active');
+            
+            if (step === 5) {
+                updateSummary();
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(step) {
+            nextStep(step);
+        }
+
+        function updateSummary() {
+            const problemLabels = {
+                falls: 'Patient Falls',
+                discharge: 'Discharge Delays',
+                handover: 'Handover Errors',
+                medication: 'Medication Safety'
+            };
+            
+            document.getElementById('summaryProblem').textContent = problemLabels[state.problem];
+            document.getElementById('summaryAim').textContent = state.aim;
+            document.getElementById('summaryDrivers').innerHTML = state.drivers.map(d => `<li>${d}</li>`).join('');
+            document.getElementById('summaryPlan').textContent = state.pdsa.plan;
+            document.getElementById('summaryDo').textContent = state.pdsa.do;
+            document.getElementById('summaryStudy').textContent = state.pdsa.study;
+            document.getElementById('summaryAct').textContent = state.pdsa.act;
+        }
+
+        function submitProject() {
+            const complete = document.getElementById('complete');
+            complete.classList.remove('hidden');
+            
+            complete.innerHTML = `
+                <div class="complete-box">
+                    <div style="font-size:60px">✅</div>
+                    <h2>QI Project Plan Complete!</h2>
+                    <p style="font-size:18px; margin:20px 0">Your improvement project is ready to implement.</p>
+                    
+                    <div style="background:white; padding:20px; border-radius:10px; text-align:left; margin:20px 0">
+                        <h3>Next Steps:</h3>
+                        <ol>
+                            <li>Share this plan with your team and stakeholders</li>
+                            <li>Prepare necessary resources for your PDSA cycle</li>
+                            <li>Set a start date for implementation</li>
+                            <li>Establish data collection methods</li>
+                            <li>Plan to review results and iterate</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background:#fff3e0; padding:15px; border-radius:8px; font-size:14px; text-align:left">
+                        <strong>Remember:</strong> Start small, test quickly, learn rapidly, and adapt based on evidence. 
+                        Quality improvement is iterative - your first PDSA cycle is just the beginning!
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="location.reload()" style="margin:20px auto; display:block">
+                    Plan Another Project
+                </button>
+            `;
+            
+            window.scrollTo({ top: complete.offsetTop - 100, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 2: Driver Diagram Builder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #11998e;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .instruction-box {
+            background: #e8f5e9;
+            border-left: 4px solid #11998e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .aim-section {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .aim-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #90caf9;
+            border-radius: 8px;
+            font-size: 15px;
+            margin-top: 10px;
+        }
+        .diagram-container {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr;
+            gap: 15px;
+            margin: 25px 0;
+            align-items: start;
+        }
+        .aim-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: bold;
+        }
+        .driver-column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .driver-box {
+            background: #fff3e0;
+            border: 2px solid #ffb74d;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 100px;
+        }
+        .driver-box.primary {
+            background: #e8f5e9;
+            border-color: #66bb6a;
+        }
+        .driver-box h4 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+        .driver-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .add-btn {
+            background: #11998e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        .add-btn:hover {
+            background: #0f7a6f;
+        }
+        .driver-item {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .remove-btn {
+            background: #ef5350;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .validation-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffa726;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        .validation-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+        }
+        .validation-item.complete {
+            background: #e8f5e9;
+        }
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .check-icon.checked {
+            background: #66bb6a;
+            color: white;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(17, 153, 142, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .complete-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: #e8f5e9;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Activity 2: Interactive Driver Diagram Builder</h2>
+        
+        <div class="instruction-box">
+            <h3>Build Your Driver Diagram</h3>
+            <p>Driver diagrams help you map out the factors that influence your improvement aim. You'll identify:</p>
+            <ul>
+                <li><strong>Aim:</strong> What you're trying to achieve</li>
+                <li><strong>Primary Drivers:</strong> Major factors that directly influence your aim (add 3-4)</li>
+                <li><strong>Secondary Drivers:</strong> Specific elements that support each primary driver (add 2-3 per primary)</li>
+            </ul>
+        </div>
+
+        <div class="aim-section">
+            <label><strong>Step 1: Define Your Improvement Aim</strong></label>
+            <input type="text" class="aim-input" id="aimInput" 
+                   placeholder="Example: Reduce hospital-acquired infections by 50% in adult acute wards by December 2025"
+                   oninput="updateAim()">
+            <p style="font-size:13px; color:#666; margin-top:8px">Make it SMART: Specific, Measurable, Achievable, Relevant, Time-bound</p>
+        </div>
+
+        <h3>Step 2: Build Your Driver Diagram</h3>
+        
+        <div class="diagram-container">
+            <div class="aim-box" id="aimDisplay">
+                Your Aim
+            </div>
+            
+            <div class="driver-column" id="primaryDrivers">
+                <div class="driver-box primary">
+                    <h4>Primary Driver 1</h4>
+                    <input type="text" class="driver-input" placeholder="e.g., Hand Hygiene Compliance" 
+                           onchange="addPrimaryDriver(this.value, 0)">
+                </div>
+                <div class="driver-box primary">
+                    <h4>Primary Driver 2</h4>
+                    <input type="text" class="driver-input" placeholder="e.g., Environmental Cleanliness" 
+                           onchange="addPrimaryDriver(this.value, 1)">
+                </div>
+                <div class="driver-box primary">
+                    <h4>Primary Driver 3</h4>
+                    <input type="text" class="driver-input" placeholder="e.g., Device Management" 
+                           onchange="addPrimaryDriver(this.value, 2)">
+                </div>
+            </div>
+            
+            <div class="driver-column" id="secondaryDrivers">
+                <div class="driver-box">
+                    <h4>Secondary Drivers (for Primary 1)</h4>
+                    <div id="secondary-0"></div>
+                    <input type="text" class="driver-input" id="secInput-0" placeholder="Add secondary driver">
+                    <button class="add-btn" onclick="addSecondaryDriver(0)">+ Add</button>
+                </div>
+                <div class="driver-box">
+                    <h4>Secondary Drivers (for Primary 2)</h4>
+                    <div id="secondary-1"></div>
+                    <input type="text" class="driver-input" id="secInput-1" placeholder="Add secondary driver">
+                    <button class="add-btn" onclick="addSecondaryDriver(1)">+ Add</button>
+                </div>
+                <div class="driver-box">
+                    <h4>Secondary Drivers (for Primary 3)</h4>
+                    <div id="secondary-2"></div>
+                    <input type="text" class="driver-input" id="secInput-2" placeholder="Add secondary driver">
+                    <button class="add-btn" onclick="addSecondaryDriver(2)">+ Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="validation-box">
+            <h3>Diagram Quality Check</h3>
+            <div class="validation-item" id="val1">
+                <div class="check-icon" id="check1"></div>
+                <span>Clear, SMART aim defined</span>
+            </div>
+            <div class="validation-item" id="val2">
+                <div class="check-icon" id="check2"></div>
+                <span>At least 3 primary drivers identified</span>
+            </div>
+            <div class="validation-item" id="val3">
+                <div class="check-icon" id="check3"></div>
+                <span>Each primary driver has 2+ secondary drivers</span>
+            </div>
+            <div class="validation-item" id="val4">
+                <div class="check-icon" id="check4"></div>
+                <span>Logical connections between drivers and aim</span>
+            </div>
+        </div>
+
+        <button class="submit-btn" id="submitBtn" onclick="submitDiagram()" disabled>
+            Submit Driver Diagram
+        </button>
+
+        <div id="complete" class="hidden"></div>
+    </div>
+
+    <script>
+        const state = {
+            aim: '',
+            primaryDrivers: ['', '', ''],
+            secondaryDrivers: [[], [], []]
+        };
+
+        function updateAim() {
+            const aim = document.getElementById('aimInput').value;
+            state.aim = aim;
+            document.getElementById('aimDisplay').textContent = aim || 'Your Aim';
+            validateDiagram();
+        }
+
+        function addPrimaryDriver(value, index) {
+            state.primaryDrivers[index] = value;
+            validateDiagram();
+        }
+
+        function addSecondaryDriver(primaryIndex) {
+            const input = document.getElementById(`secInput-${primaryIndex}`);
+            const value = input.value.trim();
+            
+            if (value) {
+                state.secondaryDrivers[primaryIndex].push(value);
+                
+                const container = document.getElementById(`secondary-${primaryIndex}`);
+                const item = document.createElement('div');
+                item.className = 'driver-item';
+                item.innerHTML = `
+                    <span>${value}</span>
+                    <button class="remove-btn" onclick="removeSecondaryDriver(${primaryIndex}, ${state.secondaryDrivers[primaryIndex].length - 1})">×</button>
+                `;
+                container.appendChild(item);
+                
+                input.value = '';
+                validateDiagram();
+            }
+        }
+
+        function removeSecondaryDriver(primaryIndex, secondaryIndex) {
+            state.secondaryDrivers[primaryIndex].splice(secondaryIndex, 1);
+            const container = document.getElementById(`secondary-${primaryIndex}`);
+            container.innerHTML = '';
+            
+            state.secondaryDrivers[primaryIndex].forEach((driver, idx) => {
+                const item = document.createElement('div');
+                item.className = 'driver-item';
+                item.innerHTML = `
+                    <span>${driver}</span>
+                    <button class="remove-btn" onclick="removeSecondaryDriver(${primaryIndex}, ${idx})">×</button>
+                `;
+                container.appendChild(item);
+            });
+            
+            validateDiagram();
+        }
+
+        function validateDiagram() {
+            const checks = {
+                1: state.aim.length > 20 && /\d/.test(state.aim),
+                2: state.primaryDrivers.filter(d => d.length > 0).length >= 3,
+                3: state.secondaryDrivers.every(arr => arr.length >= 2),
+                4: state.primaryDrivers.filter(d => d.length > 0).length >= 3 && 
+                   state.secondaryDrivers.some(arr => arr.length >= 2)
+            };
+
+            Object.keys(checks).forEach(key => {
+                const element = document.getElementById(`val${key}`);
+                const check = document.getElementById(`check${key}`);
+                
+                if (checks[key]) {
+                    element.classList.add('complete');
+                    check.classList.add('checked');
+                    check.textContent = '✓';
+                } else {
+                    element.classList.remove('complete');
+                    check.classList.remove('checked');
+                    check.textContent = '';
+                }
+            });
+
+            const allValid = Object.values(checks).every(v => v);
+            document.getElementById('submitBtn').disabled = !allValid;
+        }
+
+        function submitDiagram() {
+            const complete = document.getElementById('complete');
+            complete.classList.remove('hidden');
+            
+            complete.innerHTML = `
+                <div class="complete-box">
+                    <div style="font-size:60px">✓</div>
+                    <h2>Driver Diagram Complete!</h2>
+                    <p style="margin:20px 0">Your driver diagram has been successfully created.</p>
+                    
+                    <div style="background:white; padding:20px; border-radius:10px; text-align:left; margin:20px 0">
+                        <h3>Your Diagram Summary:</h3>
+                        <p><strong>Aim:</strong> ${state.aim}</p>
+                        <p><strong>Primary Drivers:</strong> ${state.primaryDrivers.filter(d => d).length}</p>
+                        <p><strong>Total Secondary Drivers:</strong> ${state.secondaryDrivers.reduce((sum, arr) => sum + arr.length, 0)}</p>
+                    </div>
+                    
+                    <div style="background:#e3f2fd; padding:15px; border-radius:8px; text-align:left; font-size:14px">
+                        <strong>Next Steps:</strong>
+                        <ul>
+                            <li>Use this diagram to guide your PDSA cycles</li>
+                            <li>Test change ideas targeting specific secondary drivers</li>
+                            <li>Update the diagram as you learn from your cycles</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <button class="submit-btn" onclick="location.reload()">Create Another Diagram</button>
+            `;
+            
+            window.scrollTo({ top: complete.offsetTop - 100, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

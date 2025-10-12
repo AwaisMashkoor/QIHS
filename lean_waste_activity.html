@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 3: LEAN Waste Identification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 3px solid #f5576c;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .intro-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        .waste-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .waste-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .waste-item strong {
+            display: block;
+            color: #f5576c;
+            margin-bottom: 5px;
+        }
+        .scenario {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        .scenario h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        .scenario-text {
+            line-height: 1.8;
+            color: #424242;
+            margin-bottom: 20px;
+        }
+        .clickable-area {
+            background: white;
+            border: 2px solid #81c784;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        .waste-spot {
+            display: inline-block;
+            padding: 2px 6px;
+            margin: 2px;
+            background: #fff9c4;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        .waste-spot:hover {
+            background: #fff176;
+            transform: scale(1.05);
+        }
+        .waste-spot.selected {
+            background: #ffab91;
+            border-color: #ff5722;
+        }
+        .waste-spot.correct {
+            background: #a5d6a7;
+            border-color: #4caf50;
+        }
+        .waste-spot.incorrect {
+            background: #ef9a9a;
+            border-color: #f44336;
+        }
+        .selection-panel {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .waste-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .waste-btn {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+        .waste-btn:hover {
+            border-color: #f5576c;
+            transform: translateY(-2px);
+        }
+        .waste-btn.active {
+            background: #f5576c;
+            color: white;
+            border-color: #f5576c;
+        }
+        .feedback {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+        .feedback.show {
+            display: block;
+        }
+        .score-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        .score-box h3 {
+            margin: 0 0 10px 0;
+        }
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .next-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+            margin: 20px auto;
+        }
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 87, 108, 0.3);
+        }
+        .next-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .complete-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: #e8f5e9;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Activity 3: LEAN Waste Identification Game</h2>
+        
+        <div class="intro-box">
+            <h3>The Seven Wastes in Healthcare</h3>
+            <p>LEAN methodology identifies seven types of waste that don't add value for patients. Click on waste instances in the scenario below and identify which type of waste they represent.</p>
+        </div>
+
+        <div class="waste-legend">
+            <div class="waste-item">
+                <strong>Transport</strong>
+                Unnecessary movement of patients/items
+            </div>
+            <div class="waste-item">
+                <strong>Inventory</strong>
+                Excess supplies not needed
+            </div>
+            <div class="waste-item">
+                <strong>Motion</strong>
+                Unnecessary staff movement
+            </div>
+            <div class="waste-item">
+                <strong>Waiting</strong>
+                Delays for patients/staff
+            </div>
+            <div class="waste-item">
+                <strong>Over-production</strong>
+                Doing more than necessary
+            </div>
+            <div class="waste-item">
+                <strong>Over-processing</strong>
+                More complex than needed
+            </div>
+            <div class="waste-item">
+                <strong>Defects</strong>
+                Errors requiring correction
+            </div>
+        </div>
+
+        <div id="scenario1" class="scenario">
+            <h3>Scenario: Outpatient Clinic Morning</h3>
+            <div class="clickable-area">
+                <p class="scenario-text">
+                    Mrs. Jones arrives for her 9am cardiology appointment. The receptionist 
+                    <span class="waste-spot" data-waste="waiting" data-id="1">asks her to wait while the computer system loads (3 minutes)</span>. 
+                    After registration, she's sent to 
+                    <span class="waste-spot" data-waste="transport" data-id="2">Waiting Room A on the ground floor</span>. 
+                    At 9:15am, she's called and told to go to 
+                    <span class="waste-spot" data-waste="transport" data-id="3">Waiting Room B on the second floor</span> 
+                    where cardiology patients actually wait. The nurse 
+                    <span class="waste-spot" data-waste="motion" data-id="4">walks to the supply room three floors down to get an ECG machine</span> 
+                    because the clinic's machine is being used elsewhere. Meanwhile, 
+                    <span class="waste-spot" data-waste="over-processing" data-id="5">Mrs. Jones fills out the same medical history form she completed last month</span>, 
+                    and the system 
+                    <span class="waste-spot" data-waste="defects" data-id="6">shows her recorded medications incorrectly, requiring correction</span>.
+                </p>
+            </div>
+            
+            <div class="selection-panel hidden" id="panel1">
+                <p><strong>You clicked:</strong> <span id="selected-text"></span></p>
+                <p>What type of waste is this?</p>
+                <div class="waste-buttons">
+                    <button class="waste-btn" onclick="checkAnswer('transport')">Transport</button>
+                    <button class="waste-btn" onclick="checkAnswer('inventory')">Inventory</button>
+                    <button class="waste-btn" onclick="checkAnswer('motion')">Motion</button>
+                    <button class="waste-btn" onclick="checkAnswer('waiting')">Waiting</button>
+                    <button class="waste-btn" onclick="checkAnswer('over-production')">Over-production</button>
+                    <button class="waste-btn" onclick="checkAnswer('over-processing')">Over-processing</button>
+                    <button class="waste-btn" onclick="checkAnswer('defects')">Defects</button>
+                </div>
+                <div class="feedback" id="feedback"></div>
+            </div>
+        </div>
+
+        <div class="score-box">
+            <h3>Your Progress</h3>
+            <div class="score-number"><span id="score">0</span>/6</div>
+            <p>Wastes Correctly Identified</p>
+        </div>
+
+        <button class="next-btn" id="nextBtn" onclick="complete()" disabled>Complete Activity</button>
+
+        <div id="complete" class="hidden"></div>
+    </div>
+
+    <script>
+        let currentSpot = null;
+        let score = 0;
+        let identified = new Set();
+
+        document.querySelectorAll('.waste-spot').forEach(spot => {
+            spot.addEventListener('click', function() {
+                if (this.classList.contains('correct')) return;
+                
+                currentSpot = this;
+                document.getElementById('selected-text').textContent = this.textContent;
+                document.getElementById('panel1').classList.remove('hidden');
+                document.getElementById('feedback').classList.remove('show');
+                
+                document.querySelectorAll('.waste-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            });
+        });
+
+        function checkAnswer(selected) {
+            const correctWaste = currentSpot.dataset.waste;
+            const spotId = currentSpot.dataset.id;
+            const feedback = document.getElementById('feedback');
+            
+            event.target.classList.add('active');
+            
+            if (selected === correctWaste) {
+                currentSpot.classList.add('correct');
+                currentSpot.style.cursor = 'default';
+                feedback.style.borderColor = '#4caf50';
+                feedback.style.background = '#e8f5e9';
+                
+                if (!identified.has(spotId)) {
+                    identified.add(spotId);
+                    score++;
+                    document.getElementById('score').textContent = score;
+                }
+                
+                const explanations = {
+                    'waiting': 'Correct! This is <strong>Waiting</strong> waste - the patient is delayed while the system loads.',
+                    'transport': 'Correct! This is <strong>Transport</strong> waste - unnecessary movement between waiting rooms.',
+                    'motion': 'Correct! This is <strong>Motion</strong> waste - staff walking excessive distances to get equipment.',
+                    'over-processing': 'Correct! This is <strong>Over-processing</strong> waste - repeating the same form unnecessarily.',
+                    'defects': 'Correct! This is <strong>Defects</strong> waste - errors in data requiring correction.'
+                };
+                
+                feedback.innerHTML = explanations[correctWaste];
+            } else {
+                currentSpot.classList.add('incorrect');
+                setTimeout(() => currentSpot.classList.remove('incorrect'), 1000);
+                feedback.style.borderColor = '#f44336';
+                feedback.style.background = '#ffebee';
+                feedback.innerHTML = `Not quite. Think about what category best describes this waste. The correct answer is <strong>${correctWaste}</strong>.`;
+            }
+            
+            feedback.classList.add('show');
+            
+            if (score >= 6) {
+                document.getElementById('nextBtn').disabled = false;
+            }
+        }
+
+        function complete() {
+            const complete = document.getElementById('complete');
+            complete.classList.remove('hidden');
+            
+            const percentage = Math.round((score / 6) * 100);
+            
+            complete.innerHTML = `
+                <div class="complete-box">
+                    <div style="font-size:60px">🎯</div>
+                    <h2>Waste Identification Complete!</h2>
+                    <div style="font-size:36px; color:#4caf50; margin:20px 0">
+                        ${score}/6 Identified
+                    </div>
+                    
+                    <div style="background:white; padding:20px; border-radius:10px; text-align:left; margin:20px 0">
+                        <h3>Key Insights:</h3>
+                        <ul>
+                            <li><strong>Transport & Motion:</strong> Consider co-locating services and supplies</li>
+                            <li><strong>Waiting:</strong> Invest in reliable IT systems and efficient workflows</li>
+                            <li><strong>Over-processing:</strong> Use electronic forms that pre-populate data</li>
+                            <li><strong>Defects:</strong> Implement verification systems to prevent errors</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background:#fff3e0; padding:15px; border-radius:8px; font-size:14px; text-align:left">
+                        <strong>LEAN Principle:</strong> Each type of waste identified represents an opportunity 
+                        for improvement. By eliminating waste, you free up time and resources for value-adding 
+                        activities that directly benefit patients.
+                    </div>
+                </div>
+                
+                <button class="next-btn" onclick="location.reload()">Try Another Scenario</button>
+            `;
+            
+            window.scrollTo({ top: complete.offsetTop - 100, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
