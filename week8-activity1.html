@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity 1: Hospital Discharge Process Map Critique</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+        }
+
+        .timer-section {
+            background: #fff3e0;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #ff9800;
+        }
+
+        .timer {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .scenario-box {
+            background: #fff8e1;
+            border-left: 6px solid #ffa726;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .scenario-box h2 {
+            color: #e65100;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .scenario-box p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #424242;
+        }
+
+        .scenario-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #ff9800;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #e65100;
+        }
+
+        .process-map-container {
+            background: white;
+            border: 3px solid #1976d2;
+            border-radius: 15px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        .process-map-container h3 {
+            color: #1565c0;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 600px;
+        }
+
+        .process-step {
+            position: relative;
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .process-step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(25,118,210,0.3);
+        }
+
+        .process-step.flagged {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: #1976d2;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .step-content {
+            margin-left: 10px;
+        }
+
+        .step-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #1565c0;
+            margin-bottom: 8px;
+        }
+
+        .step-details {
+            font-size: 0.95rem;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .step-meta {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #1976d2;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .criteria-card {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #4caf50;
+        }
+
+        .criteria-card h3 {
+            color: #2e7d32;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .criteria-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .criteria-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #4caf50;
+            font-size: 1rem;
+            color: #424242;
+        }
+
+        .criteria-item strong {
+            color: #2e7d32;
+        }
+
+        .worksheet {
+            background: #fff;
+            border: 3px solid #ff9800;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .worksheet h3 {
+            color: #e65100;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .worksheet-section {
+            margin-bottom: 20px;
+        }
+
+        .worksheet-section h4 {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .input-area {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: #1976d2;
+            box-shadow: 0 0 0 3px rgba(25,118,210,0.1);
+        }
+
+        .priority-section {
+            background: #ffebee;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #f44336;
+        }
+
+        .priority-section h4 {
+            color: #c62828;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .instructions {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .instructions h3 {
+            color: #2e7d32;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .instructions li {
+            font-size: 1.05rem;
+            color: #424242;
+            margin-bottom: 8px;
+        }
+
+        .flag-button {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .flag-button:hover {
+            background: #d32f2f;
+        }
+
+        .flag-button.flagged {
+            background: #4caf50;
+        }
+
+        @media print {
+            .timer-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Activity 1: Process Map Critique</h1>
+            <p>Pair Work - Review, Identify, Justify</p>
+        </div>
+
+        <div class="timer-section">
+            <p style="font-size: 1.1rem; margin-bottom: 5px;">Time Allocated</p>
+            <div class="timer">⏱️ 20 minutes</div>
+        </div>
+
+        <div class="content-grid">
+            <div class="left-panel">
+                <div class="scenario-box">
+                    <h2>📋 Scenario: Hospital Discharge Process</h2>
+                    <p>A 450-bed district general hospital has a median discharge time of 3.5 hours (from decision to discharge until patient leaves). National benchmark is 2 hours.</p>
+                    
+                    <div class="scenario-stats">
+                        <div class="stat-box">
+                            <div class="stat-label">Current Time</div>
+                            <div class="stat-value">3.5 hrs</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Benchmark</div>
+                            <div class="stat-value">2.0 hrs</div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 15px; font-weight: 600;">Delays cause:</p>
+                    <ul style="margin-left: 20px; margin-top: 8px;">
+                        <li>Bed blocking for emergency admissions</li>
+                        <li>Patient dissatisfaction</li>
+                        <li>Staff frustration</li>
+                    </ul>
+                </div>
+
+                <div class="process-map-container">
+                    <h3>Hospital Discharge Process Map</h3>
+                    <p style="text-align: center; font-size: 0.9rem; color: #666; margin-bottom: 20px;">
+                        Created by: Ward Manager, June 2024
+                    </p>
+                    
+                    <div class="process-flow">
+                        <div class="process-step" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Doctor decides patient ready for discharge</div>
+                                <div class="step-details">
+                                    <span class="step-meta">👨‍⚕️ Doctor</span>
+                                    <span class="step-meta">📋 Clinical review</span>
+                                </div>
+                            </div>
+                            <button class="flag-button" onclick="toggleFlag(this)">🚩 Flag Issue</button>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="process-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">Discharge summary completed</div>
+                                <div class="step-details">
+                                    <span class="step-meta">👨‍⚕️ Doctor</span>
+                                    <span class="step-meta">⏱️ Time: varies</span>
+                                </div>
+                            </div>
+                            <button class="flag-button" onclick="toggleFlag(this)">🚩 Flag Issue</button>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="process-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <div class="step-title">Pharmacy dispenses medications</div>
+                                <div class="step-details">
+                                    <span class="step-meta">💊 Pharmacy</span>
+                                    <span class="step-meta">⏱️ Time: 30-90 min</span>
+                                </div>
+                            </div>
+                            <button class="flag-button" onclick="toggleFlag(this)">🚩 Flag Issue</button>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="process-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <div class="step-title">Nurse organizes transport</div>
+                                <div class="step-details">
+                                    <span class="step-meta">👩‍⚕️ Nurse</span>
+                                    <span class="step-meta">📞 Phone call</span>
+                                </div>
+                            </div>
+                            <button class="flag-button" onclick="toggleFlag(this)">🚩 Flag Issue</button>
+                        </div>
+
+                        <div class="arrow-down">↓</div>
+
+                        <div class="process-step" data-step="5">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <div class="step-title">Patient leaves ward</div>
+                                <div class="step-details">
+                                    <span class="step-meta">🚗 Transport arrives</span>
+                                    <span class="step-meta">👋 Patient departs</span>
+                                </div>
+                            </div>
+                            <button class="flag-button" onclick="toggleFlag(this)">🚩 Flag Issue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="instructions">
+                    <h3>📝 Your Task (in pairs)</h3>
+                    <ol>
+                        <li><strong>Review</strong> the discharge process map on the left</li>
+                        <li><strong>Identify 5 quality issues</strong> using Antonacci criteria below</li>
+                        <li><strong>Document</strong> each issue in the worksheet</li>
+                        <li><strong>Justify</strong> which single issue to prioritize first</li>
+                    </ol>
+                </div>
+
+                <div class="criteria-card">
+                    <h3>✓ Antonacci Quality Criteria</h3>
+                    <div class="criteria-list">
+                        <div class="criteria-item">
+                            <strong>1. Agreed purpose & scope:</strong> What question does this map answer?
+                        </div>
+                        <div class="criteria-item">
+                            <strong>2. Stakeholder validation:</strong> Did frontline staff confirm accuracy?
+                        </div>
+                        <div class="criteria-item">
+                            <strong>3. Accurate representation:</strong> Based on observation, not assumption?
+                        </div>
+                        <div class="criteria-item">
+                            <strong>4. Clear handoffs & delays:</strong> Where does work wait or get dropped?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="worksheet">
+                    <h3>📝 Worksheet: Document Your Findings</h3>
+                    
+                    <div class="worksheet-section">
+                        <h4>Issue 1: Which criterion is violated? What evidence?</h4>
+                        <textarea class="input-area" placeholder="Example: No agreed purpose - map title missing, unclear if focusing on speed vs. safety vs. patient experience"></textarea>
+                    </div>
+
+                    <div class="worksheet-section">
+                        <h4>Issue 2: Which criterion is violated? What evidence?</h4>
+                        <textarea class="input-area" placeholder="Type your answer here..."></textarea>
+                    </div>
+
+                    <div class="worksheet-section">
+                        <h4>Issue 3: Which criterion is violated? What evidence?</h4>
+                        <textarea class="input-area" placeholder="Type your answer here..."></textarea>
+                    </div>
+
+                    <div class="worksheet-section">
+                        <h4>Issue 4: Which criterion is violated? What evidence?</h4>
+                        <textarea class="input-area" placeholder="Type your answer here..."></textarea>
+                    </div>
+
+                    <div class="worksheet-section">
+                        <h4>Issue 5: Which criterion is violated? What evidence?</h4>
+                        <textarea class="input-area" placeholder="Type your answer here..."></textarea>
+                    </div>
+
+                    <div class="priority-section">
+                        <h4>🎯 Which ONE issue would you prioritize fixing first? Why?</h4>
+                        <textarea class="input-area" style="min-height: 100px;" placeholder="Justify your choice - consider impact on discharge time, patient safety, and feasibility of fixing..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFlag(button) {
+            const step = button.closest('.process-step');
+            step.classList.toggle('flagged');
+            
+            if (step.classList.contains('flagged')) {
+                button.textContent = '✓ Flagged';
+                button.classList.add('flagged');
+            } else {
+                button.textContent = '🚩 Flag Issue';
+                button.classList.remove('flagged');
+            }
+        }
+
+        // Optional: Auto-save to localStorage
+        document.querySelectorAll('.input-area').forEach((textarea, index) => {
+            textarea.addEventListener('input', (e) => {
+                localStorage.setItem(`activity1-response-${index}`, e.target.value);
+            });
+            
+            // Load saved content
+            const saved = localStorage.getItem(`activity1-response-${index}`);
+            if (saved) {
+                textarea.value = saved;
+            }
+        });
+    </script>
+</body>
+</html>
