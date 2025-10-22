@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FMEA Critical Appraisal Activity - Simplified</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Timer */
+        .timer-bar {
+            background: #fef3c7;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #92400e;
+        }
+
+        /* Action Buttons */
+        .action-bar {
+            background: #f3f4f6;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-primary:hover { background: #2563eb; transform: translateY(-1px); }
+        
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; transform: translateY(-1px); }
+        
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-warning:hover { background: #d97706; transform: translateY(-1px); }
+        
+        .btn-info { background: #8b5cf6; color: white; }
+        .btn-info:hover { background: #7c3aed; transform: translateY(-1px); }
+
+        /* Main Content */
+        .content {
+            padding: 30px;
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .danger-box {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #d1d5db;
+        }
+
+        th {
+            background: #6366f1;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        tr:hover {
+            background: #f3f4f6;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Grid Layout */
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 10px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            width: 100%;
+            padding: 30px;
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .close-btn:hover {
+            color: #374151;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 2000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5rem; }
+            .content { padding: 20px; }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; }
+            .action-bar, .timer-bar { display: none; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏥 FMEA Critical Appraisal Activity</h1>
+            <p>Failure Modes and Effects Analysis - Patient Discharge Process</p>
+        </div>
+
+        <!-- Timer -->
+        <div class="timer-bar">
+            ⏱️ Time: <span id="timer">30:00</span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-bar">
+            <button class="btn btn-success" onclick="saveWork()">💾 Save Work</button>
+            <button class="btn btn-primary" onclick="showSummary()">📊 View Summary</button>
+            <button class="btn btn-warning" onclick="clearWork()">🗑️ Clear All</button>
+            <button class="btn btn-info" onclick="window.print()">🖨️ Print</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Instructions -->
+            <div class="info-box">
+                <h3>📋 Instructions</h3>
+                <ol>
+                    <li>Review the FMEA table below for the patient discharge process</li>
+                    <li>Identify at least 3 problems with how the risks have been scored</li>
+                    <li>Select and recalibrate 2 failure modes with justification</li>
+                    <li>Identify a missing failure mode and explain why it might have been overlooked</li>
+                    <li>Your work is automatically saved every 30 seconds</li>
+                </ol>
+            </div>
+
+            <!-- Scenario -->
+            <div class="warning-box">
+                <h3>📖 Scenario</h3>
+                <p>You're reviewing an FMEA for a hospital's patient discharge process. The analysis was conducted by a junior team with limited experience. Your task is to critically appraise their work and provide improvements.</p>
+            </div>
+
+            <!-- FMEA Table -->
+            <div class="card">
+                <div class="card-header">FMEA Analysis Table - Patient Discharge Process</div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Process Step</th>
+                                <th>Failure Mode</th>
+                                <th>Effects</th>
+                                <th>S</th>
+                                <th>O</th>
+                                <th>D</th>
+                                <th>RPN</th>
+                                <th>Current Controls</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Medication Reconciliation</td>
+                                <td>Incorrect medications listed</td>
+                                <td>Patient receives wrong medications</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>12</td>
+                                <td>Pharmacist review</td>
+                            </tr>
+                            <tr>
+                                <td>Discharge Instructions</td>
+                                <td>Instructions unclear</td>
+                                <td>Patient confusion, readmission</td>
+                                <td>2</td>
+                                <td>4</td>
+                                <td>3</td>
+                                <td>24</td>
+                                <td>Written instructions provided</td>
+                            </tr>
+                            <tr>
+                                <td>Follow-up Appointment</td>
+                                <td>Appointment not scheduled</td>
+                                <td>Delayed care, complications</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>24</td>
+                                <td>Discharge checklist</td>
+                            </tr>
+                            <tr>
+                                <td>Transportation</td>
+                                <td>No transport arranged</td>
+                                <td>Patient stranded at hospital</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>5</td>
+                                <td>10</td>
+                                <td>Social worker assessment</td>
+                            </tr>
+                            <tr>
+                                <td>Home Equipment</td>
+                                <td>Equipment not ready</td>
+                                <td>Patient unable to manage at home</td>
+                                <td>3</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>18</td>
+                                <td>Equipment checklist</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="info-box" style="margin-top: 15px;">
+                    <strong>Scoring Guide:</strong> 
+                    Severity (S): 1=Minor, 5=Catastrophic | 
+                    Occurrence (O): 1=Rare, 5=Very Frequent | 
+                    Detection (D): 1=Easy to detect, 5=Hard to detect
+                </div>
+            </div>
+
+            <!-- Part 1: Problems Identification -->
+            <div class="card">
+                <div class="card-header">Part 1: Identify Scoring Problems</div>
+                <p style="margin-bottom: 15px;">Identify at least 3 problems with how the failure modes have been scored:</p>
+                
+                <div class="form-group">
+                    <label>Problem 1:</label>
+                    <textarea id="problem1" placeholder="Describe the first scoring problem..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Problem 2:</label>
+                    <textarea id="problem2" placeholder="Describe the second scoring problem..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Problem 3:</label>
+                    <textarea id="problem3" placeholder="Describe the third scoring problem..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Additional Problem (Optional):</label>
+                    <textarea id="problem4" placeholder="Any additional problems identified..."></textarea>
+                </div>
+            </div>
+
+            <!-- Part 2: Recalibration -->
+            <div class="card">
+                <div class="card-header">Part 2: Recalibrate Two Failure Modes</div>
+                
+                <div class="grid grid-2">
+                    <!-- Recalibration 1 -->
+                    <div>
+                        <h4 style="margin-bottom: 15px;">Recalibration 1</h4>
+                        <div class="form-group">
+                            <label>Select Failure Mode:</label>
+                            <select id="select1" onchange="updateSelection(1)">
+                                <option value="">-- Select --</option>
+                                <option value="Incorrect medications">Incorrect medications listed</option>
+                                <option value="Instructions unclear">Instructions unclear</option>
+                                <option value="Appointment not scheduled">Appointment not scheduled</option>
+                                <option value="No transport">No transport arranged</option>
+                                <option value="Equipment not ready">Equipment not ready</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Severity (1-5):</label>
+                            <input type="number" id="new-s1" min="1" max="5" onchange="calculateRPN(1)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Occurrence (1-5):</label>
+                            <input type="number" id="new-o1" min="1" max="5" onchange="calculateRPN(1)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Detection (1-5):</label>
+                            <input type="number" id="new-d1" min="1" max="5" onchange="calculateRPN(1)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New RPN:</label>
+                            <input type="text" id="new-rpn1" readonly style="background: #f3f4f6;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Justification:</label>
+                            <textarea id="justify1" placeholder="Explain your reasoning for these scores..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Recalibration 2 -->
+                    <div>
+                        <h4 style="margin-bottom: 15px;">Recalibration 2</h4>
+                        <div class="form-group">
+                            <label>Select Failure Mode:</label>
+                            <select id="select2" onchange="updateSelection(2)">
+                                <option value="">-- Select --</option>
+                                <option value="Incorrect medications">Incorrect medications listed</option>
+                                <option value="Instructions unclear">Instructions unclear</option>
+                                <option value="Appointment not scheduled">Appointment not scheduled</option>
+                                <option value="No transport">No transport arranged</option>
+                                <option value="Equipment not ready">Equipment not ready</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Severity (1-5):</label>
+                            <input type="number" id="new-s2" min="1" max="5" onchange="calculateRPN(2)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Occurrence (1-5):</label>
+                            <input type="number" id="new-o2" min="1" max="5" onchange="calculateRPN(2)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New Detection (1-5):</label>
+                            <input type="number" id="new-d2" min="1" max="5" onchange="calculateRPN(2)">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>New RPN:</label>
+                            <input type="text" id="new-rpn2" readonly style="background: #f3f4f6;">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Justification:</label>
+                            <textarea id="justify2" placeholder="Explain your reasoning for these scores..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Part 3: Missing Failure Mode -->
+            <div class="card">
+                <div class="card-header">Part 3: Identify Missing Failure Mode</div>
+                
+                <div class="form-group">
+                    <label>Missing Failure Mode:</label>
+                    <textarea id="missing-mode" placeholder="Describe a critical failure mode that's missing from the analysis..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Why might this have been overlooked?</label>
+                    <textarea id="missing-why" placeholder="Explain why the team might have missed this failure mode..."></textarea>
+                </div>
+                
+                <div class="grid grid-2">
+                    <div>
+                        <h4 style="margin-bottom: 15px;">Proposed Scores for Missing Mode:</h4>
+                        <div style="display: flex; gap: 10px;">
+                            <div style="flex: 1;">
+                                <label>S (1-5):</label>
+                                <input type="number" id="missing-s" min="1" max="5">
+                            </div>
+                            <div style="flex: 1;">
+                                <label>O (1-5):</label>
+                                <input type="number" id="missing-o" min="1" max="5">
+                            </div>
+                            <div style="flex: 1;">
+                                <label>D (1-5):</label>
+                                <input type="number" id="missing-d" min="1" max="5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Pitfalls Reference -->
+            <div class="danger-box">
+                <h3>⚠️ Common FMEA Pitfalls to Consider</h3>
+                <ul>
+                    <li><strong>Severity Underestimation:</strong> Not considering worst-case scenarios</li>
+                    <li><strong>Detection Overconfidence:</strong> Assuming controls work better than they do</li>
+                    <li><strong>Occurrence Bias:</strong> Using outdated or incomplete data</li>
+                    <li><strong>Missing System Failures:</strong> Focusing only on individual steps</li>
+                    <li><strong>Human Factors Ignored:</strong> Not accounting for fatigue, stress, or communication issues</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSummary()">&times;</span>
+            <div class="modal-header">📊 Activity Summary</div>
+            <div id="summaryContent"></div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="downloadSummary()">📥 Download Summary</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        let timeLeft = 30 * 60; // 30 minutes in seconds
+        let timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Your work has been auto-saved.');
+                    saveWork();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Calculate RPN
+        function calculateRPN(num) {
+            const s = document.getElementById(`new-s${num}`).value;
+            const o = document.getElementById(`new-o${num}`).value;
+            const d = document.getElementById(`new-d${num}`).value;
+            
+            if (s && o && d) {
+                const rpn = parseInt(s) * parseInt(o) * parseInt(d);
+                document.getElementById(`new-rpn${num}`).value = rpn;
+            }
+        }
+
+        // Update selection
+        function updateSelection(num) {
+            const selected = document.getElementById(`select${num}`).value;
+            if (selected) {
+                showNotification(`Selected: ${selected}`);
+            }
+        }
+
+        // Save work to localStorage
+        function saveWork() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                problems: {
+                    problem1: document.getElementById('problem1').value,
+                    problem2: document.getElementById('problem2').value,
+                    problem3: document.getElementById('problem3').value,
+                    problem4: document.getElementById('problem4').value
+                },
+                recalibration1: {
+                    selected: document.getElementById('select1').value,
+                    newS: document.getElementById('new-s1').value,
+                    newO: document.getElementById('new-o1').value,
+                    newD: document.getElementById('new-d1').value,
+                    newRPN: document.getElementById('new-rpn1').value,
+                    justification: document.getElementById('justify1').value
+                },
+                recalibration2: {
+                    selected: document.getElementById('select2').value,
+                    newS: document.getElementById('new-s2').value,
+                    newO: document.getElementById('new-o2').value,
+                    newD: document.getElementById('new-d2').value,
+                    newRPN: document.getElementById('new-rpn2').value,
+                    justification: document.getElementById('justify2').value
+                },
+                missingMode: {
+                    mode: document.getElementById('missing-mode').value,
+                    why: document.getElementById('missing-why').value,
+                    s: document.getElementById('missing-s').value,
+                    o: document.getElementById('missing-o').value,
+                    d: document.getElementById('missing-d').value
+                }
+            };
+            
+            localStorage.setItem('fmea-simplified', JSON.stringify(data));
+            showNotification('Work saved successfully!');
+        }
+
+        // Load saved work
+        function loadWork() {
+            const saved = localStorage.getItem('fmea-simplified');
+            if (saved) {
+                const data = JSON.parse(saved);
+                
+                // Load all saved values
+                if (data.problems) {
+                    document.getElementById('problem1').value = data.problems.problem1 || '';
+                    document.getElementById('problem2').value = data.problems.problem2 || '';
+                    document.getElementById('problem3').value = data.problems.problem3 || '';
+                    document.getElementById('problem4').value = data.problems.problem4 || '';
+                }
+                
+                if (data.recalibration1) {
+                    document.getElementById('select1').value = data.recalibration1.selected || '';
+                    document.getElementById('new-s1').value = data.recalibration1.newS || '';
+                    document.getElementById('new-o1').value = data.recalibration1.newO || '';
+                    document.getElementById('new-d1').value = data.recalibration1.newD || '';
+                    document.getElementById('new-rpn1').value = data.recalibration1.newRPN || '';
+                    document.getElementById('justify1').value = data.recalibration1.justification || '';
+                }
+                
+                if (data.recalibration2) {
+                    document.getElementById('select2').value = data.recalibration2.selected || '';
+                    document.getElementById('new-s2').value = data.recalibration2.newS || '';
+                    document.getElementById('new-o2').value = data.recalibration2.newO || '';
+                    document.getElementById('new-d2').value = data.recalibration2.newD || '';
+                    document.getElementById('new-rpn2').value = data.recalibration2.newRPN || '';
+                    document.getElementById('justify2').value = data.recalibration2.justification || '';
+                }
+                
+                if (data.missingMode) {
+                    document.getElementById('missing-mode').value = data.missingMode.mode || '';
+                    document.getElementById('missing-why').value = data.missingMode.why || '';
+                    document.getElementById('missing-s').value = data.missingMode.s || '';
+                    document.getElementById('missing-o').value = data.missingMode.o || '';
+                    document.getElementById('missing-d').value = data.missingMode.d || '';
+                }
+                
+                showNotification('Previous work loaded');
+            }
+        }
+
+        // Show summary
+        function showSummary() {
+            const data = JSON.parse(localStorage.getItem('fmea-simplified') || '{}');
+            
+            let html = '<div style="max-width: 100%;">';
+            
+            // Calculate completion
+            let completedTasks = 0;
+            const totalTasks = 7;
+            
+            // Check completion
+            if (data.problems?.problem1) completedTasks++;
+            if (data.problems?.problem2) completedTasks++;
+            if (data.problems?.problem3) completedTasks++;
+            if (data.recalibration1?.justification) completedTasks++;
+            if (data.recalibration2?.justification) completedTasks++;
+            if (data.missingMode?.mode) completedTasks++;
+            if (data.missingMode?.why) completedTasks++;
+            
+            const percentage = Math.round((completedTasks / totalTasks) * 100);
+            
+            // Completion badge
+            html += `<div style="text-align: center; margin-bottom: 20px;">
+                <span style="background: ${percentage >= 70 ? '#10b981' : '#f59e0b'}; 
+                    color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold;">
+                    ${percentage}% Complete (${completedTasks}/${totalTasks} tasks)
+                </span>
+            </div>`;
+            
+            // Part 1
+            html += '<h3 style="color: #1f2937; margin-bottom: 15px;">Part 1: Problems Identified</h3>';
+            html += '<ul style="margin-bottom: 20px;">';
+            for (let i = 1; i <= 4; i++) {
+                const problem = data.problems?.[`problem${i}`];
+                if (problem) {
+                    html += `<li style="margin-bottom: 10px;">${problem}</li>`;
+                }
+            }
+            html += '</ul>';
+            
+            // Part 2
+            html += '<h3 style="color: #1f2937; margin-bottom: 15px;">Part 2: Recalibrations</h3>';
+            for (let i = 1; i <= 2; i++) {
+                const recal = data[`recalibration${i}`];
+                if (recal?.selected) {
+                    html += `<div style="margin-bottom: 15px; padding: 10px; background: #f9fafb; border-radius: 6px;">`;
+                    html += `<strong>${recal.selected}</strong><br>`;
+                    html += `New Scores: S=${recal.newS || 'N/A'}, O=${recal.newO || 'N/A'}, D=${recal.newD || 'N/A'}, RPN=${recal.newRPN || 'N/A'}<br>`;
+                    html += `Justification: ${recal.justification || 'Not provided'}`;
+                    html += '</div>';
+                }
+            }
+            
+            // Part 3
+            html += '<h3 style="color: #1f2937; margin-bottom: 15px;">Part 3: Missing Failure Mode</h3>';
+            if (data.missingMode?.mode) {
+                html += `<p><strong>Mode:</strong> ${data.missingMode.mode}</p>`;
+                html += `<p><strong>Why Overlooked:</strong> ${data.missingMode.why || 'Not specified'}</p>`;
+                if (data.missingMode.s && data.missingMode.o && data.missingMode.d) {
+                    const rpn = parseInt(data.missingMode.s) * parseInt(data.missingMode.o) * parseInt(data.missingMode.d);
+                    html += `<p><strong>Proposed Scores:</strong> S=${data.missingMode.s}, O=${data.missingMode.o}, D=${data.missingMode.d}, RPN=${rpn}</p>`;
+                }
+            }
+            
+            html += '</div>';
+            
+            document.getElementById('summaryContent').innerHTML = html;
+            document.getElementById('summaryModal').classList.add('active');
+        }
+
+        function closeSummary() {
+            document.getElementById('summaryModal').classList.remove('active');
+        }
+
+        function clearWork() {
+            if (confirm('Are you sure you want to clear all your work? This cannot be undone.')) {
+                localStorage.removeItem('fmea-simplified');
+                location.reload();
+            }
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = '✓ ' + message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function downloadSummary() {
+            const data = JSON.parse(localStorage.getItem('fmea-simplified') || '{}');
+            
+            let text = 'FMEA CRITICAL APPRAISAL SUMMARY\n';
+            text += '================================\n\n';
+            text += `Date: ${new Date().toLocaleString()}\n\n`;
+            
+            text += 'PART 1: SCORING PROBLEMS\n';
+            text += '------------------------\n';
+            for (let i = 1; i <= 4; i++) {
+                if (data.problems?.[`problem${i}`]) {
+                    text += `Problem ${i}: ${data.problems[`problem${i}`]}\n\n`;
+                }
+            }
+            
+            text += '\nPART 2: RECALIBRATIONS\n';
+            text += '----------------------\n';
+            for (let i = 1; i <= 2; i++) {
+                const recal = data[`recalibration${i}`];
+                if (recal?.selected) {
+                    text += `\nFailure Mode: ${recal.selected}\n`;
+                    text += `New Scores: S=${recal.newS || 'N/A'}, O=${recal.newO || 'N/A'}, D=${recal.newD || 'N/A'}, RPN=${recal.newRPN || 'N/A'}\n`;
+                    text += `Justification: ${recal.justification || 'Not provided'}\n`;
+                }
+            }
+            
+            text += '\nPART 3: MISSING FAILURE MODE\n';
+            text += '----------------------------\n';
+            if (data.missingMode?.mode) {
+                text += `Mode: ${data.missingMode.mode}\n`;
+                text += `Why Overlooked: ${data.missingMode.why || 'Not specified'}\n`;
+                if (data.missingMode.s && data.missingMode.o && data.missingMode.d) {
+                    const rpn = parseInt(data.missingMode.s) * parseInt(data.missingMode.o) * parseInt(data.missingMode.d);
+                    text += `Proposed Scores: S=${data.missingMode.s}, O=${data.missingMode.o}, D=${data.missingMode.d}, RPN=${rpn}\n`;
+                }
+            }
+            
+            // Create and download file
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `FMEA_Summary_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Summary downloaded!');
+        }
+
+        // Initialize on load
+        window.addEventListener('load', () => {
+            loadWork();
+            startTimer();
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(() => {
+            saveWork();
+        }, 30000);
+
+        // Save before leaving
+        window.addEventListener('beforeunload', saveWork);
+    </script>
+</body>
+</html>
