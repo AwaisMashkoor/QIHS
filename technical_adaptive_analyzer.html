@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical vs Adaptive Challenge Analyzer - Week 10 QISC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .uws-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .intro-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .intro-section h2 {
+            color: #4a5568;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .definitions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .definitions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .definition-card {
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .definition-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .definition-card.technical {
+            border-top: 4px solid #48bb78;
+        }
+
+        .definition-card.adaptive {
+            border-top: 4px solid #ed8936;
+        }
+
+        .definition-card h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .definition-card h3 .icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .characteristics {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .characteristics li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .characteristics li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        .analyzer-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .issue-input {
+            margin-bottom: 30px;
+        }
+
+        .issue-input label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .issue-input textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+        }
+
+        .issue-input textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .question-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .question-card h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .option-btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .option-btn:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .option-btn.technical.selected {
+            background: #48bb78;
+            border-color: #48bb78;
+        }
+
+        .option-btn.adaptive.selected {
+            background: #ed8936;
+            border-color: #ed8936;
+        }
+
+        .analyze-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 20px 0;
+            width: 100%;
+        }
+
+        .analyze-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .analyze-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results-section {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 3px solid #e2e8f0;
+        }
+
+        .results-section.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .result-badge.technical {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .result-badge.adaptive {
+            background: #fed7aa;
+            color: #7c2d12;
+        }
+
+        .result-badge.mixed {
+            background: linear-gradient(90deg, #c6f6d5 50%, #fed7aa 50%);
+            color: #2d3748;
+        }
+
+        .result-score {
+            font-size: 18px;
+            color: #718096;
+            margin-bottom: 10px;
+        }
+
+        .evidence-section {
+            margin-top: 20px;
+        }
+
+        .evidence-card {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .evidence-card strong {
+            color: #4a5568;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .implications-section {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .implications-section h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .implications-section .icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .implication-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+        }
+
+        .implication-item strong {
+            color: #4a5568;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .export-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .export-button {
+            background: #4a5568;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin: 0 10px;
+        }
+
+        .export-button:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+        }
+
+        .reset-button {
+            background: #e53e3e;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            margin: 0 10px;
+        }
+
+        .reset-button:hover {
+            background: #c53030;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .help-text {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #742a2a;
+        }
+
+        .examples-section {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .examples-section h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+        }
+
+        .example {
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .export-section {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Technical vs Adaptive Challenge Analyzer</h1>
+            <p>Understanding the nature of your quality improvement challenge is crucial for selecting the right approach</p>
+            <span class="uws-badge">HLTH09013 - Week 10: Leading Change</span>
+        </div>
+
+        <div class="main-content">
+            <div class="intro-section">
+                <h2>Why This Matters</h2>
+                <p>Most quality improvement initiatives fail because we apply technical solutions to adaptive challenges. Technical problems have known solutions and can be solved by experts. Adaptive challenges require new learning, changes in beliefs and behaviors, and solutions that emerge from stakeholders themselves.</p>
+                <p style="margin-top: 10px;"><strong>Key Reference:</strong> Heifetz, R. & Linsky, M. (2002) <em>Leadership on the Line</em></p>
+            </div>
+
+            <div class="definitions">
+                <div class="definition-card technical">
+                    <h3><span class="icon">🔧</span> Technical Challenges</h3>
+                    <ul class="characteristics">
+                        <li>Clear problem definition</li>
+                        <li>Known solutions exist</li>
+                        <li>Experts can solve</li>
+                        <li>Requires resources/training</li>
+                        <li>Can be mandated</li>
+                        <li>Quick implementation possible</li>
+                    </ul>
+                    <div class="examples-section">
+                        <h4>Examples:</h4>
+                        <div class="example">• Implementing NEWS2 scoring</div>
+                        <div class="example">• Installing hand sanitizer dispensers</div>
+                        <div class="example">• Updating clinical protocols</div>
+                    </div>
+                </div>
+
+                <div class="definition-card adaptive">
+                    <h3><span class="icon">🌱</span> Adaptive Challenges</h3>
+                    <ul class="characteristics">
+                        <li>Problem difficult to define</li>
+                        <li>No clear solutions</li>
+                        <li>Requires collective learning</li>
+                        <li>Challenges values/beliefs</li>
+                        <li>Cannot be mandated</li>
+                        <li>Long-term process</li>
+                    </ul>
+                    <div class="examples-section">
+                        <h4>Examples:</h4>
+                        <div class="example">• Creating psychological safety</div>
+                        <div class="example">• Changing blame culture</div>
+                        <div class="example">• Improving team communication</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analyzer-section">
+                <h2 style="margin-bottom: 20px; color: #2d3748;">Analyze Your Quality Issue</h2>
+                
+                <div class="issue-input">
+                    <label for="issueDescription">Describe your quality/safety issue briefly:</label>
+                    <textarea id="issueDescription" placeholder="Example: High rates of medication errors during shift handovers in our emergency department..."></textarea>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+
+                <div id="questionContainer">
+                    <!-- Questions will be dynamically inserted here -->
+                </div>
+
+                <button class="analyze-button" id="analyzeBtn" onclick="analyzeResults()" disabled>
+                    Analyze My Challenge
+                </button>
+            </div>
+
+            <div class="results-section" id="resultsSection">
+                <div class="result-header">
+                    <h2>Analysis Results</h2>
+                    <div class="result-badge" id="resultBadge"></div>
+                    <div class="result-score" id="resultScore"></div>
+                </div>
+
+                <div class="evidence-section" id="evidenceSection">
+                    <h3>Evidence Supporting This Classification:</h3>
+                    <!-- Evidence will be inserted here -->
+                </div>
+
+                <div class="implications-section">
+                    <h3><span class="icon">💡</span> Implications for Your QI Approach</h3>
+                    <div id="implicationsContent">
+                        <!-- Implications will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <button class="export-button" onclick="exportAnalysis()">📄 Export Analysis</button>
+                    <button class="export-button" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+                    <button class="reset-button" onclick="resetAnalyzer()">🔄 Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Analysis questions with weighted scoring
+        const questions = [
+            {
+                id: 'q1',
+                question: 'Is there general agreement on what the problem is?',
+                options: [
+                    { text: 'Yes - clear and measurable', value: 'technical', score: 2 },
+                    { text: 'Partially - some debate exists', value: 'mixed', score: 1 },
+                    { text: 'No - multiple interpretations', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical problems have clear definitions that stakeholders agree on. Adaptive challenges are often described differently by different groups.'
+            },
+            {
+                id: 'q2',
+                question: 'Do proven solutions already exist for this issue?',
+                options: [
+                    { text: 'Yes - evidence-based solutions available', value: 'technical', score: 2 },
+                    { text: 'Some solutions, limited evidence', value: 'mixed', score: 1 },
+                    { text: 'No clear solutions exist', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical challenges have established best practices. Adaptive challenges require innovation and emergence.'
+            },
+            {
+                id: 'q3',
+                question: 'Who needs to change for this improvement to work?',
+                options: [
+                    { text: 'Specific roles/departments', value: 'technical', score: 1 },
+                    { text: 'Multiple teams/departments', value: 'mixed', score: 1 },
+                    { text: 'Entire organizational culture', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical changes can be localized. Adaptive changes require widespread behavioral change.'
+            },
+            {
+                id: 'q4',
+                question: 'What type of resistance do you anticipate?',
+                options: [
+                    { text: 'Practical (time, resources, training)', value: 'technical', score: 2 },
+                    { text: 'Mixed practical and cultural', value: 'mixed', score: 1 },
+                    { text: 'Deep cultural/value conflicts', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical resistance is about capability. Adaptive resistance is about identity and values.'
+            },
+            {
+                id: 'q5',
+                question: 'How quickly could this change be implemented?',
+                options: [
+                    { text: 'Within 3 months', value: 'technical', score: 2 },
+                    { text: '3-12 months', value: 'mixed', score: 1 },
+                    { text: 'Over 12 months or uncertain', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical changes can be rapid. Adaptive changes require time for learning and cultural shift.'
+            },
+            {
+                id: 'q6',
+                question: 'Can this improvement be mandated through policy?',
+                options: [
+                    { text: 'Yes - policy/protocol sufficient', value: 'technical', score: 2 },
+                    { text: 'Partially - needs enforcement', value: 'mixed', score: 1 },
+                    { text: 'No - requires voluntary adoption', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical changes can be mandated. Adaptive changes must be embraced.'
+            },
+            {
+                id: 'q7',
+                question: 'What happens if the champion/leader leaves?',
+                options: [
+                    { text: 'Change continues - embedded in systems', value: 'technical', score: 1 },
+                    { text: 'Some disruption but recoverable', value: 'mixed', score: 1 },
+                    { text: 'Change likely fails', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical changes can be systemized. Adaptive changes initially depend on leadership.'
+            },
+            {
+                id: 'q8',
+                question: 'Does this challenge existing power structures?',
+                options: [
+                    { text: 'No - works within current hierarchy', value: 'technical', score: 2 },
+                    { text: 'Some power shifts needed', value: 'mixed', score: 1 },
+                    { text: 'Yes - significant redistribution', value: 'adaptive', score: 2 }
+                ],
+                help: 'Technical changes maintain power structures. Adaptive changes often redistribute authority.'
+            }
+        ];
+
+        let userResponses = {};
+        let currentProgress = 0;
+
+        // Initialize the analyzer
+        function initializeAnalyzer() {
+            const container = document.getElementById('questionContainer');
+            container.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
+                    <h3><span class="question-number">${index + 1}</span> ${q.question}</h3>
+                    <div class="help-text">${q.help}</div>
+                    <div class="options" id="options-${q.id}">
+                        ${q.options.map(opt => `
+                            <button class="option-btn" 
+                                    data-question="${q.id}" 
+                                    data-value="${opt.value}"
+                                    data-score="${opt.score}"
+                                    onclick="selectOption('${q.id}', '${opt.value}', ${opt.score})">
+                                ${opt.text}
+                            </button>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionCard);
+            });
+        }
+
+        // Handle option selection
+        function selectOption(questionId, value, score) {
+            // Clear previous selection for this question
+            const options = document.querySelectorAll(`[data-question="${questionId}"]`);
+            options.forEach(opt => {
+                opt.classList.remove('selected', 'technical', 'adaptive');
+            });
+            
+            // Mark selected option
+            const selected = document.querySelector(`[data-question="${questionId}"][data-value="${value}"]`);
+            selected.classList.add('selected', value);
+            
+            // Store response
+            userResponses[questionId] = { value, score };
+            
+            // Update progress
+            updateProgress();
+            
+            // Check if all questions answered
+            checkCompletion();
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const answeredCount = Object.keys(userResponses).length;
+            const totalQuestions = questions.length;
+            const progress = (answeredCount / totalQuestions) * 100;
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Check if analysis can proceed
+        function checkCompletion() {
+            const issueText = document.getElementById('issueDescription').value.trim();
+            const allAnswered = Object.keys(userResponses).length === questions.length;
+            
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            analyzeBtn.disabled = !(issueText && allAnswered);
+        }
+
+        // Monitor issue description
+        document.getElementById('issueDescription').addEventListener('input', checkCompletion);
+
+        // Analyze results
+        function analyzeResults() {
+            const issueText = document.getElementById('issueDescription').value.trim();
+            
+            // Calculate scores
+            let technicalScore = 0;
+            let adaptiveScore = 0;
+            let mixedCount = 0;
+            
+            Object.values(userResponses).forEach(response => {
+                if (response.value === 'technical') {
+                    technicalScore += response.score;
+                } else if (response.value === 'adaptive') {
+                    adaptiveScore += response.score;
+                } else {
+                    mixedCount++;
+                }
+            });
+            
+            // Determine classification
+            let classification;
+            let confidence;
+            
+            const totalScore = technicalScore + adaptiveScore;
+            const technicalPercentage = (technicalScore / Math.max(totalScore, 1)) * 100;
+            
+            if (technicalPercentage >= 70) {
+                classification = 'technical';
+                confidence = 'Strong';
+            } else if (technicalPercentage <= 30) {
+                classification = 'adaptive';
+                confidence = 'Strong';
+            } else if (technicalPercentage >= 55) {
+                classification = 'technical';
+                confidence = 'Moderate';
+            } else if (technicalPercentage <= 45) {
+                classification = 'adaptive';
+                confidence = 'Moderate';
+            } else {
+                classification = 'mixed';
+                confidence = 'Mixed characteristics';
+            }
+            
+            // Display results
+            displayResults(classification, confidence, technicalPercentage, issueText);
+        }
+
+        // Display analysis results
+        function displayResults(classification, confidence, technicalPercentage, issueText) {
+            const resultsSection = document.getElementById('resultsSection');
+            const resultBadge = document.getElementById('resultBadge');
+            const resultScore = document.getElementById('resultScore');
+            const evidenceSection = document.getElementById('evidenceSection');
+            const implicationsContent = document.getElementById('implicationsContent');
+            
+            // Set badge
+            if (classification === 'technical') {
+                resultBadge.className = 'result-badge technical';
+                resultBadge.textContent = '🔧 Primarily Technical Challenge';
+            } else if (classification === 'adaptive') {
+                resultBadge.className = 'result-badge adaptive';
+                resultBadge.textContent = '🌱 Primarily Adaptive Challenge';
+            } else {
+                resultBadge.className = 'result-badge mixed';
+                resultBadge.textContent = '🔄 Mixed Technical & Adaptive';
+            }
+            
+            // Set score
+            resultScore.textContent = `${confidence} classification (${Math.round(technicalPercentage)}% technical, ${Math.round(100 - technicalPercentage)}% adaptive)`;
+            
+            // Generate evidence
+            const evidence = generateEvidence(classification);
+            evidenceSection.innerHTML = '<h3>Evidence Supporting This Classification:</h3>' + evidence;
+            
+            // Generate implications
+            const implications = generateImplications(classification);
+            implicationsContent.innerHTML = implications;
+            
+            // Show results
+            resultsSection.classList.add('show');
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Store for export
+            window.analysisData = {
+                issue: issueText,
+                classification,
+                confidence,
+                technicalPercentage,
+                responses: userResponses,
+                timestamp: new Date().toLocaleString()
+            };
+        }
+
+        // Generate evidence based on responses
+        function generateEvidence(classification) {
+            const evidencePoints = [];
+            
+            Object.keys(userResponses).forEach(questionId => {
+                const response = userResponses[questionId];
+                const question = questions.find(q => q.id === questionId);
+                const selectedOption = question.options.find(opt => opt.value === response.value);
+                
+                if (response.value === classification || (classification === 'mixed' && response.value === 'mixed')) {
+                    evidencePoints.push({
+                        question: question.question,
+                        answer: selectedOption.text
+                    });
+                }
+            });
+            
+            return evidencePoints.map(point => `
+                <div class="evidence-card">
+                    <strong>${point.question}</strong>
+                    <span>${point.answer}</span>
+                </div>
+            `).join('');
+        }
+
+        // Generate implications for QI approach
+        function generateImplications(classification) {
+            const implications = {
+                technical: [
+                    {
+                        title: "Leadership Approach",
+                        content: "Can use more directive leadership. Focus on clear communication of the solution and ensuring resources/training are available."
+                    },
+                    {
+                        title: "Implementation Strategy",
+                        content: "Develop clear protocols and procedures. Use PDSA cycles for rapid testing. Focus on removing practical barriers."
+                    },
+                    {
+                        title: "Timeline",
+                        content: "Can aim for relatively quick implementation (3-6 months). Set clear milestones and deadlines."
+                    },
+                    {
+                        title: "Measurement",
+                        content: "Focus on compliance and outcome metrics. Use audit and feedback cycles."
+                    },
+                    {
+                        title: "Key Success Factors",
+                        content: "Adequate resources, clear training, removal of system barriers, consistent application."
+                    }
+                ],
+                adaptive: [
+                    {
+                        title: "Leadership Approach",
+                        content: "Requires adaptive leadership - facilitate learning rather than provide answers. Create psychological safety for experimentation."
+                    },
+                    {
+                        title: "Implementation Strategy",
+                        content: "Focus on coalition building and stakeholder engagement. Use co-production approaches. Allow solutions to emerge from those doing the work."
+                    },
+                    {
+                        title: "Timeline",
+                        content: "Expect long-term process (12+ months). Progress will be non-linear with setbacks."
+                    },
+                    {
+                        title: "Measurement",
+                        content: "Focus on learning metrics and cultural indicators. Track engagement and behavioral changes."
+                    },
+                    {
+                        title: "Key Success Factors",
+                        content: "Strong coalition, psychological safety, tolerance for uncertainty, sustained leadership commitment."
+                    }
+                ],
+                mixed: [
+                    {
+                        title: "Leadership Approach",
+                        content: "Requires hybrid approach - be directive on technical aspects while facilitating adaptation on cultural elements."
+                    },
+                    {
+                        title: "Implementation Strategy",
+                        content: "Address technical components first to build confidence, then tackle adaptive elements. Use early wins to build momentum."
+                    },
+                    {
+                        title: "Timeline",
+                        content: "Plan for phased approach (6-12 months). Quick wins on technical aspects, longer journey for adaptive change."
+                    },
+                    {
+                        title: "Measurement",
+                        content: "Use balanced metrics - both compliance measures and cultural indicators."
+                    },
+                    {
+                        title: "Key Success Factors",
+                        content: "Clear sequencing of technical and adaptive work, sustained energy through the longer adaptive phase."
+                    }
+                ]
+            };
+            
+            const selectedImplications = implications[classification];
+            
+            return selectedImplications.map(impl => `
+                <div class="implication-item">
+                    <strong>${impl.title}</strong>
+                    <span>${impl.content}</span>
+                </div>
+            `).join('');
+        }
+
+        // Export analysis
+        function exportAnalysis() {
+            if (!window.analysisData) return;
+            
+            const data = window.analysisData;
+            const report = `
+TECHNICAL VS ADAPTIVE CHALLENGE ANALYSIS
+Generated: ${data.timestamp}
+Course: HLTH09013 - Quality Improvement & Safety in Care
+
+QUALITY ISSUE:
+${data.issue}
+
+CLASSIFICATION: ${data.classification.toUpperCase()} CHALLENGE
+Confidence: ${data.confidence}
+Technical: ${Math.round(data.technicalPercentage)}%
+Adaptive: ${Math.round(100 - data.technicalPercentage)}%
+
+ANALYSIS RESPONSES:
+${questions.map(q => {
+    const response = data.responses[q.id];
+    if (!response) return '';
+    const option = q.options.find(opt => opt.value === response.value);
+    return `${q.question}
+Answer: ${option.text}`;
+}).join('\n\n')}
+
+IMPLICATIONS FOR YOUR QI APPROACH:
+${generateTextImplications(data.classification)}
+
+NEXT STEPS:
+1. Use this analysis to inform your choice of QI methodology
+2. Consider the change management approach required
+3. Plan stakeholder engagement based on challenge type
+4. Set realistic timelines aligned with the nature of change
+5. Design appropriate metrics for your challenge type
+
+Note: This analysis should be incorporated into your assessment to demonstrate critical understanding of implementation challenges.
+            `;
+            
+            // Create download
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'QI_Challenge_Analysis_' + new Date().getTime() + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Generate text implications for export
+        function generateTextImplications(classification) {
+            const implications = {
+                technical: `
+- Use directive leadership with clear protocols
+- Focus on training and resource provision
+- Implement through PDSA cycles
+- Measure compliance and outcomes
+- Timeline: 3-6 months possible`,
+                adaptive: `
+- Use adaptive leadership to facilitate learning
+- Build broad coalitions and engagement
+- Allow solutions to emerge from stakeholders
+- Measure cultural change and engagement
+- Timeline: 12+ months expected`,
+                mixed: `
+- Use hybrid leadership approach
+- Address technical components first
+- Build on quick wins for adaptive change
+- Balance compliance and cultural metrics
+- Timeline: 6-12 months with phases`
+            };
+            
+            return implications[classification];
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            if (!window.analysisData) return;
+            
+            const data = window.analysisData;
+            const summary = `Challenge Analysis: ${data.classification.toUpperCase()} (${Math.round(data.technicalPercentage)}% technical, ${Math.round(100 - data.technicalPercentage)}% adaptive)`;
+            
+            navigator.clipboard.writeText(summary).then(() => {
+                // Show feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // Reset analyzer
+        function resetAnalyzer() {
+            userResponses = {};
+            document.getElementById('issueDescription').value = '';
+            document.getElementById('resultsSection').classList.remove('show');
+            document.getElementById('progressBar').style.width = '0%';
+            
+            // Clear all selections
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('selected', 'technical', 'adaptive');
+            });
+            
+            // Disable analyze button
+            document.getElementById('analyzeBtn').disabled = true;
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Auto-save to localStorage
+        function saveProgress() {
+            const data = {
+                issue: document.getElementById('issueDescription').value,
+                responses: userResponses,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('qi_challenge_analysis', JSON.stringify(data));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('qi_challenge_analysis');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    
+                    // Check if data is less than 24 hours old
+                    const savedTime = new Date(data.timestamp);
+                    const now = new Date();
+                    const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+                    
+                    if (hoursDiff < 24) {
+                        document.getElementById('issueDescription').value = data.issue || '';
+                        
+                        // Restore responses
+                        Object.keys(data.responses || {}).forEach(questionId => {
+                            const response = data.responses[questionId];
+                            selectOption(questionId, response.value, response.score);
+                        });
+                    }
+                } catch (e) {
+                    console.error('Error loading saved progress:', e);
+                }
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAnalyzer();
+            loadProgress();
+            
+            // Auto-save on changes
+            document.getElementById('issueDescription').addEventListener('input', saveProgress);
+        });
+
+        // Save responses when selected
+        const originalSelectOption = selectOption;
+        selectOption = function(questionId, value, score) {
+            originalSelectOption(questionId, value, score);
+            saveProgress();
+        };
+    </script>
+</body>
+</html>
