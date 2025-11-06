@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACP Conversation Opener Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+
+        .builder-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.6rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            color: #5a6c7d;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        select, button {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .output-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid #e8e8e8;
+        }
+
+        .generated-opener {
+            background: linear-gradient(135deg, #f093fb10, #f5576c10);
+            border: 2px solid #f093fb40;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #2c3e50;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .opener-placeholder {
+            color: #95a5a6;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .phrase-bank {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .saved-phrases {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .phrase-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            position: relative;
+            padding-right: 40px;
+        }
+
+        .phrase-context {
+            font-size: 0.85rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .phrase-text {
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .delete-phrase {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .delete-phrase:hover {
+            background: #c0392b;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid;
+            background: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .save-btn {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .save-btn:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .copy-btn {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .copy-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        .tips-section {
+            grid-column: 1 / -1;
+            background: #fff9e6;
+            border: 2px solid #f39c1240;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: -10px;
+        }
+
+        .tips-title {
+            color: #f39c12;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .tip-icon {
+            color: #f39c12;
+            font-size: 1.2rem;
+            margin-top: 2px;
+        }
+
+        .tip-text {
+            color: #5a6c7d;
+            line-height: 1.4;
+        }
+
+        .download-btn {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            color: white;
+            margin-top: 10px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(142, 68, 173, 0.3);
+        }
+
+        .feedback-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .counter {
+            background: #ecf0f1;
+            color: #7f8c8d;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print styles for downloaded phrase bank */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .builder-section,
+            .action-buttons,
+            .tips-section {
+                display: none;
+            }
+            
+            .output-section {
+                border: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 ACP Conversation Opener Builder</h1>
+            <p>Practice creating personalized, appropriate opening phrases for different scenarios</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Builder Section -->
+            <div class="builder-section">
+                <h2 class="section-title">
+                    <span class="section-icon">🛠️</span>
+                    Build Your Opener
+                </h2>
+
+                <div class="input-group">
+                    <label class="input-label" for="patient-type">Patient Context</label>
+                    <select id="patient-type">
+                        <option value="">Select patient type...</option>
+                        <option value="new-diagnosis">Newly diagnosed with long-term condition</option>
+                        <option value="frequent-admissions">Repeated hospital admissions</option>
+                        <option value="functional-decline">Experiencing functional decline</option>
+                        <option value="care-transition">Transitioning to care home</option>
+                        <option value="capacity-concerns">Early cognitive changes</option>
+                        <option value="young-chronic">Young person with chronic condition</option>
+                        <option value="pre-surgery">Before major surgery</option>
+                        <option value="stable-chronic">Stable but progressive condition</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="setting">Care Setting</label>
+                    <select id="setting">
+                        <option value="">Select setting...</option>
+                        <option value="ward">Hospital ward</option>
+                        <option value="clinic">Outpatient clinic</option>
+                        <option value="home">Home visit</option>
+                        <option value="care-home">Care home</option>
+                        <option value="gp">GP practice</option>
+                        <option value="ed">Emergency department (post-crisis)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="relationship">Your Relationship</label>
+                    <select id="relationship">
+                        <option value="">Select relationship...</option>
+                        <option value="first-meeting">First meeting</option>
+                        <option value="established">Established therapeutic relationship</option>
+                        <option value="following-up">Following up previous discussion</option>
+                        <option value="crisis-response">After recent crisis</option>
+                        <option value="routine-review">Routine review</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label class="input-label" for="approach">Conversation Approach</label>
+                    <select id="approach">
+                        <option value="">Select approach style...</option>
+                        <option value="gentle">Gentle exploration</option>
+                        <option value="direct">Direct but compassionate</option>
+                        <option value="collaborative">Collaborative planning</option>
+                        <option value="reflective">Reflective listening focus</option>
+                        <option value="practical">Practical problem-solving</option>
+                    </select>
+                </div>
+
+                <button class="generate-btn" onclick="generateOpener()">
+                    Generate Conversation Opener ✨
+                </button>
+            </div>
+
+            <!-- Output Section -->
+            <div class="output-section">
+                <h2 class="section-title">
+                    <span class="section-icon">💬</span>
+                    Your Generated Opener
+                    <span class="counter" id="phrase-counter">0 saved</span>
+                </h2>
+
+                <div class="generated-opener" id="generated-opener">
+                    <div class="opener-placeholder">
+                        Select options and click "Generate" to create your personalized ACP conversation opener
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn save-btn" onclick="savePhrase()" id="save-btn" style="display: none;">
+                        💾 Save to Phrase Bank
+                    </button>
+                    <button class="action-btn copy-btn" onclick="copyPhrase()" id="copy-btn" style="display: none;">
+                        📋 Copy to Clipboard
+                    </button>
+                </div>
+
+                <div class="phrase-bank">
+                    <h3 class="section-title">
+                        <span class="section-icon">📚</span>
+                        Your Phrase Bank
+                    </h3>
+                    <div class="saved-phrases" id="saved-phrases">
+                        <p style="color: #95a5a6; text-align: center; padding: 20px;">
+                            No phrases saved yet. Generate and save phrases to build your personal toolkit!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn download-btn" onclick="downloadPhrases()">
+                        📥 Download My Phrase Bank
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="tips-section">
+                <h3 class="tips-title">💡 Quick Tips for Effective Openers</h3>
+                <div class="tips-grid">
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Start with observation: "I noticed..." or "I've been thinking..."</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Ask permission: "Would it be okay to discuss...?"</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Acknowledge emotions: "This might feel overwhelming..."</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Use their language: Mirror terms they've used before</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Frame positively: Focus on maintaining control and quality of life</span>
+                    </div>
+                    <div class="tip-item">
+                        <span class="tip-icon">✓</span>
+                        <span class="tip-text">Be specific: Avoid vague terms like "the future"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Phrase database organized by selections
+        const phraseDatabase = {
+            'new-diagnosis': {
+                'gentle': [
+                    "I know you've recently been diagnosed with {condition}. When you feel ready, it might help to think about what's most important to you as we plan your care together.",
+                    "This diagnosis is a lot to process. Would it be okay if we talked about your hopes and priorities for your care going forward?",
+                    "Now that you've had some time to absorb the news about your diagnosis, could we explore what matters most to you in terms of your health and wellbeing?"
+                ],
+                'direct': [
+                    "With your new diagnosis, it's important we discuss your preferences for care. Can we talk about what good days look like for you?",
+                    "I'd like to ensure your care aligns with your values. Can we discuss what's most important to you now that you have this diagnosis?"
+                ]
+            },
+            'frequent-admissions': {
+                'direct': [
+                    "I see you've been in hospital several times recently. That must be exhausting. Can we talk about what might help keep you at home?",
+                    "You've had three admissions in the past few months. Would you like to discuss ways to prevent these crises?"
+                ],
+                'collaborative': [
+                    "Let's work together to break this cycle of hospital admissions. What would good care look like to you?",
+                    "These repeated visits must be frustrating. Shall we create a plan together for managing things at home?"
+                ]
+            },
+            'functional-decline': {
+                'gentle': [
+                    "I've noticed you mentioned finding {activity} more difficult lately. How are you feeling about these changes?",
+                    "You've shared that daily tasks are becoming harder. Would it help to talk about what support would be most valuable to you?"
+                ],
+                'reflective': [
+                    "It sounds like things have been gradually getting more challenging. Tell me what's concerning you most.",
+                    "You mentioned you can't do the things you used to enjoy. What activities are most important for you to maintain?"
+                ]
+            },
+            'care-transition': {
+                'practical': [
+                    "As you prepare to move to {place}, let's ensure the team there knows exactly what's important to you.",
+                    "This transition is a good time to update your care preferences. What do you want the new team to know about you?"
+                ],
+                'collaborative': [
+                    "Moving into care is a big change. Let's work together to make sure your wishes are clearly documented.",
+                    "As you settle into your new home, shall we discuss how you'd like your care to be managed?"
+                ]
+            },
+            'capacity-concerns': {
+                'gentle': [
+                    "While you're able to express your wishes clearly, would you like to document what's important to you for the future?",
+                    "I'd like to capture your preferences while we can discuss them together. Is that something you'd be comfortable with?"
+                ],
+                'direct': [
+                    "It's important we document your wishes while you can tell us directly. Can we talk about your future care preferences?",
+                    "Let's ensure your voice is heard in all future decisions. Would you like to discuss your care priorities?"
+                ]
+            },
+            'young-chronic': {
+                'collaborative': [
+                    "Living with {condition} at your age brings unique challenges. What matters most to you in managing this alongside your life goals?",
+                    "Your whole life is ahead of you. How can we ensure your healthcare supports rather than limits your ambitions?"
+                ],
+                'gentle': [
+                    "I know planning ahead might feel strange at your age, but having your preferences documented gives you more control.",
+                    "This might feel premature, but knowing your values helps us provide care that fits with your lifestyle."
+                ]
+            },
+            'pre-surgery': {
+                'practical': [
+                    "Before your surgery, it's routine to discuss your preferences in case of complications. Can we go through this together?",
+                    "As part of preparing for your procedure, let's talk about your wishes if things don't go as planned."
+                ],
+                'direct': [
+                    "This surgery carries some risks. It's important we know your preferences if decisions need to be made while you're unable to communicate.",
+                    "Let's be prepared for all possibilities. What would you want us to know if complications arose?"
+                ]
+            },
+            'stable-chronic': {
+                'gentle': [
+                    "Even though things are stable now, it helps to plan ahead. Would you be open to discussing your future care preferences?",
+                    "While you're feeling relatively well, it's a good time to think about your wishes if things change. Shall we explore that?"
+                ],
+                'reflective': [
+                    "You're managing well now. What would you want to maintain if your condition progresses?",
+                    "Looking ahead, what aspects of your life are non-negotiable for you?"
+                ]
+            }
+        };
+
+        // Additional contextual phrases based on setting
+        const settingModifiers = {
+            'ward': "I know the ward can feel overwhelming, but ",
+            'clinic': "We have some time today in clinic to discuss something important. ",
+            'home': "Being in your own space might make this easier to discuss. ",
+            'care-home': "Now that you're settled here, ",
+            'gp': "As your GP, I want to ensure we're aligned on your care. ",
+            'ed': "I know you've just been through a crisis, but when you're ready, "
+        };
+
+        // Relationship modifiers
+        const relationshipModifiers = {
+            'first-meeting': "Although we're just meeting, ",
+            'established': "We've been working together for a while now, and ",
+            'following-up': "Following up on our previous conversation, ",
+            'crisis-response': "After what you've just been through, ",
+            'routine-review': "As part of your regular review, "
+        };
+
+        let savedPhrases = [];
+
+        function generateOpener() {
+            const patientType = document.getElementById('patient-type').value;
+            const setting = document.getElementById('setting').value;
+            const relationship = document.getElementById('relationship').value;
+            const approach = document.getElementById('approach').value;
+
+            if (!patientType || !setting || !relationship || !approach) {
+                showFeedback('Please select all options to generate an opener', 'warning');
+                return;
+            }
+
+            // Get base phrase
+            let phrases = phraseDatabase[patientType]?.[approach] || 
+                         phraseDatabase[patientType]?.['gentle'] || 
+                         ["Let's discuss your future care preferences."];
+            
+            let basePhrase = phrases[Math.floor(Math.random() * phrases.length)];
+
+            // Add contextual elements
+            let contextualIntro = '';
+            if (relationship !== 'first-meeting') {
+                contextualIntro = relationshipModifiers[relationship] || '';
+            }
+            if (setting && settingModifiers[setting]) {
+                contextualIntro = settingModifiers[setting] + contextualIntro.toLowerCase();
+            }
+
+            // Combine elements
+            let finalPhrase = contextualIntro + basePhrase;
+
+            // Replace placeholders
+            finalPhrase = finalPhrase
+                .replace('{condition}', 'your condition')
+                .replace('{activity}', 'daily activities')
+                .replace('{place}', 'your new residence');
+
+            // Display the generated phrase
+            const outputDiv = document.getElementById('generated-opener');
+            outputDiv.innerHTML = `<div style="font-style: normal; color: #2c3e50;">"${finalPhrase}"</div>`;
+            
+            // Show action buttons
+            document.getElementById('save-btn').style.display = 'block';
+            document.getElementById('copy-btn').style.display = 'block';
+
+            // Store for saving
+            window.currentPhrase = {
+                text: finalPhrase,
+                context: `${patientType} | ${setting} | ${relationship} | ${approach}`
+            };
+        }
+
+        function savePhrase() {
+            if (!window.currentPhrase) return;
+
+            savedPhrases.push(window.currentPhrase);
+            updatePhraseBank();
+            showFeedback('Phrase saved to your bank!', 'success');
+            updateCounter();
+        }
+
+        function updatePhraseBank() {
+            const container = document.getElementById('saved-phrases');
+            
+            if (savedPhrases.length === 0) {
+                container.innerHTML = `<p style="color: #95a5a6; text-align: center; padding: 20px;">
+                    No phrases saved yet. Generate and save phrases to build your personal toolkit!
+                </p>`;
+                return;
+            }
+
+            container.innerHTML = savedPhrases.map((phrase, index) => `
+                <div class="phrase-item">
+                    <div class="phrase-context">${phrase.context}</div>
+                    <div class="phrase-text">"${phrase.text}"</div>
+                    <button class="delete-phrase" onclick="deletePhrase(${index})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function deletePhrase(index) {
+            savedPhrases.splice(index, 1);
+            updatePhraseBank();
+            updateCounter();
+        }
+
+        function copyPhrase() {
+            if (!window.currentPhrase) return;
+
+            navigator.clipboard.writeText(window.currentPhrase.text).then(() => {
+                showFeedback('Phrase copied to clipboard!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = window.currentPhrase.text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showFeedback('Phrase copied!', 'success');
+            });
+        }
+
+        function downloadPhrases() {
+            if (savedPhrases.length === 0) {
+                showFeedback('No phrases to download yet!', 'warning');
+                return;
+            }
+
+            let content = 'MY ACP CONVERSATION OPENERS\n';
+            content += 'Generated on: ' + new Date().toLocaleDateString() + '\n\n';
+            content += '-----------------------------------\n\n';
+
+            savedPhrases.forEach((phrase, index) => {
+                content += `Phrase ${index + 1}\n`;
+                content += `Context: ${phrase.context}\n`;
+                content += `"${phrase.text}"\n\n`;
+                content += '-----------------------------------\n\n';
+            });
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'My_ACP_Phrases_' + new Date().getTime() + '.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+            showFeedback('Phrase bank downloaded!', 'success');
+        }
+
+        function updateCounter() {
+            document.getElementById('phrase-counter').textContent = savedPhrases.length + ' saved';
+        }
+
+        function showFeedback(message, type = 'success') {
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback-message';
+            feedback.style.background = type === 'warning' ? '#f39c12' : '#27ae60';
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                feedback.remove();
+            }, 3000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'Enter') {
+                    generateOpener();
+                } else if (e.key === 's') {
+                    e.preventDefault();
+                    savePhrase();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
