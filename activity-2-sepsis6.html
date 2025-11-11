@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepsis 6 Sustainability Diagnosis Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f2f5;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .score-display {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #5f72bd;
+        }
+
+        .attempts-display {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scenario Screen */
+        .scenario-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .scenario-box {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border: 2px solid #e74c3c;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .timeline-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .timeline-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .timeline-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .timeline-item.success .timeline-value { color: #27ae60; }
+        .timeline-item.warning .timeline-value { color: #f39c12; }
+        .timeline-item.danger .timeline-value { color: #e74c3c; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Diagnosis Screen */
+        .diagnosis-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        /* Symptoms Panel */
+        .symptoms-panel {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .symptoms-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .symptom-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: move;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .symptom-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #5f72bd;
+        }
+
+        .symptom-card.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+        }
+
+        .symptom-card.placed {
+            opacity: 0.3;
+            pointer-events: none;
+            text-decoration: line-through;
+        }
+
+        .symptom-card.correct {
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+
+        .symptom-card.incorrect {
+            background: #f8d7da;
+            border-color: #e74c3c;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .symptom-number {
+            display: inline-block;
+            background: #5f72bd;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 0.85rem;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .symptom-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Factors Panel */
+        .factors-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .factors-header {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .factor-categories {
+            display: grid;
+            gap: 20px;
+        }
+
+        .factor-category {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .factor-category.drop-active {
+            border-color: #5f72bd;
+            background: #f0f4ff;
+            transform: scale(1.02);
+        }
+
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #5f72bd;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .category-icon {
+            width: 30px;
+            height: 30px;
+            background: #5f72bd;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .factor-slots {
+            display: grid;
+            gap: 10px;
+        }
+
+        .factor-slot {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            padding: 12px;
+            min-height: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .factor-slot.drag-over {
+            background: #e8f5e9;
+            border-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .factor-slot.has-symptom {
+            border-style: solid;
+        }
+
+        .factor-slot.correct {
+            background: #d4edda;
+            border-color: #27ae60;
+        }
+
+        .factor-slot.incorrect {
+            background: #f8d7da;
+            border-color: #e74c3c;
+        }
+
+        .factor-name {
+            font-weight: 500;
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .slot-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background: #f0f2f5;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .slot-feedback.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .placed-symptom {
+            background: #fff3cd;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            border: 1px solid #ffc107;
+        }
+
+        /* Mobile Interaction Mode */
+        .interaction-mode-toggle {
+            display: none;
+            background: #f0f2f5;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .interaction-mode-toggle {
+                display: block;
+            }
+
+            .diagnosis-container {
+                grid-template-columns: 1fr;
+            }
+
+            .symptom-card {
+                cursor: pointer;
+            }
+
+            .symptom-card.selected {
+                background: #fff3cd;
+                border-color: #f39c12;
+                transform: scale(1.05);
+            }
+
+            .factor-slot {
+                cursor: pointer;
+            }
+
+            .factor-slot.ready-for-placement {
+                animation: pulse 2s infinite;
+            }
+
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+        }
+
+        /* Results Screen */
+        .results-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .score-circle.excellent {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .score-circle.good {
+            background: linear-gradient(135deg, #f39c12, #f1c40f);
+        }
+
+        .score-circle.needs-work {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .score-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .model-answers {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .model-answers h3 {
+            color: #5f72bd;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .answer-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .answer-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #5f72bd;
+        }
+
+        .answer-symptom {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .answer-factor {
+            color: #27ae60;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .answer-explanation {
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .reflection-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8efff 100%);
+            border: 2px solid #5f72bd;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .reflection-box h3 {
+            color: #5f72bd;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #5f72bd;
+            border: 2px solid #5f72bd;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #5f72bd;
+            color: white;
+        }
+
+        /* Feedback Modal */
+        .feedback-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            max-width: 400px;
+            animation: modalAppear 0.3s ease;
+        }
+
+        .feedback-modal.show {
+            display: block;
+        }
+
+        @keyframes modalAppear {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .feedback-modal.correct {
+            border: 3px solid #27ae60;
+        }
+
+        .feedback-modal.incorrect {
+            border: 3px solid #e74c3c;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-message {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .modal-hint {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f2f5;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .overlay.show {
+            display: block;
+        }
+
+        /* Instructions */
+        .instructions-banner {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .instructions-banner strong {
+            color: #856404;
+        }
+
+        /* Hint System */
+        .hint-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #5f72bd, #9b88db);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .hint-button:hover {
+            transform: scale(1.1);
+        }
+
+        .hint-tooltip {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: white;
+            border: 2px solid #5f72bd;
+            border-radius: 8px;
+            padding: 15px;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 101;
+        }
+
+        .hint-tooltip.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #5f72bd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Sepsis 6 Sustainability Diagnosis Challenge</h1>
+            <p>Apply the 10-Factor Model to understand why the Sepsis 6 pathway failed</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-info">
+                <span class="score-display" id="scoreDisplay">Score: 0/10</span>
+                <span class="attempts-display" id="attemptsDisplay">First Attempt</span>
+            </div>
+        </div>
+
+        <!-- Scenario Screen -->
+        <div class="screen active" id="scenarioScreen">
+            <div class="scenario-content">
+                <h2>The Sepsis 6 Story</h2>
+                
+                <div class="scenario-box">
+                    <h3>📋 Background</h3>
+                    <p>An Emergency Department implemented the Sepsis 6 pathway - a bundle requiring six critical actions within one hour of sepsis recognition. The initiative aimed to reduce sepsis mortality through rapid, standardised response.</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item danger">
+                        <span class="timeline-value">40%</span>
+                        <span class="timeline-label">Baseline Compliance</span>
+                    </div>
+                    <div class="timeline-item success">
+                        <span class="timeline-value">90%</span>
+                        <span class="timeline-label">Month 3 (Peak)</span>
+                    </div>
+                    <div class="timeline-item warning">
+                        <span class="timeline-value">60%</span>
+                        <span class="timeline-label">Month 12 (Decline)</span>
+                    </div>
+                </div>
+
+                <div class="scenario-box">
+                    <h3>❓ The Challenge</h3>
+                    <p><strong>What went wrong?</strong> Despite initial success, compliance dropped significantly. Multiple sustainability threats emerged that weren't addressed. Your task is to diagnose which factors from the NHS 10-Factor Model explain this failure.</p>
+                    
+                    <p style="margin-top: 15px;">You'll see 10 symptoms describing what happened. Match each symptom to the correct sustainability factor to complete your diagnosis.</p>
+                </div>
+
+                <button class="btn-primary" onclick="startDiagnosis()">Start Diagnosis Challenge</button>
+            </div>
+        </div>
+
+        <!-- Diagnosis Screen -->
+        <div class="screen" id="diagnosisScreen">
+            <div class="instructions-banner">
+                <strong>Instructions:</strong> Drag symptoms from the left to the correct factor on the right. On mobile? Tap a symptom, then tap the correct factor.
+            </div>
+
+            <div class="diagnosis-container">
+                <!-- Symptoms Panel -->
+                <div class="symptoms-panel">
+                    <h3 class="symptoms-header">📋 Symptoms to Diagnose</h3>
+                    <div id="symptomsContainer">
+                        <!-- Symptoms will be dynamically added here -->
+                    </div>
+                </div>
+
+                <!-- Factors Panel -->
+                <div class="factors-panel">
+                    <h3 class="factors-header">🎯 10-Factor Categories</h3>
+                    <div class="factor-categories">
+                        <!-- Leadership Category -->
+                        <div class="factor-category" data-category="leadership">
+                            <div class="category-title">
+                                <span class="category-icon">👥</span>
+                                Leadership Factors
+                            </div>
+                            <div class="factor-slots">
+                                <div class="factor-slot" data-factor="senior-leadership">
+                                    <div class="factor-name">Senior Leadership</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="clinical-leadership">
+                                    <div class="factor-name">Clinical Leadership</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="org-strategy">
+                                    <div class="factor-name">Fit with Organisational Strategy</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Process Category -->
+                        <div class="factor-category" data-category="process">
+                            <div class="category-title">
+                                <span class="category-icon">⚙️</span>
+                                Process Factors
+                            </div>
+                            <div class="factor-slots">
+                                <div class="factor-slot" data-factor="infrastructure">
+                                    <div class="factor-name">Infrastructure</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="resources">
+                                    <div class="factor-name">Resources</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="monitoring">
+                                    <div class="factor-name">Monitoring & Feedback</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="staff-involvement">
+                                    <div class="factor-name">Staff Involvement</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- People Category -->
+                        <div class="factor-category" data-category="people">
+                            <div class="category-title">
+                                <span class="category-icon">🧑‍🤝‍🧑</span>
+                                People Factors
+                            </div>
+                            <div class="factor-slots">
+                                <div class="factor-slot" data-factor="training">
+                                    <div class="factor-name">Training & Skills</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="behaviour">
+                                    <div class="factor-name">Behaviour Change</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                                <div class="factor-slot" data-factor="spread">
+                                    <div class="factor-name">Spread Beyond Site</div>
+                                    <div class="slot-content"></div>
+                                    <div class="slot-feedback"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn-primary" id="checkAnswersBtn" style="display: none;" onclick="showResults()">
+                    View Results & Model Answers
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="screen" id="resultsScreen">
+            <div class="results-content">
+                <div class="results-header">
+                    <h2>Your Diagnosis Results</h2>
+                    <div class="score-circle" id="scoreCircle">
+                        <span id="finalScore">0/10</span>
+                        <span class="score-label">Correct</span>
+                    </div>
+                </div>
+
+                <div class="model-answers">
+                    <h3>📚 Model Answers & Explanations</h3>
+                    <div class="answer-grid" id="answerGrid">
+                        <!-- Model answers will be populated here -->
+                    </div>
+                </div>
+
+                <div class="reflection-box">
+                    <h3>💡 Key Learning</h3>
+                    <p id="reflectionMessage">Loading...</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="tryAgain()">
+                        🔄 Try Again
+                    </button>
+                    <button class="btn-secondary" onclick="downloadResults()">
+                        📄 Download Results
+                    </button>
+                    <button class="btn-secondary" onclick="returnToStart()">
+                        🏠 Return to Start
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="overlay" id="overlay"></div>
+    <div class="feedback-modal" id="feedbackModal">
+        <div class="modal-icon" id="modalIcon"></div>
+        <div class="modal-message" id="modalMessage"></div>
+        <div class="modal-hint" id="modalHint"></div>
+    </div>
+
+    <!-- Hint Button -->
+    <button class="hint-button" onclick="toggleHint()">💡</button>
+    <div class="hint-tooltip" id="hintTooltip">
+        <strong>Need help?</strong><br>
+        Think about whether each symptom describes:<br>
+        • A leadership issue (who drives change?)<br>
+        • A process issue (systems & resources)<br>
+        • A people issue (skills & culture)
+    </div>
+
+    <script>
+        // Global state
+        let gameState = {
+            symptoms: [],
+            correctAnswers: {},
+            userAnswers: {},
+            score: 0,
+            attempts: 0,
+            startTime: null,
+            endTime: null,
+            selectedSymptom: null,
+            isMobile: window.innerWidth <= 768
+        };
+
+        // Symptoms data
+        const symptomsData = [
+            {
+                id: 'symptom1',
+                text: 'IT system changed; automated reminders were removed',
+                correctFactor: 'infrastructure',
+                explanation: 'Infrastructure failure: The IT system that supported the pathway was changed without preserving critical functionality.'
+            },
+            {
+                id: 'symptom2',
+                text: 'Clinical champion was promoted; no handover plan',
+                correctFactor: 'clinical-leadership',
+                explanation: 'Clinical Leadership gap: Loss of the clinical champion without succession planning removed credible advocacy.'
+            },
+            {
+                id: 'symptom3',
+                text: 'Executive priorities shifted to ED crowding',
+                correctFactor: 'senior-leadership',
+                explanation: 'Senior Leadership drift: Executive attention moved to other priorities, removing high-level support.'
+            },
+            {
+                id: 'symptom4',
+                text: 'Audits stopped; no one was tracking data',
+                correctFactor: 'monitoring',
+                explanation: 'Monitoring & Feedback breakdown: Without data collection, performance drift went unnoticed.'
+            },
+            {
+                id: 'symptom5',
+                text: 'Frontline staff were told about the pathway but didn\'t help design it',
+                correctFactor: 'staff-involvement',
+                explanation: 'Staff Involvement deficit: Lack of co-design meant staff never felt true ownership.'
+            },
+            {
+                id: 'symptom6',
+                text: 'New staff received informal training; knowledge was inconsistent',
+                correctFactor: 'training',
+                explanation: 'Training & Skills gap: Informal knowledge transfer led to variable understanding and practice.'
+            },
+            {
+                id: 'symptom7',
+                text: 'Established staff still prioritised it, but new staff didn\'t understand why',
+                correctFactor: 'behaviour',
+                explanation: 'Behaviour Change incomplete: Culture change wasn\'t embedded; relied on individuals not systems.'
+            },
+            {
+                id: 'symptom8',
+                text: 'Other EDs knew about it but hadn\'t formally adopted it',
+                correctFactor: 'spread',
+                explanation: 'Spread Beyond Site limited: Lack of formal spread meant no network effect or peer pressure.'
+            },
+            {
+                id: 'symptom9',
+                text: 'Sepsis 6 fitted strategy, but competing initiatives took priority',
+                correctFactor: 'org-strategy',
+                explanation: 'Organisational Strategy misalignment: While aligned in principle, it wasn\'t protected from competing priorities.'
+            },
+            {
+                id: 'symptom10',
+                text: 'No explicit resource allocation; audits were paused to save time',
+                correctFactor: 'resources',
+                explanation: 'Resources not secured: Reliance on goodwill rather than dedicated resources made it vulnerable.'
+            }
+        ];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setupEventListeners();
+            checkMobileMode();
+            
+            // Shuffle symptoms for variety
+            gameState.symptoms = [...symptomsData].sort(() => Math.random() - 0.5);
+        });
+
+        function setupEventListeners() {
+            // Window resize handler
+            window.addEventListener('resize', checkMobileMode);
+            
+            // Click outside to close hint
+            document.addEventListener('click', (e) => {
+                const hint = document.getElementById('hintTooltip');
+                const hintBtn = document.querySelector('.hint-button');
+                if (!hint.contains(e.target) && !hintBtn.contains(e.target)) {
+                    hint.classList.remove('show');
+                }
+            });
+
+            // Close modal on overlay click
+            document.getElementById('overlay').addEventListener('click', closeFeedbackModal);
+        }
+
+        function checkMobileMode() {
+            gameState.isMobile = window.innerWidth <= 768;
+        }
+
+        function startDiagnosis() {
+            gameState.startTime = new Date();
+            gameState.attempts++;
+            
+            document.getElementById('scenarioScreen').classList.remove('active');
+            document.getElementById('diagnosisScreen').classList.add('active');
+            
+            renderSymptoms();
+            setupDragAndDrop();
+        }
+
+        function renderSymptoms() {
+            const container = document.getElementById('symptomsContainer');
+            container.innerHTML = '';
+            
+            gameState.symptoms.forEach((symptom, index) => {
+                const card = document.createElement('div');
+                card.className = 'symptom-card';
+                card.draggable = !gameState.isMobile;
+                card.dataset.symptomId = symptom.id;
+                card.innerHTML = `
+                    <span class="symptom-number">${index + 1}</span>
+                    <span class="symptom-text">${symptom.text}</span>
+                `;
+                
+                if (gameState.isMobile) {
+                    card.addEventListener('click', () => selectSymptom(symptom.id));
+                }
+                
+                container.appendChild(card);
+            });
+        }
+
+        function setupDragAndDrop() {
+            if (!gameState.isMobile) {
+                // Desktop drag and drop
+                document.querySelectorAll('.symptom-card').forEach(card => {
+                    card.addEventListener('dragstart', handleDragStart);
+                    card.addEventListener('dragend', handleDragEnd);
+                });
+                
+                document.querySelectorAll('.factor-slot').forEach(slot => {
+                    slot.addEventListener('dragover', handleDragOver);
+                    slot.addEventListener('drop', handleDrop);
+                    slot.addEventListener('dragleave', handleDragLeave);
+                });
+            } else {
+                // Mobile click interactions
+                document.querySelectorAll('.factor-slot').forEach(slot => {
+                    slot.addEventListener('click', () => {
+                        if (gameState.selectedSymptom) {
+                            placeSymptom(gameState.selectedSymptom, slot.dataset.factor);
+                        }
+                    });
+                });
+            }
+        }
+
+        function selectSymptom(symptomId) {
+            // Deselect previous
+            document.querySelectorAll('.symptom-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select new
+            const card = document.querySelector(`[data-symptom-id="${symptomId}"]`);
+            if (card && !card.classList.contains('placed')) {
+                card.classList.add('selected');
+                gameState.selectedSymptom = symptomId;
+                
+                // Show ready state on factor slots
+                document.querySelectorAll('.factor-slot').forEach(slot => {
+                    if (!slot.classList.contains('has-symptom')) {
+                        slot.classList.add('ready-for-placement');
+                    }
+                });
+            }
+        }
+
+        function handleDragStart(e) {
+            const symptomId = e.target.dataset.symptomId;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('symptomId', symptomId);
+            e.target.classList.add('dragging');
+            gameState.selectedSymptom = symptomId;
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+            gameState.selectedSymptom = null;
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            
+            const slot = e.currentTarget;
+            if (!slot.classList.contains('has-symptom')) {
+                slot.classList.add('drag-over');
+                
+                // Highlight category
+                const category = slot.closest('.factor-category');
+                category.classList.add('drop-active');
+            }
+        }
+
+        function handleDragLeave(e) {
+            const slot = e.currentTarget;
+            slot.classList.remove('drag-over');
+            
+            const category = slot.closest('.factor-category');
+            category.classList.remove('drop-active');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            
+            const symptomId = e.dataTransfer.getData('symptomId');
+            const factorId = e.currentTarget.dataset.factor;
+            
+            // Clear drag states
+            e.currentTarget.classList.remove('drag-over');
+            const category = e.currentTarget.closest('.factor-category');
+            category.classList.remove('drop-active');
+            
+            placeSymptom(symptomId, factorId);
+        }
+
+        function placeSymptom(symptomId, factorId) {
+            const symptom = gameState.symptoms.find(s => s.id === symptomId);
+            if (!symptom) return;
+            
+            const slot = document.querySelector(`[data-factor="${factorId}"]`);
+            if (slot.classList.contains('has-symptom')) {
+                showFeedback(false, 'This slot already has a symptom!', 'Try placing it in an empty slot.');
+                return;
+            }
+            
+            // Mark symptom as placed
+            const symptomCard = document.querySelector(`[data-symptom-id="${symptomId}"]`);
+            symptomCard.classList.add('placed');
+            
+            // Add to slot
+            slot.classList.add('has-symptom');
+            const content = slot.querySelector('.slot-content');
+            content.innerHTML = `
+                <div class="placed-symptom">
+                    <strong>Placed:</strong> ${symptom.text}
+                </div>
+            `;
+            
+            // Store answer
+            gameState.userAnswers[symptomId] = factorId;
+            
+            // Check if correct
+            const isCorrect = symptom.correctFactor === factorId;
+            
+            if (isCorrect) {
+                slot.classList.add('correct');
+                symptomCard.classList.add('correct');
+                gameState.score++;
+                updateScore();
+                
+                // Show inline feedback
+                const feedback = slot.querySelector('.slot-feedback');
+                feedback.innerHTML = `✅ Correct! ${symptom.explanation}`;
+                feedback.classList.add('show');
+                
+                showFeedback(true, 'Correct!', symptom.explanation);
+            } else {
+                slot.classList.add('incorrect');
+                symptomCard.classList.add('incorrect');
+                
+                // Get hint about correct category
+                const correctFactor = symptom.correctFactor;
+                const correctCategory = getFactorCategory(correctFactor);
+                const hint = `Think about this: Is this a ${correctCategory} issue?`;
+                
+                // Show inline feedback
+                const feedback = slot.querySelector('.slot-feedback');
+                feedback.innerHTML = `❌ Not quite. ${hint}`;
+                feedback.classList.add('show');
+                
+                showFeedback(false, 'Not quite right', hint);
+                
+                // Allow retry after delay
+                setTimeout(() => {
+                    slot.classList.remove('has-symptom', 'incorrect');
+                    content.innerHTML = '';
+                    feedback.classList.remove('show');
+                    symptomCard.classList.remove('placed', 'incorrect');
+                    delete gameState.userAnswers[symptomId];
+                }, 3000);
+            }
+            
+            // Clear mobile selection
+            if (gameState.isMobile) {
+                gameState.selectedSymptom = null;
+                document.querySelectorAll('.symptom-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                document.querySelectorAll('.factor-slot').forEach(s => {
+                    s.classList.remove('ready-for-placement');
+                });
+            }
+            
+            // Check if complete
+            checkCompletion();
+        }
+
+        function getFactorCategory(factorId) {
+            const categories = {
+                'senior-leadership': 'Leadership',
+                'clinical-leadership': 'Leadership',
+                'org-strategy': 'Leadership',
+                'infrastructure': 'Process',
+                'resources': 'Process',
+                'monitoring': 'Process',
+                'staff-involvement': 'Process',
+                'training': 'People',
+                'behaviour': 'People',
+                'spread': 'People'
+            };
+            return categories[factorId];
+        }
+
+        function showFeedback(isCorrect, message, detail) {
+            const modal = document.getElementById('feedbackModal');
+            const overlay = document.getElementById('overlay');
+            const icon = document.getElementById('modalIcon');
+            const messageEl = document.getElementById('modalMessage');
+            const hint = document.getElementById('modalHint');
+            
+            modal.className = `feedback-modal show ${isCorrect ? 'correct' : 'incorrect'}`;
+            overlay.classList.add('show');
+            
+            icon.innerHTML = isCorrect ? '✅' : '🤔';
+            messageEl.innerHTML = message;
+            hint.innerHTML = detail;
+            
+            // Auto-close after delay
+            setTimeout(() => {
+                closeFeedbackModal();
+            }, isCorrect ? 2000 : 3500);
+        }
+
+        function closeFeedbackModal() {
+            document.getElementById('feedbackModal').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        function updateScore() {
+            document.getElementById('scoreDisplay').textContent = `Score: ${gameState.score}/10`;
+        }
+
+        function checkCompletion() {
+            const placed = Object.keys(gameState.userAnswers).length;
+            const correct = document.querySelectorAll('.factor-slot.correct').length;
+            
+            if (correct === 10) {
+                document.getElementById('checkAnswersBtn').style.display = 'inline-block';
+                document.getElementById('checkAnswersBtn').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }
+        }
+
+        function showResults() {
+            gameState.endTime = new Date();
+            
+            document.getElementById('diagnosisScreen').classList.remove('active');
+            document.getElementById('resultsScreen').classList.add('active');
+            
+            // Update score display
+            const scoreCircle = document.getElementById('scoreCircle');
+            const finalScore = document.getElementById('finalScore');
+            finalScore.textContent = `${gameState.score}/10`;
+            
+            // Set score class
+            if (gameState.score >= 9) {
+                scoreCircle.className = 'score-circle excellent';
+            } else if (gameState.score >= 7) {
+                scoreCircle.className = 'score-circle good';
+            } else {
+                scoreCircle.className = 'score-circle needs-work';
+            }
+            
+            // Generate model answers
+            generateModelAnswers();
+            
+            // Generate reflection message
+            generateReflection();
+        }
+
+        function generateModelAnswers() {
+            const grid = document.getElementById('answerGrid');
+            grid.innerHTML = '';
+            
+            gameState.symptoms.forEach((symptom, index) => {
+                const userAnswer = gameState.userAnswers[symptom.id];
+                const isCorrect = userAnswer === symptom.correctFactor;
+                
+                const answerItem = document.createElement('div');
+                answerItem.className = 'answer-item';
+                answerItem.innerHTML = `
+                    <div class="answer-symptom">
+                        ${index + 1}. ${symptom.text}
+                    </div>
+                    <div class="answer-factor">
+                        ✓ Correct Factor: ${formatFactorName(symptom.correctFactor)}
+                    </div>
+                    ${!isCorrect && userAnswer ? `
+                        <div style="color: #e74c3c; margin: 5px 0;">
+                            ✗ You placed it in: ${formatFactorName(userAnswer)}
+                        </div>
+                    ` : ''}
+                    <div class="answer-explanation">
+                        ${symptom.explanation}
+                    </div>
+                `;
+                grid.appendChild(answerItem);
+            });
+        }
+
+        function formatFactorName(factorId) {
+            const names = {
+                'senior-leadership': 'Senior Leadership',
+                'clinical-leadership': 'Clinical Leadership',
+                'org-strategy': 'Fit with Organisational Strategy',
+                'infrastructure': 'Infrastructure',
+                'resources': 'Resources',
+                'monitoring': 'Monitoring & Feedback',
+                'staff-involvement': 'Staff Involvement',
+                'training': 'Training & Skills',
+                'behaviour': 'Behaviour Change',
+                'spread': 'Spread Beyond Site'
+            };
+            return names[factorId] || factorId;
+        }
+
+        function generateReflection() {
+            const message = document.getElementById('reflectionMessage');
+            
+            if (gameState.score >= 9) {
+                message.innerHTML = `
+                    <strong>Excellent diagnosis!</strong> You correctly identified ${gameState.score}/10 sustainability threats. 
+                    You understand how to apply the 10-Factor Model to real scenarios. This same analytical approach 
+                    will help you evaluate your own quality improvement project. Remember: Most failures aren't about 
+                    the improvement itself, but about not addressing these sustainability factors.
+                `;
+            } else if (gameState.score >= 7) {
+                message.innerHTML = `
+                    <strong>Good work!</strong> You identified ${gameState.score}/10 factors correctly. 
+                    The ones you missed often involve subtle distinctions between categories. For example, 
+                    infrastructure (Process) vs training (People), or senior leadership vs organisational strategy. 
+                    Review the model answers to strengthen your understanding before analyzing your own improvement.
+                `;
+            } else {
+                message.innerHTML = `
+                    <strong>Keep practicing!</strong> You identified ${gameState.score}/10 factors. 
+                    This is a complex model with overlapping categories. Focus on the key distinction: 
+                    Leadership factors are about who drives change, Process factors are about systems and resources, 
+                    and People factors are about skills and culture. Try again to improve your diagnostic skills!
+                `;
+            }
+        }
+
+        function toggleHint() {
+            const hint = document.getElementById('hintTooltip');
+            hint.classList.toggle('show');
+        }
+
+        function tryAgain() {
+            // Reset game state
+            gameState = {
+                symptoms: [...symptomsData].sort(() => Math.random() - 0.5),
+                correctAnswers: {},
+                userAnswers: {},
+                score: 0,
+                attempts: gameState.attempts,
+                startTime: null,
+                endTime: null,
+                selectedSymptom: null,
+                isMobile: window.innerWidth <= 768
+            };
+            
+            // Update displays
+            updateScore();
+            document.getElementById('attemptsDisplay').textContent = 
+                `Attempt ${gameState.attempts + 1}`;
+            
+            // Clear slots
+            document.querySelectorAll('.factor-slot').forEach(slot => {
+                slot.classList.remove('has-symptom', 'correct', 'incorrect');
+                slot.querySelector('.slot-content').innerHTML = '';
+                slot.querySelector('.slot-feedback').classList.remove('show');
+            });
+            
+            // Hide results button
+            document.getElementById('checkAnswersBtn').style.display = 'none';
+            
+            // Switch screens
+            document.getElementById('resultsScreen').classList.remove('active');
+            document.getElementById('diagnosisScreen').classList.add('active');
+            
+            // Re-render
+            startDiagnosis();
+        }
+
+        function returnToStart() {
+            // Full reset
+            gameState = {
+                symptoms: [...symptomsData].sort(() => Math.random() - 0.5),
+                correctAnswers: {},
+                userAnswers: {},
+                score: 0,
+                attempts: 0,
+                startTime: null,
+                endTime: null,
+                selectedSymptom: null,
+                isMobile: window.innerWidth <= 768
+            };
+            
+            // Update displays
+            updateScore();
+            document.getElementById('attemptsDisplay').textContent = 'First Attempt';
+            
+            // Switch to start
+            document.getElementById('resultsScreen').classList.remove('active');
+            document.getElementById('diagnosisScreen').classList.remove('active');
+            document.getElementById('scenarioScreen').classList.add('active');
+        }
+
+        function downloadResults() {
+            const duration = Math.round((gameState.endTime - gameState.startTime) / 1000);
+            
+            const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sepsis 6 Diagnosis Results</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px; 
+        }
+        h1 { color: #e74c3c; }
+        .header { 
+            border-bottom: 2px solid #e74c3c; 
+            margin-bottom: 30px; 
+            padding-bottom: 20px; 
+        }
+        .score { 
+            font-size: 2em; 
+            color: #5f72bd; 
+            font-weight: bold; 
+            text-align: center;
+            margin: 20px 0;
+        }
+        .answer { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border-left: 4px solid #ddd; 
+            background: #f8f9fa;
+        }
+        .answer.correct { 
+            border-color: #27ae60; 
+            background: #f0fff4; 
+        }
+        .answer.incorrect { 
+            border-color: #e74c3c; 
+            background: #fff5f5; 
+        }
+        @media print { 
+            body { margin: 0; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sepsis 6 Sustainability Diagnosis Results</h1>
+        <p>Date: ${new Date().toLocaleDateString()}</p>
+        <p>Duration: ${duration} seconds</p>
+        <p>Attempt: ${gameState.attempts}</p>
+    </div>
+    
+    <div class="score">
+        Score: ${gameState.score}/10 Correct
+    </div>
+    
+    <h2>Your Diagnosis</h2>
+    ${gameState.symptoms.map((symptom, index) => {
+        const userAnswer = gameState.userAnswers[symptom.id];
+        const isCorrect = userAnswer === symptom.correctFactor;
+        return `
+            <div class="answer ${isCorrect ? 'correct' : 'incorrect'}">
+                <h3>${index + 1}. ${symptom.text}</h3>
+                <p><strong>Correct Factor:</strong> ${formatFactorName(symptom.correctFactor)}</p>
+                ${!isCorrect && userAnswer ? `
+                    <p><strong>Your Answer:</strong> ${formatFactorName(userAnswer)}</p>
+                ` : ''}
+                <p><em>${symptom.explanation}</em></p>
+            </div>
+        `;
+    }).join('')}
+    
+    <h2>Key Learning</h2>
+    <p>${document.getElementById('reflectionMessage').innerHTML}</p>
+    
+    <p style="margin-top: 40px; color: #666; font-size: 0.9em;">
+        This exercise demonstrates how the NHS 10-Factor Sustainability Model 
+        can diagnose why improvements fail. Use this approach to strengthen 
+        your own quality improvement project.
+    </p>
+</body>
+</html>`;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sepsis6-diagnosis-${Date.now()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Results downloaded! Open the HTML file to view or print your diagnosis.');
+        }
+    </script>
+</body>
+</html>

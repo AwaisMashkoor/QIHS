@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NHS 10-Factor Sustainability Assessment Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #5f72bd 0%, #9b88db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: #f0f2f5;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Screens */
+        .screen {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Introduction Screen */
+        .intro-content {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .intro-content h2 {
+            color: #5f72bd;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .intro-content p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .rating-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rating-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        .rating-dot.green { background: #27ae60; }
+        .rating-dot.amber { background: #f39c12; }
+        .rating-dot.red { background: #e74c3c; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5f72bd 0%, #9b88db 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(95, 114, 189, 0.3);
+        }
+
+        /* Assessment Screen */
+        .categories-container {
+            display: grid;
+            gap: 30px;
+        }
+
+        .category {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .category.completed {
+            border-color: #27ae60;
+            background: #f0fff4;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .category-badge {
+            background: #e0e0e0;
+            color: #666;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .category-badge.complete {
+            background: #27ae60;
+            color: white;
+        }
+
+        .factors-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .factor-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .factor-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .factor-card.expanded {
+            border-color: #5f72bd;
+        }
+
+        .factor-card.rated-green { border-left: 5px solid #27ae60; }
+        .factor-card.rated-amber { border-left: 5px solid #f39c12; }
+        .factor-card.rated-red { border-left: 5px solid #e74c3c; }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .factor-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+        }
+
+        .factor-status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #e0e0e0;
+        }
+
+        .factor-status.green { background: #27ae60; }
+        .factor-status.amber { background: #f39c12; }
+        .factor-status.red { background: #e74c3c; }
+
+        .factor-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .factor-card.expanded .factor-description {
+            display: block;
+        }
+
+        .rating-options {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .factor-card.expanded .rating-options {
+            display: grid;
+        }
+
+        .rating-btn {
+            padding: 12px;
+            border: 2px solid;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .rating-btn.green {
+            border-color: #27ae60;
+            color: #27ae60;
+        }
+
+        .rating-btn.green:hover {
+            background: #27ae60;
+            color: white;
+        }
+
+        .rating-btn.amber {
+            border-color: #f39c12;
+            color: #f39c12;
+        }
+
+        .rating-btn.amber:hover {
+            background: #f39c12;
+            color: white;
+        }
+
+        .rating-btn.red {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .rating-btn.red:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .rating-feedback {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f0f2f5;
+        }
+
+        .rating-feedback.show {
+            display: block;
+        }
+
+        .rating-feedback.green { background: #d4edda; color: #155724; }
+        .rating-feedback.amber { background: #fff3cd; color: #856404; }
+        .rating-feedback.red { background: #f8d7da; color: #721c24; }
+
+        /* Results Screen */
+        .results-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .results-header {
+            margin-bottom: 40px;
+        }
+
+        .results-header h2 {
+            color: #5f72bd;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .sustainability-score {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .chart-container {
+            margin: 40px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .pie-chart {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .chart-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .summary-message {
+            background: #f0f2f5;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .recommendations {
+            text-align: left;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .recommendations h3 {
+            color: #5f72bd;
+            margin-bottom: 15px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .recommendations li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #5f72bd;
+            font-weight: bold;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #5f72bd;
+            border: 2px solid #5f72bd;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #5f72bd;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .rating-legend {
+                gap: 15px;
+            }
+
+            .rating-options {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                flex-direction: column;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+            }
+
+            .btn-primary, .btn-secondary {
+                display: none;
+            }
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #5f72bd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NHS 10-Factor Sustainability Assessment Tool</h1>
+            <p>Assess your improvement project's sustainability potential</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Getting started...</div>
+        </div>
+
+        <!-- Introduction Screen -->
+        <div class="screen active" id="introScreen">
+            <div class="intro-content">
+                <h2>Welcome to Your Sustainability Assessment</h2>
+                <p>This tool helps you evaluate your quality improvement project against the NHS Sustainability Model's 10 critical factors.</p>
+                <p>Rate each factor to identify strengths and areas needing attention before implementation.</p>
+                
+                <div class="rating-legend">
+                    <div class="rating-item">
+                        <div class="rating-dot green"></div>
+                        <span><strong>Green:</strong> Ready</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-dot amber"></div>
+                        <span><strong>Amber:</strong> Developing</span>
+                    </div>
+                    <div class="rating-item">
+                        <div class="rating-dot red"></div>
+                        <span><strong>Red:</strong> At Risk</span>
+                    </div>
+                </div>
+
+                <p><strong>Time required:</strong> 7-10 minutes</p>
+                <p>Your assessment will be saved and you can download a PDF summary at the end.</p>
+                
+                <button class="btn-primary" onclick="startAssessment()">Start Assessment</button>
+            </div>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div class="screen" id="assessmentScreen">
+            <div class="categories-container">
+                <!-- Leadership Category -->
+                <div class="category" id="leadership-category">
+                    <div class="category-header">
+                        <h2 class="category-title">Leadership Factors</h2>
+                        <span class="category-badge" id="leadership-badge">0/3</span>
+                    </div>
+                    <div class="factors-grid">
+                        <div class="factor-card" data-factor="senior-leadership" data-category="leadership">
+                            <div class="factor-header">
+                                <span class="factor-name">Senior Leadership</span>
+                                <div class="factor-status" id="status-senior-leadership"></div>
+                            </div>
+                            <div class="factor-description">
+                                Executive sponsors who actively champion your improvement, allocate resources, and remove barriers.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('senior-leadership', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('senior-leadership', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('senior-leadership', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-senior-leadership"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="clinical-leadership" data-category="leadership">
+                            <div class="factor-header">
+                                <span class="factor-name">Clinical Leadership</span>
+                                <div class="factor-status" id="status-clinical-leadership"></div>
+                            </div>
+                            <div class="factor-description">
+                                Clinical champions who drive adoption, credibly advocate for change, and influence colleagues.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('clinical-leadership', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('clinical-leadership', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('clinical-leadership', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-clinical-leadership"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="org-strategy" data-category="leadership">
+                            <div class="factor-header">
+                                <span class="factor-name">Fit with Organisational Strategy</span>
+                                <div class="factor-status" id="status-org-strategy"></div>
+                            </div>
+                            <div class="factor-description">
+                                Alignment with strategic priorities, board objectives, and organisational transformation agenda.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('org-strategy', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('org-strategy', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('org-strategy', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-org-strategy"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Process Category -->
+                <div class="category" id="process-category">
+                    <div class="category-header">
+                        <h2 class="category-title">Process Factors</h2>
+                        <span class="category-badge" id="process-badge">0/4</span>
+                    </div>
+                    <div class="factors-grid">
+                        <div class="factor-card" data-factor="infrastructure" data-category="process">
+                            <div class="factor-header">
+                                <span class="factor-name">Infrastructure</span>
+                                <div class="factor-status" id="status-infrastructure"></div>
+                            </div>
+                            <div class="factor-description">
+                                Systems, technology, equipment, and physical environment support the improvement.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('infrastructure', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('infrastructure', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('infrastructure', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-infrastructure"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="staff-involvement" data-category="process">
+                            <div class="factor-header">
+                                <span class="factor-name">Staff Involvement</span>
+                                <div class="factor-status" id="status-staff-involvement"></div>
+                            </div>
+                            <div class="factor-description">
+                                Frontline staff co-designed the improvement and feel ownership over its success.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('staff-involvement', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('staff-involvement', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('staff-involvement', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-staff-involvement"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="resources" data-category="process">
+                            <div class="factor-header">
+                                <span class="factor-name">Resources</span>
+                                <div class="factor-status" id="status-resources"></div>
+                            </div>
+                            <div class="factor-description">
+                                Dedicated funding, protected time, and sufficient staffing to maintain the improvement.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('resources', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('resources', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('resources', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-resources"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="monitoring" data-category="process">
+                            <div class="factor-header">
+                                <span class="factor-name">Monitoring & Feedback</span>
+                                <div class="factor-status" id="status-monitoring"></div>
+                            </div>
+                            <div class="factor-description">
+                                Regular data collection, performance dashboards, and feedback loops to track progress.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('monitoring', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('monitoring', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('monitoring', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-monitoring"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- People Category -->
+                <div class="category" id="people-category">
+                    <div class="category-header">
+                        <h2 class="category-title">People Factors</h2>
+                        <span class="category-badge" id="people-badge">0/3</span>
+                    </div>
+                    <div class="factors-grid">
+                        <div class="factor-card" data-factor="training" data-category="people">
+                            <div class="factor-header">
+                                <span class="factor-name">Training & Skills</span>
+                                <div class="factor-status" id="status-training"></div>
+                            </div>
+                            <div class="factor-description">
+                                Staff have the knowledge, skills, and ongoing training to deliver the improvement effectively.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('training', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('training', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('training', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-training"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="behaviour" data-category="people">
+                            <div class="factor-header">
+                                <span class="factor-name">Behaviour Change</span>
+                                <div class="factor-status" id="status-behaviour"></div>
+                            </div>
+                            <div class="factor-description">
+                                The improvement becomes embedded in routine practice and organisational culture.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('behaviour', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('behaviour', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('behaviour', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-behaviour"></div>
+                        </div>
+
+                        <div class="factor-card" data-factor="spread" data-category="people">
+                            <div class="factor-header">
+                                <span class="factor-name">Spread Beyond Site</span>
+                                <div class="factor-status" id="status-spread"></div>
+                            </div>
+                            <div class="factor-description">
+                                Potential for replication in other departments, sites, or organisations.
+                            </div>
+                            <div class="rating-options">
+                                <button class="rating-btn green" onclick="rateFactory('spread', 'green')">
+                                    ✓ Ready
+                                </button>
+                                <button class="rating-btn amber" onclick="rateFactory('spread', 'amber')">
+                                    ⚠ Developing
+                                </button>
+                                <button class="rating-btn red" onclick="rateFactory('spread', 'red')">
+                                    ✗ At Risk
+                                </button>
+                            </div>
+                            <div class="rating-feedback" id="feedback-spread"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn-primary" id="viewResultsBtn" style="display: none;" onclick="showResults()">
+                    View Your Results
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="screen" id="resultsScreen">
+            <div class="results-content">
+                <div class="results-header">
+                    <h2>Your Sustainability Assessment Results</h2>
+                    <div class="sustainability-score" id="sustainabilityScore">--</div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="pieChart" width="200" height="200"></canvas>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #27ae60;"></div>
+                            <span id="greenCount">0 Green (Ready)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #f39c12;"></div>
+                            <span id="amberCount">0 Amber (Developing)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #e74c3c;"></div>
+                            <span id="redCount">0 Red (At Risk)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-message" id="summaryMessage">
+                    Analyzing your results...
+                </div>
+
+                <div class="recommendations" id="recommendations">
+                    <h3>Key Recommendations</h3>
+                    <ul id="recommendationsList">
+                        <!-- Populated dynamically -->
+                    </ul>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-secondary" onclick="downloadPDF()">
+                        📄 Download PDF Report
+                    </button>
+                    <button class="btn-secondary" onclick="restartAssessment()">
+                        🔄 Start New Assessment
+                    </button>
+                    <button class="btn-secondary" onclick="window.print()">
+                        🖨️ Print Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let assessmentData = {
+            ratings: {},
+            startTime: null,
+            endTime: null
+        };
+
+        const factors = {
+            'senior-leadership': {
+                name: 'Senior Leadership',
+                category: 'leadership',
+                green: 'Leaders actively champion the improvement and allocate necessary resources.',
+                amber: 'Leaders support in principle but have competing priorities.',
+                red: 'Leadership has changed or does not prioritise this improvement.'
+            },
+            'clinical-leadership': {
+                name: 'Clinical Leadership',
+                category: 'leadership',
+                green: 'Strong clinical champion with protected time and influence.',
+                amber: 'Clinical champion exists but lacks time or formal authority.',
+                red: 'No clinical champion or champion has left the organisation.'
+            },
+            'org-strategy': {
+                name: 'Fit with Organisational Strategy',
+                category: 'leadership',
+                green: 'Directly aligns with board priorities and strategic objectives.',
+                amber: 'Loosely connected to strategy but not a stated priority.',
+                red: 'Conflicts with or unrelated to organisational strategy.'
+            },
+            'infrastructure': {
+                name: 'Infrastructure',
+                category: 'process',
+                green: 'IT systems, equipment, and environment fully support the change.',
+                amber: 'Some infrastructure in place but gaps remain.',
+                red: 'Major infrastructure barriers or pending system changes.'
+            },
+            'staff-involvement': {
+                name: 'Staff Involvement',
+                category: 'process',
+                green: 'Staff co-designed the improvement and feel strong ownership.',
+                amber: 'Staff consulted but limited involvement in design.',
+                red: 'Change imposed on staff with minimal consultation.'
+            },
+            'resources': {
+                name: 'Resources',
+                category: 'process',
+                green: 'Dedicated budget and protected staff time secured.',
+                amber: 'Some resources available but not guaranteed long-term.',
+                red: 'No dedicated resources; relies on goodwill and spare time.'
+            },
+            'monitoring': {
+                name: 'Monitoring & Feedback',
+                category: 'process',
+                green: 'Regular data collection with dashboards and feedback loops.',
+                amber: 'Occasional monitoring but not systematic.',
+                red: 'No monitoring plan or data collection stopped.'
+            },
+            'training': {
+                name: 'Training & Skills',
+                category: 'people',
+                green: 'Comprehensive training programme with ongoing support.',
+                amber: 'Initial training provided but no refresher plan.',
+                red: 'Minimal or no training; relies on informal knowledge transfer.'
+            },
+            'behaviour': {
+                name: 'Behaviour Change',
+                category: 'people',
+                green: 'New practices embedded in routine with cultural shift evident.',
+                amber: 'Some behaviour change but old habits persist.',
+                red: 'Strong resistance to change or reverting to old practices.'
+            },
+            'spread': {
+                name: 'Spread Beyond Site',
+                category: 'people',
+                green: 'Clear plan for spread with other sites expressing interest.',
+                amber: 'Potential for spread identified but no concrete plan.',
+                red: 'Too context-specific or no interest from other areas.'
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add click handlers to factor cards
+            document.querySelectorAll('.factor-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Don't toggle if clicking on rating buttons
+                    if (e.target.classList.contains('rating-btn')) return;
+                    
+                    // Toggle expanded state
+                    card.classList.toggle('expanded');
+                });
+            });
+        });
+
+        function startAssessment() {
+            assessmentData.startTime = new Date();
+            document.getElementById('introScreen').classList.remove('active');
+            document.getElementById('assessmentScreen').classList.add('active');
+            updateProgress();
+        }
+
+        function rateFactory(factorId, rating) {
+            // Store rating
+            assessmentData.ratings[factorId] = rating;
+            
+            // Update visual status
+            const statusElement = document.getElementById(`status-${factorId}`);
+            statusElement.className = `factor-status ${rating}`;
+            
+            // Update factor card
+            const card = document.querySelector(`[data-factor="${factorId}"]`);
+            card.classList.remove('rated-green', 'rated-amber', 'rated-red');
+            card.classList.add(`rated-${rating}`);
+            
+            // Show feedback
+            const feedbackElement = document.getElementById(`feedback-${factorId}`);
+            const factor = factors[factorId];
+            let feedbackText = '';
+            let action = '';
+            
+            if (rating === 'green') {
+                feedbackText = factor.green;
+                action = "Excellent! This factor supports sustainability.";
+            } else if (rating === 'amber') {
+                feedbackText = factor.amber;
+                action = "Consider: How can you strengthen this factor before full implementation?";
+            } else {
+                feedbackText = factor.red;
+                action = "Critical: Address this before launch or redesign your approach.";
+            }
+            
+            feedbackElement.innerHTML = `<strong>${feedbackText}</strong><br><em>${action}</em>`;
+            feedbackElement.className = `rating-feedback show ${rating}`;
+            
+            // Update category progress
+            updateCategoryProgress(factors[factorId].category);
+            
+            // Update overall progress
+            updateProgress();
+            
+            // Check if assessment complete
+            checkCompletion();
+        }
+
+        function updateCategoryProgress(category) {
+            const categoryFactors = Object.keys(factors).filter(
+                factorId => factors[factorId].category === category
+            );
+            
+            const ratedCount = categoryFactors.filter(
+                factorId => assessmentData.ratings[factorId]
+            ).length;
+            
+            const badge = document.getElementById(`${category}-badge`);
+            badge.textContent = `${ratedCount}/${categoryFactors.length}`;
+            
+            if (ratedCount === categoryFactors.length) {
+                badge.classList.add('complete');
+                document.getElementById(`${category}-category`).classList.add('completed');
+            }
+        }
+
+        function updateProgress() {
+            const totalFactors = Object.keys(factors).length;
+            const ratedFactors = Object.keys(assessmentData.ratings).length;
+            const percentage = (ratedFactors / totalFactors) * 100;
+            
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            
+            if (ratedFactors === 0) {
+                document.getElementById('progressText').textContent = 'Click on each factor to rate it';
+            } else if (ratedFactors < totalFactors) {
+                document.getElementById('progressText').textContent = 
+                    `${ratedFactors} of ${totalFactors} factors rated`;
+            } else {
+                document.getElementById('progressText').textContent = 'Assessment complete!';
+            }
+        }
+
+        function checkCompletion() {
+            const totalFactors = Object.keys(factors).length;
+            const ratedFactors = Object.keys(assessmentData.ratings).length;
+            
+            if (ratedFactors === totalFactors) {
+                document.getElementById('viewResultsBtn').style.display = 'inline-block';
+                // Auto-scroll to button
+                document.getElementById('viewResultsBtn').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }
+        }
+
+        function showResults() {
+            assessmentData.endTime = new Date();
+            
+            // Calculate scores
+            const ratings = assessmentData.ratings;
+            const greenCount = Object.values(ratings).filter(r => r === 'green').length;
+            const amberCount = Object.values(ratings).filter(r => r === 'amber').length;
+            const redCount = Object.values(ratings).filter(r => r === 'red').length;
+            
+            // Update display
+            document.getElementById('assessmentScreen').classList.remove('active');
+            document.getElementById('resultsScreen').classList.add('active');
+            
+            // Calculate sustainability score
+            const score = Math.round((greenCount * 10 + amberCount * 5) / 10 * 10);
+            document.getElementById('sustainabilityScore').textContent = `${score}%`;
+            
+            // Update counts
+            document.getElementById('greenCount').textContent = `${greenCount} Green (Ready)`;
+            document.getElementById('amberCount').textContent = `${amberCount} Amber (Developing)`;
+            document.getElementById('redCount').textContent = `${redCount} Red (At Risk)`;
+            
+            // Draw pie chart
+            drawPieChart(greenCount, amberCount, redCount);
+            
+            // Generate summary message
+            generateSummary(greenCount, amberCount, redCount);
+            
+            // Generate recommendations
+            generateRecommendations();
+        }
+
+        function drawPieChart(green, amber, red) {
+            const canvas = document.getElementById('pieChart');
+            const ctx = canvas.getContext('2d');
+            const total = green + amber + red;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Calculate angles
+            const greenAngle = (green / total) * 2 * Math.PI;
+            const amberAngle = (amber / total) * 2 * Math.PI;
+            
+            // Center point
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+            
+            // Draw green section
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, greenAngle);
+            ctx.lineTo(centerX, centerY);
+            ctx.fillStyle = '#27ae60';
+            ctx.fill();
+            
+            // Draw amber section
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, greenAngle, greenAngle + amberAngle);
+            ctx.lineTo(centerX, centerY);
+            ctx.fillStyle = '#f39c12';
+            ctx.fill();
+            
+            // Draw red section
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, greenAngle + amberAngle, 2 * Math.PI);
+            ctx.lineTo(centerX, centerY);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fill();
+            
+            // Add border
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function generateSummary(green, amber, red) {
+            const summaryElement = document.getElementById('summaryMessage');
+            let message = '';
+            
+            if (green >= 8) {
+                message = `<strong>Excellent sustainability foundation!</strong> With ${green} factors rated as ready, your improvement has strong potential for long-term success. Focus on maintaining momentum and addressing the few remaining gaps. Consider this project well-positioned for implementation and spread.`;
+            } else if (green >= 5) {
+                message = `<strong>Moderate sustainability potential.</strong> You have ${green} strong factors providing a foundation, but ${amber + red} factors need attention. Prioritise strengthening the red-rated factors before large-scale rollout. Consider a phased implementation approach.`;
+            } else {
+                message = `<strong>Significant sustainability risks identified.</strong> With only ${green} factors ready and ${red} at-risk factors, this improvement faces substantial challenges. Consider addressing critical gaps before implementation, or redesigning the approach to better fit your context.`;
+            }
+            
+            summaryElement.innerHTML = message;
+        }
+
+        function generateRecommendations() {
+            const recommendations = [];
+            const ratings = assessmentData.ratings;
+            
+            // Check each red factor
+            Object.keys(ratings).forEach(factorId => {
+                if (ratings[factorId] === 'red') {
+                    const factor = factors[factorId];
+                    if (factorId === 'senior-leadership') {
+                        recommendations.push('Urgently secure senior leadership sponsorship or delay implementation');
+                    } else if (factorId === 'clinical-leadership') {
+                        recommendations.push('Identify and empower a clinical champion with protected time');
+                    } else if (factorId === 'resources') {
+                        recommendations.push('Develop a business case for dedicated resources before proceeding');
+                    } else if (factorId === 'monitoring') {
+                        recommendations.push('Establish measurement systems and feedback loops immediately');
+                    } else if (factorId === 'training') {
+                        recommendations.push('Design comprehensive training programme with refresher schedule');
+                    }
+                }
+            });
+            
+            // Check amber factors
+            Object.keys(ratings).forEach(factorId => {
+                if (ratings[factorId] === 'amber' && recommendations.length < 5) {
+                    if (factorId === 'staff-involvement') {
+                        recommendations.push('Increase staff engagement through co-design workshops');
+                    } else if (factorId === 'infrastructure') {
+                        recommendations.push('Map infrastructure gaps and develop contingency plans');
+                    } else if (factorId === 'behaviour') {
+                        recommendations.push('Plan culture change activities and reinforcement strategies');
+                    }
+                }
+            });
+            
+            // Add general recommendation
+            if (recommendations.length === 0) {
+                recommendations.push('Maintain strong factors through regular review and monitoring');
+                recommendations.push('Document success factors for spread to other sites');
+                recommendations.push('Create sustainability checklist for 6 and 12-month reviews');
+            }
+            
+            // Display recommendations
+            const listElement = document.getElementById('recommendationsList');
+            listElement.innerHTML = recommendations.map(rec => `<li>${rec}</li>`).join('');
+        }
+
+        function downloadPDF() {
+            // Create content for download
+            const content = generateReportContent();
+            
+            // Create blob and download
+            const blob = new Blob([content], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `sustainability-assessment-${Date.now()}.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('Report downloaded! Open the HTML file to view or print your assessment.');
+        }
+
+        function generateReportContent() {
+            const ratings = assessmentData.ratings;
+            const greenCount = Object.values(ratings).filter(r => r === 'green').length;
+            const amberCount = Object.values(ratings).filter(r => r === 'amber').length;
+            const redCount = Object.values(ratings).filter(r => r === 'red').length;
+            
+            let html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NHS 10-Factor Sustainability Assessment Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; }
+        h1 { color: #5f72bd; }
+        .header { border-bottom: 2px solid #5f72bd; margin-bottom: 30px; padding-bottom: 20px; }
+        .summary { background: #f0f2f5; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .factor { margin: 15px 0; padding: 15px; border-left: 4px solid #ddd; }
+        .factor.green { border-color: #27ae60; background: #f0fff4; }
+        .factor.amber { border-color: #f39c12; background: #fffaf0; }
+        .factor.red { border-color: #e74c3c; background: #fff5f5; }
+        .score { font-size: 2em; color: #5f72bd; font-weight: bold; }
+        @media print { body { margin: 0; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>NHS 10-Factor Sustainability Assessment Report</h1>
+        <p>Generated: ${new Date().toLocaleDateString()}</p>
+        <p>Duration: ${Math.round((assessmentData.endTime - assessmentData.startTime) / 60000)} minutes</p>
+    </div>
+    
+    <div class="summary">
+        <h2>Overall Results</h2>
+        <p class="score">Sustainability Score: ${Math.round((greenCount * 10 + amberCount * 5) / 10 * 10)}%</p>
+        <p>✅ Green (Ready): ${greenCount} factors</p>
+        <p>⚠️ Amber (Developing): ${amberCount} factors</p>
+        <p>❌ Red (At Risk): ${redCount} factors</p>
+    </div>
+    
+    <h2>Detailed Assessment</h2>
+    ${Object.keys(ratings).map(factorId => {
+        const rating = ratings[factorId];
+        const factor = factors[factorId];
+        return `
+            <div class="factor ${rating}">
+                <h3>${factor.name}</h3>
+                <p><strong>Rating:</strong> ${rating.toUpperCase()}</p>
+                <p>${factor[rating]}</p>
+            </div>
+        `;
+    }).join('')}
+    
+    <div class="summary">
+        <h2>Recommendations</h2>
+        ${document.getElementById('recommendationsList').innerHTML}
+    </div>
+    
+    <p style="margin-top: 40px; color: #666; font-size: 0.9em;">
+        This assessment is based on the NHS Sustainability Model. 
+        Use these results to guide your improvement planning and identify areas needing strengthening before implementation.
+    </p>
+</body>
+</html>`;
+            
+            return html;
+        }
+
+        function restartAssessment() {
+            // Reset data
+            assessmentData = {
+                ratings: {},
+                startTime: null,
+                endTime: null
+            };
+            
+            // Reset visual elements
+            document.querySelectorAll('.factor-status').forEach(el => {
+                el.className = 'factor-status';
+            });
+            
+            document.querySelectorAll('.factor-card').forEach(card => {
+                card.classList.remove('expanded', 'rated-green', 'rated-amber', 'rated-red');
+            });
+            
+            document.querySelectorAll('.rating-feedback').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            document.querySelectorAll('.category').forEach(el => {
+                el.classList.remove('completed');
+            });
+            
+            document.querySelectorAll('.category-badge').forEach(el => {
+                el.classList.remove('complete');
+                const category = el.id.replace('-badge', '');
+                const count = category === 'process' ? 4 : 3;
+                el.textContent = `0/${count}`;
+            });
+            
+            // Reset progress
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = 'Getting started...';
+            
+            // Hide results button
+            document.getElementById('viewResultsBtn').style.display = 'none';
+            
+            // Switch screens
+            document.getElementById('resultsScreen').classList.remove('active');
+            document.getElementById('introScreen').classList.add('active');
+        }
+    </script>
+</body>
+</html>
