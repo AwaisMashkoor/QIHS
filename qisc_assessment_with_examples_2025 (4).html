@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QISC Assessment Guide with Examples 2025-26</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .slide {
+            display: none;
+            min-height: 700px;
+            padding: 60px;
+            position: relative;
+            animation: slideIn 0.5s ease-in-out;
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .slide-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 120px;
+            color: rgba(255, 0, 0, 0.1);
+            font-weight: bold;
+            z-index: 1;
+            pointer-events: none;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+            white-space: nowrap;
+        }
+        
+        .example-slide {
+            background: linear-gradient(to bottom, #fff5f5, #ffffff);
+            border: 3px solid #e74c3c;
+            position: relative;
+        }
+        
+        .example-slide::before {
+            content: "EXAMPLE - DO NOT COPY";
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #e74c3c;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 48px;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 36px;
+            color: #34495e;
+            margin-bottom: 30px;
+            margin-top: 40px;
+            font-weight: 600;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .content-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .example-text {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-style: italic;
+            line-height: 1.8;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .example-analysis {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            position: relative;
+            z-index: 3;
+        }
+        
+        .info-box {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #856404;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            color: #155724;
+        }
+        
+        .section-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        .mark-indicator {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .word-count {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-counter {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .date-highlight {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        
+
+        .highlight {
+            background: yellow;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .academic-voice {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+                min-height: 500px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            h2 {
+                font-size: 28px;
+            }
+            
+            .navigation {
+                padding: 20px 30px;
+            }
+            
+            .watermark {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title Slide -->
+        <div class="slide active">
+            <div class="slide-header">Slide 1 of 21</div>
+            <h1 style="text-align: center; margin-top: 150px;">HLTH09013<br>Quality Improvement in Health & Social Care</h1>
+            <div class="content-box" style="text-align: center; margin-top: 50px;">
+                <h2 style="color: white; border: none;">Assessment Guide 2025-26</h2>
+                <p style="font-size: 20px; margin-top: 20px;">With Academic Writing Examples</p>
+            </div>
+            <p style="text-align: center; margin-top: 50px; color: #7f8c8d;">
+                Module Coordinator: Awais Mashkoor<br>
+                Updated for Academic Year 2025-26
+            </p>
+        </div>
+
+        <!-- Slide 2: Assessment Overview -->
+        <div class="slide">
+            <div class="slide-header">Slide 2 of 21</div>
+            <h2>Assessment Overview</h2>
+            <div class="section-card">
+                <div class="section-title">Assessment Type</div>
+                <p><strong>3,500-word theoretical essay (±10%)</strong></p>
+                <p>100% of module grade</p>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">Key Dates</div>
+                <ul>
+                    <li><strong>Draft Submission:</strong> 1-5 November 2025 (formative feedback)</li>
+                    <li><strong>Final Submission:</strong> <span class="date-highlight">Friday 12th December 2025 at 5pm</span></li>
+                    <li><strong>Resit Dates:</strong> 16 March 2026 & 22 June 2026</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Important:</strong> Essays must be submitted using the provided template via Turnitin. Essays not using the template will not be marked.
+            </div>
+        </div>
+
+        <!-- Slide 3: Learning Outcomes -->
+        <div class="slide">
+            <div class="slide-header">Slide 3 of 21</div>
+            <h2>Learning Outcomes Assessed</h2>
+            
+            <div class="section-card">
+                <div class="section-title">LO1</div>
+                <p>Examine the factors that have led to a greater international emphasis on quality measurement and improvement in health care</p>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">LO2</div>
+                <p>Critically examine the range of quality improvement methodologies currently utilised within global healthcare</p>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">LO3</div>
+                <p>Critically appraise the evidence base underpinning quality improvement and patient safety</p>
+            </div>
+        </div>
+
+        <!-- Slide 4: Essay Topic Selection -->
+        <div class="slide">
+            <div class="slide-header">Slide 4 of 21</div>
+            <h2>Selecting Your Quality/Safety Issue</h2>
+            
+            <div class="info-box">
+                <p><strong>Choose ONE specific safety or quality issue from health and/or social care settings</strong></p>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">Potential Topics Include:</div>
+                <ul>
+                    <li>Infection prevention and control</li>
+                    <li>Medication safety</li>
+                    <li>Communication failures</li>
+                    <li>Care transitions</li>
+                    <li>Safeguarding</li>
+                    <li>Equity-related risks</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <strong>✓ Best Practice:</strong> Choose a narrow, specific issue rather than a broad topic. For example, "medication timing errors in dementia care" is better than "medication safety generally."
+            </div>
+        </div>
+
+        <!-- Slide 5: Essay Structure Overview -->
+        <div class="slide">
+            <div class="slide-header">Slide 5 of 21</div>
+            <h2>Essay Structure at a Glance</h2>
+            
+            <div class="section-card">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background: #3498db; color: white;">
+                        <th style="padding: 15px; text-align: left;">Section</th>
+                        <th style="padding: 15px;">Words</th>
+                        <th style="padding: 15px;">Marks</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px; border-bottom: 1px solid #ddd;"><strong>1. Introduction</strong></td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">400</td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">10</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 15px; border-bottom: 1px solid #ddd;"><strong>2. Main Body - Part 1</strong><br><small>Systems analysis & evidence</small></td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">1,200</td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">40</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px; border-bottom: 1px solid #ddd;"><strong>2. Main Body - Part 2</strong><br><small>QI methodology evaluation</small></td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">900</td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">25</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 15px; border-bottom: 1px solid #ddd;"><strong>2. Main Body - Part 3</strong><br><small>National/international context</small></td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">600</td>
+                        <td style="padding: 15px; text-align: center; border-bottom: 1px solid #ddd;">15</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px;"><strong>3. Conclusion</strong></td>
+                        <td style="padding: 15px; text-align: center;">400</td>
+                        <td style="padding: 15px; text-align: center;">10</td>
+                    </tr>
+                    <tr style="background: #2c3e50; color: white;">
+                        <td style="padding: 15px;"><strong>TOTAL</strong></td>
+                        <td style="padding: 15px; text-align: center;"><strong>3,500</strong></td>
+                        <td style="padding: 15px; text-align: center;"><strong>100</strong></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 6: Section 1 - Introduction -->
+        <div class="slide">
+            <div class="slide-header">Slide 6 of 21</div>
+            <h2>Section 1: Introduction</h2>
+            <div class="word-count">400 words</div>
+            <div class="mark-indicator">10 marks</div>
+            
+            <div class="content-box">
+                <h3 style="color: white;">Requirements:</h3>
+                <ul style="color: white;">
+                    <li style="color: white;">i) Briefly define Quality Improvement and the aims/elements associated with achieving quality and safety in health and social care</li>
+                    <li style="color: white;">ii) Clearly state the quality/safety issue you have chosen and its significance and relevance to current practice</li>
+                    <li style="color: white;">iii) Outline your essay approach</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Tips:</strong>
+                <ul>
+                    <li>Be concise but comprehensive in defining QI</li>
+                    <li>Clearly specify your chosen issue - avoid vague descriptions</li>
+                    <li>Provide a roadmap of what the essay will cover</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Introduction Writing Example -->
+        <div class="slide example-slide">
+            <div class="watermark">DO NOT COPY</div>
+            <div class="slide-header">Slide 7 of 21 - EXAMPLE</div>
+            <h2>Introduction: Writing Example</h2>
+            
+            <div class="example-text">
+                <p><strong>Example Opening Paragraph:</strong></p>
+                <p>"Quality improvement (QI) in healthcare represents a systematic, data-driven approach to enhancing patient outcomes, system performance, and professional development through continuous cycles of change (Panesar et al., 2014). The Institute of Medicine's six dimensions of quality (safety, effectiveness, patient-centredness, timeliness, efficiency, and equity) provide a comprehensive framework for understanding QI's multifaceted nature (IOM, 2001). Vincent (2010) expands this framework by emphasising that effective QI requires integration of three essential elements: understanding variation in healthcare processes, building knowledge about what changes lead to improvement, and developing organisational capability for sustained change. Within health and social care contexts, QI transcends mere compliance with standards, embodying a philosophy of perpetual enhancement that recognises the complex interplay between human factors, system design, and organisational culture (Health Foundation, 2018)."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Example Issue Statement (expanded):</strong></p>
+                <p>"This essay critically examines medication administration errors in dementia care units, a persistent safety challenge affecting approximately 20% of residents annually according to national incident reporting data (NPSA, 2009). Vincent (2010) identifies medication errors as one of the most prevalent patient safety incidents, with dementia care presenting unique challenges due to cognitive impairment, communication barriers, and polypharmacy. Despite technological advances such as electronic prescribing systems and procedural safeguards including double-checking protocols, these errors continue to result in preventable harm, extended hospitalisations, and diminished quality of life for a particularly vulnerable population. The persistence of this issue, despite multiple interventions, suggests the need for systems-based approaches that address root causes rather than symptoms."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Example Essay Roadmap:</strong></p>
+                <p>"This essay will first apply systems thinking frameworks, particularly Reason's Swiss Cheese Model and Vincent's Framework for analysing risk and safety, to understand why medication errors persist in dementia care settings. The analysis will synthesise quantitative evidence from incident reports and audit data with qualitative insights from staff interviews and observational studies. Subsequently, the essay will critically evaluate the Plan-Do-Study-Act (PDSA) methodology as an improvement approach, comparing its iterative learning model against alternative methodologies such as Lean and Six Sigma. Finally, the discussion will situate local improvement efforts within the broader context of WHO's Global Patient Safety Action Plan and NHS England's Medicines Safety Improvement Programme, examining how international priorities translate into frontline practice."</p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Section 2 - Main Body Part 1 -->
+        <div class="slide">
+            <div class="slide-header">Slide 8 of 21</div>
+            <h2>Section 2: Main Body - Part 1</h2>
+            <div class="word-count">1,200 words</div>
+            <div class="mark-indicator">40 marks</div>
+            
+            <div class="content-box">
+                <h3 style="color: white;">Systems Analysis & Evidence Requirements:</h3>
+                <ul style="color: white;">
+                    <li style="color: white;">i) Analyze why this issue exists or persists using systems thinking</li>
+                    <li style="color: white;">ii) Evaluate its impact on patients/service users, families, staff, and communities</li>
+                    <li style="color: white;">iii) Include at least TWO forms of evidence:
+                        <ul style="margin-top: 10px; margin-left: 30px;">
+                            <li style="color: white;">• Quantitative (e.g., incident rates, audit data, clinical indicators)</li>
+                            <li style="color: white;">• Qualitative (e.g., case studies, patient narratives, staff feedback)</li>
+                        </ul>
+                    </li>
+                    <li style="color: white;">iv) Discuss any equity dimensions if relevant</li>
+                </ul>
+            </div>
+            
+            <div class="success-box">
+                <strong>✓ This is your highest-weighted section (40 marks)</strong> - ensure depth of analysis using systems thinking frameworks
+            </div>
+        </div>
+
+        <!-- Slide 9: Systems Thinking Example -->
+        <div class="slide example-slide">
+            <div class="watermark">DO NOT COPY</div>
+            <div class="slide-header">Slide 9 of 21 - EXAMPLE</div>
+            <h2>Systems Thinking Analysis: Writing Example</h2>
+            
+            <div class="example-text">
+                <p><strong>Example Systems Analysis Paragraph (expanded):</strong></p>
+                <p>"Applying Reason's Swiss Cheese Model reveals multiple system failures contributing to medication errors in dementia care. At the organisational level, chronic understaffing creates time pressures that compromise double-checking procedures, representing what Vincent (2010) terms 'latent organisational failures' that create preconditions for error. The model's defensive layers fail when inadequate training on dementia-specific pharmacology (a latent condition) coincides with cognitive overload during medication rounds (an active failure). For instance, a nurse administering medications to 30 residents within a two-hour window faces competing demands of efficiency and safety. Vincent's Framework for analysing risk and safety in clinical medicine further illuminates this complexity by categorising contributory factors across seven levels: patient factors (cognitive impairment, communication difficulties), task factors (complexity of medication regimes), individual staff factors (knowledge gaps, fatigue), team factors (poor handover protocols, hierarchical barriers), work environment factors (noise, interruptions), organisational factors (staffing policies, training provision), and institutional context (regulatory pressures, funding constraints)."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Example Evidence Synthesis (expanded):</strong></p>
+                <p>"Quantitative evidence underscores the magnitude of this issue across multiple dimensions. The Health Foundation (2018) reports that medication errors constitute 20% of all patient safety incidents, with higher rates in vulnerable populations. A systematic review of 21 studies specific to dementia care found error rates ranging from 16.7% to 50.8% of administered doses, with wrong time errors (33.7%) and omission errors (22.3%) being most prevalent (Maidment et al., 2017). NHS incident data reveals that 72% of medication errors in care homes involve residents with dementia, despite this population representing only 60% of the care home population (CQC, 2019). Qualitative insights from ethnographic studies provide crucial context to these statistics. Staff interviews consistently reveal systemic pressures, with one nurse stating, 'We know the system sets us up to fail, but we carry the guilt individually' (Thompson et al., 2020). Observational studies document an average of 14 interruptions per medication round, each increasing error probability by 12.7% (Westbrook et al., 2010). This convergence of statistical and experiential evidence demonstrates not merely the prevalence of errors but their embeddedness within system design, challenging individualistic approaches to error prevention."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Example Impact Analysis:</strong></p>
+                <p>"The impact of medication errors in dementia care cascades across multiple stakeholder groups. For residents, consequences range from minor discomfort to severe adverse drug events requiring hospitalisation. Vincent (2010) emphasises that harm extends beyond physical outcomes to include psychological distress, loss of trust, and reduced quality of life. Family members experience anxiety about their loved one's safety, with 68% reporting decreased confidence in care quality following a medication error (Health Foundation, 2018). Staff bear significant emotional burden, with studies documenting increased burnout, moral distress, and turnover intentions following involvement in medication errors. Organisationally, medication errors result in increased costs through extended hospital stays, litigation, and regulatory sanctions, with annual costs estimated at £98.5 million for the UK care home sector alone (Department of Health, 2016)."</p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Section 2 - Main Body Part 2 -->
+        <div class="slide">
+            <div class="slide-header">Slide 10 of 21</div>
+            <h2>Section 2: Main Body - Part 2</h2>
+            <div class="word-count">900 words</div>
+            <div class="mark-indicator">25 marks</div>
+            
+            <div class="content-box">
+                <h3 style="color: white;">QI Methodology Evaluation:</h3>
+                <ul style="color: white;">
+                    <li style="color: white;">i) Critically evaluate your chosen methodology:
+                        <ul style="margin-top: 10px; margin-left: 30px;">
+                            <li style="color: white;">• PDSA (Plan-Do-Study-Act)</li>
+                            <li style="color: white;">• Driver Diagrams</li>
+                            <li style="color: white;">• Process Mapping</li>
+                            <li style="color: white;">• Lean</li>
+                            <li style="color: white;">• Six Sigma</li>
+                            <li style="color: white;">• Co-production methodologies</li>
+                        </ul>
+                    </li>
+                    <li style="color: white;">ii) Provide a clear rationale for your choice, supported by evidence</li>
+                </ul>
+            </div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Remember:</strong> Tools (like process maps) support methodologies - they are not methodologies themselves.
+            </div>
+        </div>
+
+        <!-- Slide 11: Methodology Evaluation Example -->
+        <div class="slide example-slide">
+            <div class="watermark">DO NOT COPY</div>
+            <div class="slide-header">Slide 11 of 21 - EXAMPLE</div>
+            <h2>Methodology Evaluation: Writing Example</h2>
+            
+            <div class="example-text">
+                <p><strong>WHAT THIS MEANS FOR YOUR SECTION 2 METHODOLOGY</strong></p>
+                <p>You should structure your methodology section with clear application to your chosen issue.</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Example Opening Paragraph:</strong></p>
+                <p>"The barriers to effective medication safety in dementia care identified in the previous section, including standardisation gaps, workload pressures, professional silos, and organisational constraints, require a methodology that accommodates complexity while enabling iterative learning. This section critically evaluates the Plan-Do-Study-Act (PDSA) methodology as an appropriate framework for testing and refining medication safety improvements in this specific context. The IHI Model for Improvement (2003) positions PDSA as a cornerstone of healthcare improvement, emphasising its capacity for rapid cycle testing and organisational learning."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Application Example with Concrete Data:</strong></p>
+                <p>"To illustrate PDSA's application to the medication safety problem in dementia care, consider a hypothetical improvement cycle. In Cycle 1 (Plan phase), the improvement team would define the specific change: introducing standardised SBAR (Situation, Background, Assessment, Recommendation) documentation for medication reviews and handovers between shifts. A prediction might state: 'If we implement SBAR protocols with staff training, then staff perception of medication handover clarity will increase from current baseline (estimated 40% reporting satisfaction according to internal audit) to 70% within three months.' The Do phase would involve piloting the intervention with one dementia unit over 4 to 6 weeks, with structured observation and documentation of each handover. Vincent (2010) emphasises that the 'Do' phase should be small-scale, allowing for rapid learning without risking widespread disruption."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Study Phase Using Published Data:</strong></p>
+                <p>"In the Study phase, pre-intervention staff satisfaction data (40% baseline from unit audit) would be compared against post-intervention results. Published research provides benchmarks for expected improvements: Randmaa et al. (2014) found SBAR implementation increased handover satisfaction from 38% to 74% in acute care settings. However, dementia care presents unique challenges not captured in acute care studies. The cognitive impairment of residents means standard SBAR frameworks may need adaptation to include behavioural observations and non-verbal communication cues. The Act phase would then involve deciding whether to adopt SBAR with dementia-specific modifications, test further refinements in Cycle 2, or pivot to alternative approaches such as visual handover boards. This Study to Act bridge is precisely where PDSA's strengths and limitations become apparent."</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Critical Evaluation of PDSA Strengths and Limitations:</strong></p>
+                <p>"PDSA's iterative nature suits the unpredictability of dementia care environments where resident needs fluctuate daily. Reed and Card (2016) challenge assumptions about PDSA's universal applicability, noting that only 20% of published PDSA studies demonstrate full cycle completion, with most abandoning the methodology after initial setbacks. In dementia care contexts, where consistency is paramount for resident wellbeing, frequent changes inherent in PDSA cycles may paradoxically increase confusion and medication errors. Furthermore, Panesar et al. (2014) acknowledge that PDSA requires significant investment in staff time and training, resources often scarce in care home settings. Taylor et al. (2014) found that successful PDSA implementation requires dedicated improvement coaches and protected time for reflection, conditions rarely available in pressured care environments. Alternative methodologies such as Lean, with its emphasis on standardisation and waste elimination, might offer more sustainable solutions, though at the potential cost of the flexibility needed for person-centred dementia care."</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Section 2 - Main Body Part 3 -->
+        <div class="slide">
+            <div class="slide-header">Slide 12 of 21</div>
+            <h2>Section 2: Main Body - Part 3</h2>
+            <div class="word-count">600 words</div>
+            <div class="mark-indicator">15 marks</div>
+            
+            <div class="content-box">
+                <h3 style="color: white;">National & International Context:</h3>
+                <ul style="color: white;">
+                    <li style="color: white;">i) Analyze the role played by national and international organizations:
+                        <ul style="margin-top: 10px; margin-left: 30px;">
+                            <li style="color: white;">• Governments and health departments</li>
+                            <li style="color: white;">• Regulatory bodies (CQC, Healthcare Improvement Scotland)</li>
+                            <li style="color: white;">• International agencies (WHO, OECD)</li>
+                        </ul>
+                    </li>
+                    <li style="color: white;">ii) Consider how global safety priorities influence local improvement efforts</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 13: Policy Context Example -->
+        <div class="slide example-slide">
+            <div class="watermark">DO NOT COPY</div>
+            <div class="slide-header">Slide 13 of 21 - GUIDANCE</div>
+            <h2>Policy Context: How to Structure This Section</h2>
+            
+            <div class="example-text">
+                <p><strong>Paragraph 1 - International to National Policy Cascade:</strong></p>
+                <p><strong>What to include:</strong></p>
+                <ul>
+                    <li>Start with WHO Global Patient Safety Action Plan or other international frameworks</li>
+                    <li>Identify the specific priority area that relates to your chosen issue</li>
+                    <li>Show how this translates into UK national policy (NHS England, NHS Scotland)</li>
+                    <li>Reference specific programmes or initiatives (e.g., Medicines Safety Improvement Programme)</li>
+                    <li>Use phrases like "cascades through", "translates into", "manifests as"</li>
+                </ul>
+                <p><strong>Core texts to use:</strong> WHO reports, NHS England/Scotland policy documents, Vincent (2010) on policy evolution</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Paragraph 2 - Critical Evaluation of Policy-Practice Gap:</strong></p>
+                <p><strong>What to demonstrate:</strong></p>
+                <ul>
+                    <li>Identify tensions between global aspirations and local realities</li>
+                    <li>Discuss how standardised metrics may not capture full picture in your context</li>
+                    <li>Examine resource assumptions in policies vs actual availability</li>
+                    <li>Consider unintended consequences of policy implementation</li>
+                    <li>Analyse how policies might conflict with person-centred care principles</li>
+                </ul>
+                <p><strong>Critical phrases to use:</strong></p>
+                <ul>
+                    <li>"While global targets provide momentum..."</li>
+                    <li>"The policy assumes resources that..."</li>
+                    <li>"This creates a tension between..."</li>
+                    <li>"The implementation gap reveals..."</li>
+                </ul>
+                <p><strong>Core texts to use:</strong> Health Foundation reports on implementation, Panesar et al. (2014) on policy-practice gaps</p>
+            </div>
+        </div>
+
+        <!-- Slide 14: Section 3 - Conclusion -->
+        <div class="slide">
+            <div class="slide-header">Slide 14 of 21</div>
+            <h2>Section 3: Conclusion</h2>
+            <div class="word-count">400 words</div>
+            <div class="mark-indicator">10 marks</div>
+            
+            <div class="content-box">
+                <h3 style="color: white;">Requirements:</h3>
+                <ul style="color: white;">
+                    <li style="color: white;">i) Summarise the main points of your assessment</li>
+                    <li style="color: white;">ii) Reflect briefly on the implications for future practice and safe, effective care</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <strong>💡 Tips:</strong>
+                <ul>
+                    <li>Don't introduce new information in the conclusion</li>
+                    <li>Synthesize key insights from your analysis</li>
+                    <li>Link back to the significance stated in your introduction</li>
+                    <li>Consider sustainability of improvements</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusion Example -->
+        <div class="slide example-slide">
+            <div class="watermark">DO NOT COPY</div>
+            <div class="slide-header">Slide 15 of 21 - GUIDANCE</div>
+            <h2>Conclusion: How to Structure This Section</h2>
+            
+            <div class="example-text">
+                <p><strong>Paragraph 1 - Synthesis of Main Findings:</strong></p>
+                <p><strong>What to include (WITHOUT introducing new information):</strong></p>
+                <ul>
+                    <li>Summarise your systems analysis findings - what are the root causes?</li>
+                    <li>Recap the key evidence that demonstrates the scale and impact</li>
+                    <li>Briefly restate which QI methodology you evaluated and why it suits/doesn't suit the context</li>
+                    <li>Connect back to the significance you stated in your introduction</li>
+                </ul>
+                <p><strong>Opening phrases to consider:</strong></p>
+                <ul>
+                    <li>"This analysis has demonstrated that..."</li>
+                    <li>"The application of [framework] revealed..."</li>
+                    <li>"The evidence synthesis underscored..."</li>
+                    <li>"The critical evaluation established..."</li>
+                </ul>
+                <p><strong>Avoid:</strong> New references, new concepts, detailed repetition of earlier points</p>
+            </div>
+            
+            <div class="example-text">
+                <p><strong>Paragraph 2 - Implications for Future Practice:</strong></p>
+                <p><strong>What to address:</strong></p>
+                <ul>
+                    <li>What does your analysis mean for frontline practitioners?</li>
+                    <li>How should services approach this issue differently?</li>
+                    <li>What are the key conditions needed for sustainable improvement?</li>
+                    <li>Balance idealism with pragmatism - acknowledge real-world constraints</li>
+                    <li>Link micro-level changes to macro-level transformation</li>
+                </ul>
+                <p><strong>Key concepts to weave in:</strong></p>
+                <ul>
+                    <li>Sustainability of improvements (70% of QI initiatives fail within 18 months)</li>
+                    <li>Need for cultural change alongside technical solutions</li>
+                    <li>Importance of frontline engagement and co-production</li>
+                    <li>Balance between standardisation and person-centred flexibility</li>
+                </ul>
+                <p><strong>Concluding tone:</strong> Forward-looking but grounded, hopeful but realistic</p>
+            </div>
+        </div>
+
+        <!-- Slide 16: References & Academic Standards -->
+        <div class="slide">
+            <div class="slide-header">Slide 16 of 21</div>
+            <h2>Section 4: Reference List</h2>
+            
+            <div class="section-card">
+                <div class="section-title">Core Requirements</div>
+                <ul>
+                    <li>Must make <strong>significant use</strong> of the module core text (Panesar et al.)</li>
+                    <li>Follow UWS Referencing Guidelines (Harvard style)</li>
+                    <li>Use academic sources - avoid websites for assessment information</li>
+                    <li>Include peer-reviewed articles and official reports</li>
+                </ul>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">Recommended Core Texts</div>
+                <ul>
+                    <li>Panesar et al. (2014) - Patient Safety and Healthcare Improvement</li>
+                    <li>Vincent (2010) - Patient Safety</li>
+                    <li>Health Foundation publications</li>
+                    <li>IHI Model for Improvement resources</li>
+                    <li>NHS Scotland policy documents</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 17: Critical Penalties -->
+        <div class="slide">
+            <div class="slide-header">Slide 17 of 21</div>
+            <h2>Important Penalties & Requirements</h2>
+            
+            <div class="warning-box">
+                <h3>⚠️ Over-Length Penalty</h3>
+                <p>If your essay exceeds 3,850 words (10% over limit):</p>
+                <p><strong>10 marks will be deducted from your final grade</strong></p>
+                <p>You must display your word count on the front sheet</p>
+            </div>
+            
+            <div class="warning-box">
+                <h3>⚠️ Template Requirement</h3>
+                <p><strong>Essays NOT submitted using the provided template will NOT be marked</strong></p>
+                <p>Download the template from the Assessment section on Aula</p>
+            </div>
+            
+            <div class="warning-box">
+                <h3>⚠️ Plagiarism Detection</h3>
+                <p>All submissions will be checked via Turnitin</p>
+                <p>Ensure you understand UWS guidelines on academic integrity</p>
+                <p><strong>The example texts in this presentation are for learning purposes only - DO NOT COPY</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 18: Exemplar Standards -->
+        <div class="slide">
+            <div class="slide-header">Slide 18 of 21</div>
+            <h2>Exemplar Standards</h2>
+            
+            <div class="section-card">
+                <h3>80% Standard (Distinction)</h3>
+                <ul>
+                    <li>Demonstrates sophisticated understanding of QI principles</li>
+                    <li>Uses multiple evidence sources with critical synthesis</li>
+                    <li>Shows complex systems thinking with multi-level analysis</li>
+                    <li>Evaluates methodologies with nuanced understanding of context</li>
+                    <li>Links local issues to global contexts with critical insight</li>
+                    <li>Writing shows consistent academic voice and analytical depth</li>
+                </ul>
+            </div>
+            
+            <div class="section-card">
+                <h3>61% Standard (Merit)</h3>
+                <ul>
+                    <li>Shows good understanding of QI concepts</li>
+                    <li>Uses evidence appropriately with some synthesis</li>
+                    <li>Applies systems thinking to the issue</li>
+                    <li>Evaluates chosen methodology competently</li>
+                    <li>Makes connections to wider policy context</li>
+                    <li>Writing is clear with good academic style</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 19: Support Available -->
+        <div class="slide">
+            <div class="slide-header">Slide 19 of 21</div>
+            <h2>Support Available</h2>
+            
+            <div class="section-card">
+                <div class="section-title">Draft Submission Opportunity</div>
+                <p><strong>1-5 November 2025</strong></p>
+                <p>Submit a draft for formative feedback to improve your final submission</p>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">Week 12 (w/c 24 Nov)</div>
+                <p><strong>Essay Planning Clinic</strong></p>
+                <p>Individual support sessions available</p>
+                <p>Review assessment guidance</p>
+                <p>Book individual consultations via Aula</p>
+            </div>
+            
+            <div class="success-box">
+                <strong>Module Team Contacts:</strong><br>
+                Awais Mashkoor (Paisley): Awais.mashkoor@uws.ac.uk<br>
+                Sutapa Haldar (London): Sutapa.haldar@uws.ac.uk
+            </div>
+        </div>
+
+        <!-- Slide 20: Academic Writing Tips -->
+        <div class="slide">
+            <div class="slide-header">Slide 20 of 21</div>
+            <h2>Academic Writing Tips</h2>
+            
+            <div class="section-card">
+                <div class="section-title">Achieving Critical Analysis</div>
+                <ul>
+                    <li><strong>Move beyond description:</strong> Don't just state what happened, analyze why</li>
+                    <li><strong>Question assumptions:</strong> Challenge established practices and theories</li>
+                    <li><strong>Compare and contrast:</strong> Evaluate different perspectives and approaches</li>
+                    <li><strong>Identify patterns:</strong> Look for themes across different sources</li>
+                    <li><strong>Evaluate evidence quality:</strong> Consider strengths and limitations of sources</li>
+                </ul>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-title">Academic Voice Checklist</div>
+                <ul>
+                    <li>Use third person and passive voice appropriately</li>
+                    <li>Avoid colloquialisms and informal language</li>
+                    <li>Support all claims with evidence</li>
+                    <li>Use hedging language appropriately ("may suggest" rather than "proves")</li>
+                    <li>Maintain objectivity while acknowledging complexity</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <strong>Remember:</strong> The examples shown are for learning purposes - develop your own unique arguments and writing style
+            </div>
+        </div>
+
+        <!-- Slide 21: Final Reminders -->
+        <div class="slide">
+            <div class="slide-header">Slide 21 of 21</div>
+            <h2>Final Reminders & Questions</h2>
+            
+            <div class="date-highlight" style="text-align: center; width: 100%; font-size: 24px;">
+                FINAL SUBMISSION: Friday 12th December 2025 at 5pm
+            </div>
+            
+            <div class="section-card" style="margin-top: 30px;">
+                <div class="section-title">Checklist Before Submission:</div>
+                <ul>
+                    <li>✓ Using the provided assessment template</li>
+                    <li>✓ Word count is 3,500 (±10%)</li>
+                    <li>✓ Included word count on front sheet</li>
+                    <li>✓ Made significant use of core text</li>
+                    <li>✓ Included both quantitative AND qualitative evidence</li>
+                    <li>✓ Critically evaluated a QI methodology (not just a tool)</li>
+                    <li>✓ Referenced using UWS Harvard style</li>
+                    <li>✓ Checked Turnitin similarity report</li>
+                    <li>✓ Developed your own original arguments (not copied examples)</li>
+                </ul>
+            </div>
+            
+            <div class="content-box" style="text-align: center; margin-top: 40px;">
+                <h3 style="color: white;">Questions?</h3>
+                <p style="font-size: 18px;">Now is the time to ask!</p>
+                <p style="font-size: 14px; margin-top: 20px;">Remember: All example texts are for learning only - DO NOT COPY</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <span class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">21</span>
+            </span>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            } else if (n < 0) {
+                currentSlide = 0;
+            } else {
+                currentSlide = n;
+            }
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
