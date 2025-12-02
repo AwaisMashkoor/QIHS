@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leadership and Culture in Integrated Care | Awais Mashkoor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #0f2027;
+            --primary-mid: #203a43;
+            --primary-light: #2c5364;
+            --accent-teal: #00b4d8;
+            --accent-gold: #f4a261;
+            --accent-coral: #e76f51;
+            --text-light: #f8f9fa;
+            --text-muted: #adb5bd;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+        }
+
+        .presentation {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 100px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 50%, var(--primary-light) 100%);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--accent-teal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            color: var(--white);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: var(--accent-teal);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+            max-width: 800px;
+        }
+
+        .subtitle {
+            font-size: 1.6rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .meta {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 2rem;
+        }
+
+        .meta span {
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            gap: 60px;
+            margin: 3rem 0;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Key message box */
+        .key-message {
+            background: rgba(0, 180, 216, 0.1);
+            border-left: 4px solid var(--accent-teal);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            max-width: 700px;
+        }
+
+        .key-message p {
+            color: var(--white);
+            font-size: 1.3rem;
+            font-style: italic;
+        }
+
+        /* Quote styling */
+        .quote {
+            background: linear-gradient(135deg, rgba(244, 162, 97, 0.1) 0%, rgba(231, 111, 81, 0.1) 100%);
+            border-radius: 12px;
+            padding: 2rem 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+            max-width: 800px;
+        }
+
+        .quote::before {
+            content: '"';
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            color: var(--accent-gold);
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            opacity: 0.5;
+        }
+
+        .quote p {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-style: italic;
+            padding-left: 1rem;
+        }
+
+        .quote-source {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            margin-top: 1rem;
+            padding-left: 1rem;
+        }
+
+        /* Two column layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 2rem;
+        }
+
+        .col h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .col ul {
+            list-style: none;
+        }
+
+        .col li {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            padding: 0.7rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .col li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+        }
+
+        .col.challenges li::before {
+            background: var(--accent-coral);
+        }
+
+        .col.opportunities li::before {
+            background: var(--accent-gold);
+        }
+
+        /* Context visual */
+        .context-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .context-circle {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            border: 3px dashed var(--accent-teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .context-center {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--white);
+        }
+
+        .style-bubble {
+            position: absolute;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .style-bubble:nth-child(2) { top: -15px; left: 50%; transform: translateX(-50%); background: #9b59b6; }
+        .style-bubble:nth-child(3) { top: 20%; right: -60px; background: #e74c3c; }
+        .style-bubble:nth-child(4) { top: 50%; right: -80px; transform: translateY(-50%); background: #f39c12; }
+        .style-bubble:nth-child(5) { bottom: 20%; right: -60px; background: #1abc9c; }
+        .style-bubble:nth-child(6) { bottom: -15px; left: 50%; transform: translateX(-50%); background: #3498db; }
+        .style-bubble:nth-child(7) { bottom: 20%; left: -80px; background: #e91e63; }
+        .style-bubble:nth-child(8) { top: 50%; left: -90px; transform: translateY(-50%); background: #00bcd4; }
+        .style-bubble:nth-child(9) { top: 20%; left: -60px; background: #8bc34a; }
+
+        /* CLI Compass */
+        .compass-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .compass {
+            width: 400px;
+            height: 400px;
+            position: relative;
+        }
+
+        .compass-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary-mid), var(--primary-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            text-align: center;
+            color: var(--white);
+            border: 3px solid var(--accent-teal);
+            z-index: 10;
+        }
+
+        .navigator {
+            position: absolute;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navigator:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-cultures { top: 10px; left: 50%; transform: translateX(-50%); background: #e74c3c; }
+        .nav-belonging { top: 60px; right: 20px; background: #9b59b6; }
+        .nav-mindset { top: 50%; right: -10px; transform: translateY(-50%); background: #3498db; }
+        .nav-leadership { bottom: 60px; right: 20px; background: #1abc9c; }
+        .nav-headspace { bottom: 10px; left: 50%; transform: translateX(-50%); background: #f39c12; }
+        .nav-learning { bottom: 60px; left: 20px; background: #e91e63; }
+        .nav-outcomes { top: 50%; left: -10px; transform: translateY(-50%); background: #00bcd4; }
+        .nav-xfactors { top: 60px; left: 20px; background: #8bc34a; }
+
+        /* Problem list */
+        .problem-list {
+            display: flex;
+            gap: 40px;
+            margin: 2rem 0;
+        }
+
+        .problem-item {
+            background: rgba(231, 111, 81, 0.15);
+            border: 1px solid var(--accent-coral);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            flex: 1;
+        }
+
+        .problem-item h4 {
+            color: var(--accent-coral);
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-item p {
+            font-size: 1.1rem;
+        }
+
+        /* Bridge slide styling */
+        .bridge-content {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .bridge-text {
+            flex: 1;
+        }
+
+        .bridge-visual {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Next steps */
+        .next-steps {
+            display: flex;
+            gap: 30px;
+            margin: 2rem 0;
+        }
+
+        .step {
+            background: rgba(0, 180, 216, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex: 1;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+        }
+
+        .step h4 {
+            color: var(--accent-teal);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-teal);
+            background: rgba(0, 180, 216, 0.1);
+            color: var(--accent-teal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-teal);
+            color: var(--primary-dark);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            z-index: 100;
+        }
+
+        .slide-counter span {
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-teal);
+            transition: width 0.3s ease;
+            z-index: 100;
+        }
+
+        /* Title slide special styling */
+        .slide.title-slide {
+            text-align: center;
+            justify-content: center;
+        }
+
+        .slide.title-slide h1 {
+            font-size: 4rem;
+        }
+
+        .logo-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 3rem;
+            opacity: 0.7;
+        }
+
+        .logo-placeholder {
+            font-size: 1rem;
+            color: var(--text-muted);
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--text-muted);
+            border-radius: 8px;
+        }
+
+        /* Final slide */
+        .contact-info {
+            margin-top: 2rem;
+        }
+
+        .contact-info a {
+            color: var(--accent-teal);
+            text-decoration: none;
+            font-size: 1.3rem;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 40px 60px;
+            }
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+            .stats-row { gap: 40px; }
+            .stat-number { font-size: 2.8rem; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active .subtitle,
+        .slide.active p,
+        .slide.active .stats-row,
+        .slide.active .key-message,
+        .slide.active .quote,
+        .slide.active .two-col,
+        .slide.active .compass-container,
+        .slide.active .next-steps {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .slide.active h1 { animation-delay: 0.1s; }
+        .slide.active .subtitle { animation-delay: 0.2s; }
+        .slide.active h2 { animation-delay: 0.1s; }
+        .slide.active p { animation-delay: 0.3s; }
+        .slide.active .stats-row { animation-delay: 0.4s; }
+        .slide.active .key-message { animation-delay: 0.5s; }
+        .slide.active .quote { animation-delay: 0.4s; }
+        .slide.active .two-col { animation-delay: 0.4s; }
+        .slide.active .compass-container { animation-delay: 0.3s; }
+        .slide.active .next-steps { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <div class="presentation" id="presentation">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active" data-slide="1">
+            <p class="subtitle">From Research to Practice</p>
+            <h1>Leadership and Culture in Integrated Care</h1>
+            <p style="max-width: 600px; margin: 0 auto; text-align: center;">
+                Findings from doctoral research on leadership in Scottish Integration Joint Boards, and an introduction to the CLI Compass framework
+            </p>
+            <div class="meta" style="text-align: center;">
+                <span><strong>Awais Mashkoor</strong></span>
+                <span>University of the West of Scotland</span>
+                <span style="margin-top: 1rem; color: var(--accent-gold);">Ayrshire Innovation in Health and Social Care Network</span>
+                <span>9 December 2025</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Why This Matters -->
+        <div class="slide" data-slide="2">
+            <h2>Why This Matters</h2>
+            <p>Scotland's 2014 Public Bodies (Joint Working) Act created <strong style="color: var(--white);">31 Integration Joint Boards</strong> – the most ambitious reform since the NHS was established.</p>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="stat-number">1948</span>
+                    <span class="stat-label">Last reform of this scale</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">£8.5B</span>
+                    <span class="stat-label">Resources at stake</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">5.5M</span>
+                    <span class="stat-label">Scottish population served</span>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>"Good governance cannot be engineered through legislation alone"</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: What I Studied -->
+        <div class="slide" data-slide="3">
+            <h2>What I Studied</h2>
+            <p>My PhD examined how context shapes the way leaders actually work within Integration Joint Boards.</p>
+            
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="stat-number">11</span>
+                    <span class="stat-label">IJBs Sampled</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">22</span>
+                    <span class="stat-label">Elite Interviews</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">85</span>
+                    <span class="stat-label">Documents Analysed</span>
+                </div>
+            </div>
+
+            <p style="margin-top: 1.5rem;">
+                <strong style="color: var(--white);">Who I spoke to:</strong> Councillors, Chief Officers, NHS Non-Executives<br>
+                <strong style="color: var(--white);">Across:</strong> Urban, rural, and mixed contexts – capturing Scotland's diversity
+            </p>
+        </div>
+
+        <!-- Slide 4: Key Finding -->
+        <div class="slide" data-slide="4">
+            <h2>What I Found: Context Matters</h2>
+            <p>Leaders adapt their style depending on circumstances. This isn't weakness – it's reality.</p>
+            
+            <div class="context-visual">
+                <div class="context-circle">
+                    <span class="context-center">Context</span>
+                    <span class="style-bubble">Servant</span>
+                    <span class="style-bubble">Directive</span>
+                    <span class="style-bubble">Collaborative</span>
+                    <span class="style-bubble">Situational</span>
+                    <span class="style-bubble">Democratic</span>
+                    <span class="style-bubble">Transformational</span>
+                    <span class="style-bubble">Facilitative</span>
+                    <span class="style-bubble">Adaptive</span>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>The same leader might use transformational approaches in one situation, democratic approaches in budget discussions, directive approaches during crises, and servant approaches when addressing staff concerns.</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Financial Pressures -->
+        <div class="slide" data-slide="5">
+            <h2>Financial Pressures Shape Leadership</h2>
+            <p>Fiscal stress forces different responses – from crisis management to creative problem-solving.</p>
+            
+            <div class="two-col">
+                <div class="col challenges">
+                    <h3>Challenges Observed</h3>
+                    <ul>
+                        <li>Separate NHS and council budgets create silos</li>
+                        <li>Ring-fenced funding limits local flexibility</li>
+                        <li>Political leaders often rely heavily on officers for financial detail</li>
+                    </ul>
+                </div>
+                <div class="col opportunities">
+                    <h3>Creative Responses</h3>
+                    <ul>
+                        <li>Repurposing facilities creatively</li>
+                        <li>Collaborative gap-filling between partners</li>
+                        <li>Challenging wasteful practices</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>I witnessed an occupational therapy home visit costing £300 arranged just to provide a long-handled shoehorn. I challenged this – why not a simple phone assessment and postal delivery for £1? This small change freed up our specialists for complex cases while saving £299 per intervention.</p>
+                <div class="quote-source">— Interviewee E, 2022</div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Relationships -->
+        <div class="slide" data-slide="6">
+            <h2>Relationships Are Everything</h2>
+            <p>The quality of councillor-officer relationships shapes what leadership approaches become possible.</p>
+            
+            <div class="two-col">
+                <div class="col opportunities">
+                    <h3>What Enables Collaboration</h3>
+                    <ul>
+                        <li>Trust built over time</li>
+                        <li>Mutual respect for different roles</li>
+                        <li>Transparency in decision-making</li>
+                        <li>Clear communication</li>
+                        <li>Acknowledging each other's strengths</li>
+                    </ul>
+                </div>
+                <div class="col challenges">
+                    <h3>What Gets in the Way</h3>
+                    <ul>
+                        <li>High turnover disrupts continuity</li>
+                        <li>Digital platforms hinder relationship-building</li>
+                        <li>New members unfamiliar with system complexity</li>
+                        <li>Power imbalances between officers and politicians</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>The relationship with officers is built on teamwork and trust – something I've carried from my professional life... While there are operational challenges, we focus on the strategic level.</p>
+                <div class="quote-source">— Leader in the study</div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Geography -->
+        <div class="slide" data-slide="7">
+            <h2>Geography Changes the Game</h2>
+            <p>Urban and rural contexts demand fundamentally different leadership approaches.</p>
+            
+            <div class="two-col">
+                <div class="col">
+                    <h3 style="color: #3498db;">Urban Contexts</h3>
+                    <ul>
+                        <li>Larger boards, more structured discussions</li>
+                        <li>Complex demands, multiple competing priorities</li>
+                        <li>Formal processes, less personal familiarity</li>
+                        <li style="color: var(--white);">→ Democratic approaches observed</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h3 style="color: #1abc9c;">Rural Contexts</h3>
+                    <ul>
+                        <li>Smaller boards – "everybody knows everybody"</li>
+                        <li>Service challenges: distance, transport, workforce</li>
+                        <li>Community familiarity, pre-existing relationships</li>
+                        <li style="color: var(--white);">→ Servant approaches observed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="quote">
+                <p>You'd learn more from a lunch club visit than a doctor's appointment – people will tell you what really matters, like how bad the bus service is.</p>
+                <div class="quote-source">— Rural Leader in the study</div>
+            </div>
+        </div>
+
+        <!-- Slide 8: The Problem -->
+        <div class="slide" data-slide="8">
+            <h2>The Challenge We Face</h2>
+            <p>Despite good intentions and local innovations, systemic issues persist.</p>
+            
+            <div class="problem-list">
+                <div class="problem-item">
+                    <h4>Fragmentation</h4>
+                    <p>Good practice remains isolated – innovations don't spread across the system</p>
+                </div>
+                <div class="problem-item">
+                    <h4>No Coherent Framework</h4>
+                    <p>Culture is mentioned everywhere but understood nowhere – no common language or approach</p>
+                </div>
+                <div class="problem-item">
+                    <h4>Context Ignored</h4>
+                    <p>Leadership development doesn't account for the reality that context shapes what works</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>We are awash with policies, evidence and best practices. Understanding how we implement positive cultures and leadership is the critical gap.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Bridge to CLI -->
+        <div class="slide" data-slide="9">
+            <h2>Where This Led</h2>
+            
+            <div class="bridge-content">
+                <div class="bridge-text">
+                    <p>This doctoral research fed into a broader Scottish Government-funded programme...</p>
+                    
+                    <h3 style="margin-top: 2rem;">Cultures and Leadership for Integration (CLI)</h3>
+                    <p style="margin-top: 1rem;">
+                        A collaboration between:<br>
+                        <strong style="color: var(--white);">University of the West of Scotland</strong><br>
+                        <strong style="color: var(--white);">IFIC Scotland</strong><br>
+                        <strong style="color: var(--white);">Scottish Government</strong>
+                    </p>
+                    
+                    <p style="margin-top: 1.5rem;">
+                        Purpose: Develop <em>practical tools</em> for navigating cultural and leadership challenges in integrated care.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: CLI Compass -->
+        <div class="slide" data-slide="10">
+            <h2>The CLI Compass</h2>
+            <p>A compass for navigating change – not a map, because every journey is different.</p>
+            
+            <div class="compass-container">
+                <div class="compass">
+                    <div class="compass-center">CLI<br>Compass</div>
+                    <div class="navigator nav-cultures">Cultures</div>
+                    <div class="navigator nav-belonging">Belonging</div>
+                    <div class="navigator nav-mindset">Mindset</div>
+                    <div class="navigator nav-leadership">Leadership</div>
+                    <div class="navigator nav-headspace">Headspace</div>
+                    <div class="navigator nav-learning">Learning &<br>Development</div>
+                    <div class="navigator nav-outcomes">Outcomes</div>
+                    <div class="navigator nav-xfactors">X-Factors</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 1rem;">Eight navigators to help professionals, teams, and organisations find their direction.</p>
+        </div>
+
+        <!-- Slide 11: What's Coming -->
+        <div class="slide" data-slide="11">
+            <h2>What's Coming</h2>
+            <p>The CLI framework is being developed into practical resources for the workforce.</p>
+            
+            <div class="next-steps">
+                <div class="step">
+                    <h4>CPD Programme</h4>
+                    <p>Multi-week learning experience designed for health and social care professionals across Scotland</p>
+                </div>
+                <div class="step">
+                    <h4>Practical Tools</h4>
+                    <p>Resources for individuals, teams, and organisations to navigate cultural change</p>
+                </div>
+                <div class="step">
+                    <h4>Ongoing Research</h4>
+                    <p>Action research collaborations generating real-world knowledge on CLI implementation</p>
+                </div>
+            </div>
+
+            <div class="key-message">
+                <p>Happy to return for a deeper session on the CLI Compass and how it might support innovation in Ayrshire.</p>
+            </div>
+        </div>
+
+        <!-- Slide 12: Close -->
+        <div class="slide title-slide" data-slide="12">
+            <p class="subtitle">Key Takeaway</p>
+            <h1>"Leadership is contextually dependent – and we now have a compass to help navigate that"</h1>
+            
+            <div class="contact-info">
+                <p style="margin: 0 auto; text-align: center;">
+                    <strong style="color: var(--white);">Awais Mashkoor</strong><br>
+                    University of the West of Scotland<br><br>
+                    <a href="mailto:awais.mashkoor@uws.ac.uk">awais.mashkoor@uws.ac.uk</a>
+                </p>
+            </div>
+
+            <p style="margin: 2rem auto 0; text-align: center; color: var(--accent-gold);">
+                Questions & Discussion Welcome
+            </p>
+        </div>
+
+    </div>
+
+    <div class="slide-counter">
+        <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn">←</button>
+        <button class="nav-btn" id="nextBtn">→</button>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+
+        const progressBar = document.getElementById('progressBar');
+        const currentSlideEl = document.getElementById('currentSlide');
+        const totalSlidesEl = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesEl.textContent = totalSlides;
+
+        function updateSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides[currentSlide - 1].classList.add('active');
+            currentSlideEl.textContent = currentSlide;
+            
+            const progress = (currentSlide / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            updateSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            updateSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                currentSlide = 1;
+                updateSlide(currentSlide);
+            } else if (e.key === 'End') {
+                currentSlide = totalSlides;
+                updateSlide(currentSlide);
+            }
+        });
+
+        // Button navigation
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+
+        // Initialize
+        updateSlide(currentSlide);
+    </script>
+</body>
+</html>
