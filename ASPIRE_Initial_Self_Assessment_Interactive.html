@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASPIRE Initial Self-Assessment</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #1a1a2e;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: #003087;
+            color: white;
+            padding: 30px;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .intro {
+            background: white;
+            padding: 24px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .intro p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .section-number {
+            background: #003087;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .section h2 {
+            color: #003087;
+            font-size: 1.3rem;
+        }
+        
+        .section-description {
+            color: #666;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .prompts {
+            background: #f8f9fa;
+            border-left: 4px solid #0077B6;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .prompts p {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        
+        .prompts p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .prompts strong {
+            color: #003087;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.2s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #0077B6;
+        }
+        
+        textarea::placeholder {
+            color: #aaa;
+        }
+        
+        .word-count {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 8px;
+        }
+        
+        .name-field {
+            background: white;
+            padding: 24px 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .name-field label {
+            display: block;
+            font-weight: 600;
+            color: #003087;
+            margin-bottom: 8px;
+        }
+        
+        .name-field input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .name-field input:focus {
+            outline: none;
+            border-color: #0077B6;
+        }
+        
+        footer {
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            text-align: center;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #003087;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #002266;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #0077B6;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #005f8f;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: white;
+            color: #003087;
+            border: 2px solid #003087;
+        }
+        
+        .btn-outline:hover {
+            background: #f0f4f8;
+        }
+        
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #003087, #0077B6);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            header, .section, footer, .intro, .name-field {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 ASPIRE Initial Self-Assessment</h1>
+            <p>Foundations for Success — Week 1</p>
+        </header>
+        
+        <div class="intro">
+            <p><strong>Welcome!</strong> This self-assessment will help you reflect on who you are, where you're starting from, and where you want to go. Your responses here will form the foundation for your <strong>Action Plan assessment</strong>.</p>
+            <p>Take your time with each section. There are no right or wrong answers — this is about honest self-reflection.</p>
+        </div>
+        
+        <div class="name-field">
+            <label for="studentName">Your Name</label>
+            <input type="text" id="studentName" placeholder="Enter your name" oninput="updateProgress()">
+        </div>
+        
+        <div class="progress-text">Completion: <span id="progressPercent">0</span>%</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">1</div>
+                <h2>Personal Values</h2>
+            </div>
+            <p class="section-description">Values are the principles that guide your decisions and actions. Understanding your values helps you make choices aligned with who you truly are.</p>
+            <div class="prompts">
+                <p><strong>Consider:</strong></p>
+                <p>• What matters most to you in life?</p>
+                <p>• What principles guide your decisions?</p>
+                <p>• Why did you choose Health & Social Care?</p>
+                <p>• What kind of person do you want to be?</p>
+            </div>
+            <textarea id="values" placeholder="Describe your personal values..." oninput="updateProgress()"></textarea>
+            <div class="word-count"><span id="valuesCount">0</span> words</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">2</div>
+                <h2>My Strengths</h2>
+            </div>
+            <p class="section-description">Everyone has unique strengths. Recognising yours will help you build confidence and understand what you bring to your studies and future career.</p>
+            <div class="prompts">
+                <p><strong>Consider:</strong></p>
+                <p>• What are you good at? (skills, abilities, qualities)</p>
+                <p>• What do others say you're good at?</p>
+                <p>• What achievements are you proud of?</p>
+                <p>• What comes naturally to you?</p>
+            </div>
+            <textarea id="strengths" placeholder="Describe your strengths..." oninput="updateProgress()"></textarea>
+            <div class="word-count"><span id="strengthsCount">0</span> words</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">3</div>
+                <h2>Areas for Development</h2>
+            </div>
+            <p class="section-description">Identifying areas for growth isn't about weaknesses — it's about recognising opportunities to develop skills that will help you succeed.</p>
+            <div class="prompts">
+                <p><strong>Consider:</strong></p>
+                <p>• What skills would you like to improve?</p>
+                <p>• What challenges do you anticipate at university?</p>
+                <p>• What feedback have you received in the past?</p>
+                <p>• What would help you feel more confident?</p>
+            </div>
+            <textarea id="development" placeholder="Describe areas you want to develop..." oninput="updateProgress()"></textarea>
+            <div class="word-count"><span id="developmentCount">0</span> words</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">4</div>
+                <h2>Goals & Aspirations</h2>
+            </div>
+            <p class="section-description">Where do you want to be? Setting clear goals helps you focus your efforts and measure your progress throughout your studies.</p>
+            <div class="prompts">
+                <p><strong>Consider:</strong></p>
+                <p>• What do you want to achieve this year at UWS?</p>
+                <p>• Where do you see yourself after graduation?</p>
+                <p>• What kind of Health & Social Care professional do you want to become?</p>
+                <p>• What specific skills do you want to develop?</p>
+            </div>
+            <textarea id="goals" placeholder="Describe your goals and aspirations..." oninput="updateProgress()"></textarea>
+            <div class="word-count"><span id="goalsCount">0</span> words</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <div class="section-number">5</div>
+                <h2>Initial Reflection</h2>
+            </div>
+            <p class="section-description">Using one of the reflection models from today's session (Gibbs, Driscoll, or Kolb), briefly reflect on your journey to this point.</p>
+            <div class="prompts">
+                <p><strong>You might consider:</strong></p>
+                <p>• What experiences led you to study Health & Social Care?</p>
+                <p>• How do you feel about starting this module?</p>
+                <p>• What have you learned about yourself so far?</p>
+                <p>• What will you do differently going forward?</p>
+            </div>
+            <textarea id="reflection" placeholder="Write your initial reflection..." oninput="updateProgress()"></textarea>
+            <div class="word-count"><span id="reflectionCount">0</span> words</div>
+        </div>
+        
+        <footer>
+            <div class="button-group">
+                <button class="btn-primary" onclick="downloadWord()">📄 Download as Word</button>
+                <button class="btn-secondary" onclick="downloadText()">📝 Download as Text</button>
+                <button class="btn-outline" onclick="printAssessment()">🖨️ Print</button>
+            </div>
+            <p class="footer-note">💡 Save your responses — you'll use them for your Action Plan assessment</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Word count function
+        function countWords(text) {
+            return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        }
+        
+        // Update word counts and progress
+        function updateProgress() {
+            const fields = ['values', 'strengths', 'development', 'goals', 'reflection'];
+            let totalWords = 0;
+            let filledFields = 0;
+            
+            fields.forEach(field => {
+                const textarea = document.getElementById(field);
+                const count = countWords(textarea.value);
+                document.getElementById(field + 'Count').textContent = count;
+                totalWords += count;
+                if (count > 10) filledFields++;
+            });
+            
+            const name = document.getElementById('studentName').value.trim();
+            if (name) filledFields++;
+            
+            const progress = Math.min(100, Math.round((filledFields / 6) * 100));
+            document.getElementById('progressPercent').textContent = progress;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+        
+        // Generate content for download
+        function generateContent() {
+            const name = document.getElementById('studentName').value || 'Student';
+            const date = new Date().toLocaleDateString('en-GB', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            });
+            
+            return {
+                name: name,
+                date: date,
+                values: document.getElementById('values').value,
+                strengths: document.getElementById('strengths').value,
+                development: document.getElementById('development').value,
+                goals: document.getElementById('goals').value,
+                reflection: document.getElementById('reflection').value
+            };
+        }
+        
+        // Download as Word document
+        function downloadWord() {
+            const data = generateContent();
+            const content = `
+ASPIRE Initial Self-Assessment
+Foundations for Success — Week 1
+================================
+
+Name: ${data.name}
+Date: ${data.date}
+
+────────────────────────────────────────
+
+1. PERSONAL VALUES
+────────────────────────────────────────
+${data.values || '[Not completed]'}
+
+────────────────────────────────────────
+
+2. MY STRENGTHS
+────────────────────────────────────────
+${data.strengths || '[Not completed]'}
+
+────────────────────────────────────────
+
+3. AREAS FOR DEVELOPMENT
+────────────────────────────────────────
+${data.development || '[Not completed]'}
+
+────────────────────────────────────────
+
+4. GOALS & ASPIRATIONS
+────────────────────────────────────────
+${data.goals || '[Not completed]'}
+
+────────────────────────────────────────
+
+5. INITIAL REFLECTION
+────────────────────────────────────────
+${data.reflection || '[Not completed]'}
+
+────────────────────────────────────────
+
+This self-assessment was completed as part of the ASPIRE: Foundations for Success module at UWS.
+Use these responses to inform your Action Plan assessment.
+            `;
+            
+            const blob = new Blob([content], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ASPIRE_Self_Assessment_${data.name.replace(/\s+/g, '_')}.doc`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Download as plain text
+        function downloadText() {
+            const data = generateContent();
+            const content = `ASPIRE Initial Self-Assessment
+Foundations for Success — Week 1
+
+Name: ${data.name}
+Date: ${data.date}
+
+---
+
+1. PERSONAL VALUES
+
+${data.values || '[Not completed]'}
+
+---
+
+2. MY STRENGTHS
+
+${data.strengths || '[Not completed]'}
+
+---
+
+3. AREAS FOR DEVELOPMENT
+
+${data.development || '[Not completed]'}
+
+---
+
+4. GOALS & ASPIRATIONS
+
+${data.goals || '[Not completed]'}
+
+---
+
+5. INITIAL REFLECTION
+
+${data.reflection || '[Not completed]'}
+
+---
+
+This self-assessment was completed as part of the ASPIRE: Foundations for Success module at UWS.
+Use these responses to inform your Action Plan assessment.
+`;
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ASPIRE_Self_Assessment_${data.name.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Print function
+        function printAssessment() {
+            window.print();
+        }
+        
+        // Initialize
+        updateProgress();
+    </script>
+</body>
+</html>
