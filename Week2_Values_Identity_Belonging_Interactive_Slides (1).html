@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 2: Values, Identity & Belonging - ASPIRE CHSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --uws-blue: #003d7a;
+            --uws-light-blue: #0066cc;
+            --care-green: #2d7f5e;
+            --care-teal: #36b09c;
+            --warm-orange: #ff6b35;
+            --soft-pink: #ff8fa3;
+            --bg-light: #f8f9fa;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Slide backgrounds */
+        .slide.title-slide {
+            background: linear-gradient(135deg, var(--uws-blue) 0%, var(--uws-light-blue) 100%);
+            color: var(--text-light);
+        }
+        
+        .slide.section-slide {
+            background: linear-gradient(135deg, var(--care-green) 0%, var(--care-teal) 100%);
+            color: var(--text-light);
+        }
+        
+        .slide.content-slide {
+            background: var(--text-light);
+        }
+        
+        .slide.activity-slide {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe6cc 100%);
+        }
+        
+        .slide.case-study-slide {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6f2ff 100%);
+        }
+        
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-align: center;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--uws-blue);
+        }
+        
+        .title-slide h2,
+        .section-slide h2 {
+            color: var(--text-light);
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--care-green);
+        }
+        
+        p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        ul {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+        }
+        
+        /* Special elements */
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .highlight-box {
+            background: var(--uws-blue);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .card h3 {
+            margin-bottom: 1rem;
+        }
+        
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        /* Quote styling */
+        blockquote {
+            font-size: 1.8rem;
+            font-style: italic;
+            border-left: 4px solid var(--warm-orange);
+            padding-left: 2rem;
+            margin: 2rem 0;
+            color: var(--uws-blue);
+        }
+        
+        .quote-author {
+            font-size: 1.2rem;
+            font-style: normal;
+            font-weight: 600;
+            margin-top: 1rem;
+            color: var(--text-dark);
+        }
+        
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: var(--uws-blue);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        
+        .nav-btn:hover {
+            background: var(--uws-light-blue);
+            transform: scale(1.05);
+        }
+        
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            z-index: 1000;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--warm-orange);
+            transition: width 0.3s ease;
+        }
+        
+        /* Slide number */
+        .slide-number {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            font-size: 1rem;
+            color: var(--uws-blue);
+            font-weight: 600;
+            z-index: 1000;
+        }
+        
+        /* Learning outcomes box */
+        .lo-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-left: 6px solid var(--care-green);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .lo-box h4 {
+            color: var(--care-green);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+        
+        /* Case study styling */
+        .case-study {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 3px solid var(--uws-light-blue);
+            margin: 2rem 0;
+        }
+        
+        .case-study-title {
+            background: var(--uws-blue);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+        
+        /* Activity marker */
+        .activity-marker {
+            background: var(--warm-orange);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        /* Image placeholder */
+        .image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-style: italic;
+        }
+        
+        /* Content max width */
+        .content-wrapper {
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        /* Animation for bullets */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in li {
+            animation: fadeInUp 0.5s ease forwards;
+            opacity: 0;
+        }
+        
+        .animate-in li:nth-child(1) { animation-delay: 0.1s; }
+        .animate-in li:nth-child(2) { animation-delay: 0.2s; }
+        .animate-in li:nth-child(3) { animation-delay: 0.3s; }
+        .animate-in li:nth-child(4) { animation-delay: 0.4s; }
+        .animate-in li:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    
+    <div class="slide-number" id="slideNumber">1 / 45</div>
+    
+    <div class="slide-container" id="slideContainer">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide active">
+            <h1>Week 2: Values, Identity & Belonging</h1>
+            <p class="subtitle">ASPIRE: Foundations for Success<br>
+            BSc Collaborative Health & Social Care Studies</p>
+            <p style="margin-top: 3rem; font-size: 1.2rem;">Thursday, 29 January 2026 | 1:30 PM | PA_D126</p>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Awais Mashkoor | University of the West of Scotland</p>
+        </div>
+        
+        <!-- Slide 2: Welcome Back -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Welcome Back! 👋</h2>
+                <h3>Quick Recap: Week 1</h3>
+                <ul class="animate-in">
+                    <li><strong>Reflective Practice</strong> - Why it matters in Health & Social Care</li>
+                    <li><strong>Three Models</strong> - Gibbs, Driscoll, Kolb</li>
+                    <li><strong>Group Formation</strong> - You met your project teams</li>
+                    <li><strong>Belbin Roles</strong> - Understanding team dynamics</li>
+                </ul>
+                <div class="highlight-box" style="margin-top: 2rem;">
+                    <h3>How did Week 1 go?</h3>
+                    <p>Any questions about reflection models or your groups?</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 3: Today's Aims -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>🎯 This Week's Aims</h2>
+                <ul class="animate-in">
+                    <li>Identify your <strong>personal values</strong> and understand why they matter</li>
+                    <li>Connect personal values to <strong>professional identity</strong> in Health & Social Care</li>
+                    <li>Understand <strong>Equality, Diversity and Inclusion (EDI)</strong> principles</li>
+                    <li>Recognise <strong>health inequalities</strong> and their impact on practice</li>
+                    <li>Begin building your sense of <strong>belonging at UWS</strong></li>
+                </ul>
+                
+                <div class="lo-box" style="margin-top: 2.5rem;">
+                    <h4>📚 Learning Outcomes Addressed</h4>
+                    <p><strong>LO1:</strong> Identify personal values, strengths, and areas for development<br>
+                    <strong>LO3:</strong> Recognise and reflect on learning experiences<br>
+                    <strong>LO5:</strong> Apply Aspire learning to Health & Social Care studies</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Session Structure -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>📋 Session Structure (2 Hours)</h2>
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">1️⃣</span>
+                        <h3>Welcome & Recap</h3>
+                        <p>15 minutes</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">2️⃣</span>
+                        <h3>Understanding Values</h3>
+                        <p>25 minutes</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">3️⃣</span>
+                        <h3>Identity & Belonging</h3>
+                        <p>20 minutes</p>
+                    </div>
+                </div>
+                <p style="text-align: center; font-size: 2rem; margin: 2rem 0;">☕ BREAK (10 minutes)</p>
+                <div class="three-column">
+                    <div class="card">
+                        <span class="emoji">4️⃣</span>
+                        <h3>EDI Principles</h3>
+                        <p>20 minutes</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">5️⃣</span>
+                        <h3>Health Inequalities</h3>
+                        <p>20 minutes</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">6️⃣</span>
+                        <h3>Wrap-up & Next Steps</h3>
+                        <p>10 minutes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECTION 1: UNDERSTANDING VALUES -->
+        
+        <!-- Slide 5: Section - Understanding Values -->
+        <div class="slide section-slide">
+            <h1>Part 1: Understanding Values</h1>
+            <p class="subtitle">What guides your decisions and actions?</p>
+        </div>
+        
+        <!-- Slide 6: What Are Values? -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>What Are Values?</h2>
+                <blockquote>
+                    "Values are principles and beliefs that guide our decisions and behaviour"
+                </blockquote>
+                
+                <div class="two-column" style="margin-top: 3rem;">
+                    <div>
+                        <h3>Values are:</h3>
+                        <ul class="animate-in">
+                            <li>What matters most to YOU</li>
+                            <li>The "why" behind your choices</li>
+                            <li>Your internal compass</li>
+                            <li>Personally meaningful</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Values are NOT:</h3>
+                        <ul class="animate-in">
+                            <li>Goals or outcomes</li>
+                            <li>Rules imposed by others</li>
+                            <li>Fixed or unchanging</li>
+                            <li>Right or wrong</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Why Values Matter in H&SC -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Why Values Matter in Health & Social Care</h2>
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">⚖️</span>
+                        <h3>Ethical Decision-Making</h3>
+                        <p>When you face difficult choices, your values guide you to act with integrity</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">👤</span>
+                        <h3>Professional Identity</h3>
+                        <p>Understanding your values helps you develop as a care professional</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">🤝</span>
+                        <h3>Person-Centred Care</h3>
+                        <p>Recognizing others' values helps you provide respectful, individualized care</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 2.5rem;">
+                    <h3>💡 Real Example</h3>
+                    <p>A care worker who values <strong>dignity</strong> will always knock before entering a service user's room, even when they're busy. That's values in action.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: Common Values in H&SC -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Common Values in Health & Social Care</h2>
+                <div class="two-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Core Care Values</h3>
+                        <ul>
+                            <li><strong>Compassion</strong> - Caring deeply about others' wellbeing</li>
+                            <li><strong>Respect</strong> - Honoring each person's worth</li>
+                            <li><strong>Dignity</strong> - Preserving self-worth in care</li>
+                            <li><strong>Empathy</strong> - Understanding others' experiences</li>
+                            <li><strong>Justice</strong> - Fairness and equality</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Professional Values</h3>
+                        <ul>
+                            <li><strong>Integrity</strong> - Honesty and moral soundness</li>
+                            <li><strong>Accountability</strong> - Taking responsibility</li>
+                            <li><strong>Excellence</strong> - Commitment to quality care</li>
+                            <li><strong>Collaboration</strong> - Working with others</li>
+                            <li><strong>Advocacy</strong> - Speaking up for service users</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 2rem; text-align: center; font-size: 1.2rem; color: var(--care-green);">
+                    <strong>Remember:</strong> Your top 5 values are unique to YOU – there's no "right" answer!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Activity - Values Card Sort -->
+        <div class="slide activity-slide">
+            <div class="content-wrapper">
+                <span class="activity-marker">✏️ ACTIVITY: Values Card Sort (10 minutes)</span>
+                <h2>Identify Your Top 5 Values</h2>
+                
+                <div class="card" style="margin-top: 2rem; background: white;">
+                    <h3>Step 1: Review the List (2 mins)</h3>
+                    <p>Look at the ~30 values on your worksheet. Read through them all.</p>
+                    
+                    <h3 style="margin-top: 2rem;">Step 2: First Sort (3 mins)</h3>
+                    <p>Sort them into three piles:</p>
+                    <ul>
+                        <li><strong>Very Important</strong> - Can't live without these</li>
+                        <li><strong>Important</strong> - Matter to me</li>
+                        <li><strong>Less Important</strong> - Not my priority</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 2rem;">Step 3: Narrow Down (3 mins)</h3>
+                    <p>From your "Very Important" pile, choose your <strong>TOP 5</strong></p>
+                    
+                    <h3 style="margin-top: 2rem;">Step 4: Pair Discussion (2 mins)</h3>
+                    <p>Turn to the person next to you:</p>
+                    <ul>
+                        <li>What are your top 5 values?</li>
+                        <li>Why did you choose these?</li>
+                        <li>How might they connect to Health & Social Care?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECTION 2: IDENTITY & BELONGING -->
+        
+        <!-- Slide 10: Section - Identity & Belonging -->
+        <div class="slide section-slide">
+            <h1>Part 2: Identity & Belonging</h1>
+            <p class="subtitle">Who are you becoming as a care professional?</p>
+        </div>
+        
+        <!-- Slide 11: Personal & Professional Identity -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Personal & Professional Identity</h2>
+                <div class="two-column" style="margin-top: 2rem;">
+                    <div>
+                        <h3>🧑 Personal Identity</h3>
+                        <ul class="animate-in">
+                            <li>Your values, beliefs, experiences</li>
+                            <li>Your background and culture</li>
+                            <li>Your relationships and roles</li>
+                            <li>What makes you <em>you</em></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>👔 Professional Identity</h3>
+                        <ul class="animate-in">
+                            <li>Your role in Health & Social Care</li>
+                            <li>Professional codes (SSSC, NMC)</li>
+                            <li>Your developing expertise</li>
+                            <li>How you want to practice</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 3rem;">
+                    <h3>🔗 They're Connected!</h3>
+                    <p>Your <strong>personal values</strong> shape your <strong>professional identity</strong>. You bring your whole self to care work – and that's a strength!</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 12: How Values Shape Professional Identity -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>How Values Connect to Why You Chose H&SC</h2>
+                
+                <div class="case-study">
+                    <div class="case-study-title">Real Student Examples</div>
+                    
+                    <p><strong>"I value <u>compassion</u> because I saw how much difference it made when my grandmother was in a care home. I want to make that same difference for others."</strong></p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>"<u>Justice</u> is important to me. I've seen people with disabilities not getting the support they deserve. I want to change that."</strong></p>
+                    
+                    <p style="margin-top: 1.5rem;"><strong>"I value <u>collaboration</u> because I believe the best care happens when professionals, families, and service users work together as equals."</strong></p>
+                </div>
+                
+                <p style="margin-top: 2.5rem; font-size: 1.3rem; color: var(--care-green);">
+                    <strong>💭 Reflection Prompt:</strong> How do YOUR values connect to why you chose Health & Social Care?
+                </p>
+            </div>
+        </div>
+        
+        <!-- Slide 13: Belonging at University -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Belonging at UWS</h2>
+                <blockquote>
+                    "Belonging means feeling accepted, valued, and connected to your community"
+                </blockquote>
+                
+                <div class="three-column" style="margin-top: 2.5rem;">
+                    <div class="card">
+                        <span class="emoji">👥</span>
+                        <h3>You Belong Here</h3>
+                        <p>You were admitted because you have what it takes to succeed</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">🌍</span>
+                        <h3>Diversity Enriches Learning</h3>
+                        <p>Different perspectives make us all better professionals</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">🤲</span>
+                        <h3>We Build Belonging Together</h3>
+                        <p>It's everyone's responsibility to create an inclusive space</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 2.5rem;">
+                    <h3>Building Belonging in This Class</h3>
+                    <p>We create belonging by:</p>
+                    <ul>
+                        <li>Respecting each other's identities and experiences</li>
+                        <li>Listening to understand, not just to respond</li>
+                        <li>Supporting each other's learning and growth</li>
+                        <li>Celebrating diverse perspectives in care</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: Discussion Activity -->
+        <div class="slide activity-slide">
+            <div class="content-wrapper">
+                <span class="activity-marker">💬 SMALL GROUP DISCUSSION (5 minutes)</span>
+                <h2>Discuss in Groups of 3-4</h2>
+                
+                <div class="card" style="background: white; margin-top: 2rem;">
+                    <h3>Discussion Prompts (Choose 1-2)</h3>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>1. How do your personal values connect to why you chose Health & Social Care?</h4>
+                    </div>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>2. What does being a "professional" mean to you?</h4>
+                    </div>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>3. How can we create a sense of belonging in this class?</h4>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2rem; text-align: center; font-size: 1.3rem; font-weight: 600;">
+                    ⏰ You have 5 minutes - I'll walk around and listen in!
+                </p>
+            </div>
+        </div>
+        
+        <!-- BREAK SLIDE -->
+        
+        <!-- Slide 15: BREAK -->
+        <div class="slide section-slide">
+            <h1>☕ Break Time</h1>
+            <p class="subtitle">10 minutes - be back by [TIME]</p>
+            <p style="margin-top: 3rem; font-size: 1.3rem;">Stretch, grab a drink, chat with your classmates!</p>
+        </div>
+        
+        <!-- SECTION 3: EQUALITY, DIVERSITY & INCLUSION -->
+        
+        <!-- Slide 16: Section - EDI -->
+        <div class="slide section-slide">
+            <h1>Part 3: Equality, Diversity & Inclusion</h1>
+            <p class="subtitle">Fundamental principles for Health & Social Care</p>
+        </div>
+        
+        <!-- Slide 17: What Do We Mean by EDI? -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>What Do We Mean by Equality, Diversity & Inclusion?</h2>
+                
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">⚖️</span>
+                        <h3>Equality</h3>
+                        <p><strong>Same opportunities and treatment</strong></p>
+                        <p style="margin-top: 1rem;">Everyone has equal access to services and is treated fairly</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">🌈</span>
+                        <h3>Diversity</h3>
+                        <p><strong>Recognizing differences</strong></p>
+                        <p style="margin-top: 1rem;">Valuing the variety of backgrounds, experiences, and identities people bring</p>
+                    </div>
+                    <div class="card">
+                        <span class="emoji">🤗</span>
+                        <h3>Inclusion</h3>
+                        <p><strong>Everyone feels welcome</strong></p>
+                        <p style="margin-top: 1rem;">Creating environments where everyone can participate and belong</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 2.5rem;">
+                    <p style="font-size: 1.3rem;"><strong>Inclusive practice is not a static state, but a way of working, being and relating to others.</strong> It is an ongoing, reflective process that is constantly developing and transforming.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 18: Equality vs Equity vs Justice -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Equality ≠ Equity ≠ Justice</h2>
+                
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Equality</h3>
+                        <p style="margin-bottom: 1rem;"><em>"Everyone gets the same"</em></p>
+                        <p>The assumption is that everyone benefits from the same supports.</p>
+                        <p style="margin-top: 1rem; color: #666;">Example: Everyone gets the same walking frame, regardless of their mobility needs</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Equity</h3>
+                        <p style="margin-bottom: 1rem;"><em>"Everyone gets what they need"</em></p>
+                        <p>Recognizes that people have different circumstances and allocates resources accordingly.</p>
+                        <p style="margin-top: 1rem; color: #666;">Example: Some get wheelchairs, some get crutches, based on their needs</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Justice</h3>
+                        <p style="margin-bottom: 1rem;"><em>"Fix the system"</em></p>
+                        <p>All can access what they need because the causes of inequity have been addressed.</p>
+                        <p style="margin-top: 1rem; color: #666;">Example: Buildings are accessible, transport is available, societal barriers removed</p>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2.5rem; font-size: 1.3rem; text-align: center; color: var(--uws-blue);">
+                    <strong>In H&SC, we aim for EQUITY and work toward JUSTICE</strong>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Slide 19: Why EDI Matters in H&SC -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Why Does EDI Matter in Health & Social Care?</h2>
+                
+                <ul class="animate-in" style="font-size: 1.3rem; margin-top: 2rem;">
+                    <li><strong>Legal Requirement:</strong> Equality Act 2010 protects people from discrimination</li>
+                    <li><strong>Professional Duty:</strong> SSSC Codes of Practice require anti-discriminatory practice</li>
+                    <li><strong>Better Care:</strong> Understanding diverse needs leads to better outcomes</li>
+                    <li><strong>Service User Rights:</strong> Everyone deserves dignity, respect, and quality care</li>
+                    <li><strong>Reducing Inequalities:</strong> Care professionals can challenge unfair systems</li>
+                </ul>
+                
+                <div class="case-study" style="margin-top: 2.5rem;">
+                    <div class="case-study-title">H&SC Example</div>
+                    <p>An older adult from a minoritized ethnic background may face:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Language barriers accessing services</li>
+                        <li>Cultural preferences not being understood</li>
+                        <li>Discrimination based on age AND ethnicity (intersectionality)</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;"><strong>An inclusive care worker:</strong> Arranges interpreter services, learns about cultural practices, advocates for the person's needs</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 20: Case Study Activity -->
+        <div class="slide case-study-slide">
+            <div class="content-wrapper">
+                <span class="activity-marker">📖 CASE STUDY DISCUSSION</span>
+                <h2>How Should This Be Handled?</h2>
+                
+                <div class="case-study">
+                    <p style="font-size: 1.4rem; line-height: 1.8;">
+                        <strong>Scenario:</strong> A patient in a hospital ward refuses to be cared for by a student nurse because of the nurse's ethnicity. The patient makes a discriminatory comment.
+                    </p>
+                    
+                    <h3 style="margin-top: 2rem; color: var(--uws-blue);">What should happen?</h3>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>Discussion Questions:</h4>
+                        <ul>
+                            <li>What values and principles are at play here?</li>
+                            <li>What are the student nurse's rights?</li>
+                            <li>What are the patient's rights?</li>
+                            <li>How should the ward manager respond?</li>
+                            <li>What does person-centred care mean in this situation?</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2rem; text-align: center; font-size: 1.2rem;">
+                    💬 Discuss with the person next to you (3 minutes)
+                </p>
+            </div>
+        </div>
+        
+        <!-- SECTION 4: HEALTH INEQUALITIES -->
+        
+        <!-- Slide 21: Section - Health Inequalities -->
+        <div class="slide section-slide">
+            <h1>Part 4: Health Inequalities in Society</h1>
+            <p class="subtitle">Understanding unfair differences in health</p>
+        </div>
+        
+        <!-- Slide 22: What Are Health Inequalities? -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>What Are Health Inequalities?</h2>
+                
+                <div class="highlight-box">
+                    <h3 style="color: white; margin-bottom: 1rem;">Definition</h3>
+                    <p style="font-size: 1.4rem; line-height: 1.7;">
+                        Health inequalities are <strong>unfair and avoidable differences</strong> in health across the population, and between different groups within society.
+                    </p>
+                </div>
+                
+                <div class="two-column" style="margin-top: 2.5rem;">
+                    <div class="card">
+                        <h3>Examples of Health Inequalities</h3>
+                        <ul>
+                            <li>Life expectancy varies by 10+ years between richest and poorest areas</li>
+                            <li>Higher rates of mental illness in deprived communities</li>
+                            <li>Disabled people face barriers accessing healthcare</li>
+                            <li>Some ethnic groups experience worse health outcomes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Key Point</h3>
+                        <p style="font-size: 1.3rem; line-height: 1.7;">
+                            These differences are <strong>NOT</strong> due to biology or individual choice alone. They result from <strong>unfair social, economic, and environmental conditions</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 23: Social Determinants of Health -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Social Determinants of Health</h2>
+                <p style="font-size: 1.3rem; margin-bottom: 2rem;">The conditions in which people are born, grow, live, work, and age that affect their health</p>
+                
+                <div class="three-column">
+                    <div class="card">
+                        <span class="emoji">💰</span>
+                        <h3>Income & Employment</h3>
+                        <ul>
+                            <li>Poverty limits access to healthy food, warm housing</li>
+                            <li>Job insecurity increases stress</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">🏠</span>
+                        <h3>Housing & Environment</h3>
+                        <ul>
+                            <li>Damp, overcrowded housing affects health</li>
+                            <li>Pollution in deprived areas</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">📚</span>
+                        <h3>Education</h3>
+                        <ul>
+                            <li>Higher education = better health literacy</li>
+                            <li>Educational inequality perpetuates cycles</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">🩺</span>
+                        <h3>Healthcare Access</h3>
+                        <ul>
+                            <li>Transport barriers</li>
+                            <li>Digital exclusion</li>
+                            <li>Discrimination</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">👥</span>
+                        <h3>Social Networks</h3>
+                        <ul>
+                            <li>Isolation affects mental health</li>
+                            <li>Community support protects health</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">⚖️</span>
+                        <h3>Discrimination</h3>
+                        <ul>
+                            <li>Racism impacts health</li>
+                            <li>Stigma prevents help-seeking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 24: Health Inequalities in Scotland -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Health Inequalities in Scotland: The Evidence</h2>
+                
+                <div class="card" style="background: #ffe6e6; border-left: 6px solid var(--warm-orange); margin-bottom: 2rem;">
+                    <h3>Life Expectancy Gap</h3>
+                    <p style="font-size: 1.3rem;">A baby boy born in the most deprived areas of Scotland can expect to live <strong>13 years less</strong> than one born in the least deprived areas.</p>
+                </div>
+                
+                <div class="two-column">
+                    <div class="card">
+                        <h3>Drug-Related Deaths</h3>
+                        <p>Scotland has the highest rate in Europe. Deaths are concentrated in deprived communities.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Mental Health</h3>
+                        <p>Rates of depression and anxiety are twice as high in deprived areas compared to affluent areas.</p>
+                    </div>
+                </div>
+                
+                <div class="two-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Child Poverty</h3>
+                        <p>24% of children in Scotland live in poverty, affecting their development and future health.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>COVID-19 Impact</h3>
+                        <p>Death rates in the most deprived areas were more than double those in the least deprived.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 25: Impact on H&SC Practice -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>Why This Matters for YOUR Practice</h2>
+                
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">🔍</span>
+                        <h3>Recognize Context</h3>
+                        <p>Understand that a service user's health is shaped by their circumstances, not just their choices</p>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">👂</span>
+                        <h3>Person-Centred Approach</h3>
+                        <p>Ask about barriers: transport, childcare, literacy, cultural needs</p>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">📢</span>
+                        <h3>Advocacy</h3>
+                        <p>Speak up when you see unfair treatment or inaccessible services</p>
+                    </div>
+                </div>
+                
+                <div class="case-study" style="margin-top: 2.5rem;">
+                    <div class="case-study-title">Practice Example</div>
+                    <p style="font-size: 1.3rem; line-height: 1.7;">
+                        <strong>Scenario:</strong> A patient keeps missing diabetes appointments.
+                    </p>
+                    <p style="margin-top: 1.5rem;">
+                        <strong>❌ Judgmental response:</strong> "They don't care about their health."
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        <strong>✅ Equity-informed response:</strong> "What barriers might they be facing? Can we offer home visits? Are appointment times accessible for someone working shifts?"
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 26: Reflection Activity -->
+        <div class="slide activity-slide">
+            <div class="content-wrapper">
+                <span class="activity-marker">💭 REFLECTION ACTIVITY (5 minutes)</span>
+                <h2>Think - Pair - Share</h2>
+                
+                <div class="card" style="background: white; margin-top: 2rem;">
+                    <h3>Individual Reflection (2 minutes)</h3>
+                    <p style="font-size: 1.3rem; margin-top: 1rem;">
+                        Think about a health or social care setting (hospital ward, care home, GP practice, community care).
+                    </p>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>Reflection Question:</h4>
+                        <p style="font-size: 1.3rem; line-height: 1.7; margin-top: 0.5rem;">
+                            <strong>What barriers might someone from a disadvantaged background face when accessing this service?</strong>
+                        </p>
+                        <p style="margin-top: 1rem; font-style: italic;">
+                            Consider: transport, cost, childcare, language, literacy, digital access, opening hours, cultural needs, discrimination...
+                        </p>
+                    </div>
+                    
+                    <h3 style="margin-top: 2rem;">Pair Discussion (3 minutes)</h3>
+                    <p>Share your thoughts with the person next to you. What barriers did you identify? What could care professionals do to reduce these barriers?</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- WRAP-UP SECTION -->
+        
+        <!-- Slide 27: Summary -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>📝 Today's Key Messages</h2>
+                
+                <div class="three-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <span class="emoji">💎</span>
+                        <h3>Values Matter</h3>
+                        <p>Your personal values guide your professional practice and connect to why you chose care work</p>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">🌈</span>
+                        <h3>EDI is Fundamental</h3>
+                        <p>Equality, diversity, and inclusion are not optional - they're essential to ethical care</p>
+                    </div>
+                    
+                    <div class="card">
+                        <span class="emoji">⚖️</span>
+                        <h3>Inequalities are Unfair</h3>
+                        <p>Health inequalities are avoidable and unjust - you can help challenge them</p>
+                    </div>
+                </div>
+                
+                <div class="highlight-box" style="margin-top: 2.5rem;">
+                    <h3>Remember</h3>
+                    <ul style="font-size: 1.2rem;">
+                        <li>You belong at UWS and in the care profession</li>
+                        <li>Diverse perspectives make us better professionals</li>
+                        <li>Understanding social context improves care</li>
+                        <li>Your values will guide you through difficult situations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 28: Links to Assessment -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>🔗 How This Links to Your Assessment</h2>
+                
+                <div class="card" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-left: 6px solid var(--care-green); margin-bottom: 2rem;">
+                    <h3>Action Plan (Due Week 4 - 25 February)</h3>
+                    <p style="font-size: 1.3rem; margin-top: 1rem;"><strong>Section 1</strong> asks you to reflect on:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Why you chose Health & Social Care</li>
+                        <li>What values drive you</li>
+                        <li>What strengths you bring</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem; font-weight: 600; color: var(--care-green);">
+                        💡 The values work we did today will help you write this section!
+                    </p>
+                </div>
+                
+                <div class="card" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); border-left: 6px solid var(--warm-orange);">
+                    <h3>Personal & Professional Reflection (Due 14 April)</h3>
+                    <p style="font-size: 1.3rem; margin-top: 1rem;">You'll reflect on how your understanding of:</p>
+                    <ul style="margin-top: 1rem;">
+                        <li>Your professional identity has developed</li>
+                        <li>EDI principles apply to care practice</li>
+                        <li>Social context affects health</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 29: Independent Tasks -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>📚 Independent Tasks for This Week</h2>
+                
+                <div class="card" style="margin-top: 2rem;">
+                    <h3>✅ Before Next Week (Thursday 5 February):</h3>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>1. Complete the Values Card Sort (if not finished)</h4>
+                        <p>Make sure you've identified your top 5 values</p>
+                    </div>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>2. Read on Aula: "Benefits of Knowing Your Values"</h4>
+                        <p>Short article that explains how values awareness supports care practice</p>
+                    </div>
+                    
+                    <div style="background: #f0f4ff; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem;">
+                        <h4>3. Start thinking about your Action Plan</h4>
+                        <p>Reminder: The formative version is due Week 4 (25 Feb)</p>
+                        <p style="margin-top: 0.5rem; font-style: italic;">Reflection: How do your values connect to your goals for this year?</p>
+                    </div>
+                    
+                    <div style="background: #fff3e0; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid var(--warm-orange);">
+                        <h4>📖 Optional Reading</h4>
+                        <p>Explore the Royal Society of Chemistry's EDI Glossary (link on Aula) to learn more about inclusive language</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 30: Next Week Preview -->
+        <div class="slide content-slide">
+            <div class="content-wrapper">
+                <h2>🔮 Preview: Week 3 (5 February)</h2>
+                
+                <h3 style="margin-top: 2rem; color: var(--uws-blue);">Academic Skills & Independent Learning</h3>
+                
+                <div class="two-column" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Topics We'll Cover</h3>
+                        <ul>
+                            <li>Study skills for university</li>
+                            <li>Time management strategies</li>
+                            <li>Academic writing basics</li>
+                            <li>Using library resources</li>
+                            <li>Academic integrity & referencing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Why It Matters</h3>
+                        <ul>
+                            <li>Build confidence in academic work</li>
+                            <li>Develop effective study habits</li>
+                            <li>Avoid plagiarism</li>
+                            <li>Balance study with placements</li>
+                            <li>Prepare for assessment writing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2.5rem; text-align: center; font-size: 1.4rem; color: var(--care-green); font-weight: 600;">
+                    See you next Thursday at 1:30 PM in PA_D126!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Slide 31: Questions & Close -->
+        <div class="slide title-slide">
+            <h1>Questions?</h1>
+            <p class="subtitle" style="margin-top: 2rem; font-size: 1.4rem;">
+                Any questions about values, identity, EDI, or health inequalities?
+            </p>
+            
+            <div style="margin-top: 4rem; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px;">
+                <h3 style="color: white; margin-bottom: 1.5rem;">📧 Contact</h3>
+                <p style="font-size: 1.2rem;">Awais Mashkoor</p>
+                <p style="font-size: 1.1rem; margin-top: 0.5rem;">awais.mashkoor@uws.ac.uk</p>
+                <p style="font-size: 1.1rem; margin-top: 1.5rem;">Office Hours: [Your office hours]</p>
+            </div>
+            
+            <p style="margin-top: 3rem; font-size: 1.3rem; font-weight: 600;">
+                Thank you for your engagement today! 🌟
+            </p>
+        </div>
+        
+    </div>
+    
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            // Update progress bar
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update slide number
+            document.getElementById('slideNumber').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                changeSlide(1);
+            } else if (event.key === 'Home') {
+                showSlide(0);
+            } else if (event.key === 'End') {
+                showSlide(totalSlides - 1);
+            }
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
