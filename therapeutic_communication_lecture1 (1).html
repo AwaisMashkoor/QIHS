@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Therapeutic Communication - Core Lecture 1 | NURS 09165</title>
+    <style>
+        :root {
+            --teal: #0D7377;
+            --teal-dark: #095456;
+            --teal-light: #E8F4F4;
+            --sand: #F8F4E8;
+            --coral: #E17055;
+            --coral-light: #FDEAE6;
+            --charcoal: #2D3436;
+            --grey: #636E72;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--charcoal);
+            color: var(--charcoal);
+            line-height: 1.5;
+        }
+
+        .slide-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 40px 60px;
+            background: var(--white);
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Slide Types */
+        .slide-title {
+            background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+            color: var(--white);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-section {
+            background: var(--coral);
+            color: var(--white);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-content {
+            background: var(--white);
+        }
+
+        .slide-activity {
+            background: var(--sand);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--coral);
+        }
+
+        .slide-section h2 {
+            color: var(--white);
+            border-bottom-color: rgba(255,255,255,0.3);
+            font-size: 2.2rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--teal-dark);
+            margin: 1rem 0 0.5rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            color: var(--charcoal);
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .meta {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+
+        /* Content Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .content-single {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-thirds {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            flex: 1;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--teal);
+        }
+
+        .card-coral {
+            border-left-color: var(--coral);
+        }
+
+        .card-highlight {
+            background: var(--teal-light);
+            border-left-color: var(--teal-dark);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 0.5rem 0 1rem 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        li::marker {
+            color: var(--coral);
+        }
+
+        /* Critical Thinking Boxes */
+        .critical-box {
+            background: var(--coral-light);
+            border: 2px solid var(--coral);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .critical-box h4 {
+            color: var(--coral);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .critical-box p {
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        /* Evidence Boxes */
+        .evidence-box {
+            background: var(--teal-light);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin: 0.8rem 0;
+        }
+
+        .evidence-box .source {
+            font-size: 0.85rem;
+            color: var(--grey);
+            font-style: italic;
+        }
+
+        /* Definition */
+        .definition {
+            background: var(--sand);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid var(--teal);
+        }
+
+        .definition-term {
+            font-weight: 600;
+            color: var(--teal-dark);
+        }
+
+        /* Quote */
+        blockquote {
+            font-style: italic;
+            font-size: 1.2rem;
+            padding: 1rem 1.5rem;
+            border-left: 4px solid var(--coral);
+            background: var(--sand);
+            margin: 1rem 0;
+        }
+
+        blockquote cite {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--grey);
+            margin-top: 0.5rem;
+            font-style: normal;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--teal);
+            color: var(--white);
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: var(--teal-light);
+        }
+
+        /* Activity Styling */
+        .activity-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .activity-number {
+            background: var(--coral);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .activity-title {
+            font-size: 1.5rem;
+            color: var(--teal-dark);
+            margin: 0;
+            border: none;
+            padding: 0;
+        }
+
+        .activity-instructions {
+            background: var(--white);
+            padding: 1.2rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Diagram Boxes */
+        .diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+
+        .diagram-box {
+            background: var(--teal);
+            color: var(--white);
+            padding: 0.8rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .diagram-arrow {
+            font-size: 1.5rem;
+            color: var(--coral);
+        }
+
+        /* Johari Window */
+        .johari-grid {
+            display: grid;
+            grid-template-columns: auto 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr;
+            gap: 2px;
+            background: var(--charcoal);
+            max-width: 500px;
+            margin: 1rem auto;
+        }
+
+        .johari-header {
+            background: var(--teal);
+            color: var(--white);
+            padding: 0.6rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .johari-cell {
+            background: var(--white);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .johari-cell h4 {
+            color: var(--teal-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .johari-cell p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        /* Footer */
+        .slide-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--grey);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav button {
+            background: var(--teal);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav button:hover {
+            background: var(--teal-dark);
+            transform: translateY(-2px);
+        }
+
+        .nav button:disabled {
+            background: var(--grey);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 25px;
+            left: 20px;
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--coral);
+            transition: width 0.3s;
+            z-index: 1000;
+        }
+
+        /* Comparison Layout */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .comparison-col h3 {
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--teal);
+            color: var(--white);
+            border-radius: 6px 6px 0 0;
+            margin: 0;
+        }
+
+        .comparison-col.negative h3 {
+            background: var(--coral);
+        }
+
+        .comparison-content {
+            background: var(--sand);
+            padding: 1rem;
+            border-radius: 0 0 6px 6px;
+            min-height: 150px;
+        }
+
+        /* Key Points */
+        .key-point {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            margin: 0.8rem 0;
+        }
+
+        .key-point-number {
+            background: var(--coral);
+            color: var(--white);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        /* Print Styles */
+        @media print {
+            .slide {
+                page-break-after: always;
+                display: block !important;
+                position: relative;
+                height: auto;
+                min-height: 100vh;
+            }
+            .nav, .slide-counter, .progress-bar {
+                display: none;
+            }
+        }
+
+        /* Small Text */
+        .small {
+            font-size: 0.9rem;
+        }
+
+        .tiny {
+            font-size: 0.8rem;
+            color: var(--grey);
+        }
+
+        /* Emphasis */
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(225, 112, 85, 0.3) 60%);
+        }
+
+        strong {
+            color: var(--teal-dark);
+        }
+
+        /* Two column text */
+        .two-col-text {
+            column-count: 2;
+            column-gap: 2rem;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            background: var(--teal);
+            color: var(--white);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-coral {
+            background: var(--coral);
+        }
+
+        /* Model Box */
+        .model-box {
+            background: var(--white);
+            border: 2px solid var(--teal);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 0.5rem 0;
+        }
+
+        .model-box h4 {
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .content-grid, .comparison {
+                grid-template-columns: 1fr;
+            }
+            .content-thirds {
+                grid-template-columns: 1fr;
+            }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            .slide { padding: 20px 30px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">32</span></div>
+
+    <div class="slide-container">
+        
+        <!-- SLIDE 1: Title -->
+        <div class="slide slide-title active" data-slide="1">
+            <h1>Therapeutic Communication</h1>
+            <p class="subtitle">Core Lecture 1: Person-Centred Care & The Role of Communication</p>
+            <p class="meta">
+                NURS 09165 | SCQF Level 9<br>
+                School of Health, Nursing & Midwifery<br>
+                University of the West of Scotland<br>
+                Trimester 2, AY 2025-2026
+            </p>
+        </div>
+
+        <!-- SLIDE 2: Learning Outcomes -->
+        <div class="slide slide-content" data-slide="2">
+            <h2>Session Learning Outcomes</h2>
+            <div class="content-single">
+                <p>By the end of this session, you will be able to:</p>
+                
+                <div class="card" style="margin: 1rem 0;">
+                    <h3>1. Analyse</h3>
+                    <p>Critically analyse the components of effective communication and their relationship to therapeutic outcomes in healthcare settings.</p>
+                </div>
+                
+                <div class="card card-coral" style="margin: 1rem 0;">
+                    <h3>2. Evaluate</h3>
+                    <p>Evaluate theoretical frameworks of interpersonal communication, identifying their strengths, limitations, and applicability to Scottish healthcare contexts.</p>
+                </div>
+                
+                <div class="card" style="margin: 1rem 0;">
+                    <h3>3. Apply</h3>
+                    <p>Apply self-awareness concepts to identify personal communication patterns and their potential impact on therapeutic relationships.</p>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Level 9 Expectation</h4>
+                    <p>At this level, you are expected to demonstrate critical understanding of theories, not just describe them. Ask: What works? What doesn't? Under what conditions? What are the limitations?</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Session Overview -->
+        <div class="slide slide-content" data-slide="3">
+            <h2>Session Overview</h2>
+            <div class="content-grid">
+                <div class="card card-highlight">
+                    <h3>Part A: Person-Centred Care</h3>
+                    <ul>
+                        <li>Defining communication: multiple perspectives</li>
+                        <li>What makes communication "therapeutic"?</li>
+                        <li>Evidence for communication's impact on health outcomes</li>
+                        <li>Patient-centred communication: framework & critique</li>
+                    </ul>
+                </div>
+                <div class="card card-highlight">
+                    <h3>Part B: The Role of Communication</h3>
+                    <ul>
+                        <li>Interpersonal communication theory</li>
+                        <li>Perception processes & cognitive biases</li>
+                        <li>Communication barriers in healthcare</li>
+                        <li>Self-awareness & the Johari Window</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="evidence-box" style="margin-top: 1.5rem;">
+                <p><strong>Why this matters:</strong> Communication failures contribute to approximately 70% of sentinel events in healthcare (Joint Commission, 2017). Understanding the theoretical foundations enables evidence-based practice improvement.</p>
+                <p class="source">Joint Commission (2017). Sentinel Event Statistics.</p>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Section A Divider -->
+        <div class="slide slide-section" data-slide="4">
+            <p class="badge" style="background: rgba(255,255,255,0.2);">Part A</p>
+            <h2 style="font-size: 2.5rem; margin-top: 1rem;">Person-Centred Care</h2>
+            <p class="subtitle">Understanding Communication in Healthcare Context</p>
+        </div>
+
+        <!-- SLIDE 5: Defining Communication -->
+        <div class="slide slide-content" data-slide="5">
+            <h2>Defining Communication: Multiple Perspectives</h2>
+            <div class="content-single">
+                <p>Communication is a contested concept with no single agreed definition. Understanding multiple perspectives helps us appreciate its complexity.</p>
+                
+                <div class="content-thirds" style="margin-top: 1rem;">
+                    <div class="card">
+                        <h3>Transmission Model</h3>
+                        <p class="small">"The process of sending and receiving messages through verbal and non-verbal means."</p>
+                        <p class="tiny"><strong>Limitation:</strong> Assumes linear, one-way flow; ignores context and interpretation.</p>
+                    </div>
+                    <div class="card card-coral">
+                        <h3>Interactional Model</h3>
+                        <p class="small">"A dynamic process where participants alternate as sender and receiver, with feedback loops."</p>
+                        <p class="tiny"><strong>Limitation:</strong> Still somewhat mechanical; doesn't capture simultaneous meaning-making.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Transactional Model</h3>
+                        <p class="small">"A process of creating shared meaning through simultaneous, interdependent interaction within context."</p>
+                        <p class="tiny"><strong>Strength:</strong> Recognises complexity, context, and co-construction of meaning.</p>
+                    </div>
+                </div>
+
+                <div class="critical-box">
+                    <h4>Critical Question</h4>
+                    <p>Which model best describes communication in a busy NHS ward? What are the implications of using a transmission model when the transactional model may be more accurate?</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Types of Communication -->
+        <div class="slide slide-content" data-slide="6">
+            <h2>Types of Communication in Healthcare</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>By Relationship</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Characteristics</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Interpersonal</strong></td>
+                            <td>Between individuals; acknowledges uniqueness; foundational for therapeutic relationships</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Impersonal</strong></td>
+                            <td>Role-based; treats people as interchangeable; efficient but potentially dehumanising</td>
+                        </tr>
+                    </table>
+                    
+                    <h3 style="margin-top: 1.5rem;">By Channel</h3>
+                    <table>
+                        <tr>
+                            <th>Type</th>
+                            <th>Healthcare Examples</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Verbal</strong></td>
+                            <td>Consultations, handovers, telephone triage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Non-verbal</strong></td>
+                            <td>Eye contact, posture, touch, facial expressions</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Written</strong></td>
+                            <td>Care plans, patient letters, electronic records</td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <div class="evidence-box">
+                        <p><strong>Research finding:</strong> Non-verbal communication accounts for 55-93% of emotional meaning in face-to-face interaction (Mehrabian, 1971).</p>
+                        <p class="source"><strong>Note:</strong> This figure is often misapplied. It refers specifically to emotional/attitudinal messages, not all communication.</p>
+                    </div>
+                    
+                    <div class="card card-coral" style="margin-top: 1rem;">
+                        <h3>Contemporary Challenge</h3>
+                        <p>Digital/telehealth communication removes many non-verbal cues. How does this affect therapeutic relationship formation?</p>
+                        <p class="small">NHS Scotland has seen 300% increase in video consultations since 2020 (Public Health Scotland, 2023).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: What is Therapeutic Communication -->
+        <div class="slide slide-content" data-slide="7">
+            <h2>What Makes Communication "Therapeutic"?</h2>
+            <div class="content-single">
+                <div class="definition">
+                    <p><span class="definition-term">Therapeutic Communication:</span> A purposeful, goal-directed form of professional communication designed to facilitate healing, promote wellbeing, and support positive change in health-related behaviours and outcomes.</p>
+                </div>
+
+                <div class="content-grid" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Key Characteristics</h3>
+                        <ul>
+                            <li><strong>Intentional:</strong> Purposeful, not accidental</li>
+                            <li><strong>Patient-focused:</strong> Prioritises patient needs over practitioner convenience</li>
+                            <li><strong>Evidence-informed:</strong> Based on research about effective helping</li>
+                            <li><strong>Ethically grounded:</strong> Respects autonomy, beneficence, non-maleficence</li>
+                            <li><strong>Contextually appropriate:</strong> Adapts to situation, culture, individual</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Distinguishing Features</h3>
+                        <div class="comparison">
+                            <div class="comparison-col">
+                                <h3 style="font-size: 1rem;">Social Communication</h3>
+                                <div class="comparison-content">
+                                    <p class="small">Reciprocal self-disclosure</p>
+                                    <p class="small">Mutual benefit</p>
+                                    <p class="small">Informal boundaries</p>
+                                </div>
+                            </div>
+                            <div class="comparison-col negative">
+                                <h3 style="font-size: 1rem;">Therapeutic Communication</h3>
+                                <div class="comparison-content">
+                                    <p class="small">Limited practitioner disclosure</p>
+                                    <p class="small">Patient benefit primary</p>
+                                    <p class="small">Professional boundaries</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Evidence - Why Communication Matters -->
+        <div class="slide slide-content" data-slide="8">
+            <h2>Evidence: Why Communication Matters</h2>
+            <div class="content-single">
+                <p>Research consistently demonstrates that communication quality directly impacts patient outcomes across multiple domains.</p>
+                
+                <div class="content-thirds" style="margin-top: 1rem;">
+                    <div class="model-box">
+                        <h4>Patient Satisfaction</h4>
+                        <p class="small">Communication is the strongest predictor of patient satisfaction, exceeding clinical competence and wait times.</p>
+                        <p class="tiny">Zolnierek & DiMatteo (2009), meta-analysis of 106 studies</p>
+                    </div>
+                    <div class="model-box">
+                        <h4>Treatment Adherence</h4>
+                        <p class="small">Patients whose physicians communicate effectively have 19% higher adherence rates.</p>
+                        <p class="tiny">Zolnierek & DiMatteo (2009)</p>
+                    </div>
+                    <div class="model-box">
+                        <h4>Health Outcomes</h4>
+                        <p class="small">Effective communication associated with better diabetes control, blood pressure management, and pain reduction.</p>
+                        <p class="tiny">Street et al. (2009)</p>
+                    </div>
+                </div>
+
+                <div class="content-grid" style="margin-top: 1rem;">
+                    <div class="evidence-box">
+                        <p><strong>UK Context:</strong> NHS Complaints data shows communication failures are the most common category of complaint, accounting for 35% of all formal complaints in Scotland (SPSO, 2023).</p>
+                    </div>
+                    <div class="critical-box">
+                        <h4>Critical Note</h4>
+                        <p>Correlation ≠ causation. Many studies are observational. What confounding variables might explain these associations?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: Patient-Centred Communication Framework -->
+        <div class="slide slide-content" data-slide="9">
+            <h2>Patient-Centred Communication: A Framework</h2>
+            <div class="content-grid">
+                <div>
+                    <p>Epstein & Street (2007) proposed an influential framework defining patient-centred communication through six core functions:</p>
+                    
+                    <div class="key-point">
+                        <span class="key-point-number">1</span>
+                        <div><strong>Fostering the relationship</strong> – Building trust and rapport</div>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-number">2</span>
+                        <div><strong>Gathering information</strong> – Understanding the patient's perspective</div>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-number">3</span>
+                        <div><strong>Providing information</strong> – Clear, accessible explanation</div>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-number">4</span>
+                        <div><strong>Making decisions</strong> – Shared decision-making</div>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-number">5</span>
+                        <div><strong>Enabling self-management</strong> – Supporting patient autonomy</div>
+                    </div>
+                    <div class="key-point">
+                        <span class="key-point-number">6</span>
+                        <div><strong>Managing uncertainty</strong> – Acknowledging limits of knowledge</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-highlight">
+                        <h3>Scottish Healthcare Context</h3>
+                        <p>Healthcare Improvement Scotland's Person-Centred Care standards (2017) align with this framework, emphasising:</p>
+                        <ul class="small">
+                            <li>Mutually beneficial partnerships</li>
+                            <li>Respect for individual values</li>
+                            <li>Physical and emotional comfort</li>
+                            <li>Information sharing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="critical-box">
+                        <h4>Critique</h4>
+                        <p>The framework assumes patients want involvement in decisions. Research suggests preferences vary by culture, age, illness severity, and individual disposition. Is "patient-centred" always patient-preferred?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Time & Communication -->
+        <div class="slide slide-content" data-slide="10">
+            <h2>The Time Myth: Quality Over Quantity</h2>
+            <div class="content-grid">
+                <div>
+                    <blockquote>
+                        "The average GP consultation in the UK is 9.2 minutes – among the shortest in Europe."
+                        <cite>Hobbs et al. (2016), BMJ</cite>
+                    </blockquote>
+                    
+                    <p style="margin-top: 1rem;">A common concern: <em>"I don't have time for patient-centred communication."</em></p>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p><strong>Research response:</strong> Effective communication techniques (e.g., agenda-setting, open questions) take seconds but significantly improve consultation quality and patient outcomes.</p>
+                        <p class="source">Mauksch et al. (2008)</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>Evidence Against the "Time Barrier"</h3>
+                        <ul class="small">
+                            <li>Patient-centred consultations are not significantly longer (Levinson et al., 2000)</li>
+                            <li>Poor communication leads to repeat visits, complaints, and errors – costing more time</li>
+                            <li>60-second skills (e.g., summarising, checking understanding) have disproportionate impact</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="critical-box" style="margin-top: 1rem;">
+                        <h4>Critical Question</h4>
+                        <p>If time isn't the primary barrier to patient-centred communication, what is? Consider: training, attitudes, systemic pressures, emotional labour...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Activity 1 -->
+        <div class="slide slide-activity" data-slide="11">
+            <div class="activity-header">
+                <div class="activity-number">1</div>
+                <h2 class="activity-title">Analysing Communication in Practice</h2>
+            </div>
+            
+            <div class="activity-instructions">
+                <p><strong>Scenario:</strong> A patient with newly diagnosed Type 2 diabetes has a 10-minute appointment with a practice nurse. The nurse needs to: explain the diagnosis, discuss lifestyle changes, and arrange follow-up. The patient appears anxious and has limited English proficiency.</p>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>Task (10 minutes)</h3>
+                    <p>Using Epstein & Street's six functions of patient-centred communication:</p>
+                    <ol class="small">
+                        <li><strong>Identify</strong> which functions are most critical in this scenario and why</li>
+                        <li><strong>Analyse</strong> potential barriers to achieving each function</li>
+                        <li><strong>Propose</strong> specific evidence-based strategies to address barriers</li>
+                        <li><strong>Evaluate</strong> limitations of the patient-centred framework in this context</li>
+                    </ol>
+                </div>
+                <div class="card card-coral">
+                    <h3>Level 9 Focus</h3>
+                    <p>Move beyond description to analysis:</p>
+                    <ul class="small">
+                        <li>Don't just list what you would <em>do</em></li>
+                        <li>Explain <em>why</em> those approaches are appropriate</li>
+                        <li>Reference evidence where possible</li>
+                        <li>Acknowledge complexity and limitations</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Activity 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Section B Divider -->
+        <div class="slide slide-section" data-slide="12">
+            <p class="badge" style="background: rgba(255,255,255,0.2);">Part B</p>
+            <h2 style="font-size: 2.5rem; margin-top: 1rem;">The Role of Communication</h2>
+            <p class="subtitle">Theoretical Foundations & Critical Analysis</p>
+        </div>
+
+        <!-- SLIDE 13: Interpersonal Communication Definition -->
+        <div class="slide slide-content" data-slide="13">
+            <h2>Interpersonal Communication: Theoretical Foundation</h2>
+            <div class="content-single">
+                <div class="definition">
+                    <p><span class="definition-term">Interpersonal Communication:</span> "A distinctive, transactional form of human communication involving mutual influence, usually for the purpose of managing relationships." (Beebe, Beebe & Redmond, 2020, p. 4)</p>
+                </div>
+                
+                <div class="content-grid" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Seven Key Characteristics</h3>
+                        <p class="small">Beebe, Beebe & Redmond identify interpersonal communication as:</p>
+                        <ol class="small">
+                            <li><strong>A process</strong> – ongoing, dynamic, not static events</li>
+                            <li><strong>A behaviour</strong> – actions that can be observed and modified</li>
+                            <li><strong>Contextual</strong> – shaped by physical, social, cultural environment</li>
+                            <li><strong>Involving social cognition</strong> – thinking about self and others</li>
+                            <li><strong>Intentional (usually)</strong> – purposeful, though unintentional messages occur</li>
+                            <li><strong>Creating meaning</strong> – constructing understanding together</li>
+                            <li><strong>Influenced by individual differences</strong> – no two interactions identical</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <div class="critical-box">
+                            <h4>Critical Evaluation</h4>
+                            <p>This framework emerged from Western communication research. How might these characteristics manifest differently in:</p>
+                            <ul class="small" style="margin-top: 0.5rem;">
+                                <li>High-context cultures (e.g., indirect communication norms)?</li>
+                                <li>Healthcare encounters with power differentials?</li>
+                                <li>Digital/asynchronous communication?</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="evidence-box">
+                            <p class="small"><strong>Contemporary update:</strong> Beebe et al.'s 8th edition (2020) now addresses digital communication, but some scholars argue the framework remains rooted in face-to-face assumptions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Communication as Process -->
+        <div class="slide slide-content" data-slide="14">
+            <h2>Communication as Process, Behaviour & Context</h2>
+            <div class="content-thirds">
+                <div class="card">
+                    <h3>1. Process</h3>
+                    <p class="small">Communication is <strong>continuous and cumulative</strong>. What happens in one interaction influences the next.</p>
+                    <div class="evidence-box" style="margin-top: 0.5rem;">
+                        <p class="tiny"><strong>Healthcare implication:</strong> A patient's previous negative healthcare experience shapes how they interpret current interactions. You inherit the cumulative effect of their healthcare history.</p>
+                    </div>
+                </div>
+                <div class="card card-coral">
+                    <h3>2. Behaviour</h3>
+                    <p class="small">Communication consists of <strong>observable actions</strong> – words, tone, gestures, silence. These can be learned, practised, and improved.</p>
+                    <div class="evidence-box" style="margin-top: 0.5rem;">
+                        <p class="tiny"><strong>Healthcare implication:</strong> Communication skills are teachable. Deliberate practice with feedback improves performance (Kurtz et al., 2005).</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>3. Context</h3>
+                    <p class="small">Communication occurs within <strong>layered contexts</strong>: physical, relational, cultural, historical, emotional.</p>
+                    <div class="evidence-box" style="margin-top: 0.5rem;">
+                        <p class="tiny"><strong>Healthcare implication:</strong> The same words said in a private room versus a busy corridor create different meanings. Context shapes interpretation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="diagram" style="margin-top: 1.5rem;">
+                <div class="diagram-box">Process</div>
+                <span class="diagram-arrow">↔</span>
+                <div class="diagram-box">Behaviour</div>
+                <span class="diagram-arrow">↔</span>
+                <div class="diagram-box">Context</div>
+                <span class="diagram-arrow">→</span>
+                <div class="diagram-box" style="background: var(--coral);">Meaning Created</div>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Social Cognition & Intentionality -->
+        <div class="slide slide-content" data-slide="15">
+            <h2>Social Cognition, Intentionality & Meaning</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>Social Cognition</h3>
+                    <p>The mental processes we use to perceive, remember, and interpret information about ourselves and others.</p>
+                    
+                    <div class="card" style="margin-top: 1rem;">
+                        <h3>In Healthcare:</h3>
+                        <ul class="small">
+                            <li>How patients interpret practitioner behaviour</li>
+                            <li>How practitioners form impressions of patients</li>
+                            <li>Mental shortcuts (heuristics) that speed up but may distort perception</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;">Intentionality</h3>
+                    <p>Most communication is <strong>purposeful</strong> – we have goals we're trying to achieve. However:</p>
+                    <ul class="small">
+                        <li>Unintentional messages are still received</li>
+                        <li>Impact matters more than intent ("I didn't mean to upset you" doesn't undo harm)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Meaning-Making</h3>
+                    <p>Meaning is not transmitted; it is <strong>co-constructed</strong>. The receiver's interpretation may differ from sender's intent.</p>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p><strong>Example:</strong> Practitioner says: "We need to talk about your weight."</p>
+                        <p class="small" style="margin-top: 0.5rem;"><strong>Possible patient interpretations:</strong></p>
+                        <ul class="small">
+                            <li>"They care about my health" (supportive)</li>
+                            <li>"They're judging me" (threatening)</li>
+                            <li>"Here we go again" (dismissive, based on past experience)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="critical-box" style="margin-top: 1rem;">
+                        <h4>Critical Insight</h4>
+                        <p>If meaning is co-constructed, then communicating effectively requires understanding how your message might be received – not just what you intended to say.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 16: Interpersonal Perception Process -->
+        <div class="slide slide-content" data-slide="16">
+            <h2>Interpersonal Perception: How We "See" Others</h2>
+            <div class="content-single">
+                <p>Perception is the process by which we become aware of objects, events, and especially other people through our senses. It is active, subjective, and prone to error.</p>
+                
+                <div class="diagram" style="margin: 1.5rem 0;">
+                    <div class="diagram-box">1. SELECTING</div>
+                    <span class="diagram-arrow">→</span>
+                    <div class="diagram-box">2. ORGANISING</div>
+                    <span class="diagram-arrow">→</span>
+                    <div class="diagram-box">3. INTERPRETING</div>
+                </div>
+                
+                <div class="content-thirds">
+                    <div class="card">
+                        <h3>Selecting</h3>
+                        <p class="small">We cannot attend to everything. We <strong>selectively attend</strong> to certain stimuli based on:</p>
+                        <ul class="tiny">
+                            <li>Salience (what stands out)</li>
+                            <li>Expectations (what we anticipate)</li>
+                            <li>Needs/goals (what we're looking for)</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Risk:</strong> Confirmation bias – noticing only what confirms existing beliefs.</p>
+                    </div>
+                    <div class="card card-coral">
+                        <h3>Organising</h3>
+                        <p class="small">We <strong>impose structure</strong> on incoming information using mental frameworks (schemas, categories, prototypes).</p>
+                        <ul class="tiny">
+                            <li>Grouping similar information</li>
+                            <li>Filling in gaps with assumptions</li>
+                            <li>Using stereotypes as cognitive shortcuts</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Risk:</strong> Over-reliance on categories obscures individual uniqueness.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Interpreting</h3>
+                        <p class="small">We <strong>assign meaning</strong> to what we observe, influenced by:</p>
+                        <ul class="tiny">
+                            <li>Past experience</li>
+                            <li>Cultural background</li>
+                            <li>Current emotional state</li>
+                            <li>Relationship context</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Risk:</strong> Fundamental attribution error – attributing behaviour to personality rather than situation.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: Cognitive Biases in Impression Formation -->
+        <div class="slide slide-content" data-slide="17">
+            <h2>Cognitive Biases in Impression Formation</h2>
+            <div class="content-single">
+                <p>When forming impressions of others, we are subject to systematic cognitive biases that can distort our perceptions.</p>
+                
+                <table style="margin-top: 1rem;">
+                    <tr>
+                        <th>Bias</th>
+                        <th>Description</th>
+                        <th>Healthcare Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Primacy Effect</strong></td>
+                        <td>First impressions disproportionately influence overall perception</td>
+                        <td>Patient arriving late shapes perception of "non-compliance"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recency Effect</strong></td>
+                        <td>Most recent information dominates</td>
+                        <td>Last interaction shapes next encounter expectations</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Halo Effect</strong></td>
+                        <td>One positive trait colours perception of other traits</td>
+                        <td>Articulate patient assumed to be more intelligent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Horn Effect</strong></td>
+                        <td>One negative trait colours perception of other traits</td>
+                        <td>Patient with poor hygiene assumed to be non-adherent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stereotyping</strong></td>
+                        <td>Applying group characteristics to individuals</td>
+                        <td>Assumptions based on age, ethnicity, diagnosis</td>
+                    </tr>
+                </table>
+                
+                <div class="critical-box" style="margin-top: 1rem;">
+                    <h4>Clinical Significance</h4>
+                    <p>Research shows these biases contribute to diagnostic errors and healthcare disparities. Awareness is necessary but insufficient – structured approaches (e.g., checklists, diverse teams) help mitigate bias.</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: Barriers to Accurate Perception -->
+        <div class="slide slide-content" data-slide="18">
+            <h2>Barriers to Accurate Interpersonal Perception</h2>
+            <div class="content-grid">
+                <div>
+                    <div class="card">
+                        <h3>1. Ignoring Information</h3>
+                        <p class="small">Overlooking cues that don't fit our existing framework.</p>
+                        <p class="tiny"><em>Example: Dismissing pain reports from patients with "drug-seeking" label.</em></p>
+                    </div>
+                    
+                    <div class="card card-coral" style="margin-top: 0.8rem;">
+                        <h3>2. Imposing Consistency</h3>
+                        <p class="small">Assuming people behave consistently across situations.</p>
+                        <p class="tiny"><em>Example: Expecting a "difficult" patient to be difficult in every interaction.</em></p>
+                    </div>
+                    
+                    <div class="card" style="margin-top: 0.8rem;">
+                        <h3>3. Focusing on Negatives</h3>
+                        <p class="small">Negative information carries more weight than positive.</p>
+                        <p class="tiny"><em>Example: One instance of missed appointments defines the patient.</em></p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>4. Blaming Others</h3>
+                        <p class="small">Attributing others' behaviour to character while excusing our own as situational (fundamental attribution error).</p>
+                        <p class="tiny"><em>Example: "She's lazy" vs. "I was tired."</em></p>
+                    </div>
+                    
+                    <div class="card card-coral" style="margin-top: 0.8rem;">
+                        <h3>5. Avoiding Responsibility</h3>
+                        <p class="small">Self-serving bias: taking credit for success, blaming external factors for failure.</p>
+                        <p class="tiny"><em>Example: "My communication was fine; they just weren't listening."</em></p>
+                    </div>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p><strong>Mitigation strategies:</strong> Seek disconfirming evidence, consider alternative explanations, use reflective practice, invite feedback from colleagues and patients.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 19: Communication Barriers in Healthcare -->
+        <div class="slide slide-content" data-slide="19">
+            <h2>Communication Barriers in Healthcare</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>Environmental Barriers</h3>
+                    <ul class="small">
+                        <li>Noise, interruptions, lack of privacy</li>
+                        <li>Time pressures, competing demands</li>
+                        <li>Physical layout (desks as barriers)</li>
+                        <li>Technology issues (EHR as distraction)</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 1rem;">Patient-Related Barriers</h3>
+                    <ul class="small">
+                        <li>Health literacy limitations</li>
+                        <li>Language differences</li>
+                        <li>Hearing/vision impairment</li>
+                        <li>Cognitive impairment</li>
+                        <li>Emotional state (anxiety, fear, grief)</li>
+                        <li>Cultural communication norms</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Practitioner-Related Barriers</h3>
+                    <ul class="small">
+                        <li>Use of jargon and medical terminology</li>
+                        <li>Unconscious biases (see previous slides)</li>
+                        <li>Stress, fatigue, burnout</li>
+                        <li>Lack of training in communication skills</li>
+                        <li>Power differential awareness</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 1rem;">Systemic Barriers</h3>
+                    <ul class="small">
+                        <li>Staffing levels and skill mix</li>
+                        <li>Organisational culture</li>
+                        <li>Interpreter service availability</li>
+                        <li>Continuity of care (or lack thereof)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="critical-box" style="margin-top: 1rem;">
+                <h4>Critical Question</h4>
+                <p>Which barriers are within individual practitioner control, and which require systemic change? How does this distinction affect accountability and improvement strategies?</p>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 20: Activity 2 -->
+        <div class="slide slide-activity" data-slide="20">
+            <div class="activity-header">
+                <div class="activity-number">2</div>
+                <h2 class="activity-title">Case Analysis: Communication Breakdown</h2>
+            </div>
+            
+            <div class="activity-instructions">
+                <p><strong>Scenario:</strong> Mrs. Patel, 72, was admitted to an oncology ward following surgery. During the post-operative ward round, the consultant enters, briefly glances at her notes while standing, mentions "positive margins" and "adjuvant therapy options," then asks if she has questions. Mrs. Patel shakes her head. Later, she tells her daughter she "doesn't know what's happening."</p>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>Analysis Questions (15 minutes)</h3>
+                    <ol class="small">
+                        <li><strong>Using the perception process model</strong> (selecting, organising, interpreting), analyse how Mrs. Patel may have processed this interaction.</li>
+                        <li><strong>Identify specific barriers</strong> to effective communication at environmental, patient, and practitioner levels.</li>
+                        <li><strong>Which cognitive biases</strong> might the consultant have demonstrated? What impact might these have?</li>
+                        <li><strong>Propose evidence-based interventions</strong> at individual and systemic levels to prevent similar breakdowns.</li>
+                    </ol>
+                </div>
+                <div class="card card-coral">
+                    <h3>Discussion Points</h3>
+                    <ul class="small">
+                        <li>How might Mrs. Patel's age, culture, and emotional state affect her information processing?</li>
+                        <li>What does "shaking her head" actually tell us? Consider multiple interpretations.</li>
+                        <li>How does the power differential in this context shape communication?</li>
+                        <li>What is the consultant's responsibility vs. systemic responsibility?</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Activity 2</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 21: Self-Awareness Introduction -->
+        <div class="slide slide-content" data-slide="21">
+            <h2>Self-Awareness: Foundation of Therapeutic Communication</h2>
+            <div class="content-grid">
+                <div>
+                    <div class="definition">
+                        <p><span class="definition-term">Self-Awareness:</span> The capacity to recognise and understand one's own emotions, thoughts, values, biases, strengths, and limitations – and how these affect behaviour and interactions with others.</p>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;">Why Self-Awareness Matters</h3>
+                    <ul>
+                        <li><strong>Bias recognition:</strong> Can't mitigate what you don't notice</li>
+                        <li><strong>Emotional regulation:</strong> Managing your own reactions</li>
+                        <li><strong>Authenticity:</strong> Congruence between values and behaviour</li>
+                        <li><strong>Boundaries:</strong> Knowing your limits and triggers</li>
+                        <li><strong>Professional development:</strong> Identifying growth areas</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="evidence-box">
+                        <p><strong>Research evidence:</strong> Higher self-awareness in healthcare professionals is associated with:</p>
+                        <ul class="small">
+                            <li>Better patient outcomes (Krasner et al., 2009)</li>
+                            <li>Reduced burnout (Shanafelt et al., 2012)</li>
+                            <li>Fewer errors (West et al., 2006)</li>
+                            <li>Improved teamwork (Weng et al., 2011)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="critical-box" style="margin-top: 1rem;">
+                        <h4>Critical Consideration</h4>
+                        <p>Self-awareness is often discussed as an individual responsibility. But can organisations create cultures that support or undermine self-awareness? What systemic factors matter?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 22: Johari Window -->
+        <div class="slide slide-content" data-slide="22">
+            <h2>The Johari Window: A Framework for Self-Awareness</h2>
+            <div class="content-grid">
+                <div>
+                    <p>Developed by Joseph Luft and Harrington Ingham (1955), the Johari Window is a tool for understanding self-awareness and interpersonal relationships.</p>
+                    
+                    <div class="johari-grid" style="margin-top: 1rem;">
+                        <div class="johari-header"></div>
+                        <div class="johari-header">Known to Self</div>
+                        <div class="johari-header">Unknown to Self</div>
+                        <div class="johari-header" style="writing-mode: vertical-rl; text-orientation: mixed;">Known to Others</div>
+                        <div class="johari-cell" style="background: var(--teal-light);">
+                            <h4>OPEN</h4>
+                            <p>Public self: shared knowledge</p>
+                        </div>
+                        <div class="johari-cell" style="background: var(--coral-light);">
+                            <h4>BLIND</h4>
+                            <p>Blind spots: others see what you don't</p>
+                        </div>
+                        <div class="johari-header" style="writing-mode: vertical-rl; text-orientation: mixed;">Unknown to Others</div>
+                        <div class="johari-cell" style="background: var(--sand);">
+                            <h4>HIDDEN</h4>
+                            <p>Private self: intentionally concealed</p>
+                        </div>
+                        <div class="johari-cell">
+                            <h4>UNKNOWN</h4>
+                            <p>Undiscovered: potential not yet realised</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>Expanding the Open Area</h3>
+                        <p class="small">Therapeutic communication is enhanced when the "Open" quadrant expands. This happens through:</p>
+                        <ul class="small">
+                            <li><strong>Self-disclosure:</strong> Moving from Hidden → Open (appropriately)</li>
+                            <li><strong>Feedback seeking:</strong> Moving from Blind → Open</li>
+                            <li><strong>Discovery:</strong> Moving from Unknown → Open through experience</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="critical-box" style="margin-top: 1rem;">
+                        <h4>Critique of the Model</h4>
+                        <ul class="small">
+                            <li>Assumes feedback is available and accurate</li>
+                            <li>Cultural assumptions about self-disclosure norms</li>
+                            <li>Static categories vs. dynamic reality</li>
+                            <li>Power dynamics affect what can be "opened"</li>
+                        </ul>
+                        <p class="small" style="margin-top: 0.5rem;"><em>Despite limitations, remains useful as a reflective tool.</em></p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 23: Activity 3 -->
+        <div class="slide slide-activity" data-slide="23">
+            <div class="activity-header">
+                <div class="activity-number">3</div>
+                <h2 class="activity-title">Self-Awareness Reflection</h2>
+            </div>
+            
+            <div class="content-grid">
+                <div class="card">
+                    <h3>Individual Reflection (10 minutes)</h3>
+                    <p>Consider your own communication style and tendencies. Using the Johari Window framework:</p>
+                    <ol class="small">
+                        <li><strong>OPEN:</strong> What do you know about your communication style that others also recognise? (e.g., "I'm told I'm a good listener")</li>
+                        <li><strong>HIDDEN:</strong> What aspects of yourself do you deliberately manage or conceal in professional contexts? Why?</li>
+                        <li><strong>BLIND:</strong> Think of feedback you've received that surprised you. What might still be in your blind spot?</li>
+                        <li><strong>UNKNOWN:</strong> What communication situations do you avoid? What might you discover by engaging with them?</li>
+                    </ol>
+                </div>
+                <div class="card card-coral">
+                    <h3>Pair Discussion (5 minutes)</h3>
+                    <p>With a partner, discuss:</p>
+                    <ul class="small">
+                        <li>One communication strength you're confident about</li>
+                        <li>One area you'd like feedback on</li>
+                        <li>How you might seek feedback more systematically in practice</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 1rem;">Critical Extension</h3>
+                    <p class="small">Consider: How might professional hierarchies, time pressures, and organisational culture affect practitioners' ability to engage in the self-disclosure and feedback-seeking the Johari model assumes?</p>
+                </div>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Activity 3</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 24: Communication as Intervention -->
+        <div class="slide slide-content" data-slide="24">
+            <h2>Communication as Therapeutic Intervention</h2>
+            <div class="content-single">
+                <p>Communication is not merely a <em>medium</em> for delivering care – it is itself a <em>form</em> of care. Specific communication strategies function as evidence-based interventions.</p>
+                
+                <div class="content-grid" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Communication Interventions</h3>
+                        <table class="small">
+                            <tr>
+                                <th>Intervention</th>
+                                <th>Mechanism</th>
+                            </tr>
+                            <tr>
+                                <td><strong>Active listening</strong></td>
+                                <td>Validates experience, builds trust</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Empathic responses</strong></td>
+                                <td>Reduces emotional distress</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Information-giving</strong></td>
+                                <td>Reduces anxiety, enables decisions</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Teach-back method</strong></td>
+                                <td>Confirms understanding, improves adherence</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Motivational interviewing</strong></td>
+                                <td>Resolves ambivalence, supports change</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="evidence-box">
+                            <p><strong>Evidence example:</strong> A systematic review found that structured communication interventions in cancer care significantly reduced patient anxiety and depression (Rodin et al., 2020).</p>
+                        </div>
+                        
+                        <div class="card card-coral" style="margin-top: 1rem;">
+                            <h3>Link to Assessment</h3>
+                            <p class="small">Your Category 2 assessment requires you to critically evaluate therapeutic interventions. Communication itself is an intervention – how you apply communication skills within helping models (Egan, Rogers, MI, CBT) is what you'll analyse.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="critical-box" style="margin-top: 1rem;">
+                    <h4>Level 9 Connection</h4>
+                    <p>LO1 asks you to "explore the capacity required by the practitioner to offer a suitable intervention as a problem-solving approach." Communication is that intervention. Today's content provides the theoretical foundation for understanding how and why communication works therapeutically.</p>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 25: Problem-Solving Through Communication -->
+        <div class="slide slide-content" data-slide="25">
+            <h2>Problem-Solving Through Communication</h2>
+            <div class="content-grid">
+                <div>
+                    <p>Effective therapeutic communication follows a problem-solving structure, moving from understanding to action.</p>
+                    
+                    <div class="diagram" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; margin: 1rem 0;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div class="diagram-box" style="min-width: 180px;">1. EXPLORE</div>
+                            <span class="small">What's the situation? What matters to the patient?</span>
+                        </div>
+                        <span class="diagram-arrow" style="margin-left: 70px;">↓</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div class="diagram-box" style="min-width: 180px;">2. UNDERSTAND</div>
+                            <span class="small">What are the underlying needs, values, goals?</span>
+                        </div>
+                        <span class="diagram-arrow" style="margin-left: 70px;">↓</span>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div class="diagram-box" style="min-width: 180px;">3. ACT</div>
+                            <span class="small">What options exist? What will be done?</span>
+                        </div>
+                    </div>
+                    
+                    <p class="small" style="margin-top: 1rem;"><em>This structure mirrors Egan's Skilled Helper model, which you'll explore in depth in Unit 4.</em></p>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>Communication Skills at Each Stage</h3>
+                        <p class="small"><strong>Explore:</strong> Open questions, active listening, reflection, silence</p>
+                        <p class="small"><strong>Understand:</strong> Summarising, clarifying, empathic responding, identifying themes</p>
+                        <p class="small"><strong>Act:</strong> Information-giving, shared decision-making, goal-setting, contracting</p>
+                    </div>
+                    
+                    <div class="critical-box" style="margin-top: 1rem;">
+                        <h4>Critical Application</h4>
+                        <p>Problem-solving approaches assume patients have identifiable "problems" with "solutions." How might this framework need adapting for:</p>
+                        <ul class="small">
+                            <li>Chronic illness management?</li>
+                            <li>End-of-life care?</li>
+                            <li>Patients who don't see a "problem"?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 26: Contemporary Context -->
+        <div class="slide slide-content" data-slide="26">
+            <h2>Contemporary Context: Communication in Scottish Healthcare</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>NHS Scotland Priorities</h3>
+                    <div class="card" style="margin-top: 0.5rem;">
+                        <p class="small"><strong>Person-Centred Health and Care Strategy:</strong> "People will be at the centre of how health and care services are planned, delivered and improved." (Scottish Government, 2023)</p>
+                    </div>
+                    
+                    <h3 style="margin-top: 1rem;">Healthcare Improvement Scotland Standards</h3>
+                    <ul class="small">
+                        <li>People are treated with dignity, respect, and compassion</li>
+                        <li>Communication is clear, accessible, and responsive</li>
+                        <li>People are supported to understand and manage their health</li>
+                    </ul>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p class="small"><strong>Key statistic:</strong> 67% of Scottish adults feel they are involved as much as they want to be in decisions about their care (Scottish Health Survey, 2022).</p>
+                        <p class="tiny">This means 33% do not – significant room for improvement.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Emerging Challenges</h3>
+                    <div class="card card-coral">
+                        <h3>Digital Transformation</h3>
+                        <ul class="small">
+                            <li>Near Me video consultations (300% increase since 2020)</li>
+                            <li>NHS Inform digital services</li>
+                            <li>Electronic patient portals</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Challenge:</strong> How to maintain therapeutic communication through digital channels?</p>
+                    </div>
+                    
+                    <div class="card" style="margin-top: 0.8rem;">
+                        <h3>Workforce Pressures</h3>
+                        <ul class="small">
+                            <li>Staff shortages, high turnover</li>
+                            <li>Time constraints</li>
+                            <li>Burnout affecting communication quality</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Challenge:</strong> Sustaining person-centred communication under pressure.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 27: Key Takeaways -->
+        <div class="slide slide-content" data-slide="27">
+            <h2>Key Takeaways</h2>
+            <div class="content-single">
+                <div class="content-grid">
+                    <div>
+                        <div class="key-point">
+                            <span class="key-point-number">1</span>
+                            <div><strong>Communication is complex</strong> – the transactional model recognises meaning is co-constructed, not transmitted.</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">2</span>
+                            <div><strong>Therapeutic communication is purposeful</strong> – it's an evidence-based intervention, not just "being nice."</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">3</span>
+                            <div><strong>Communication affects outcomes</strong> – patient satisfaction, adherence, and health outcomes are all influenced.</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">4</span>
+                            <div><strong>Perception is subjective and biased</strong> – awareness of cognitive biases is essential for accurate interpersonal perception.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="key-point">
+                            <span class="key-point-number">5</span>
+                            <div><strong>Barriers operate at multiple levels</strong> – individual, environmental, and systemic factors all matter.</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">6</span>
+                            <div><strong>Self-awareness is foundational</strong> – you can't manage what you don't recognise.</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">7</span>
+                            <div><strong>Models have limitations</strong> – at Level 9, you must evaluate frameworks critically, not just apply them.</div>
+                        </div>
+                        <div class="key-point">
+                            <span class="key-point-number">8</span>
+                            <div><strong>Context matters</strong> – Scottish healthcare has specific priorities, challenges, and opportunities.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 28: Preparation for Assessment -->
+        <div class="slide slide-content" data-slide="28">
+            <h2>Connecting to Your Assessments</h2>
+            <div class="content-grid">
+                <div>
+                    <div class="card card-highlight">
+                        <h3>Category 1: Online Test (40%)</h3>
+                        <p class="small">40 MCQs | 9-13 March 2026</p>
+                        <p class="small">Today's content contributes to:</p>
+                        <ul class="small">
+                            <li>Understanding communication types and models</li>
+                            <li>Recognising characteristics of therapeutic communication</li>
+                            <li>Identifying perception processes and biases</li>
+                            <li>Applying self-awareness concepts</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Tip:</strong> Use the quizzes at the end of each learning unit to test your knowledge.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card-coral">
+                        <h3>Category 2: Critical Review (60%)</h3>
+                        <p class="small">2,500 words | Due 15 April 2026</p>
+                        <p class="small">Today's content provides foundation for:</p>
+                        <ul class="small">
+                            <li>Understanding what makes a relationship "therapeutic"</li>
+                            <li>Applying communication theory to case scenarios</li>
+                            <li>Critically evaluating helping approaches</li>
+                            <li>Reflecting on lessons learned</li>
+                        </ul>
+                        <p class="tiny" style="margin-top: 0.5rem;"><strong>Remember:</strong> Contact your module tutor for your case scenario. You'll apply Unit 4 interventions (Egan, Rogers, MI, CBT) to this foundation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="critical-box" style="margin-top: 1rem;">
+                <h4>Level 9 Reminder</h4>
+                <p>The marking criteria reward critical discussion, not just description. Use phrases like: "The strength of this approach is... however, a limitation is..." and "Research suggests... although it should be noted that..."</p>
+            </div>
+            
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 29: Reading & Resources -->
+        <div class="slide slide-content" data-slide="29">
+            <h2>Essential Reading & Resources</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>Core Textbook</h3>
+                    <div class="card" style="margin-top: 0.5rem;">
+                        <p class="small"><strong>Beebe, S.A., Beebe, S.J. & Redmond, M.V. (2020)</strong> <em>Interpersonal Communication: Relating to Others</em>. 9th edn. Pearson.</p>
+                        <p class="tiny">Chapters 1-3 cover material from today's lecture.</p>
+                    </div>
+                    
+                    <h3 style="margin-top: 1rem;">Key Articles</h3>
+                    <ul class="small">
+                        <li>Epstein, R.M. & Street, R.L. (2007) Patient-Centered Communication in Cancer Care. NIH Publication.</li>
+                        <li>Zolnierek, K.B. & DiMatteo, M.R. (2009) Physician Communication and Patient Adherence. <em>Medical Care</em>, 47(8), 826-834.</li>
+                        <li>Mirhaghi, A. et al. (2017) Therapeutic Relationship: Is it Still the Heart of Nursing? <em>Nursing Reports</em>, 7(1), 4-9.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Scottish Context</h3>
+                    <ul class="small">
+                        <li>Healthcare Improvement Scotland (2017) Person-Centred Care Standards.</li>
+                        <li>Scottish Government (2023) Person-Centred Health and Care Strategy.</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 1rem;">Library Resources</h3>
+                    <div class="card" style="margin-top: 0.5rem;">
+                        <p class="small">Access e-books and journals via:</p>
+                        <ul class="small">
+                            <li>UWS Library Online</li>
+                            <li>CINAHL, Medline, PsycINFO databases</li>
+                            <li>NHS Knowledge Network (via Athens)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p class="small"><strong>Tip:</strong> Set up search alerts for "therapeutic communication" and "patient-centred communication" to stay current with new research.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 30: References -->
+        <div class="slide slide-content" data-slide="30">
+            <h2>References</h2>
+            <div class="content-single" style="font-size: 0.85rem; column-count: 2; column-gap: 2rem;">
+                <p>Beebe, S.A., Beebe, S.J. & Redmond, M.V. (2020) <em>Interpersonal Communication: Relating to Others</em>. 9th edn. Pearson.</p>
+                <p>Epstein, R.M. & Street, R.L. (2007) <em>Patient-Centered Communication in Cancer Care</em>. Bethesda, MD: NIH Publication No. 07-6225.</p>
+                <p>Healthcare Improvement Scotland (2017) <em>Person-Centred Care</em>. Edinburgh: HIS.</p>
+                <p>Hobbs, F.D.R. et al. (2016) Clinical workload in UK primary care: a retrospective analysis of 100 million consultations. <em>The Lancet</em>, 387(10035), 2323-2330.</p>
+                <p>Joint Commission (2017) <em>Sentinel Event Statistics</em>. Oakbrook Terrace, IL: Joint Commission.</p>
+                <p>Krasner, M.S. et al. (2009) Association of an educational program in mindful communication with burnout, empathy, and attitudes among primary care physicians. <em>JAMA</em>, 302(12), 1284-1293.</p>
+                <p>Kurtz, S., Silverman, J. & Draper, J. (2005) <em>Teaching and Learning Communication Skills in Medicine</em>. 2nd edn. Oxford: Radcliffe.</p>
+                <p>Levinson, W. et al. (2000) Physician-patient communication: the relationship with malpractice claims. <em>JAMA</em>, 277(7), 553-559.</p>
+                <p>Luft, J. & Ingham, H. (1955) <em>The Johari Window: A Graphic Model of Interpersonal Awareness</em>. Los Angeles: UCLA.</p>
+                <p>Mauksch, L.B. et al. (2008) Relationship, communication, and efficiency in the medical encounter. <em>Archives of Internal Medicine</em>, 168(13), 1387-1395.</p>
+                <p>Mehrabian, A. (1971) <em>Silent Messages</em>. Belmont, CA: Wadsworth.</p>
+                <p>Public Health Scotland (2023) <em>Near Me in Numbers</em>. Edinburgh: PHS.</p>
+                <p>Rodin, G. et al. (2020) The effectiveness of psychosocial interventions in cancer care. <em>Journal of Clinical Oncology</em>, 38(29), 3382-3396.</p>
+                <p>Scottish Government (2023) <em>Person-Centred Health and Care Strategy</em>. Edinburgh: Scottish Government.</p>
+                <p>Scottish Public Services Ombudsman (2023) <em>Annual Report 2022-23</em>. Edinburgh: SPSO.</p>
+                <p>Shanafelt, T.D. et al. (2012) Burnout and satisfaction with work-life balance among US physicians. <em>Archives of Internal Medicine</em>, 172(18), 1377-1385.</p>
+                <p>Street, R.L. et al. (2009) How does communication heal? Pathways linking clinician-patient communication to health outcomes. <em>Patient Education and Counseling</em>, 74(3), 295-301.</p>
+                <p>West, C.P. et al. (2006) Association of perceived medical errors with resident distress and empathy. <em>JAMA</em>, 296(9), 1071-1078.</p>
+                <p>Zolnierek, K.B. & DiMatteo, M.R. (2009) Physician communication and patient adherence to treatment: a meta-analysis. <em>Medical Care</em>, 47(8), 826-834.</p>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 31: Next Steps -->
+        <div class="slide slide-content" data-slide="31">
+            <h2>Next Steps</h2>
+            <div class="content-grid">
+                <div>
+                    <h3>Before Next Week</h3>
+                    <div class="card">
+                        <ul>
+                            <li>Complete the Week 2 quiz on Moodle</li>
+                            <li>Read Beebe, Beebe & Redmond Chapters 1-3</li>
+                            <li>Review the additional reading on Moodle</li>
+                            <li>Begin reflecting on your own communication style</li>
+                        </ul>
+                    </div>
+                    
+                    <h3 style="margin-top: 1.5rem;">Coming Up</h3>
+                    <div class="card card-coral">
+                        <p class="small"><strong>Week 3:</strong> The Therapeutic Relationship</p>
+                        <p class="small"><strong>Week 4:</strong> Therapeutic Interventions (Unit 4 – assessment focus)</p>
+                        <p class="small"><strong>Week 5:</strong> Skills Practice</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Questions & Support</h3>
+                    <div class="card card-highlight">
+                        <p class="small"><strong>Module Coordinator:</strong><br>Sutapa Haldar<br>Sutapa.haldar@uws.ac.uk</p>
+                        <p class="small" style="margin-top: 1rem;"><strong>Paisley Campus Tutors:</strong><br>Dr Elaine Stevens<br>Dr Awais Mashkoor</p>
+                        <p class="small" style="margin-top: 1rem;"><strong>Office Hours:</strong> Check Moodle for availability</p>
+                    </div>
+                    
+                    <div class="evidence-box" style="margin-top: 1rem;">
+                        <p class="small"><strong>Reminder:</strong> For assessment draft feedback, submit at least 2 weeks before the deadline.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>NURS 09165 Therapeutic Communication</span>
+                <span>Week 2 | Core Lecture 1</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 32: Q&A -->
+        <div class="slide slide-title" data-slide="32">
+            <h1>Questions?</h1>
+            <p class="subtitle">Thank you for your engagement today</p>
+            <p class="meta" style="margin-top: 3rem;">
+                NURS 09165 Therapeutic Communication<br>
+                Week 2 | Core Lecture 1<br><br>
+                <em>"The single biggest problem in communication is the illusion that it has taken place."</em><br>
+                — George Bernard Shaw
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+        <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+    </nav>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 32;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            
+            if (n > totalSlides) currentSlide = 1;
+            if (n < 1) currentSlide = totalSlides;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('currentSlide').textContent = currentSlide;
+            document.getElementById('totalSlides').textContent = totalSlides;
+            
+            // Update progress bar
+            const progress = (currentSlide / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        function changeSlide(n) {
+            currentSlide += n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (e.key === 'Home') {
+                currentSlide = 1;
+                showSlide(currentSlide);
+            } else if (e.key === 'End') {
+                currentSlide = totalSlides;
+                showSlide(currentSlide);
+            }
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                changeSlide(1);
+            } else if (touchEndX - touchStartX > 50) {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
