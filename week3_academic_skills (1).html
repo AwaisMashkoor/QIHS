@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3: Academic Skills & Independent Learning | ASPIRE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --uws-navy: #1e3a5f;
+            --uws-gold: #c4a35a;
+            --uws-light-gold: #e8dcc4;
+            --uws-cream: #faf8f5;
+            --uws-slate: #4a5568;
+            --uws-light-blue: #e8f0f7;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --accent-teal: #2c7a7b;
+            --accent-coral: #e07a5f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--uws-cream);
+            color: var(--text-dark);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Presentation Container */
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Individual Slides */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            padding: 3rem 4rem;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Slide Variants */
+        .slide--title {
+            background: linear-gradient(135deg, var(--uws-navy) 0%, #2d4a6f 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section {
+            background: linear-gradient(145deg, var(--uws-navy) 0%, #1a3350 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide--content {
+            background: var(--uws-cream);
+        }
+
+        .slide--activity {
+            background: linear-gradient(135deg, var(--uws-light-gold) 0%, #f5efe6 100%);
+        }
+
+        .slide--reflection {
+            background: linear-gradient(135deg, var(--uws-light-blue) 0%, #f0f7fc 100%);
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--uws-navy);
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .slide--section h2,
+        .slide--title h2 {
+            color: white;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--uws-navy);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.35rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .module-code {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+
+        li::marker {
+            color: var(--uws-gold);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 1.5rem;
+        }
+
+        .content-grid--three {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.75rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.08);
+            border-left: 4px solid var(--uws-gold);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p, .card li {
+            font-size: 1.1rem;
+        }
+
+        .card--highlight {
+            background: var(--uws-navy);
+            color: white;
+            border-left-color: var(--uws-gold);
+        }
+
+        .card--highlight h3 {
+            color: var(--uws-gold);
+        }
+
+        /* Value Grid for Academic Integrity */
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .value-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(30, 58, 95, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.12);
+        }
+
+        .value-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .value-item h4 {
+            font-size: 1.2rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .value-item p {
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Quote Block */
+        .quote-block {
+            background: white;
+            border-left: 5px solid var(--uws-gold);
+            padding: 2rem 2.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.4rem;
+            font-style: italic;
+            color: var(--uws-slate);
+        }
+
+        .quote-block cite {
+            display: block;
+            margin-top: 1rem;
+            font-size: 1rem;
+            font-style: normal;
+            color: var(--text-light);
+        }
+
+        /* Activity Box */
+        .activity-box {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.1);
+            border: 2px solid var(--uws-gold);
+        }
+
+        .activity-box h3 {
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .activity-box h3::before {
+            content: "💬";
+        }
+
+        .activity-timer {
+            display: inline-block;
+            background: var(--uws-navy);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Reflection Box */
+        .reflection-box {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.08);
+            border: 2px solid var(--accent-teal);
+        }
+
+        .reflection-box h3 {
+            color: var(--accent-teal);
+        }
+
+        .reflection-box h3::before {
+            content: "🪞 ";
+        }
+
+        /* Pyramid/Hierarchy Visual */
+        .pyramid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .pyramid-level {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .pyramid-level:nth-child(1) { background: #2e7d32; width: 50%; }
+        .pyramid-level:nth-child(2) { background: #558b2f; width: 58%; }
+        .pyramid-level:nth-child(3) { background: #9e9d24; width: 66%; }
+        .pyramid-level:nth-child(4) { background: #f9a825; width: 74%; }
+        .pyramid-level:nth-child(5) { background: #ff8f00; width: 82%; }
+        .pyramid-level:nth-child(6) { background: #ef6c00; width: 90%; }
+        .pyramid-level:nth-child(7) { background: #d84315; width: 100%; }
+
+        /* TRAAP Grid */
+        .traap-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .traap-item {
+            background: white;
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(30, 58, 95, 0.08);
+        }
+
+        .traap-item .letter {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--uws-navy);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .traap-item h4 {
+            font-size: 1rem;
+            color: var(--uws-gold);
+            margin-bottom: 0.5rem;
+        }
+
+        .traap-item p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* Support Resources */
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .support-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .support-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .support-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .support-item h4 {
+            font-size: 1.1rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .support-item p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--uws-navy);
+            background: white;
+            color: var(--uws-navy);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--uws-navy);
+            color: white;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            font-size: 1rem;
+            color: var(--text-light);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        /* UWS Logo */
+        .uws-badge {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            opacity: 0.6;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            z-index: 50;
+        }
+
+        .slide--title .uws-badge,
+        .slide--section .uws-badge {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .slide {
+                padding: 2rem 3rem;
+            }
+            h1 { font-size: 2.75rem; }
+            h2 { font-size: 2rem; }
+            p, li { font-size: 1.15rem; }
+            .content-grid { gap: 2rem; }
+            .value-grid { grid-template-columns: repeat(2, 1fr); }
+            .traap-grid { grid-template-columns: repeat(3, 1fr); }
+            .support-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Print styles for handouts */
+        @media print {
+            .slide {
+                position: relative;
+                page-break-after: always;
+                opacity: 1;
+                visibility: visible;
+                height: auto;
+                min-height: 100vh;
+            }
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        
+        <!-- Slide 1: Title -->
+        <div class="slide slide--title active" data-slide="1">
+            <p class="module-code">APPD07001 • Aspire: Foundations for Success</p>
+            <h1>Academic Skills &<br>Independent Learning</h1>
+            <p class="subtitle">Week 3 • BSc Collaborative Health & Social Care Studies</p>
+            <p style="margin-top: 2rem; font-size: 1.1rem; opacity: 0.8;">School of Education & Social Sciences</p>
+        </div>
+
+        <!-- Slide 2: Welcome & Check-in -->
+        <div class="slide slide--content" data-slide="2">
+            <h2>Welcome Back</h2>
+            <div class="activity-box">
+                <span class="activity-timer">⏱ 5 minutes</span>
+                <h3>Quick Check-in</h3>
+                <p>Turn to someone near you and share:</p>
+                <ul>
+                    <li>One thing that went well for you this week</li>
+                    <li>One thing you're hoping to learn today</li>
+                </ul>
+            </div>
+            <div style="margin-top: 2rem;">
+                <h3>Today's Journey</h3>
+                <p>We'll explore what it means to be an independent learner at university, develop your academic skills toolkit, and connect these to your development as a health and social care practitioner.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Connecting to Your Action Plan -->
+        <div class="slide slide--reflection" data-slide="3">
+            <h2>Connecting to Your Action Plan</h2>
+            <div class="reflection-box">
+                <h3>Thinking Ahead</h3>
+                <p>Your Action Plan asks you to identify skills you want to develop. Academic skills are foundational to everything you'll do at university and in professional practice.</p>
+                <p style="margin-top: 1rem;"><strong>As you go through today's session, consider:</strong></p>
+                <ul>
+                    <li>Which academic skills do I already feel confident in?</li>
+                    <li>Where do I need to develop?</li>
+                    <li>How will these skills help me in health and social care practice?</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Section - Learning at University -->
+        <div class="slide slide--section" data-slide="4">
+            <h2>Learning at University</h2>
+            <p class="subtitle">What makes it different?</p>
+        </div>
+
+        <!-- Slide 5: University vs School/College -->
+        <div class="slide slide--content" data-slide="5">
+            <h2>University Learning is Different</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <h3>At School or College</h3>
+                    <ul>
+                        <li>Teacher-directed learning</li>
+                        <li>Regular homework checking</li>
+                        <li>Content often provided</li>
+                        <li>Structured timetables</li>
+                        <li>Close monitoring of progress</li>
+                    </ul>
+                </div>
+                <div class="card card--highlight">
+                    <h3>At University</h3>
+                    <ul>
+                        <li><strong>Self-directed learning</strong></li>
+                        <li>You manage your time</li>
+                        <li>You find and evaluate sources</li>
+                        <li>More flexibility, more responsibility</li>
+                        <li>You drive your own progress</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="quote-block" style="margin-top: 2rem;">
+                "The best thing about university is the freedom. The hardest thing is that same freedom."
+                <cite>— Second year Health & Social Care student</cite>
+            </div>
+        </div>
+
+        <!-- Slide 6: Growth Mindset -->
+        <div class="slide slide--content" data-slide="6">
+            <h2>Developing a Growth Mindset</h2>
+            <p>How you think about learning shapes how you learn.</p>
+            <div class="content-grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3>Fixed Mindset</h3>
+                    <ul>
+                        <li>"I'm just not good at academic writing"</li>
+                        <li>"Some people are naturally smart"</li>
+                        <li>"If I struggle, I should give up"</li>
+                        <li>"Feedback means I've failed"</li>
+                    </ul>
+                </div>
+                <div class="card card--highlight">
+                    <h3>Growth Mindset</h3>
+                    <ul>
+                        <li>"I can improve my writing with practice"</li>
+                        <li>"Effort and strategy build ability"</li>
+                        <li>"Struggle is part of learning"</li>
+                        <li>"Feedback helps me develop"</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; text-align: center; font-style: italic; color: var(--text-light);">
+                Your brain can grow and change throughout your life. Academic skills are learnable.
+            </p>
+        </div>
+
+        <!-- Slide 7: Independent Learning Activity -->
+        <div class="slide slide--activity" data-slide="7">
+            <h2>What Does Independent Learning Look Like?</h2>
+            <div class="activity-box">
+                <span class="activity-timer">⏱ 8 minutes</span>
+                <h3>Table Discussion</h3>
+                <p>In your groups, discuss:</p>
+                <ol>
+                    <li>What does "independent learning" mean to you?</li>
+                    <li>What challenges might you face as an independent learner?</li>
+                    <li>What strategies could help you overcome these challenges?</li>
+                </ol>
+                <p style="margin-top: 1rem;"><strong>Be ready to share one insight with the class.</strong></p>
+            </div>
+        </div>
+
+        <!-- Slide 8: Time Management -->
+        <div class="slide slide--content" data-slide="8">
+            <h2>Being Organised: Time Management</h2>
+            <p>A 20-credit module means approximately 200 hours of learning.</p>
+            <div class="content-grid" style="margin-top: 1rem;">
+                <div>
+                    <h3>Breaking It Down</h3>
+                    <ul>
+                        <li><strong>36 hours</strong> – Timetabled contact (our Thursday sessions)</li>
+                        <li><strong>164 hours</strong> – Independent study</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">That's roughly <strong>13-14 hours per week</strong> outside class across the trimester.</p>
+                </div>
+                <div class="card">
+                    <h3>Strategies That Work</h3>
+                    <ul>
+                        <li>Block out study time in your calendar</li>
+                        <li>Break large tasks into smaller chunks</li>
+                        <li>Use deadlines as milestones, not cliffs</li>
+                        <li>Find your productive times and places</li>
+                        <li>Build in breaks and rewards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Reading at University -->
+        <div class="slide slide--content" data-slide="9">
+            <h2>Reading at University Level</h2>
+            <p>You don't need to read everything from cover to cover. Strategic reading is a skill.</p>
+            <div class="content-grid--three content-grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3>📖 Skim</h3>
+                    <p>Get the gist quickly. Read headings, introductions, conclusions. Decide if it's relevant.</p>
+                </div>
+                <div class="card">
+                    <h3>🔍 Scan</h3>
+                    <p>Search for specific information. Use the contents page and index. Find what you need.</p>
+                </div>
+                <div class="card">
+                    <h3>📝 Deep Read</h3>
+                    <p>Engage critically with key sections. Take notes. Question the text. Make connections.</p>
+                </div>
+            </div>
+            <div class="quote-block" style="margin-top: 1.5rem;">
+                "In health and social care, you'll need to quickly find relevant evidence to inform your practice. These reading skills are professional skills."
+            </div>
+        </div>
+
+        <!-- Slide 10: Section - Academic Integrity -->
+        <div class="slide slide--section" data-slide="10">
+            <h2>Academic Integrity</h2>
+            <p class="subtitle">The foundation of your academic journey</p>
+        </div>
+
+        <!-- Slide 11: What is Academic Integrity -->
+        <div class="slide slide--content" data-slide="11">
+            <h2>What is Academic Integrity?</h2>
+            <p>Academic integrity means being honest and ethical in all your academic work.</p>
+            <div class="value-grid">
+                <div class="value-item">
+                    <div class="value-icon">🤝</div>
+                    <h4>Honesty</h4>
+                    <p>Presenting your own work truthfully</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">💫</div>
+                    <h4>Trust</h4>
+                    <p>Building reliable academic relationships</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">⚖️</div>
+                    <h4>Fairness</h4>
+                    <p>Equal opportunity for all students</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🙏</div>
+                    <h4>Respect</h4>
+                    <p>Valuing others' work and ideas</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">✊</div>
+                    <h4>Responsibility</h4>
+                    <p>Owning your learning journey</p>
+                </div>
+                <div class="value-item">
+                    <div class="value-icon">🦁</div>
+                    <h4>Courage</h4>
+                    <p>Doing what's right, even when difficult</p>
+                </div>
+            </div>
+            <p style="margin-top: 1.5rem; text-align: center; font-size: 1rem; color: var(--text-light);">
+                Based on the International Centre for Academic Integrity's Fundamental Values
+            </p>
+        </div>
+
+        <!-- Slide 12: Why It Matters for Health & Social Care -->
+        <div class="slide slide--content" data-slide="12">
+            <h2>Why This Matters for Your Profession</h2>
+            <div class="content-grid">
+                <div>
+                    <p>As future health and social care practitioners, academic integrity connects directly to professional practice.</p>
+                    <div class="card" style="margin-top: 1.5rem;">
+                        <h3>Professional Registration</h3>
+                        <p>The SSSC, NMC, and HCPC all require practitioners to be honest, trustworthy, and work within their competence.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card--highlight">
+                        <h3>Evidence-Based Practice</h3>
+                        <p>Good care depends on honest, accurate information. If you learn to cut corners academically, you might do the same in practice.</p>
+                    </div>
+                    <div class="card" style="margin-top: 1rem;">
+                        <h3>Service User Safety</h3>
+                        <p>People's wellbeing depends on practitioners who genuinely know their stuff—not those who've faked their way through.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: What is Plagiarism -->
+        <div class="slide slide--content" data-slide="13">
+            <h2>Understanding Plagiarism</h2>
+            <p>Plagiarism is presenting someone else's work or ideas as your own. It includes:</p>
+            <div class="content-grid" style="margin-top: 1.5rem;">
+                <div>
+                    <ul>
+                        <li>Copying text without quotation marks or citation</li>
+                        <li>Paraphrasing without acknowledging the source</li>
+                        <li>Submitting work done by someone else</li>
+                        <li>Using images, diagrams, or data without attribution</li>
+                        <li>Self-plagiarism (resubmitting your own previous work)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Consequences</h3>
+                    <p>Plagiarism is taken seriously at UWS. Consequences can range from resubmission to failure of the module or programme.</p>
+                    <p style="margin-top: 1rem; font-style: italic;">More importantly, it undermines your own learning and professional development.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Activity - Is This Plagiarism? -->
+        <div class="slide slide--activity" data-slide="14">
+            <h2>Is This Plagiarism?</h2>
+            <div class="activity-box">
+                <span class="activity-timer">⏱ 10 minutes</span>
+                <h3>Scenario Discussion</h3>
+                <p>In your groups, discuss whether each scenario counts as plagiarism:</p>
+                <ol>
+                    <li>Copying a paragraph from a textbook and adding it to your essay without quotation marks, but including a reference.</li>
+                    <li>Asking a friend to check your essay and they rewrite a paragraph for you.</li>
+                    <li>Using AI to generate three paragraphs of your assignment.</li>
+                    <li>Paraphrasing an author's idea in your own words and including a citation.</li>
+                    <li>Working together on an individual assignment and submitting similar answers.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Slide 15: Section - Using Evidence -->
+        <div class="slide slide--section" data-slide="15">
+            <h2>Using Evidence</h2>
+            <p class="subtitle">Finding and evaluating information</p>
+        </div>
+
+        <!-- Slide 16: Why Evidence Matters -->
+        <div class="slide slide--content" data-slide="16">
+            <h2>Evidence-Based Practice in Health & Social Care</h2>
+            <div class="content-grid">
+                <div>
+                    <p>In your future career, decisions will affect real people. Those decisions should be based on the best available evidence, not guesswork or tradition.</p>
+                    <p style="margin-top: 1rem;">Learning to find, evaluate, and use evidence now prepares you for professional practice.</p>
+                    <div class="quote-block" style="margin-top: 1.5rem;">
+                        "Unless you're using evidence-based practices, I can't hear a word you're saying."
+                    </div>
+                </div>
+                <div>
+                    <h3>What counts as "good" evidence?</h3>
+                    <div class="pyramid">
+                        <div class="pyramid-level">Systematic Reviews</div>
+                        <div class="pyramid-level">Randomised Controlled Trials</div>
+                        <div class="pyramid-level">Cohort Studies</div>
+                        <div class="pyramid-level">Case-Control Studies</div>
+                        <div class="pyramid-level">Cross-Sectional Studies</div>
+                        <div class="pyramid-level">Case Reports</div>
+                        <div class="pyramid-level">Expert Opinion</div>
+                    </div>
+                    <p style="font-size: 0.9rem; color: var(--text-light); text-align: center;">Hierarchy of Scientific Evidence</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Finding Information -->
+        <div class="slide slide--content" data-slide="17">
+            <h2>Finding Reliable Information</h2>
+            <p>Not all sources are equal. Start with academic databases rather than Google.</p>
+            <div class="support-grid">
+                <div class="support-item">
+                    <div class="support-icon">🔍</div>
+                    <h4>OneSearch</h4>
+                    <p>UWS Library's search tool for books, journals, and more</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">🎓</div>
+                    <h4>Google Scholar</h4>
+                    <p>Academic articles (link via library for access)</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">📚</div>
+                    <h4>Subject Databases</h4>
+                    <p>CINAHL, Medline for health & care topics</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">🏛️</div>
+                    <h4>Professional Bodies</h4>
+                    <p>SSSC, NICE guidelines, government reports</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: TRAAP Test -->
+        <div class="slide slide--content" data-slide="18">
+            <h2>Evaluating Sources: The TRAAP Test</h2>
+            <p>Before using any source, ask yourself these questions:</p>
+            <div class="traap-grid">
+                <div class="traap-item">
+                    <span class="letter">T</span>
+                    <h4>Timeliness</h4>
+                    <p>When was it published? Is it current enough?</p>
+                </div>
+                <div class="traap-item">
+                    <span class="letter">R</span>
+                    <h4>Relevance</h4>
+                    <p>Does it relate to your topic and audience?</p>
+                </div>
+                <div class="traap-item">
+                    <span class="letter">A</span>
+                    <h4>Authority</h4>
+                    <p>Who wrote it? What are their credentials?</p>
+                </div>
+                <div class="traap-item">
+                    <span class="letter">A</span>
+                    <h4>Accuracy</h4>
+                    <p>Is it supported by evidence? Can you verify it?</p>
+                </div>
+                <div class="traap-item">
+                    <span class="letter">P</span>
+                    <h4>Purpose</h4>
+                    <p>Why was it written? To inform, persuade, sell?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Referencing -->
+        <div class="slide slide--content" data-slide="19">
+            <h2>Referencing: Giving Credit</h2>
+            <p>Referencing is how you acknowledge where your information comes from. At UWS, we use <strong>Cite Them Right Harvard</strong> style.</p>
+            <div class="content-grid" style="margin-top: 1.5rem;">
+                <div class="card">
+                    <h3>Why Reference?</h3>
+                    <ul>
+                        <li>Shows the evidence behind your arguments</li>
+                        <li>Allows readers to check your sources</li>
+                        <li>Demonstrates your reading and research</li>
+                        <li>Avoids plagiarism</li>
+                        <li>Builds your academic credibility</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Two Parts</h3>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>1. In-text Citation</h3>
+                        <p>Short reference in the body of your work, e.g., (Smith, 2023) or Smith (2023) states...</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Reference List</h3>
+                        <p>Full details at the end of your work so readers can find the source.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Section - Support Available -->
+        <div class="slide slide--section" data-slide="20">
+            <h2>You're Not Alone</h2>
+            <p class="subtitle">Support available at UWS</p>
+        </div>
+
+        <!-- Slide 21: Support Services -->
+        <div class="slide slide--content" data-slide="21">
+            <h2>Academic Skills Support at UWS</h2>
+            <p>Don't struggle in silence. These services are here to help you succeed.</p>
+            <div class="support-grid" style="margin-top: 1.5rem;">
+                <div class="support-item">
+                    <div class="support-icon">✏️</div>
+                    <h4>Academic Skills</h4>
+                    <p>One-to-one support with writing, referencing, and study skills</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">📖</div>
+                    <h4>Library Services</h4>
+                    <p>Help finding sources, using databases, and managing references</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">🌙</div>
+                    <h4>Studiosity</h4>
+                    <p>24/7 online writing feedback and study support</p>
+                </div>
+                <div class="support-item">
+                    <div class="support-icon">👨‍🏫</div>
+                    <h4>Your Lecturers</h4>
+                    <p>Office hours, email, and in-class questions—we want to help!</p>
+                </div>
+            </div>
+            <p style="margin-top: 2rem; text-align: center;">
+                <strong>Aula Week 3</strong> has links to all these resources. Explore them this week.
+            </p>
+        </div>
+
+        <!-- Slide 22: Connecting to Your Portfolio -->
+        <div class="slide slide--reflection" data-slide="22">
+            <h2>Reflection: Your Academic Development</h2>
+            <div class="reflection-box">
+                <h3>Personal Reflection</h3>
+                <p>Take a moment to think about these questions. You might want to note your thoughts for your portfolio.</p>
+                <ol>
+                    <li>Which academic skill do I most need to develop?</li>
+                    <li>What's one specific action I can take this week to work on it?</li>
+                    <li>How will developing this skill help me in my future career in health and social care?</li>
+                </ol>
+            </div>
+            <p style="margin-top: 1.5rem;">Your <strong>Action Plan</strong> (due Week 7 formatively) is an opportunity to set meaningful goals for skill development. Today's session might inform what you include.</p>
+        </div>
+
+        <!-- Slide 23: This Week's Tasks -->
+        <div class="slide slide--content" data-slide="23">
+            <h2>This Week: What to Do</h2>
+            <div class="content-grid">
+                <div class="card">
+                    <h3>📚 On Aula</h3>
+                    <ul>
+                        <li>Work through the Week 3 independent learning activities</li>
+                        <li>Explore the Academic Skills resources</li>
+                        <li>Complete the Academic Integrity module if you haven't already</li>
+                        <li>Start thinking about your Action Plan goals</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 Getting Ahead</h3>
+                    <ul>
+                        <li>Try using OneSearch to find an article relevant to your interests</li>
+                        <li>Practice the TRAAP test on something you read online</li>
+                        <li>Book a session with Academic Skills if you'd like support</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 2rem; text-align: center;">
+                <h3>Coming Next Week</h3>
+                <p>Week 4: <strong>Planning for Success</strong> – We'll focus on your Action Plan and setting meaningful development goals.</p>
+            </div>
+        </div>
+
+        <!-- Slide 24: Questions -->
+        <div class="slide slide--title" data-slide="24">
+            <h1>Questions?</h1>
+            <p class="subtitle">What would you like to discuss or clarify?</p>
+            <div style="margin-top: 3rem;">
+                <p style="font-size: 1.1rem; opacity: 0.8;">Remember: There are no silly questions.<br>If you're wondering, someone else probably is too.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav">
+        <button class="nav-btn" id="prevBtn" aria-label="Previous slide">←</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">24</span></span>
+        <button class="nav-btn" id="nextBtn" aria-label="Next slide">→</button>
+    </div>
+
+    <!-- UWS Badge -->
+    <div class="uws-badge">University of the West of Scotland</div>
+
+    <script>
+        // Slide Management
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function updateSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n - 1].classList.add('active');
+            currentSlide = n;
+            document.getElementById('currentSlide').textContent = n;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = (n === 1);
+            document.getElementById('nextBtn').disabled = (n === totalSlides);
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                updateSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                updateSlide(currentSlide - 1);
+            }
+        }
+
+        // Event Listeners
+        document.getElementById('nextBtn').addEventListener('click', nextSlide);
+        document.getElementById('prevBtn').addEventListener('click', prevSlide);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        updateSlide(1);
+    </script>
+</body>
+</html>
