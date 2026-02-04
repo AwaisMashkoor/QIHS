@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Therapeutic Relationship | NURS 09165</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-navy: #1a2744;
+            --teal-primary: #2a7a7a;
+            --teal-light: #3d9e9e;
+            --teal-pale: #e8f4f4;
+            --warm-cream: #faf8f5;
+            --text-dark: #2c3e50;
+            --text-muted: #5a6c7d;
+            --accent-coral: #e07a5f;
+            --accent-gold: #d4a574;
+            --white: #ffffff;
+            --shadow-soft: 0 4px 20px rgba(26, 39, 68, 0.08);
+            --shadow-medium: 0 8px 40px rgba(26, 39, 68, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            background: var(--deep-navy);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .slides-container {
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        /* Title Slides */
+        .slide-title {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, #2d3e5f 100%);
+            color: var(--white);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-title::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(42, 122, 122, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .slide-title h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-title .meta {
+            font-size: 1rem;
+            color: var(--teal-light);
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Content Slides */
+        .slide-content {
+            background: var(--warm-cream);
+            flex-direction: column;
+            padding: 3rem 5rem;
+        }
+
+        .slide-content .slide-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid var(--teal-primary);
+        }
+
+        .slide-content h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.4rem;
+            color: var(--deep-navy);
+            font-weight: 600;
+        }
+
+        .slide-content .section-tag {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--teal-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Split Layout */
+        .slide-split {
+            display: flex;
+            height: 100%;
+        }
+
+        .slide-split .left-panel {
+            width: 45%;
+            background: var(--deep-navy);
+            color: var(--white);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide-split .left-panel h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.8rem;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-split .left-panel p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .slide-split .right-panel {
+            width: 55%;
+            background: var(--warm-cream);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--teal-primary);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.3rem;
+            color: var(--deep-navy);
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .card.highlight {
+            border-left-color: var(--accent-coral);
+            background: linear-gradient(135deg, var(--white) 0%, #fef9f7 100%);
+        }
+
+        .card.teal-bg {
+            background: var(--teal-primary);
+            color: var(--white);
+            border-left: none;
+        }
+
+        .card.teal-bg h3, .card.teal-bg p {
+            color: var(--white);
+        }
+
+        /* Lists */
+        .content-list {
+            list-style: none;
+        }
+
+        .content-list li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        .content-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.1rem;
+            width: 10px;
+            height: 10px;
+            background: var(--teal-primary);
+            border-radius: 50%;
+        }
+
+        /* Quote Box */
+        .quote-box {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, #2d3e5f 100%);
+            color: var(--white);
+            padding: 2.5rem;
+            border-radius: 12px;
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .quote-box::before {
+            content: '"';
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 6rem;
+            position: absolute;
+            top: -1rem;
+            left: 1.5rem;
+            color: var(--teal-light);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .quote-box p {
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+        }
+
+        .quote-box cite {
+            display: block;
+            margin-top: 1rem;
+            font-size: 1rem;
+            font-style: normal;
+            color: var(--teal-light);
+        }
+
+        /* Two Columns */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* Critical Box */
+        .critical-box {
+            background: linear-gradient(135deg, #fef3f0 0%, #fff 100%);
+            border: 2px solid var(--accent-coral);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .critical-box h4 {
+            color: var(--accent-coral);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .critical-box h4::before {
+            content: '⚡ ';
+        }
+
+        /* Evidence Box */
+        .evidence-box {
+            background: var(--teal-pale);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .evidence-box h4 {
+            color: var(--teal-primary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Activity Box */
+        .activity-box {
+            background: var(--white);
+            border: 2px dashed var(--teal-primary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .activity-box h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            color: var(--teal-primary);
+            margin-bottom: 1rem;
+        }
+
+        .activity-box h3::before {
+            content: '👥 ';
+            font-size: 1.3rem;
+        }
+
+        .activity-box .timing {
+            display: inline-block;
+            background: var(--teal-primary);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Video Box */
+        .video-box {
+            background: var(--deep-navy);
+            color: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .video-box h3 {
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .video-box .video-link {
+            display: inline-block;
+            background: var(--teal-primary);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .video-box .video-link:hover {
+            background: var(--teal-light);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .comparison-table th {
+            background: var(--deep-navy);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            vertical-align: top;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: rgba(42, 122, 122, 0.05);
+        }
+
+        .comparison-table .good { color: var(--teal-primary); }
+        .comparison-table .poor { color: var(--accent-coral); }
+
+        /* Section Divider */
+        .slide-section {
+            background: var(--teal-primary);
+            color: var(--white);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .slide-section h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .slide-section p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+
+        .slide-section .section-number {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Venn Diagram */
+        .venn-diagram {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 280px;
+            margin: 1rem 0;
+        }
+
+        .venn-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--white);
+            position: absolute;
+        }
+
+        .venn-circle.body {
+            background: rgba(42, 122, 122, 0.85);
+            left: calc(50% - 160px);
+        }
+
+        .venn-circle.mind {
+            background: rgba(26, 39, 68, 0.85);
+            left: calc(50% - 10px);
+        }
+
+        .venn-circle.spirit {
+            background: rgba(224, 122, 95, 0.85);
+            left: calc(50% - 85px);
+            top: 130px;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--teal-primary);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--teal-primary);
+            border-radius: 50%;
+            margin-left: -4.5px;
+        }
+
+        .timeline-item h4 {
+            color: var(--deep-navy);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-item p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(26, 39, 68, 0.95);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            color: var(--teal-light);
+        }
+
+        .slide-counter {
+            color: var(--white);
+            font-size: 0.95rem;
+            padding: 0 1rem;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--teal-primary);
+            transition: width 0.3s ease;
+            z-index: 1001;
+        }
+
+        /* Facilitator Notes */
+        .notes-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: var(--deep-navy);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            z-index: 1000;
+        }
+
+        .facilitator-notes {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 39, 68, 0.95);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            max-width: 800px;
+            font-size: 0.9rem;
+            display: none;
+            z-index: 999;
+        }
+
+        .facilitator-notes.visible {
+            display: block;
+        }
+
+        .facilitator-notes h4 {
+            color: var(--teal-light);
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(42, 122, 122, 0.3) 60%);
+        }
+
+        .small {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .diagram-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        @media (max-width: 1024px) {
+            .slide-split { flex-direction: column; }
+            .slide-split .left-panel,
+            .slide-split .right-panel { width: 100%; padding: 2rem; }
+            .two-columns { grid-template-columns: 1fr; }
+            .slide-title h1 { font-size: 2.5rem; }
+        }
+
+        @media print {
+            .slide {
+                display: block !important;
+                opacity: 1 !important;
+                position: relative;
+                page-break-after: always;
+                height: auto;
+                min-height: 100vh;
+            }
+            .nav-controls, .notes-toggle, .progress-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <button class="notes-toggle" onclick="toggleNotes()">📝 Facilitator Notes</button>
+
+    <div class="slides-container" id="slidesContainer">
+        
+        <!-- SLIDE 1: Title -->
+        <div class="slide slide-title active" data-notes="Welcome students. This 3-hour workshop builds on prior learning. Acknowledge their professional experience - many will have insights to share.">
+            <h1>The Therapeutic Relationship</h1>
+            <p class="subtitle">Building Effective Helping Alliances in Healthcare Practice</p>
+            <p class="meta">
+                NURS 09165 Therapeutic Communication | Level 9 | Trimester 2<br>
+                University of the West of Scotland
+            </p>
+        </div>
+
+        <!-- SLIDE 2: Learning Outcomes -->
+        <div class="slide slide-content" data-notes="Frame these as the journey for today. Note the verbs: JUSTIFY requires evidence, DISCUSS requires multiple perspectives, DEFINE requires precision. This is Level 9 - we go beyond description.">
+            <div class="slide-header">
+                <div class="section-tag">Session Overview</div>
+                <h2>Learning Outcomes</h2>
+            </div>
+            <div class="slide-body">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--text-muted);">By the end of this session, you should be able to:</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>1. Justify</h3>
+                        <p>The importance of establishing a therapeutic relationship within contemporary healthcare practice, drawing on evidence and theory.</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Discuss</h3>
+                        <p>The effective components of a therapeutic relationship, critically examining different theoretical perspectives.</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Define</h3>
+                        <p>The role of practitioner stress as a detrimental factor in the enabling relationship, and strategies for mitigation.</p>
+                    </div>
+                </div>
+                <div class="critical-box" style="margin-top: 2rem;">
+                    <h4>Level 9 Expectation</h4>
+                    <p>Today requires critical engagement, not just description. We'll question assumptions, examine evidence, and consider limitations of the theories we explore.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Session Structure -->
+        <div class="slide slide-content" data-notes="Give students a roadmap. Emphasise the balance between input and active work.">
+            <div class="slide-header">
+                <div class="section-tag">Today's Journey</div>
+                <h2>Session Structure (3 Hours)</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h4>Part 1: Foundations (50 min)</h4>
+                            <p>Defining therapeutic relationships, theoretical frameworks, why it matters</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Part 2: Core Components (55 min)</h4>
+                            <p>Rogers' conditions, Bordin's alliance, communication patterns, video analysis</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>☕ Break (15 min)</h4>
+                            <p></p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Part 3: Boundaries & Power (40 min)</h4>
+                            <p>Professional boundaries, power dynamics, relationship styles</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h4>Part 4: Stress & Sustainability (20 min)</h4>
+                            <p>Burnout, compassion fatigue, self-care strategies</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card teal-bg">
+                            <h3>Today's Approach</h3>
+                            <p>This session blends theory with your professional experience. You bring valuable insights from practice - we'll integrate these with the evidence base.</p>
+                        </div>
+                        <div class="activity-box" style="margin-top: 1.5rem;">
+                            <h3>Active Participation</h3>
+                            <p>Discussions, scenario analysis, and critical reflection throughout. Your contributions shape our collective learning.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Section Divider - Part 1 -->
+        <div class="slide slide-section" data-notes="Transition to Part 1. Ask: 'Before we define it formally - what does therapeutic relationship mean to you?'">
+            <div class="section-number">Part 1</div>
+            <h2>Foundations</h2>
+            <p>What is a therapeutic relationship and why does it matter?</p>
+        </div>
+
+        <!-- SLIDE 5: Definition -->
+        <div class="slide slide-split" data-notes="Key point: it's PURPOSEFUL - not just being nice. The relationship itself is the intervention.">
+            <div class="left-panel">
+                <h2>Defining the Therapeutic Relationship</h2>
+                <p>Also known as the <em>therapeutic alliance</em>, <em>helping alliance</em>, or <em>working alliance</em>.</p>
+            </div>
+            <div class="right-panel">
+                <div class="quote-box">
+                    <p>A purposeful, supportive and healing association between a healthcare professional and a client that is interactive, holistic, and grounded in theory, research, and practice.</p>
+                </div>
+                <div class="card-grid" style="margin-top: 2rem;">
+                    <div class="card">
+                        <h3>Purposeful</h3>
+                        <p>Goal-directed, not accidental</p>
+                    </div>
+                    <div class="card">
+                        <h3>Collaborative</h3>
+                        <p>Both parties contribute</p>
+                    </div>
+                    <div class="card">
+                        <h3>Boundaried</h3>
+                        <p>Professional, not personal</p>
+                    </div>
+                    <div class="card">
+                        <h3>Time-limited</h3>
+                        <p>Has beginning, middle, end</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: The Whole Person -->
+        <div class="slide slide-content" data-notes="We don't treat conditions, we work with PEOPLE in context. Use the example of Mr Ahmed to show how context shapes everything. Ask: Which contextual factors do we often overlook?">
+            <div class="slide-header">
+                <div class="section-tag">Holistic Perspective</div>
+                <h2>The Whole Person Exists in Context</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="diagram-container" style="margin-bottom: 1rem;">
+                            <div class="venn-diagram" style="height: 200px;">
+                                <div class="venn-circle body" style="width: 140px; height: 140px;">BODY</div>
+                                <div class="venn-circle mind" style="width: 140px; height: 140px;">MIND</div>
+                                <div class="venn-circle spirit" style="width: 140px; height: 140px; top: 100px;">SPIRIT</div>
+                            </div>
+                        </div>
+                        <div style="background: var(--teal-pale); padding: 1rem; border-radius: 8px; font-size: 0.95rem;">
+                            <strong>Example:</strong> Mr Ahmed, 58, poorly controlled diabetes. You could focus solely on medication adherence. But: he works night shifts (disrupts eating patterns), cares for his wife with dementia (no time for himself), lost his son last year (grief affecting motivation), and fears becoming a burden (cultural expectations of male self-reliance). The diabetes is real. So is everything else.
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--deep-navy); margin-bottom: 1rem;">Contextual Factors</h3>
+                        <div class="card-grid">
+                            <div class="card" style="padding: 1rem;">
+                                <h3 style="font-size: 1rem;">Family & Social</h3>
+                                <p style="font-size: 0.9rem;">Relationships, history, expectations</p>
+                            </div>
+                            <div class="card" style="padding: 1rem;">
+                                <h3 style="font-size: 1rem;">Environmental</h3>
+                                <p style="font-size: 0.9rem;">Housing, finances, resources</p>
+                            </div>
+                            <div class="card" style="padding: 1rem;">
+                                <h3 style="font-size: 1rem;">Societal</h3>
+                                <p style="font-size: 0.9rem;">Culture, discrimination, policies</p>
+                            </div>
+                            <div class="card" style="padding: 1rem;">
+                                <h3 style="font-size: 1rem;">Healthcare System</h3>
+                                <p style="font-size: 0.9rem;">Access, continuity, time pressures</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Why It Matters -->
+        <div class="slide slide-content" data-notes="This is the 'justify' part of LO1. Relationship quality predicts outcomes INDEPENDENT of specific interventions.">
+            <div class="slide-header">
+                <div class="section-tag">The Evidence Base</div>
+                <h2>Why Therapeutic Relationships Matter</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="evidence-box">
+                            <h4>📊 Research Evidence</h4>
+                            <p><strong>Meta-analyses consistently show</strong> that therapeutic relationship quality accounts for approximately <span class="highlight">5-7% of patient outcomes</span> — comparable to specific treatment techniques.</p>
+                            <p class="small" style="margin-top: 0.5rem;">Horvath et al. (2011); Flückiger et al. (2018)</p>
+                        </div>
+                        <div class="evidence-box">
+                            <h4>📊 In Healthcare Settings</h4>
+                            <ul class="content-list" style="margin-top: 0.5rem;">
+                                <li>Improved treatment adherence</li>
+                                <li>Better patient satisfaction</li>
+                                <li>Reduced anxiety and distress</li>
+                                <li>Enhanced information disclosure</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card highlight">
+                            <h3>NHS Scotland Context</h3>
+                            <p><strong>Realistic Medicine</strong> emphasises shared decision-making and personalised care — both require effective therapeutic relationships.</p>
+                            <p class="small" style="margin-top: 0.75rem;"><strong>NMC Code (2018):</strong> "Prioritise people... treat people as individuals and uphold their dignity."</p>
+                        </div>
+                        <div class="critical-box" style="margin-top: 1rem;">
+                            <h4>Critical Question</h4>
+                            <p>If relationships matter this much, why do healthcare systems often design them out through fragmented care and task-focused approaches?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Section Divider - Part 2 -->
+        <div class="slide slide-section" data-notes="Transition to Part 2. We'll examine what makes relationships therapeutic.">
+            <div class="section-number">Part 2</div>
+            <h2>Core Components</h2>
+            <p>What makes a relationship therapeutic?</p>
+        </div>
+
+        <!-- SLIDE 9: Theoretical Frameworks -->
+        <div class="slide slide-content" data-notes="Two influential frameworks. Rogers from psychotherapy, Bordin more focused on working relationships. Critical question: how well do they translate to healthcare?">
+            <div class="slide-header">
+                <div class="section-tag">Theoretical Foundations</div>
+                <h2>Two Influential Frameworks</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div class="card" style="border-left-color: var(--deep-navy);">
+                        <h3>Carl Rogers (1957)</h3>
+                        <p><strong>Person-Centred Therapy</strong></p>
+                        <p style="margin-top: 1rem;">Three core conditions necessary for therapeutic change:</p>
+                        <ul class="content-list" style="margin-top: 0.5rem;">
+                            <li><strong>Congruence</strong> — genuineness, authenticity</li>
+                            <li><strong>Unconditional Positive Regard</strong> — acceptance without judgement</li>
+                            <li><strong>Empathy</strong> — understanding client's frame of reference</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-left-color: var(--teal-primary);">
+                        <h3>Edward Bordin (1979)</h3>
+                        <p><strong>Working Alliance Model</strong></p>
+                        <p style="margin-top: 1rem;">Three interdependent components:</p>
+                        <ul class="content-list" style="margin-top: 0.5rem;">
+                            <li><strong>Goals</strong> — agreement on aims of the work</li>
+                            <li><strong>Tasks</strong> — agreement on activities/methods</li>
+                            <li><strong>Bond</strong> — trust, respect, liking between parties</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="critical-box" style="margin-top: 1.5rem;">
+                    <h4>Critical Consideration</h4>
+                    <p>Rogers developed his theory for psychotherapy in 1950s America. <strong>To what extent does it translate to a busy NHS ward or time-pressured A&E encounter?</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Rogers Deep Dive -->
+        <div class="slide slide-split" data-notes="Unpack each condition with the examples. Congruence is perhaps hardest in healthcare. Ask: Is there tension between congruence and professional role expectations?">
+            <div class="left-panel">
+                <h2>Rogers' Core Conditions</h2>
+                <p>These must be both <em>felt</em> by the practitioner and <em>perceived</em> by the client to be effective.</p>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.9;"><strong>What they sound like in practice:</strong></p>
+            </div>
+            <div class="right-panel">
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Congruence (Genuineness)</h3>
+                    <p>Being authentic in the relationship. Your outward behaviour matches your inner experience.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--teal-primary); font-style: italic;">"I have to be honest with you — I'm not sure what the best answer is here. Let me find out and get back to you properly."</p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Unconditional Positive Regard</h3>
+                    <p>Accepting the person without judgement. Valuing them regardless of behaviour or circumstances.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--teal-primary); font-style: italic;">"I can see this has been really difficult for you. Whatever's happened before, we're here to help you now."</p>
+                </div>
+                <div class="card">
+                    <h3>Empathy</h3>
+                    <p>Understanding the client's experience from their perspective — sensing their inner world "as if" it were your own.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--teal-primary); font-style: italic;">"It sounds like you're feeling overwhelmed — like everything's piling up at once and you don't know where to start."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Empathy -->
+        <div class="slide slide-content" data-notes="The 'as if' quality is crucial - we must return to our own perspective. Use the dialogue examples to show the contrast clearly.">
+            <div class="slide-header">
+                <div class="section-tag">Understanding Empathy</div>
+                <h2>Empathy: More Than Feeling</h2>
+            </div>
+            <div class="slide-body">
+                <div class="quote-box" style="margin-bottom: 1.5rem;">
+                    <p>"To sense the client's inner world of private personal meanings as if they were your own, but without ever losing the 'as if' quality."</p>
+                    <cite>— Carl Rogers</cite>
+                </div>
+                <p style="margin-bottom: 1rem; font-weight: 600;">Patient says: "I just found out I need surgery. I don't know how I'm going to cope — I've got nobody to help me at home."</p>
+                <div class="two-columns">
+                    <div class="evidence-box">
+                        <h4>✓ Empathic Response</h4>
+                        <p style="font-style: italic; margin-bottom: 0.75rem;">"That sounds really frightening — facing surgery is hard enough, but worrying about managing afterwards on your own must make it feel even more overwhelming."</p>
+                        <p style="font-size: 0.9rem;"><strong>What this does:</strong> Names the emotion, acknowledges the specific concern, validates the difficulty.</p>
+                    </div>
+                    <div class="critical-box">
+                        <h4>✗ Non-Empathic Responses</h4>
+                        <p style="font-style: italic; margin-bottom: 0.5rem;">"Don't worry, you'll be fine — people have this surgery all the time."</p>
+                        <p style="font-size: 0.85rem; margin-bottom: 0.5rem;"><em>(Minimises, dismisses concern)</em></p>
+                        <p style="font-style: italic; margin-bottom: 0.5rem;">"Have you thought about asking a neighbour to help?"</p>
+                        <p style="font-size: 0.85rem;"><em>(Jumps to problem-solving before acknowledging feeling)</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Video Analysis -->
+        <div class="slide slide-content" data-notes="Show BOTH videos (4 min total). Then structured analysis: What specifically differed? Link to Rogers' conditions.">
+            <div class="slide-header">
+                <div class="section-tag">Video Analysis</div>
+                <h2>Therapeutic vs Non-Therapeutic Communication</h2>
+            </div>
+            <div class="slide-body">
+                <div class="video-box" style="margin-bottom: 2rem;">
+                    <h3>Watch Both Examples</h3>
+                    <p style="opacity: 0.8; margin-bottom: 1rem;">We'll watch these back-to-back, then analyse what we observed.</p>
+                    <a href="https://www.youtube.com/watch?v=r6amCqy3V2E" target="_blank" class="video-link">▶ Therapeutic (3 min)</a>
+                    <a href="https://www.youtube.com/watch?v=C63y7mcVUik" target="_blank" class="video-link">▶ Non-Therapeutic (1 min)</a>
+                </div>
+                <div class="activity-box">
+                    <h3>Analysis Task</h3>
+                    <span class="timing">10 minutes in pairs</span>
+                    <p>As you watch, note specific behaviours. Then discuss:</p>
+                    <ul class="content-list">
+                        <li>What specific verbal and non-verbal behaviours differed?</li>
+                        <li>Which of Rogers' core conditions were present/absent?</li>
+                        <li>How might the patient have felt in each scenario?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 13: The Helping Role -->
+        <div class="slide slide-content" data-notes="The concrete functions where therapeutic relationships enable better care.">
+            <div class="slide-header">
+                <div class="section-tag">Application</div>
+                <h2>The Helping Role in Practice</h2>
+            </div>
+            <div class="slide-body">
+                <div class="card-grid">
+                    <div class="card teal-bg">
+                        <h3>Healing Relationship</h3>
+                        <p>Creating conditions for recovery through connection itself</p>
+                    </div>
+                    <div class="card">
+                        <h3>Interpreting Signs</h3>
+                        <p>Understanding what symptoms mean to the patient</p>
+                    </div>
+                    <div class="card">
+                        <h3>Providing Comfort</h3>
+                        <p>Physical and emotional comfort through presence</p>
+                    </div>
+                    <div class="card">
+                        <h3>Being With</h3>
+                        <p>Genuine presence — not just doing tasks</p>
+                    </div>
+                    <div class="card">
+                        <h3>Teaching & Mediating</h3>
+                        <p>Health education, advocating, connecting to resources</p>
+                    </div>
+                    <div class="card">
+                        <h3>Maximising Participation</h3>
+                        <p>Supporting patient autonomy in their care</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 14: Maintaining the Relationship -->
+        <div class="slide slide-split" data-notes="These are the small behaviours that build trust over time. Read through the examples - they're simple but often skipped when busy.">
+            <div class="left-panel">
+                <h2>Maintaining the Relationship</h2>
+                <p>What keeps a therapeutic relationship effective over time?</p>
+                <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.9;">It's often the small, consistent things that matter most.</p>
+            </div>
+            <div class="right-panel">
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Active Listening</h3>
+                    <p>Full attention, verbal and non-verbal responsiveness, checking understanding</p>
+                    <p style="font-size: 0.9rem; color: var(--teal-primary); margin-top: 0.5rem;"><strong>Looks like:</strong> Putting down notes, making eye contact, "Let me check I've understood..."</p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Maintaining Security</h3>
+                    <p>Creating psychological safety where patients feel secure to share</p>
+                    <p style="font-size: 0.9rem; color: var(--teal-primary); margin-top: 0.5rem;"><strong>Looks like:</strong> "There's no wrong answer" or "This stays between us unless there's a safety concern"</p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Being Genuine</h3>
+                    <p>Consistent, honest, authentic presence — building trust through reliability</p>
+                    <p style="font-size: 0.9rem; color: var(--teal-primary); margin-top: 0.5rem;"><strong>Looks like:</strong> "I said I'd find out — here's what I learned" or "I don't know, but I'll find someone who does"</p>
+                </div>
+                <div class="card">
+                    <h3>Demonstrating Care</h3>
+                    <p>Actions that communicate the patient matters — remembering details, following up</p>
+                    <p style="font-size: 0.9rem; color: var(--teal-primary); margin-top: 0.5rem;"><strong>Looks like:</strong> "How did your daughter's exam go?" or checking in after a difficult conversation</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 15: Section Divider - Part 3 -->
+        <div class="slide slide-section" data-notes="After break. Now examine complexities: boundaries and power.">
+            <div class="section-number">Part 3</div>
+            <h2>Boundaries & Power</h2>
+            <p>Navigating the complexities of professional relationships</p>
+        </div>
+
+        <!-- SLIDE 16: Power Dynamics -->
+        <div class="slide slide-content" data-notes="Critical point: therapeutic relationships are NOT equal. Acknowledging power asymmetry is essential.">
+            <div class="slide-header">
+                <div class="section-tag">Power Dynamics</div>
+                <h2>The Nature of Professional Relationships</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="card highlight">
+                            <h3>Not an Equal Relationship</h3>
+                            <p>Different roles characterised by different forms of <strong>power</strong>:</p>
+                            <ul class="content-list" style="margin-top: 0.75rem;">
+                                <li><strong>Expert power</strong> — knowledge asymmetry</li>
+                                <li><strong>Legitimate power</strong> — professional authority</li>
+                                <li><strong>Positional power</strong> — gatekeeper to services</li>
+                                <li><strong>Physical power</strong> — patient vulnerability</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="card">
+                            <h3>Self-Awareness is Essential</h3>
+                            <p>Awareness of our attitudes, prejudices, and behavioural patterns is essential for honest relationships.</p>
+                        </div>
+                        <div class="card" style="margin-top: 1rem;">
+                            <h3>Communication Reflects Relationship</h3>
+                            <p>Where there is <strong>mutual respect</strong>, communication is positive. Where there is <strong>mistrust</strong>, this shows in argument and reluctance to listen.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 17: Communication Styles -->
+        <div class="slide slide-content" data-notes="Read the scenario aloud - same situation, two approaches. Ask which students have experienced each style as patients themselves.">
+            <div class="slide-header">
+                <div class="section-tag">Communication Patterns</div>
+                <h2>Controlling vs Facilitative Styles</h2>
+            </div>
+            <div class="slide-body">
+                <div style="background: var(--teal-pale); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 0.75rem;"><strong>Scenario:</strong> Patient hasn't been taking their blood pressure medication regularly.</p>
+                    <div class="two-columns" style="gap: 1.5rem;">
+                        <div>
+                            <p style="font-size: 0.9rem; color: var(--accent-coral);"><strong>Controlling:</strong></p>
+                            <p style="font-size: 0.9rem; font-style: italic;">"You need to take these tablets every day. If you don't, you'll have a stroke. I'm going to refer you to the pharmacist for a compliance review."</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.9rem; color: var(--teal-primary);"><strong>Facilitative:</strong></p>
+                            <p style="font-size: 0.9rem; font-style: italic;">"I notice you've missed some doses. Can you tell me what's getting in the way? Let's see if we can find an approach that works better for your life."</p>
+                        </div>
+                    </div>
+                </div>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Controlling Style</th>
+                            <th>Facilitative Style</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="poor">Patient should <strong>comply</strong></td>
+                            <td class="good">Seeks <strong>collaboration</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="poor">Patient's input <strong>not valued</strong></td>
+                            <td class="good">Patient's input is <strong>essential</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="poor">Professional as <strong>authority</strong></td>
+                            <td class="good">Professional as <strong>partner</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="critical-box" style="margin-top: 1rem;">
+                    <h4>Critical Question</h4>
+                    <p>Is facilitative always appropriate? Consider: emergencies, cognitive impairment, safeguarding.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 18: Controlling Behaviours -->
+        <div class="slide slide-content" data-notes="Read the examples aloud - students will recognise these. Ask them to be honest about which they've done themselves. We all have.">
+            <div class="slide-header">
+                <div class="section-tag">Recognising Patterns</div>
+                <h2>Behaviours That Undermine Relationships</h2>
+            </div>
+            <div class="slide-body">
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>1. Dominating</h3>
+                        <p>Stream of talk, not eliciting patient's view</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"Right, so what we're going to do is... and then... and also..."</p>
+                    </div>
+                    <div class="card">
+                        <h3>2. Blocking</h3>
+                        <p>Changing subject, shutting down emotion</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"Anyway, let's focus on your medication..."</p>
+                    </div>
+                    <div class="card">
+                        <h3>3. Exaggerating</h3>
+                        <p>Over-emphasising to force compliance</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"If you don't do this, you'll definitely end up back in hospital."</p>
+                    </div>
+                    <div class="card">
+                        <h3>4. Arguing</h3>
+                        <p>Opposing before understanding</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"No, that's not right — the research clearly shows..."</p>
+                    </div>
+                    <div class="card">
+                        <h3>5. Dismissing</h3>
+                        <p>Minimising patient concerns</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"I wouldn't worry about that if I were you."</p>
+                    </div>
+                    <div class="card">
+                        <h3>6. Interrupting</h3>
+                        <p>Cutting off before they finish</p>
+                        <p style="font-size: 0.85rem; font-style: italic; color: var(--accent-coral); margin-top: 0.5rem;">"Yes, yes — I know what you mean. So..."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 19: Body Language -->
+        <div class="slide slide-split" data-notes="Non-verbal communication often carries more weight than words. Congruence means verbal and non-verbal match.">
+            <div class="left-panel">
+                <h2>Body Language</h2>
+                <p>Non-verbal communication reveals what words may hide.</p>
+            </div>
+            <div class="right-panel">
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Reading Patients</h3>
+                    <p>Body language tells us more than words alone. Note: physical conditions may limit patients' ability to gesture.</p>
+                </div>
+                <div class="card" style="margin-bottom: 1rem;">
+                    <h3>Incongruence</h3>
+                    <p>Sometimes people want to communicate the <em>opposite</em> of what their body shows. A nervous professional may try to appear confident but shake or avoid eye contact.</p>
+                </div>
+                <div class="critical-box">
+                    <h4>Key Point</h4>
+                    <p>Patients detect incongruence between what we say and how we appear. Self-awareness of our non-verbal communication is essential.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 20: Therapeutic Boundaries -->
+        <div class="slide slide-content" data-notes="Key distinction: remaining SEPARATE vs being emotionally DISTANT. Patients need to feel we're robust enough to handle their distress.">
+            <div class="slide-header">
+                <div class="section-tag">Professional Boundaries</div>
+                <h2>Therapeutic Boundaries</h2>
+            </div>
+            <div class="slide-body">
+                <div class="quote-box" style="margin-bottom: 2rem;">
+                    <p>To remain <strong>separate</strong>, as opposed to being emotionally <strong>distant</strong>, is a key aspect of the therapeutic relationship.</p>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="card">
+                            <h3>Why Boundaries Matter</h3>
+                            <p>If patients perceive us as <strong>vulnerable</strong> or 'unsafe' in coping with emotional distress, they may not disclose their anxieties.</p>
+                            <p style="margin-top: 0.75rem;">Patients need to feel we are <strong>robust enough</strong> to contain difficult emotions.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="activity-box">
+                            <h3>Discussion Scenario</h3>
+                            <span class="timing">8 minutes</span>
+                            <p>A patient asks to connect on social media. They say you're "the only one who really understands."</p>
+                            <ul class="content-list" style="margin-top: 0.5rem;">
+                                <li>How would you respond?</li>
+                                <li>How do you maintain warmth while setting limits?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 21: Section Divider - Part 4 -->
+        <div class="slide slide-section" data-notes="Final section. Connect to LO3 - stress as detrimental factor.">
+            <div class="section-number">Part 4</div>
+            <h2>Stress & Sustainability</h2>
+            <p>Protecting your capacity for therapeutic relationships</p>
+        </div>
+
+        <!-- SLIDE 22: Burnout -->
+        <div class="slide slide-content" data-notes="Read the before/after example - it makes the impact concrete. Burnout isn't personal failure - it's often systemic. This affects therapeutic capacity directly.">
+            <div class="slide-header">
+                <div class="section-tag">Practitioner Wellbeing</div>
+                <h2>Burnout and the Therapeutic Relationship</h2>
+            </div>
+            <div class="slide-body">
+                <div style="background: var(--teal-pale); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                    <p style="margin-bottom: 0.75rem;"><strong>Same nurse, same patient concern — six months apart:</strong></p>
+                    <div class="two-columns" style="gap: 1.5rem;">
+                        <div>
+                            <p style="font-size: 0.85rem; color: var(--teal-primary);"><strong>Before burnout:</strong></p>
+                            <p style="font-size: 0.9rem; font-style: italic;">"I can hear you're really worried about going home. Tell me more about what's concerning you — let's work through this together."</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.85rem; color: var(--accent-coral);"><strong>After burnout:</strong></p>
+                            <p style="font-size: 0.9rem; font-style: italic;">"The discharge plan is all sorted. The district nurse will visit. You'll be fine."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="two-columns">
+                    <div>
+                        <div class="card" style="padding: 1.25rem;">
+                            <h3>What is Burnout?</h3>
+                            <p><strong>Emotional exhaustion</strong> — nothing left to give</p>
+                            <p><strong>Depersonalisation</strong> — patients become "the hip in bed 4"</p>
+                            <p><strong>Reduced accomplishment</strong> — nothing feels worthwhile</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="evidence-box">
+                            <h4>The Research</h4>
+                            <p><strong>Negative correlation</strong> between burnout and empathy in healthcare professionals.</p>
+                            <p class="small">Wilkinson et al. (2017)</p>
+                        </div>
+                        <div class="critical-box" style="margin-top: 1rem;">
+                            <h4>Critical Point</h4>
+                            <p>Burnout is not personal failure. <strong>It's often a system design problem.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 23: Stressors & Signs -->
+        <div class="slide slide-content" data-notes="Students will have their own examples. The list is for self-monitoring.">
+            <div class="slide-header">
+                <div class="section-tag">Recognition</div>
+                <h2>Stressors and Warning Signs</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <h3 style="color: var(--deep-navy); margin-bottom: 1rem;">Common Stressors</h3>
+                        <ul class="content-list">
+                            <li>Unrealistic expectations and demands</li>
+                            <li>Confronting own mortality</li>
+                            <li>Constantly saying goodbye</li>
+                            <li>Patients and families not coping</li>
+                            <li>Interprofessional conflict</li>
+                            <li>Ethical dilemmas</li>
+                            <li>Pressure to get it right every time</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--deep-navy); margin-bottom: 1rem;">Warning Signs</h3>
+                        <div class="card" style="background: #fef3f0; border-left-color: var(--accent-coral);">
+                            <ul class="content-list" style="margin: 0;">
+                                <li>Inability to concentrate</li>
+                                <li>Loss of energy / chronic fatigue</li>
+                                <li>Preoccupation with work</li>
+                                <li>Disturbed sleep pattern</li>
+                                <li>Irritability and mood swings</li>
+                                <li>Inability to relax</li>
+                                <li>Sense that life is a fight, not joy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 24: Strategies -->
+        <div class="slide slide-content" data-notes="Both individual AND systemic strategies needed.">
+            <div class="slide-header">
+                <div class="section-tag">Sustainability</div>
+                <h2>Protecting Your Capacity</h2>
+            </div>
+            <div class="slide-body">
+                <div class="two-columns">
+                    <div>
+                        <div class="card teal-bg">
+                            <h3>Collegial Support</h3>
+                            <p>Share with colleagues where you are with patients rather than defending what you're doing.</p>
+                            <p style="margin-top: 0.75rem;"><strong>You either win or learn — there is nothing to lose.</strong></p>
+                        </div>
+                        <div class="card" style="margin-top: 1rem;">
+                            <h3>Avoid Socialisation into Dysfunction</h3>
+                            <p>We can become so socialised into our clinical world we no longer see its faults. Fresh perspective matters.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--deep-navy); margin-bottom: 1rem;">Individual Strategies</h3>
+                        <ul class="content-list">
+                            <li>Regular supervision and reflection</li>
+                            <li>Clear work-life boundaries</li>
+                            <li>Physical self-care</li>
+                            <li>Recognising warning signs early</li>
+                        </ul>
+                        <h3 style="color: var(--deep-navy); margin-bottom: 1rem; margin-top: 1.5rem;">Systemic Strategies</h3>
+                        <ul class="content-list">
+                            <li>Manageable caseloads</li>
+                            <li>Protected supervision time</li>
+                            <li>Team debriefing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 25: Scenario -->
+        <div class="slide slide-content" data-notes="Final activity integrating all learning. Prepares them for written assessment.">
+            <div class="slide-header">
+                <div class="section-tag">Integration</div>
+                <h2>Scenario Analysis</h2>
+            </div>
+            <div class="slide-body">
+                <div class="activity-box">
+                    <h3>Case Application</h3>
+                    <span class="timing">15 minutes in groups</span>
+                    <div style="background: var(--teal-pale); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <p><strong>Scenario:</strong> Mrs Campbell, 72, has been admitted following a fall. She lives alone since her husband died six months ago. She seems withdrawn, gives one-word answers, and says "there's no point" when asked about rehabilitation. Her daughter visits daily but they seem to argue frequently.</p>
+                    </div>
+                    <ul class="content-list">
+                        <li>How would you begin to build a therapeutic relationship?</li>
+                        <li>Which of Rogers' conditions might be most important here?</li>
+                        <li>What barriers to therapeutic relationship might exist?</li>
+                        <li>What would you need to sustain yourself in working with this patient?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 26: Summary -->
+        <div class="slide slide-content" data-notes="Link back to learning outcomes. Point toward assessment.">
+            <div class="slide-header">
+                <div class="section-tag">Conclusion</div>
+                <h2>Key Takeaways</h2>
+            </div>
+            <div class="slide-body">
+                <div class="card-grid">
+                    <div class="card teal-bg">
+                        <h3>Relationships Matter</h3>
+                        <p>Therapeutic relationships contribute to outcomes independent of specific treatments.</p>
+                    </div>
+                    <div class="card teal-bg">
+                        <h3>Conditions for Connection</h3>
+                        <p>Congruence, unconditional positive regard, and empathy must be felt AND communicated.</p>
+                    </div>
+                    <div class="card teal-bg">
+                        <h3>Boundaries Protect</h3>
+                        <p>Remaining separate ≠ being emotionally distant. Boundaries protect both parties.</p>
+                    </div>
+                    <div class="card teal-bg">
+                        <h3>Sustainability Matters</h3>
+                        <p>Practitioners must feel supported to offer support. Burnout undermines empathy.</p>
+                    </div>
+                </div>
+                <div class="critical-box" style="margin-top: 2rem;">
+                    <h4>For Your Assessment</h4>
+                    <p>The critical review asks you to apply helping frameworks to a case scenario. Today's learning prepares you for critically evaluating which approaches work, why, and what you would learn.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 27: Questions -->
+        <div class="slide slide-title" data-notes="Open for questions. Thank students. Remind them of upcoming sessions.">
+            <h1>Questions?</h1>
+            <p class="subtitle">Thank you for your engagement today</p>
+            <p class="meta">
+                Next session: Unit 4 — Therapeutic Interventions<br>
+                Assessment queries: Contact your module tutor
+            </p>
+        </div>
+
+    </div>
+
+    <div class="facilitator-notes" id="facilitatorNotes">
+        <h4>Facilitator Notes</h4>
+        <p id="notesContent"></p>
+    </div>
+
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()">◀</button>
+        <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">27</span></span>
+        <button class="nav-btn" onclick="nextSlide()">▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let notesVisible = false;
+
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+            document.getElementById('currentSlide').textContent = index + 1;
+            document.getElementById('progressBar').style.width = ((index + 1) / totalSlides) * 100 + '%';
+            const notes = slides[index].getAttribute('data-notes');
+            document.getElementById('notesContent').textContent = notes || 'No notes for this slide.';
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) { currentSlide++; showSlide(currentSlide); }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) { currentSlide--; showSlide(currentSlide); }
+        }
+
+        function toggleNotes() {
+            notesVisible = !notesVisible;
+            document.getElementById('facilitatorNotes').classList.toggle('visible', notesVisible);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+            else if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+            else if (e.key === 'n' || e.key === 'N') { toggleNotes(); }
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
