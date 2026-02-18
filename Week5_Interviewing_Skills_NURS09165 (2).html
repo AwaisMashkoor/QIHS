@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interviewing Skills | Week 5 | NURS 09165</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-navy: #1a2744;
+            --navy-mid: #243558;
+            --teal-primary: #2a7a7a;
+            --teal-light: #3d9e9e;
+            --teal-pale: #e8f4f4;
+            --warm-cream: #faf8f5;
+            --text-dark: #2c3e50;
+            --text-muted: #5a6c7d;
+            --accent-coral: #e07a5f;
+            --accent-gold: #d4a574;
+            --white: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-soft: 0 4px 20px rgba(26, 39, 68, 0.08);
+            --shadow-medium: 0 8px 40px rgba(26, 39, 68, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
+
+        body {
+            font-family: 'Source Sans Pro', -apple-system, sans-serif;
+            background: var(--deep-navy);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; }
+
+        /* ─── Progress Bar ─── */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--teal-primary), var(--teal-light));
+            z-index: 100; transition: width 0.4s ease;
+        }
+
+        /* ─── Slide Container ─── */
+        .slides-container { height: 100vh; width: 100vw; overflow: hidden; position: relative; }
+
+        .slide {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none; flex-direction: column;
+            overflow-y: auto;
+            transition: opacity 0.4s ease;
+        }
+        .slide.active { display: flex; }
+
+        /* ─── Title Slide ─── */
+        .slide-title {
+            background: linear-gradient(135deg, var(--deep-navy) 0%, var(--navy-mid) 50%, var(--teal-primary) 100%);
+            color: var(--white);
+            justify-content: center; align-items: center;
+            text-align: center; padding: 3rem;
+            position: relative;
+        }
+        .slide-title::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(61,158,158,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 80%, rgba(224,122,95,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .slide-title .week-badge {
+            display: inline-block; padding: 0.4rem 1.4rem;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 2rem;
+            font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;
+            margin-bottom: 1.5rem; font-weight: 300;
+        }
+        .slide-title h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 700; margin-bottom: 1rem;
+            line-height: 1.15;
+        }
+        .slide-title .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 300; opacity: 0.85;
+            max-width: 700px; line-height: 1.6;
+        }
+        .slide-title .module-info {
+            margin-top: 2rem; font-size: 0.8rem;
+            opacity: 0.5; letter-spacing: 0.1em;
+        }
+
+        /* ─── Content Slides ─── */
+        .slide-content {
+            background: var(--warm-cream);
+            padding: 3rem 4rem 2rem;
+        }
+        .slide-content .slide-header {
+            display: flex; align-items: baseline; gap: 1rem;
+            margin-bottom: 2rem; padding-bottom: 1rem;
+            border-bottom: 2px solid var(--teal-primary);
+        }
+        .slide-content .slide-header h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--deep-navy);
+        }
+        .slide-content .slide-header .section-tag {
+            font-size: 0.7rem; text-transform: uppercase;
+            letter-spacing: 0.15em; color: var(--teal-primary);
+            font-weight: 600; white-space: nowrap;
+        }
+
+        /* ─── Dark Slides ─── */
+        .slide-dark {
+            background: linear-gradient(160deg, var(--deep-navy), var(--navy-mid));
+            color: var(--white);
+            padding: 3rem 4rem 2rem;
+        }
+        .slide-dark .slide-header {
+            border-bottom-color: var(--teal-light);
+        }
+        .slide-dark .slide-header h2 { color: var(--white); }
+        .slide-dark .slide-header .section-tag { color: var(--teal-light); }
+
+        /* ─── Two Column Layout ─── */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; flex: 1; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; flex: 1; }
+
+        /* ─── Cards ─── */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--teal-primary);
+        }
+        .card.coral { border-left-color: var(--accent-coral); }
+        .card.gold { border-left-color: var(--accent-gold); }
+        .card.navy { border-left-color: var(--deep-navy); }
+
+        .card-dark {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--teal-light);
+        }
+        .card-dark.coral { border-left-color: var(--accent-coral); }
+        .card-dark.gold { border-left-color: var(--accent-gold); }
+
+        .card h3, .card-dark h3 {
+            font-size: 1.1rem; margin-bottom: 0.6rem;
+            color: var(--deep-navy);
+        }
+        .card-dark h3 { color: var(--teal-light); }
+        .card p, .card-dark p {
+            font-size: 0.92rem; line-height: 1.6;
+            color: var(--text-muted);
+        }
+        .card-dark p { color: rgba(255,255,255,0.75); }
+
+        /* ─── Activity Slide ─── */
+        .slide-activity {
+            background: linear-gradient(135deg, #1a3a4a 0%, var(--teal-primary) 100%);
+            color: var(--white);
+            padding: 3rem 4rem 2rem;
+        }
+        .slide-activity .slide-header {
+            border-bottom-color: rgba(255,255,255,0.3);
+        }
+        .slide-activity .slide-header h2 { color: var(--white); }
+        .slide-activity .slide-header .section-tag {
+            background: rgba(255,255,255,0.15);
+            padding: 0.2rem 0.8rem; border-radius: 1rem;
+            color: var(--white);
+        }
+        .activity-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px; padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .activity-box h3 { color: var(--accent-gold); font-size: 1rem; margin-bottom: 0.5rem; }
+        .activity-box p { color: rgba(255,255,255,0.85); font-size: 0.92rem; }
+
+        /* ─── Key Point / Callout ─── */
+        .callout {
+            background: linear-gradient(135deg, rgba(42,122,122,0.08), rgba(42,122,122,0.03));
+            border-left: 4px solid var(--teal-primary);
+            border-radius: 0 10px 10px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        .callout.coral-callout {
+            background: linear-gradient(135deg, rgba(224,122,95,0.08), rgba(224,122,95,0.03));
+            border-left-color: var(--accent-coral);
+        }
+
+        /* ─── Quote ─── */
+        .quote-block {
+            border-left: 3px solid var(--accent-gold);
+            padding: 1rem 1.5rem;
+            font-style: italic; color: var(--text-muted);
+            margin: 1rem 0;
+            background: rgba(212,165,116,0.05);
+            border-radius: 0 8px 8px 0;
+        }
+        .quote-block .attribution {
+            font-style: normal; font-size: 0.8rem;
+            color: var(--accent-gold); margin-top: 0.5rem;
+        }
+
+        /* ─── Stage Flow Diagram ─── */
+        .stage-flow {
+            display: flex; gap: 0; align-items: stretch;
+            margin: 1.5rem 0;
+        }
+        .stage-item {
+            flex: 1; text-align: center;
+            padding: 1rem 0.8rem;
+            position: relative;
+            background: var(--white);
+            border: 1px solid var(--border-light);
+        }
+        .stage-item:first-child { border-radius: 10px 0 0 10px; }
+        .stage-item:last-child { border-radius: 0 10px 10px 0; }
+        .stage-item .stage-num {
+            display: inline-block; width: 28px; height: 28px;
+            line-height: 28px; border-radius: 50%;
+            background: var(--teal-primary); color: white;
+            font-size: 0.8rem; font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+        .stage-item .stage-label {
+            font-size: 0.8rem; font-weight: 600;
+            color: var(--deep-navy);
+        }
+        .stage-item .stage-desc {
+            font-size: 0.72rem; color: var(--text-muted);
+            margin-top: 0.3rem; line-height: 1.4;
+        }
+        .stage-item::after {
+            content: '→'; position: absolute;
+            right: -8px; top: 50%; transform: translateY(-50%);
+            color: var(--teal-primary); font-size: 1.1rem;
+            z-index: 2; font-weight: 700;
+        }
+        .stage-item:last-child::after { content: none; }
+
+        /* ─── Comparison Table ─── */
+        .compare-table {
+            width: 100%; border-collapse: separate;
+            border-spacing: 0; border-radius: 10px;
+            overflow: hidden; margin: 1rem 0;
+            font-size: 0.88rem;
+            box-shadow: var(--shadow-soft);
+        }
+        .compare-table th {
+            background: var(--deep-navy); color: var(--white);
+            padding: 0.8rem 1rem; text-align: left;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600; font-size: 0.82rem;
+            letter-spacing: 0.05em;
+        }
+        .compare-table td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: top;
+        }
+        .compare-table tr:nth-child(even) td { background: rgba(42,122,122,0.03); }
+        .compare-table tr:last-child td { border-bottom: none; }
+
+        /* ─── Taxonomy Diagram ─── */
+        .taxonomy {
+            display: flex; gap: 2.5rem;
+            justify-content: center; flex: 1;
+            align-items: flex-start;
+            padding: 1rem 0;
+        }
+        .taxonomy-branch {
+            flex: 1; max-width: 420px;
+        }
+        .taxonomy-branch .branch-header {
+            padding: 0.8rem 1.2rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 700; font-size: 1rem;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        .taxonomy-branch.info .branch-header {
+            background: var(--teal-primary); color: white;
+        }
+        .taxonomy-branch.problem .branch-header {
+            background: var(--accent-coral); color: white;
+        }
+        .taxonomy-type {
+            display: flex; align-items: center; gap: 0.8rem;
+            padding: 0.6rem 1rem;
+            background: var(--white);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border-left: 3px solid transparent;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        .taxonomy-branch.info .taxonomy-type { border-left-color: var(--teal-primary); }
+        .taxonomy-branch.problem .taxonomy-type { border-left-color: var(--accent-coral); }
+        .taxonomy-type .type-icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
+        }
+        .taxonomy-branch.info .type-icon { background: var(--teal-pale); color: var(--teal-primary); }
+        .taxonomy-branch.problem .type-icon { background: rgba(224,122,95,0.12); color: var(--accent-coral); }
+
+        /* ─── Navigation ─── */
+        .nav-controls {
+            position: fixed; bottom: 1.5rem;
+            left: 50%; transform: translateX(-50%);
+            display: flex; align-items: center; gap: 1rem;
+            background: rgba(26,39,68,0.92);
+            backdrop-filter: blur(12px);
+            padding: 0.6rem 1.2rem;
+            border-radius: 2rem;
+            z-index: 99;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .nav-btn {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: white; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+        .nav-btn:hover { background: rgba(255,255,255,0.15); }
+        .nav-btn:disabled { opacity: 0.3; cursor: default; }
+        .slide-counter {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.8rem; min-width: 60px;
+            text-align: center; font-variant-numeric: tabular-nums;
+        }
+
+        /* ─── Notes Toggle ─── */
+        .notes-toggle {
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            width: 40px; height: 40px; border-radius: 50%;
+            background: rgba(26,39,68,0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; z-index: 99;
+            transition: all 0.2s;
+        }
+        .notes-toggle:hover { background: var(--teal-primary); }
+
+        .notes-panel {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(26,39,68,0.97);
+            backdrop-filter: blur(12px);
+            color: rgba(255,255,255,0.85);
+            padding: 1.2rem 2rem;
+            transform: translateY(100%);
+            transition: transform 0.35s ease;
+            z-index: 98;
+            max-height: 35vh; overflow-y: auto;
+            font-size: 0.88rem; line-height: 1.7;
+            border-top: 2px solid var(--teal-primary);
+        }
+        .notes-panel.visible { transform: translateY(0); }
+        .notes-panel strong { color: var(--accent-gold); }
+        .notes-panel em { color: var(--teal-light); }
+
+        /* ─── Misc ─── */
+        .tag {
+            display: inline-block; font-size: 0.7rem;
+            padding: 0.15rem 0.6rem; border-radius: 1rem;
+            font-weight: 600; letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .tag-teal { background: var(--teal-pale); color: var(--teal-primary); }
+        .tag-coral { background: rgba(224,122,95,0.12); color: var(--accent-coral); }
+        .tag-navy { background: rgba(26,39,68,0.08); color: var(--deep-navy); }
+
+        .highlight-text { color: var(--teal-primary); font-weight: 600; }
+        .coral-text { color: var(--accent-coral); font-weight: 600; }
+
+        .small-text { font-size: 0.78rem; color: var(--text-muted); }
+        .slide-dark .small-text { color: rgba(255,255,255,0.5); }
+
+        .ref { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.8rem; line-height: 1.5; }
+        .slide-dark .ref { color: rgba(255,255,255,0.4); }
+        .slide-activity .ref { color: rgba(255,255,255,0.4); }
+
+        .spacer { height: 1rem; }
+        .spacer-sm { height: 0.5rem; }
+
+        ul.spaced li { margin-bottom: 0.5rem; font-size: 0.92rem; }
+        ul.spaced li::marker { color: var(--teal-primary); }
+        .slide-dark ul.spaced li::marker { color: var(--teal-light); }
+
+        .video-cue {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            background: rgba(224,122,95,0.1); color: var(--accent-coral);
+            padding: 0.3rem 0.8rem; border-radius: 1rem;
+            font-size: 0.78rem; font-weight: 600;
+        }
+        .slide-dark .video-cue, .slide-activity .video-cue {
+            background: rgba(224,122,95,0.2);
+        }
+
+        @media (max-width: 900px) {
+            .slide-content, .slide-dark, .slide-activity { padding: 2rem; }
+            .two-col, .three-col { grid-template-columns: 1fr; }
+            .stage-flow { flex-direction: column; }
+            .stage-item::after { content: '↓' !important; right: 50%; bottom: -8px; top: auto; transform: translateX(50%); }
+            .stage-item:last-child::after { content: none !important; }
+            .taxonomy { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="slides-container" id="slidesContainer">
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 0: TITLE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-title active" data-slide="0" data-notes="<strong>Opening (2 min).</strong> Remind students this is Week 5 — we're continuing Unit 2, building directly on last week's communication skills session. Today we move from <em>general</em> communication skills to the <em>structured application</em> of those skills in interview contexts. This distinction matters: interviewing isn't just 'having a conversation' — it's a purposeful, planned interaction with a clear goal. Mention the worksheet task: this week they'll interview a friend on a set topic and reflect, so today gives them the framework to do that well. Room split as usual (PA_D143/PA_D141).">
+            <div class="week-badge">Week 5 · Unit 2 · SCQF Level 9</div>
+            <h1>Interviewing Skills</h1>
+            <p class="subtitle">Critically evaluating the interview as a purposeful communication tool in contemporary healthcare practice</p>
+            <p class="module-info">NURS 09165 · Therapeutic Communication · Trimester 2 · 2025–2026</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 1: LEARNING OUTCOMES -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="1" data-notes="<strong>Learning Outcomes (3 min).</strong> Walk through each outcome — emphasise the verbs. 'Critically evaluate' and 'analyse' are Level 9 expectations. We're not just listing interview types today — we're questioning <em>when</em> each is appropriate, <em>what evidence</em> supports their use, and <em>what can go wrong</em>. Link to module LO1 (effective communication skills as problem-solving) and flag that interviewing skills feed directly into the Category 1 MCQ. Also note: this content is foundational for the therapeutic interventions in Weeks 7–10, because every single one of those models (Egan, Rogers, MI, CBT) operates <em>through</em> an interview process.">
+            <div class="slide-header">
+                <span class="section-tag">Foundations</span>
+                <h2>Today's Learning Outcomes</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">By the end of this session you should be able to:</p>
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>1. Describe &amp; Distinguish</h3>
+                        <p>Describe the essential characteristics of a healthcare interview and distinguish it from everyday conversation and other forms of professional communication</p>
+                    </div>
+                    <div class="card coral" style="margin-bottom: 1rem;">
+                        <h3>2. Identify &amp; Classify</h3>
+                        <p>Identify the types of questions used in interviews and classify interview formats (structured, semi-structured, unstructured) according to their purpose and context</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card gold" style="margin-bottom: 1rem;">
+                        <h3>3. Analyse</h3>
+                        <p>Analyse how environmental, interpersonal, and systemic conditions affect the quality and outcomes of healthcare interviews</p>
+                    </div>
+                    <div class="card navy" style="margin-bottom: 1rem;">
+                        <h3>4. Critically Evaluate</h3>
+                        <p>Critically evaluate the application of interviewing skills across different healthcare settings, considering evidence of effectiveness and limitations</p>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Links to Module LO1 · Feeds into Category 1 MCQ and Category 2 Critical Review</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 2: WHAT MAKES AN INTERVIEW? -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="2" data-notes="<strong>Defining the Interview (5 min).</strong> Start by asking students: 'What's the difference between a conversation and an interview?' Let them respond. Key distinction: an interview is <em>purposeful, planned, and has a specific goal</em>. It's not a casual chat — even when it feels like one. This matters because in healthcare, every patient interaction has a purpose, even if the patient doesn't always know what it is. The three essential characteristics (purpose clarity, preparation, recording) come from the original slides — but now we're framing them critically. Ask: 'What happens when you skip the preparation stage? What happens when you don't record?' Get students thinking about consequences, not just steps. Introduce the Hargie framework — this is the evidence base for structured communication skills that underpins much of what we cover. Mention that the NMC Code (2018) Sections 2 and 7 require nurses to gather accurate information and communicate clearly — interviewing is how they meet these professional standards.">
+            <div class="slide-header">
+                <span class="section-tag">Foundations</span>
+                <h2>What Makes an Interview?</h2>
+            </div>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; font-size: 0.95rem;">An interview is not simply a conversation. It is a <span style="color: var(--teal-light); font-weight: 600;">purposeful, planned interaction</span> with identifiable goals, structure, and professional accountability.</p>
+            <div class="three-col">
+                <div class="card-dark">
+                    <h3>Purpose Clarity</h3>
+                    <p>Both parties must understand <em>why</em> the interaction is taking place. In healthcare, unclear purpose leads to missed information and patient anxiety.</p>
+                </div>
+                <div class="card-dark coral">
+                    <h3>Preparation</h3>
+                    <p>Structure, content, and conduct must be planned in advance. Hargie (2019) argues that preparation is the single strongest predictor of interview effectiveness.</p>
+                </div>
+                <div class="card-dark gold">
+                    <h3>Documentation</h3>
+                    <p>Information gathered must be accurately recorded. In NHS Scotland, this is both a professional and legal requirement under NMC Code Sections 10 and 25.</p>
+                </div>
+            </div>
+            <div class="callout" style="background: rgba(255,255,255,0.05); border-left-color: var(--accent-gold); margin-top: 1.5rem;">
+                <strong style="color: var(--accent-gold);">Critical question:</strong>
+                <span style="color: rgba(255,255,255,0.8);"> If an interview is purposeful and planned, what happens when time pressures in a busy NHS ward force nurses to conduct interviews without preparation? Is the interaction still an 'interview' — or has it become something else?</span>
+            </div>
+            <p class="ref">Hargie, O. (2019) <em>Skilled Interpersonal Communication</em>, 7th edn. London: Routledge. | NMC (2018) <em>The Code</em>, Sections 2, 7, 10, 25.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: INTERVIEW VS CONVERSATION -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="new-1" data-notes="<strong>Interview vs Conversation (4 min).</strong> Before jumping into the video, ground the distinction concretely. Ask students: 'When you chat with a friend about their weekend, is that an interview? Why not?' Then flip it: 'When you ask a patient about their pain, is that a conversation or an interview?' The answer is — it depends on whether you have a <em>purpose, a plan, and accountability for the outcome</em>. Walk through the table. The key row is 'Accountability' — in a conversation, there's no professional obligation. In an interview, you're accountable for what you do (and don't do) with the information. This connects to NMC Code requirements. The danger zone is when healthcare interactions <em>look</em> like conversations but are actually interviews — informal chats at the bedside where clinically significant information is disclosed but not recorded. Or vice versa: formal interview structures that feel so rigid they shut down the patient's willingness to share. The skill is making interviews feel conversational while maintaining professional purpose and structure.">
+            <div class="slide-header">
+                <span class="section-tag">Foundations</span>
+                <h2>Interview vs Conversation: Why the Distinction Matters</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">When you chat with a friend about their weekend, is that an interview? When you ask a patient about their pain at the bedside, is that a conversation?</p>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">Dimension</th>
+                        <th style="width: 39%;">Conversation</th>
+                        <th style="width: 39%; background: var(--teal-primary);">Interview</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Purpose</strong></td>
+                        <td>Social connection, enjoyment, information exchange</td>
+                        <td>Specific, predetermined goal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Structure</strong></td>
+                        <td>Spontaneous, free-flowing</td>
+                        <td>Planned stages (opening → body → closing)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Roles</strong></td>
+                        <td>Equal, interchangeable</td>
+                        <td>Distinct: interviewer guides, interviewee responds</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recording</strong></td>
+                        <td>Not expected</td>
+                        <td>Essential — professional and legal requirement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Accountability</strong></td>
+                        <td>None — no professional obligation</td>
+                        <td>Interviewer is accountable for outcomes and documentation</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="two-col" style="margin-top: 1.5rem;">
+                <div class="callout">
+                    <strong>The danger zone:</strong> Informal bedside chats where clinically significant information is disclosed but <em>not recorded</em> — it looked like a conversation, but it was an interview you didn't recognise.
+                </div>
+                <div class="callout coral-callout">
+                    <strong>The skill:</strong> Making interviews <em>feel</em> conversational while maintaining professional purpose and structure. The patient shouldn't feel interrogated — but you must remain accountable for the information.
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 3: ACTIVITY 1 — VIDEO ANALYSIS -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-activity" data-slide="3" data-notes="<strong>Activity 1: Discussion (10 min).</strong> This works best as a structured pair discussion rather than a video activity — it gets students drawing on their own clinical experience immediately. Put them in pairs. Give 5 minutes for the paired discussion, then 5 minutes whole-group feedback. The scenario approach works well: ask one student to play the patient (brief them: 'You've come in with persistent headaches but you're worried it might be something serious and you're reluctant to say so'). The other plays the nurse. After 2 minutes, pause and ask: 'Was that a conversation or an interview? What made it one or the other?' Push beyond surface answers. If a student says 'the nurse asked questions so it was an interview', challenge: 'I ask my friends questions too — what's different here?' Drive toward the three distinguishing features: purpose, structure, accountability. In whole-group feedback, collect examples of the 'danger zone' — times students have seen clinically significant information disclosed in casual bedside chat but not recorded. This grounds the theoretical distinction in lived experience.">
+            <div class="slide-header">
+                <span class="section-tag">Workshop Activity</span>
+                <h2>Activity 1: Interview or Conversation?</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem;">Drawing on your clinical experience, work in pairs to explore the distinction we've just discussed:</p>
+            <div class="two-col">
+                <div>
+                    <div class="activity-box">
+                        <h3>Scenario Discussion</h3>
+                        <p>Think of a <strong>specific interaction</strong> from your placement experience — it could be a formal admission assessment, a bedside chat, a handover conversation, or a medication round.</p>
+                        <ul class="spaced" style="margin-top: 0.5rem; padding-left: 1.2rem;">
+                            <li>Was it an <strong>interview</strong> or a <strong>conversation</strong>? What made it one or the other?</li>
+                            <li>Was there a clear <strong>purpose</strong>? Did the patient know what it was?</li>
+                            <li>Was the information <strong>recorded</strong>? If not, should it have been?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="activity-box">
+                        <h3>The 'Danger Zone' Challenge</h3>
+                        <p>Can you think of an example — from practice or placement — where:</p>
+                        <ul class="spaced" style="margin-top: 0.5rem; padding-left: 1.2rem;">
+                            <li>A <strong>casual chat</strong> revealed clinically significant information that <em>wasn't</em> formally recorded?</li>
+                            <li>A <strong>formal interview</strong> felt so rigid that the patient shut down and stopped sharing?</li>
+                            <li>An interaction <strong>shifted</strong> from conversation to interview mid-way — what triggered the shift?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Paired discussion: 5 min · Whole-group feedback: 5 min · Connects to NMC Code Sections 10 &amp; 25 (record-keeping)</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 4: INTERVIEW TYPES TAXONOMY -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="4" data-notes="<strong>Interview Types (5 min).</strong> Present the two broad categories. Key teaching point: these are not mutually exclusive. A nurse conducting a health appraisal might uncover a problem that shifts the interview into counselling mode. A diagnostic interview might reveal non-compliance that requires motivational interviewing. In practice, skilled practitioners move fluidly between these — which is exactly why understanding the <em>taxonomy</em> matters, so you know which mode you're operating in and can adapt intentionally rather than drifting unconsciously. Ask students: 'Can you think of a time in practice when an interview shifted from one type to another? What triggered the shift?' Note the motivational interview sits under problem-solving — this foreshadows Week 10's dedicated MI session.">
+            <div class="slide-header">
+                <span class="section-tag">Types &amp; Purposes</span>
+                <h2>A Taxonomy of Healthcare Interviews</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Healthcare interviews broadly fall into two categories, though in practice skilled practitioners move fluidly between them:</p>
+            <div class="taxonomy">
+                <div class="taxonomy-branch info">
+                    <div class="branch-header">Information-Seeking</div>
+                    <div class="taxonomy-type"><div class="type-icon">Dx</div> Diagnostic Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">HA</div> Health Appraisal Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">In</div> Induction Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">PA</div> Performance Appraisal</div>
+                    <div class="taxonomy-type"><div class="type-icon">Re</div> Research Interview</div>
+                </div>
+                <div class="taxonomy-branch problem">
+                    <div class="branch-header">Problem-Solving</div>
+                    <div class="taxonomy-type"><div class="type-icon">Co</div> Counselling Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">Di</div> Disciplinary Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">Se</div> Selection Interview</div>
+                    <div class="taxonomy-type"><div class="type-icon">MI</div> Motivational Interview</div>
+                </div>
+            </div>
+            <div class="callout" style="margin-top: 1rem;">
+                <strong>Critical point:</strong> These categories are not mutually exclusive. A diagnostic interview may uncover adherence issues requiring motivational interviewing. Recognising when the interview purpose <em>shifts</em> is a hallmark of skilled practice.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 5: INFORMATION-SEEKING IN DEPTH -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="5" data-notes="<strong>Information-Seeking Interviews (8 min).</strong> Walk through the five types. For each, give a concrete clinical example rather than abstract definitions. Diagnostic: 'Think about a patient presenting to A&E with chest pain — what information do you need and how does the interview structure help you get it systematically?' Health Appraisal: 'This is your comprehensive admission assessment — broader, using more open questions.' Induction: relevant to students themselves — they've all had induction experiences. Ask: 'Was your NHS placement induction effective? Why or why not?' Performance appraisal: mention NHS Scotland KSF (Knowledge and Skills Framework) — students will encounter this. Research: ethics, consent, power dynamics. Push beyond description: for each type, ask 'what makes this type succeed or fail?'">
+            <div class="slide-header">
+                <span class="section-tag">Types &amp; Purposes</span>
+                <h2>Information-Seeking Interviews</h2>
+            </div>
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3><span class="tag tag-teal">Diagnostic</span></h3>
+                        <p>Focuses on current health problems using systematic questioning. Includes symptom exploration, comprehensive history (personal and family), physical examination, and accurate record-keeping. <strong>Clinical example:</strong> A&E triage assessment for chest pain.</p>
+                    </div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3><span class="tag tag-teal">Health Appraisal</span></h3>
+                        <p>Broader than diagnostic — examines physical, psychological, social, economic, spiritual, and environmental factors. Relies heavily on open questions. <strong>Clinical example:</strong> Comprehensive nursing admission assessment.</p>
+                    </div>
+                    <div class="card">
+                        <h3><span class="tag tag-teal">Induction</span></h3>
+                        <p>Orientates new staff to the organisation, identifies learning gaps, and establishes positive working relationships. <strong>Your experience:</strong> Think about your own NHS placement inductions.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card gold" style="margin-bottom: 1rem;">
+                        <h3><span class="tag tag-navy">Performance Appraisal</span></h3>
+                        <p>Reviews past performance and sets future goals. In NHS Scotland, linked to the Knowledge and Skills Framework (KSF). Increasingly part of qualified nurses' mentoring responsibilities.</p>
+                    </div>
+                    <div class="card gold" style="margin-bottom: 1rem;">
+                        <h3><span class="tag tag-navy">Research</span></h3>
+                        <p>Collects data to answer research questions. Requires careful attention to ethics, informed consent, and the interviewer's dual role as researcher and practitioner.</p>
+                    </div>
+                    <div class="callout coral-callout">
+                        <strong>Reflect:</strong> Which of these information-seeking interviews have you experienced — as interviewer <em>or</em> interviewee? What made the difference between an effective and ineffective experience?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 6: PROBLEM-SOLVING IN DEPTH -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="6" data-notes="<strong>Problem-Solving Interviews (7 min).</strong> These are the interviews where you're not just gathering information but actively working to change something. The counselling interview is most relevant to nursing — link to Egan's Skilled Helper (Week 7) and Rogers (Week 9). Both operate through counselling interview structures. Disciplinary — nurses increasingly face this as band 5/6 staff manage teams. Selection — students will be on interview panels someday. The motivational interview is critical — briefly introduce it here as a foreshadowing of Week 10. Key point: MI is <em>not</em> telling someone to change; it's helping them find their own motivation. Ask: 'Has anyone seen MI used in practice? In what context?' Note: many of the problem-solving interview skills overlap with the therapeutic interventions they'll study in Unit 4.">
+            <div class="slide-header">
+                <span class="section-tag">Types &amp; Purposes</span>
+                <h2>Problem-Solving Interviews</h2>
+            </div>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 1.5rem;">These interviews go beyond gathering information — the interviewer is actively working towards <span style="color: var(--accent-coral); font-weight: 600;">resolution, change, or decision-making</span>.</p>
+            <div class="two-col">
+                <div>
+                    <div class="card-dark" style="margin-bottom: 1rem;">
+                        <h3>Counselling Interview</h3>
+                        <p>Explores problems, clarifies issues, and supports the client toward action. Usually involves a series of interviews. This is the interview form that underpins Egan's Skilled Helper and Rogers' Person-Centred Therapy — both covered in Weeks 7 and 9.</p>
+                    </div>
+                    <div class="card-dark coral" style="margin-bottom: 1rem;">
+                        <h3>Disciplinary Interview</h3>
+                        <p>Addresses unacceptable behaviour through a structured process. Stressful for both parties. Requires particular sensitivity to power dynamics and procedural fairness.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card-dark" style="margin-bottom: 1rem;">
+                        <h3>Selection Interview</h3>
+                        <p>Matches candidates to roles. The consequences of poor interviewing here are significant — selecting the wrong person can harm team effectiveness and patient safety.</p>
+                    </div>
+                    <div class="card-dark gold" style="margin-bottom: 1rem;">
+                        <h3>Motivational Interview</h3>
+                        <p>A specialised form of counselling interview for addictive or harmful behaviours. Aims to evoke the client's <em>own</em> motivation for change rather than imposing it. <span class="video-cue">▶ We'll explore MI in depth in Week 10</span></p>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Miller, W.R. & Rollnick, S. (2013) <em>Motivational Interviewing</em>, 3rd edn. New York: Guilford Press. | Egan, G. (2013) <em>The Skilled Helper</em>, 10th edn.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 7: INTERVIEW FORMATS -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="7" data-notes="<strong>Interview Formats (5 min).</strong> This is about <em>how much control</em> the interviewer exerts over the interaction. The format exists on a continuum. Structured interviews are reliable but can feel rigid and miss important information the patient wants to share. Unstructured interviews are responsive but risk missing critical data. Semi-structured is the 'best of both worlds' but requires the most skill — you need to hold a structure while being flexible enough to follow the patient's lead. Ask: 'Which format do you use most in practice? Is it a deliberate choice or just habit?' Critical point: evidence from Silverman et al. (2013) suggests that the Calgary-Cambridge model — which is essentially semi-structured — produces the best patient outcomes because it balances information-gathering with relationship-building.">
+            <div class="slide-header">
+                <span class="section-tag">Structure</span>
+                <h2>Interview Formats: A Continuum of Control</h2>
+            </div>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th style="width: 18%;">Format</th>
+                        <th style="width: 25%;">Purpose</th>
+                        <th style="width: 30%;">Characteristics</th>
+                        <th style="width: 27%;">Healthcare Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong style="color: var(--teal-primary);">Structured</strong></td>
+                        <td>Obtain specific, standardised information</td>
+                        <td>Planned agenda; questions decided in advance; interviewer controls pace and content</td>
+                        <td>Triage assessment, research questionnaire, medication reconciliation</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: var(--accent-coral);">Semi-structured</strong></td>
+                        <td>Gain information while promoting patient participation</td>
+                        <td>Flexible agenda; some questions pre-planned; pace shared between interviewer and interviewee</td>
+                        <td>Nursing admission, performance appraisal, care planning discussion</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: var(--accent-gold);">Unstructured</strong></td>
+                        <td>Explore the client's own perception of issues</td>
+                        <td>General area of enquiry identified; few pre-set questions; content and pace largely determined by client</td>
+                        <td>Counselling sessions, initial mental health assessment, bereavement support</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout" style="margin-top: 1rem;">
+                <strong>Evidence base:</strong> The Calgary-Cambridge model — a semi-structured approach — is considered best practice for medical interviewing because it balances systematic information-gathering with patient-centred relationship-building (Silverman, Kurtz &amp; Draper, 2013). Many NHS Scotland clinical settings have adopted this framework.
+            </div>
+            <p class="ref">Silverman, J., Kurtz, S. & Draper, J. (2013) <em>Skills for Communicating with Patients</em>, 3rd edn. London: CRC Press.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: QUESTION TYPES IN CONTEXT -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="new-2" data-notes="<strong>Question Types in Context (6 min).</strong> This bridges Week 4 directly into today's content. Students covered question types last week in the abstract — now we apply them specifically to the interview context. The funnel technique is the key teaching point: start broad with open questions, then narrow progressively. This is how skilled interviewers move from the patient's agenda to focused clinical information without losing the patient's trust. Give a live demonstration: 'Tell me about how you've been feeling' → 'You mentioned feeling tired — can you tell me more about that?' → 'When did the tiredness start?' → 'Is it worse at any particular time of day?' → 'On a scale of 1–10, how would you rate your energy levels today?' Walk through this in real-time so students can hear the progressive narrowing. Then flag the danger questions: leading questions ('You're feeling better, aren't you?') and multiple questions ('How are you feeling, have you been eating well, and are you sleeping alright?'). Ask students to identify the problems with each.">
+            <div class="slide-header">
+                <span class="section-tag">Structure</span>
+                <h2>Question Types in the Interview Context</h2>
+            </div>
+            <p style="margin-bottom: 1rem; font-size: 0.95rem;">Connecting Week 4's communication skills to purposeful interviewing — <span class="highlight-text">the funnel technique</span>:</p>
+            <div style="display: flex; align-items: center; gap: 0; margin-bottom: 1.5rem;">
+                <div style="flex: 1; padding: 1.2rem; background: var(--teal-primary); color: white; border-radius: 10px 0 0 10px; text-align: center;">
+                    <div style="font-weight: 700; font-size: 1rem; font-family: 'Playfair Display', serif;">Open</div>
+                    <div style="font-size: 0.78rem; margin-top: 0.3rem; opacity: 0.85;">"Tell me about how you've been feeling"</div>
+                </div>
+                <div style="width: 20px; text-align: center; color: var(--teal-primary); font-weight: 700;">→</div>
+                <div style="flex: 1; padding: 1.2rem; background: rgba(42,122,122,0.15); border-radius: 0; text-align: center;">
+                    <div style="font-weight: 700; font-size: 1rem; font-family: 'Playfair Display', serif; color: var(--teal-primary);">Probing</div>
+                    <div style="font-size: 0.78rem; margin-top: 0.3rem; color: var(--text-muted);">"You mentioned tiredness — tell me more about that"</div>
+                </div>
+                <div style="width: 20px; text-align: center; color: var(--teal-primary); font-weight: 700;">→</div>
+                <div style="flex: 1; padding: 1.2rem; background: rgba(42,122,122,0.08); border-radius: 0; text-align: center;">
+                    <div style="font-weight: 700; font-size: 1rem; font-family: 'Playfair Display', serif; color: var(--teal-primary);">Focused</div>
+                    <div style="font-size: 0.78rem; margin-top: 0.3rem; color: var(--text-muted);">"When did the tiredness start?"</div>
+                </div>
+                <div style="width: 20px; text-align: center; color: var(--teal-primary); font-weight: 700;">→</div>
+                <div style="flex: 1; padding: 1.2rem; background: var(--deep-navy); color: white; border-radius: 0 10px 10px 0; text-align: center;">
+                    <div style="font-weight: 700; font-size: 1rem; font-family: 'Playfair Display', serif;">Closed</div>
+                    <div style="font-size: 0.78rem; margin-top: 0.3rem; opacity: 0.85;">"Rate your energy 1–10 today?"</div>
+                </div>
+            </div>
+            <div class="two-col">
+                <div>
+                    <div class="card">
+                        <h3 style="color: var(--teal-primary);">The Funnel Approach</h3>
+                        <p>Start broad, then narrow progressively. This lets the <strong>patient set the initial agenda</strong> before the interviewer focuses on clinical priorities. Evidence shows this approach yields more accurate and complete information than starting with closed questions (Silverman et al., 2013).</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card coral">
+                        <h3 style="color: var(--accent-coral);">Questions to Avoid</h3>
+                        <p><strong>Leading:</strong> "You're feeling better now, aren't you?" — directs the patient toward your expected answer.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Multiple:</strong> "How are you feeling, have you been eating, and are you sleeping?" — which one does the patient answer?</p>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Silverman, J., Kurtz, S. & Draper, J. (2013) <em>Skills for Communicating with Patients</em>. | Connects to Week 4: Communication Skills.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 8: ACTIVITY 2 — INTERVIEW EXPERIENCE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-activity" data-slide="8" data-notes="<strong>Activity 2: Paired Discussion (10 min).</strong> This is the activity from the original slide 17, but with analytical scaffolding. Put students in pairs. Give them 5 minutes to discuss with their partner, then 5 minutes whole-group feedback. Push for specifics: not 'I've done health appraisals' but 'I conducted a health appraisal on a post-operative patient and I found that...' When they share the format they use in practice, probe: 'Is that format a <em>choice</em> or is it dictated by the paperwork? What happens when the patient's needs don't fit the format you're using?' This connects to the Realistic Medicine principle of shared decision-making — the interview format should serve the patient, not just the system.">
+            <div class="slide-header">
+                <span class="section-tag">Workshop Activity</span>
+                <h2>Activity 2: Your Interview Experience</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem;">Work in pairs. Draw on your clinical placements and professional experience:</p>
+            <div class="two-col">
+                <div class="activity-box">
+                    <h3>Part A: Types &amp; Roles</h3>
+                    <p>Which interview types from the taxonomy have you participated in? Identify specific examples where you were the <strong>interviewer</strong> and where you were the <strong>interviewee</strong>. What felt different about each role?</p>
+                </div>
+                <div class="activity-box">
+                    <h3>Part B: Format in Practice</h3>
+                    <p>In your day-to-day clinical practice, which interview <strong>format</strong> do you normally use — structured, semi-structured, or unstructured? Is this a deliberate <em>choice</em> or is it dictated by the documentation system? What happens when the patient's needs don't fit the format?</p>
+                </div>
+            </div>
+            <div class="activity-box" style="border-color: var(--accent-gold);">
+                <h3 style="color: var(--accent-gold);">Level 9 Stretch</h3>
+                <p>Consider how the Scottish Government's Realistic Medicine agenda — particularly shared decision-making and personalised care — might require us to rethink rigid interview structures in nursing practice.</p>
+            </div>
+            <p class="ref">Paired discussion: 5 min · Whole-group feedback: 5 min · Scottish Government (2022) <em>Realising Realistic Medicine</em>.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 9: THE INTERVIEW SKELETON -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="9" data-notes="<strong>Interview Structure (5 min).</strong> The five-stage model is a useful skeleton — the original slides used this effectively. Keep the structure but add the <em>why</em> for each stage. Pre-interview: what does preparation actually involve? Not just reading the notes — it's about mental preparation, environmental setup, and anticipating potential challenges. Opening: this is where the therapeutic relationship from Week 3 becomes operational — rapport, purpose, structure. Information gathering: this is where Week 4's skills (questioning, listening, non-verbal) come in. Closing: often done badly in practice — research shows clinicians frequently fail to summarise or check understanding. Follow-up: the bit that gets missed under time pressure. Ask: 'Which of these five stages do you think is most often skipped in busy clinical settings? What are the consequences?'">
+            <div class="slide-header">
+                <span class="section-tag">Structure</span>
+                <h2>The Interview Skeleton: Five Stages</h2>
+            </div>
+            <div class="stage-flow">
+                <div class="stage-item">
+                    <div class="stage-num">1</div>
+                    <div class="stage-label">Pre-Interview</div>
+                    <div class="stage-desc">Preparation of self, environment, and materials</div>
+                </div>
+                <div class="stage-item">
+                    <div class="stage-num">2</div>
+                    <div class="stage-label">Opening</div>
+                    <div class="stage-desc">Rapport, purpose, structure, set induction</div>
+                </div>
+                <div class="stage-item">
+                    <div class="stage-num">3</div>
+                    <div class="stage-label">Information Gathering</div>
+                    <div class="stage-desc">Questioning, listening, non-verbal cues</div>
+                </div>
+                <div class="stage-item">
+                    <div class="stage-num">4</div>
+                    <div class="stage-label">Closing</div>
+                    <div class="stage-desc">Summarising, clarifying next steps</div>
+                </div>
+                <div class="stage-item">
+                    <div class="stage-num">5</div>
+                    <div class="stage-label">Follow-up</div>
+                    <div class="stage-desc">Documentation, informing decisions</div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="two-col">
+                <div>
+                    <div class="callout">
+                        <strong>Connecting the weeks:</strong> The <em>opening</em> stage is where Week 3's therapeutic relationship skills become operational. The <em>information gathering</em> stage is where Week 4's communication skills — questioning, active listening, non-verbal awareness — are applied purposefully.
+                    </div>
+                </div>
+                <div>
+                    <div class="callout coral-callout">
+                        <strong>Evidence gap:</strong> Research by Heritage and Clayman (2010) found that clinicians frequently fail to summarise at closing, leading to patient misunderstanding of diagnosis and treatment. Which stage do <em>you</em> think is most often skipped in practice?
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Heritage, J. & Clayman, S. (2010) <em>Talk in Action</em>. Chichester: Wiley-Blackwell.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: SETTING THE SCENE -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="new-3" data-notes="<strong>Setting the Scene (5 min).</strong> Students often skip straight to 'what questions do I ask?' but the pre-interview and opening stages determine whether the rest of the interview will work. This slide unpacks what 'preparation' actually looks like in practice. Three dimensions: preparing <em>yourself</em> (reviewing records, clarifying your purpose, checking your assumptions), preparing the <em>environment</em> (privacy, seating, timing, minimising interruptions), and preparing the <em>patient</em> (explaining who you are, why you're here, how long it will take, what will happen with the information). The concept of <strong>set induction</strong> from Hargie is worth explaining — it's the process of orienting the interviewee at the start so they know what to expect. Think of it as 'setting the GPS before driving.' Ask: 'What happens on your ward when there isn't time for proper preparation? What's the impact on the quality of information you get?'">
+            <div class="slide-header">
+                <span class="section-tag">Structure</span>
+                <h2>Setting the Scene: Before the Interview Begins</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">The stages students most often skip are the ones that determine whether the rest will work:</p>
+            <div class="three-col">
+                <div class="card">
+                    <h3>Preparing Yourself</h3>
+                    <p><strong>Review available records</strong> — what do you already know? What gaps need filling?</p>
+                    <p style="margin-top: 0.5rem;"><strong>Clarify your purpose</strong> — can you state in one sentence why you're conducting this interview?</p>
+                    <p style="margin-top: 0.5rem;"><strong>Check your assumptions</strong> — what are you expecting to find? Are you open to being surprised?</p>
+                </div>
+                <div class="card coral">
+                    <h3>Preparing the Environment</h3>
+                    <p><strong>Privacy:</strong> Can the patient speak freely? Curtains, doors, appropriate space.</p>
+                    <p style="margin-top: 0.5rem;"><strong>Positioning:</strong> Eye level. No physical barriers. Appropriate distance — close enough to convey interest, far enough for comfort.</p>
+                    <p style="margin-top: 0.5rem;"><strong>Timing:</strong> Is this the right moment? Is the patient in pain, anxious, or about to receive visitors?</p>
+                </div>
+                <div class="card gold">
+                    <h3>Preparing the Patient</h3>
+                    <p><strong>Set Induction</strong> (Hargie, 2019): Orient the interviewee so they know what to expect — like setting the GPS before driving.</p>
+                    <p style="margin-top: 0.5rem;">Introduce yourself · State the purpose · Explain the process · Indicate duration · Invite questions · Seek consent to proceed</p>
+                    <p class="small-text" style="margin-top: 0.5rem;"><em>NMC Code Section 4: Act in the best interests of people — this starts before the first question.</em></p>
+                </div>
+            </div>
+            <div class="callout coral-callout">
+                <strong>The ward reality:</strong> What happens when there <em>isn't</em> time for proper preparation? Research suggests that even 60 seconds of mental preparation — clarifying purpose and checking assumptions — significantly improves interview quality (Maguire &amp; Pitceathly, 2002).
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 10: SKILLS BY STAGE — HEALTH APPRAISAL -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="10" data-notes="<strong>Skills by Stage: Health Appraisal (5 min).</strong> Rather than walking through every interview type (which makes better handout material), focus in class on the two most relevant to nursing students: health appraisal and counselling. The health appraisal is the one they'll use most frequently on placement. Walk through the stages with concrete examples. Opening: 'Hello, my name is... I'm going to be looking after you today and I'd like to ask some questions about your health so we can plan the best care for you. This will take about 20 minutes.' Main body: demonstrate the shift from open to focused questions. Closing: 'Let me check I've understood everything correctly...' Emphasise that the skills listed here are <em>not</em> unique to health appraisal — they transfer across interview types. The skill is knowing which to foreground in which context.">
+            <div class="slide-header">
+                <span class="section-tag">Skills in Practice</span>
+                <h2>Applied Skills: The Health Appraisal Interview</h2>
+            </div>
+            <p style="color: rgba(255,255,255,0.75); margin-bottom: 1.5rem;">The interview most nursing students will conduct regularly on placement. Here's what each stage looks like in practice:</p>
+            <div class="three-col">
+                <div class="card-dark">
+                    <h3 style="color: var(--teal-light);">Opening Stage</h3>
+                    <p>Put patient at ease · Explain purpose and process · Identify topic areas · Encourage full participation · Record personal details</p>
+                    <div class="spacer-sm"></div>
+                    <p><em style="color: var(--accent-gold); font-size: 0.82rem;">"Hello, I'm [name]. I'd like to ask about your health so we can plan the best care for you. This will take about 20 minutes. Is that alright?"</em></p>
+                </div>
+                <div class="card-dark coral">
+                    <h3 style="color: var(--accent-coral);">Main Body</h3>
+                    <p>Work through agenda · Use open questions to explore topics · Probe when necessary · Listen actively · Signal transitions between topics · Record key information</p>
+                    <div class="spacer-sm"></div>
+                    <p><em style="color: var(--accent-gold); font-size: 0.82rem;">Open → focused: "Tell me about your general health" → "You mentioned breathlessness — when does that tend to happen?"</em></p>
+                </div>
+                <div class="card-dark gold">
+                    <h3 style="color: var(--accent-gold);">Closing Stage</h3>
+                    <p>Review what's been discussed · Allow patient to comment and correct · Inform about next steps and what happens with their information · Bring interaction to a close</p>
+                    <div class="spacer-sm"></div>
+                    <p><em style="color: var(--accent-gold); font-size: 0.82rem;">"Let me check I've understood everything correctly... Is there anything I've missed or you'd like to add?"</em></p>
+                </div>
+            </div>
+            <p class="ref">Adapted from Sully, P. & Dallas, J. (2010) <em>Essential Communication Skills for Nursing and Midwifery</em>. Edinburgh: Elsevier.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 11: SKILLS BY STAGE — COUNSELLING INTERVIEW -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="11" data-notes="<strong>Skills by Stage: Counselling Interview (5 min).</strong> This is the second focus interview type because it directly connects to Unit 4's therapeutic interventions. Notice the differences from health appraisal: the opening establishes confidentiality and clarifies roles (you're not the expert fixing them — you're helping them explore). The main body is more exploratory — you're not working through a checklist, you're following the client's lead. The closing involves mutual agreement on action. This structure maps directly onto Egan's three-stage model (which they'll study in Week 7): Story → New Perspectives → Action. Plant that seed now. Key difference: in the counselling interview, the <em>client</em> has much more control over pace and direction than in information-seeking interviews.">
+            <div class="slide-header">
+                <span class="section-tag">Skills in Practice</span>
+                <h2>Applied Skills: The Counselling Interview</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Notice how the counselling interview differs from health appraisal — the <span class="coral-text">client has much more control</span> over pace and direction:</p>
+            <div class="three-col">
+                <div class="card">
+                    <h3>Opening Stage</h3>
+                    <p>Welcome the client · <strong>Confirm confidentiality</strong> · Clarify respective roles (you are <em>not</em> the expert fixing them) · Explain the form the interview will take</p>
+                    <div class="spacer-sm"></div>
+                    <p class="small-text"><em>Notice: establishing confidentiality and role clarity is unique to counselling — you wouldn't necessarily do this in a diagnostic interview.</em></p>
+                </div>
+                <div class="card coral">
+                    <h3>Main Body</h3>
+                    <p>Convey attention and interest · Help client identify the problem · Facilitate exploration · Seek mutual understanding · Assess readiness for solutions · Explore alternatives · Assist in selecting best options · Outline continuing support</p>
+                </div>
+                <div class="card gold">
+                    <h3>Closing Stage</h3>
+                    <p>Agree actions for <strong>both parties</strong> · Summarise main points · Agree on next meeting</p>
+                    <div class="spacer-sm"></div>
+                    <p class="small-text"><em>Note the mutuality: both parties take action. This reflects the non-directive philosophy that underpins person-centred practice.</em></p>
+                </div>
+            </div>
+            <div class="callout">
+                <strong>Forward link — Egan's Skilled Helper (Week 7):</strong> This counselling interview structure maps directly onto Egan's three-stage model: <span class="highlight-text">Story</span> (exploring the problem) → <span class="highlight-text">New Perspectives</span> (understanding what's happening) → <span class="highlight-text">Action</span> (what to do about it).
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: COMPARING HEALTH APPRAISAL & COUNSELLING -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="new-4" data-notes="<strong>Comparison: Health Appraisal vs Counselling (4 min).</strong> This slide crystallises the differences before students watch the next video. Don't just read the table — highlight the <em>underlying shift</em> in each row. The biggest shift is in <strong>control</strong>: health appraisal is interviewer-led, counselling is client-led. This has profound implications for the skills you foreground. In health appraisal, your questioning technique matters most. In counselling, your listening and empathy matter most. Ask: 'Is it possible to be excellent at one and poor at the other? What would that look like in practice?' The point about format is important: health appraisal is semi-structured (you have an agenda but follow the patient's cues), counselling is unstructured (the client sets the direction). This connects directly to the formats table they saw earlier.">
+            <div class="slide-header">
+                <span class="section-tag">Skills in Practice</span>
+                <h2>Side by Side: Two Interview Approaches</h2>
+            </div>
+            <p style="color: rgba(255,255,255,0.75); margin-bottom: 1.5rem;">Before we analyse the next video, notice the fundamental differences in <em>who controls what</em>:</p>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th style="width: 22%;">Dimension</th>
+                        <th style="width: 39%; background: var(--teal-primary);">Health Appraisal</th>
+                        <th style="width: 39%; background: var(--accent-coral);">Counselling</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Primary purpose</strong></td>
+                        <td>Gather comprehensive health information</td>
+                        <td>Explore a problem and support the client toward action</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Who controls direction</strong></td>
+                        <td>Mainly the <strong>interviewer</strong> — working through an agenda</td>
+                        <td>Mainly the <strong>client</strong> — following their concerns</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Format</strong></td>
+                        <td>Semi-structured (planned but flexible)</td>
+                        <td>Unstructured (client sets direction)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Key skills foregrounded</strong></td>
+                        <td>Systematic questioning, probing, recording</td>
+                        <td>Active listening, empathy, reflecting, silence</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Typical duration</strong></td>
+                        <td>Single session (20–45 minutes)</td>
+                        <td>Series of sessions over time</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Closing emphasis</strong></td>
+                        <td>Summarise information gathered; explain next steps</td>
+                        <td>Agree mutual actions; schedule follow-up</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout" style="background: rgba(255,255,255,0.05); border-left-color: var(--accent-gold); margin-top: 1rem;">
+                <strong style="color: var(--accent-gold);">The critical question:</strong>
+                <span style="color: rgba(255,255,255,0.8);"> Is it possible to be technically excellent at health appraisal interviewing but poor at counselling interviewing — or vice versa? What would each look like in practice, and what would the impact on the patient be?</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 12: ACTIVITY 3 — VIDEO + STAGE ANALYSIS -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-activity" data-slide="12" data-notes="<strong>Activity 3: Video Analysis with Stage Framework (15 min).</strong> This is the session's single video activity — students now have the full five-stage framework plus the health appraisal and counselling comparison, so they're well-equipped to analyse what they see. <em>Video selection:</em> Preview and select ONE of the following before the session (5–6 min segment): <strong>Option A:</strong> 'Picking up on patient cues and responding appropriately' — Consultations 4 Health channel (https://www.youtube.com/watch?v=zQonlrnyMyk) — short, focused, shows cue recognition and response. <strong>Option B:</strong> 'Building efficiency and effectiveness around patient-centred interviewing' (https://youtu.be/_wuTXZ7yvDs) — Sutapa's original, 14 min total, select a 5–6 min segment that shows clear opening, questioning, and closing. <strong>Option C:</strong> Any Geeky Medics or Medbridge clinical interview walkthrough under 6 min. Whichever you choose, display the five-stage grid on screen BEFORE playing so students know what to watch for. After the video: 3 min individual notes, then 5 min group discussion, then 5 min whole-group feedback. Key questions: 'Where did the stages blur? Was there a clear opening? Did the closing include summarising? Was this more like a health appraisal or a counselling interview — what told you?'">
+            <div class="slide-header">
+                <span class="section-tag">Workshop Activity</span>
+                <h2>Activity 3: Mapping the Five Stages</h2>
+            </div>
+            <p style="margin-bottom: 1rem;"><span class="video-cue">▶ Video · 5–6 min</span> &nbsp; Patient-centred clinical interview <span style="font-size: 0.75rem; opacity: 0.7;">(see facilitator notes for video options)</span></p>
+            <div class="activity-box" style="margin-bottom: 1rem;">
+                <h3>Your Task</h3>
+                <p>As you watch, use the five-stage interview skeleton to map what you observe. For each stage, note:</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                <div class="activity-box" style="padding: 0.8rem; margin: 0;">
+                    <h3 style="font-size: 0.8rem;">1. Pre-Interview</h3>
+                    <p style="font-size: 0.78rem;">What preparation was evident (or missing)?</p>
+                </div>
+                <div class="activity-box" style="padding: 0.8rem; margin: 0;">
+                    <h3 style="font-size: 0.8rem;">2. Opening</h3>
+                    <p style="font-size: 0.78rem;">How was rapport and purpose established?</p>
+                </div>
+                <div class="activity-box" style="padding: 0.8rem; margin: 0;">
+                    <h3 style="font-size: 0.8rem;">3. Main Body</h3>
+                    <p style="font-size: 0.78rem;">What skills did the interviewer use? Which question types?</p>
+                </div>
+                <div class="activity-box" style="padding: 0.8rem; margin: 0;">
+                    <h3 style="font-size: 0.8rem;">4. Closing</h3>
+                    <p style="font-size: 0.78rem;">Was there a clear summary and next steps?</p>
+                </div>
+                <div class="activity-box" style="padding: 0.8rem; margin: 0;">
+                    <h3 style="font-size: 0.8rem;">5. Follow-up</h3>
+                    <p style="font-size: 0.78rem;">What would need to happen after this interview?</p>
+                </div>
+            </div>
+            <div class="two-col">
+                <div class="activity-box" style="border-color: var(--accent-gold);">
+                    <h3 style="color: var(--accent-gold);">Critical Discussion</h3>
+                    <p>Where did the stages blur or overlap? Was this more like a <strong>health appraisal</strong> or a <strong>counselling interview</strong> — what told you? How does this compare to what you've observed on your own placements?</p>
+                </div>
+                <div class="activity-box">
+                    <h3>Connecting the Frameworks</h3>
+                    <p>Can you identify the <strong>funnel technique</strong> (open → focused → closed questions)? Where did the interviewer pick up on <strong>patient cues</strong>? Where did they miss one?</p>
+                </div>
+            </div>
+            <p class="ref">Individual notes: 3 min · Small group discussion: 5 min · Whole-group feedback: 5 min</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 13: WHAT CAN GO WRONG — INTERVIEWER ISSUES -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="13" data-notes="<strong>Interviewer Issues (8 min).</strong> This is where we get critically analytical. The original slides listed bias, incompetence, interpersonal relationship, and attributions as bullet points. We need to unpack these. Bias: give concrete healthcare examples — asking leading questions about alcohol use, responding more warmly to patients who are 'compliant', unconscious racial or socioeconomic bias in pain assessment. Research by Hoffman et al. (2016) showed racial bias affects pain assessment. Incompetence: not just 'bad at interviewing' — using jargon, asking too many closed questions, interrupting. Research shows clinicians interrupt patients on average within 11 seconds. The power dynamic is crucial — in healthcare, the interviewer almost always holds more power, and this affects what information the patient shares. Attribution theory: are we attributing patient behaviour to their personality ('they're just difficult') or considering situational factors ('they're anxious because they don't understand what's happening')?">
+            <div class="slide-header">
+                <span class="section-tag">Critical Analysis</span>
+                <h2>When Interviews Go Wrong: Interviewer Issues</h2>
+            </div>
+            <div class="two-col">
+                <div>
+                    <div class="card-dark" style="margin-bottom: 1rem;">
+                        <h3 style="color: var(--accent-coral);">Bias</h3>
+                        <p>Using leading questions to elicit desired answers. Selectively responding — verbally and non-verbally — to certain information. In healthcare, unconscious bias affects pain assessment, treatment decisions, and patient trust.</p>
+                        <p style="font-size: 0.82rem; margin-top: 0.5rem; color: var(--accent-gold);"><em>Example: Responding more enthusiastically to 'I've been taking my medication' than to 'I stopped because of side effects.'</em></p>
+                    </div>
+                    <div class="card-dark" style="margin-bottom: 1rem;">
+                        <h3 style="color: var(--accent-coral);">Incompetence</h3>
+                        <p>Over-reliance on closed questions. Using inappropriate language or jargon. Interrupting. Research suggests clinicians interrupt patients within an average of 11 seconds of their opening statement.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card-dark gold" style="margin-bottom: 1rem;">
+                        <h3 style="color: var(--accent-gold);">Power Dynamics</h3>
+                        <p>The interviewer typically holds more power — through professional status, environmental control, and information asymmetry. This can inhibit the flow of information and create a 'pleasing the professional' dynamic.</p>
+                    </div>
+                    <div class="card-dark" style="margin-bottom: 1rem;">
+                        <h3 style="color: var(--teal-light);">Attribution Errors</h3>
+                        <p><strong>Dispositional attribution:</strong> 'This patient is non-compliant' (blaming their character). <strong>Situational attribution:</strong> 'This patient may not have understood the instructions' (considering context). Skilled interviewers challenge their own attributions.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Marvel, M.K. et al. (1999) 'Soliciting the Patient's Agenda', <em>JAMA</em>, 281(3), pp. 283–287. | Hoffman, K.M. et al. (2016) 'Racial bias in pain assessment', <em>PNAS</em>, 113(16).</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 14: INTERVIEWEE ISSUES -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="14" data-notes="<strong>Interviewee Issues (5 min).</strong> This is the other side of the equation. Patients don't always give accurate information — but the critical question is <em>why</em>. It's rarely deliberate deception. More often it's: they don't know the answer (how much alcohol do you drink per week?), they're embarrassed, they want to impress or please the professional, they're afraid of the consequences of honesty. Social desirability bias is a major factor — patients underreport behaviours they perceive as socially unacceptable and overreport 'healthy' behaviours. In NHS Scotland contexts, think about patients who don't disclose alcohol use because of stigma, or who minimise pain because they 'don't want to be a bother.' The skilled interviewer creates conditions that <em>reduce</em> these barriers — which brings us back to Week 3's therapeutic relationship skills.">
+            <div class="slide-header">
+                <span class="section-tag">Critical Analysis</span>
+                <h2>When Interviews Go Wrong: Interviewee Issues</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Understanding <em>why</em> patients may not communicate accurately is as important as recognising <em>that</em> they don't:</p>
+            <div class="three-col">
+                <div class="card">
+                    <h3>Inaccurate Responses</h3>
+                    <p>May be unintentional (patient doesn't know the right information) or deliberate (withholding due to fear, embarrassment, or stigma). In healthcare, think about: alcohol intake disclosure, medication adherence, pain levels, domestic circumstances.</p>
+                </div>
+                <div class="card coral">
+                    <h3>Social Desirability Bias</h3>
+                    <p>Patients underreport behaviours they perceive as socially unacceptable and overreport 'healthy' behaviours. The power dynamic amplifies this — patients want to be seen as 'good patients' by their healthcare professional.</p>
+                </div>
+                <div class="card gold">
+                    <h3>Social Perception &amp; Influence</h3>
+                    <p>The interviewee's perception of the interviewer's status, attitudes, and expectations shapes their responses. Patients may try to impress, please, or avoid conflict rather than communicate accurately.</p>
+                </div>
+            </div>
+            <div class="callout">
+                <strong>The connection to Week 3:</strong> The therapeutic relationship — built on Rogers' core conditions of empathy, congruence, and unconditional positive regard — is what creates the conditions for honest, accurate patient communication. Without it, even technically skilled interviewing produces unreliable data.
+            </div>
+            <p class="ref">Tourangeau, R. & Yan, T. (2007) 'Sensitive Questions in Surveys', <em>Psychological Bulletin</em>, 133(5), pp. 859–883.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: OVERCOMING BARRIERS -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="new-5" data-notes="<strong>Overcoming Barriers (5 min).</strong> After identifying what goes wrong, students need practical strategies. This isn't just a 'tips' slide — frame it as evidence-informed practice. The funnel approach (open → focused → closed) is well-evidenced as the most effective questioning sequence. The 'comfortable silence' point is crucial — many students fill silences immediately, but research shows patients often provide their most important information after a pause of 3-5 seconds. Environmental preparation is often overlooked but matters enormously — curtains drawn, sitting at eye level, not standing over a patient, removing physical barriers. The self-awareness strategies connect to reflective practice. Ask: 'Which of these strategies do you already use? Which do you find hardest?' This prepares them for Activity 4 where they'll plan their own interview.">
+            <div class="slide-header">
+                <span class="section-tag">Practical Strategies</span>
+                <h2>Overcoming Barriers: Evidence-Informed Strategies</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">Knowing what can go wrong is essential — but so is knowing <span class="highlight-text">what to do about it</span>:</p>
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>Reducing Interviewer Bias</h3>
+                        <p><strong>Use the funnel approach:</strong> Start with open questions to let the patient tell their story, then narrow to focused and closed questions only when needed. This reduces the risk of leading the patient toward your assumptions.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Monitor your non-verbals:</strong> Respond with equal interest to all answers — not just the ones that confirm your hypothesis.</p>
+                    </div>
+                    <div class="card coral" style="margin-bottom: 1rem;">
+                        <h3>Creating Psychological Safety</h3>
+                        <p><strong>Normalise disclosure:</strong> "Many patients find it difficult to talk about..." reduces shame and signals that honest answers are expected and valued.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Embrace silence:</strong> Research shows patients often share their most significant information after a pause of 3–5 seconds. Resist the urge to fill every silence.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card gold" style="margin-bottom: 1rem;">
+                        <h3>Environmental Preparation</h3>
+                        <p><strong>Physical setup matters:</strong> Ensure privacy (curtains, closed doors). Sit at eye level — never stand over a patient. Remove physical barriers (desks, clipboards held like shields). Minimise interruptions.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Realistic Medicine implication:</strong> The environment signals whether you genuinely want to hear the patient's perspective.</p>
+                    </div>
+                    <div class="card navy">
+                        <h3>Self-Awareness Strategies</h3>
+                        <p><strong>Check your attributions:</strong> Before labelling a patient as 'difficult' or 'non-compliant', ask: "What situational factors might explain this behaviour?"</p>
+                        <p style="margin-top: 0.5rem;"><strong>Reflect post-interview:</strong> What went well? Where did I lose the patient? What would I do differently? This is the reflective practice that will underpin your Category 2 assignment.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Maguire, P. & Pitceathly, C. (2002) 'Key communication skills and how to acquire them', <em>BMJ</em>, 325(7366), pp. 697–700.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 15: CONTEMPORARY CHALLENGES -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="15" data-notes="<strong>Contemporary Challenges (5 min).</strong> This is the section that elevates the deck to Level 9 by situating interviewing skills in the current healthcare landscape. Digital health is transforming how interviews happen — telephone triage, video consultations, digital health assessments. These raise new questions: Can you read non-verbal cues on a video call? Is rapport harder to build remotely? What about health literacy and digital exclusion? Post-pandemic workforce pressures mean nurses are conducting interviews under greater time pressure with less support. Realistic Medicine asks us to have shared decision-making conversations — but those take time. The tension between efficiency and person-centredness is real and students need to grapple with it. Cultural competence: Scotland's increasingly diverse population means interviewing across language barriers, cultural norms about health disclosure, and different expectations of the professional relationship. Don't over-teach this — raise the issues and let students discuss.">
+            <div class="slide-header">
+                <span class="section-tag">Contemporary Context</span>
+                <h2>Interviewing in 2026: Challenges for Practice</h2>
+            </div>
+            <div class="three-col">
+                <div class="card-dark">
+                    <h3 style="color: var(--teal-light);">Digital Transformation</h3>
+                    <p>Telephone triage, video consultations, and digital health assessments are now routine in NHS Scotland. How do we maintain interview quality when we can't fully read non-verbal cues? How do we build rapport through a screen?</p>
+                    <p class="small-text" style="margin-top: 0.5rem;"><em>Consider: digital exclusion and health literacy as barriers to equitable care</em></p>
+                </div>
+                <div class="card-dark coral">
+                    <h3 style="color: var(--accent-coral);">Time &amp; Workforce Pressures</h3>
+                    <p>Post-pandemic workforce challenges mean nurses conduct interviews under greater time pressure with less support. The tension between <em>efficiency</em> (getting through the checklist) and <em>person-centredness</em> (following the patient's lead) is a daily reality.</p>
+                </div>
+                <div class="card-dark gold">
+                    <h3 style="color: var(--accent-gold);">Cultural Competence</h3>
+                    <p>Scotland's increasingly diverse population requires interviewing across language barriers, cultural norms about health disclosure, and different expectations of the professional relationship. Skilled interviewing demands cultural humility, not just cultural awareness.</p>
+                </div>
+            </div>
+            <div class="quote-block" style="background: rgba(255,255,255,0.04); border-left-color: var(--teal-light);">
+                <span style="color: rgba(255,255,255,0.8);">"Realistic Medicine asks us to move from 'What's the matter with you?' to 'What matters to you?' — but that shift requires time, skill, and interview structures that genuinely enable patient voice."</span>
+                <div class="attribution" style="color: var(--teal-light);">Adapted from Scottish Government, Realising Realistic Medicine (2022)</div>
+            </div>
+            <p class="ref">Scottish Government (2022) <em>Realising Realistic Medicine</em>. | NHS Education for Scotland (2023) <em>Digital Health and Care Strategy</em>.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- NEW SLIDE: CALGARY-CAMBRIDGE FRAMEWORK -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="new-6" data-notes="<strong>Calgary-Cambridge Framework (6 min).</strong> This is the integrating model — it pulls together everything from today into a single evidence-based framework. Don't over-teach it; present it as a 'map' that combines the interview skeleton with the relationship-building skills from Week 3. The key insight is the two parallel tracks: one for <em>process</em> (the interview stages) and one for <em>relationship</em> (rapport, empathy, involvement). Most interview models focus on one or the other — Calgary-Cambridge insists you need both simultaneously. This is why semi-structured interviews work best: they allow you to hold the process track while being responsive on the relationship track. Ask: 'In your clinical experience, have you seen practitioners who are good at the process but weak on relationship — or vice versa? What's the impact on the patient?' This model is widely used in NHS Scotland medical education and is increasingly influencing nursing curricula. Students don't need to memorise it — but knowing it exists gives them a framework for their Category 2 critical review.">
+            <div class="slide-header">
+                <span class="section-tag">Evidence-Based Framework</span>
+                <h2>The Calgary-Cambridge Model</h2>
+            </div>
+            <p style="margin-bottom: 1.5rem; font-size: 0.95rem;">An evidence-based framework that integrates today's learning into a unified model. Notice the <span class="highlight-text">two parallel tracks</span> — process <em>and</em> relationship must run simultaneously:</p>
+            <div class="two-col">
+                <div>
+                    <div style="border: 2px solid var(--teal-primary); border-radius: 12px; overflow: hidden;">
+                        <div style="background: var(--teal-primary); color: white; padding: 0.6rem 1rem; font-weight: 700; font-family: 'Playfair Display', serif; font-size: 0.95rem;">Process Track (The Skeleton)</div>
+                        <div style="padding: 1rem;">
+                            <div style="padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; background: var(--teal-pale); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--teal-primary);">1. Initiating the Session</div>
+                            <div style="padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; background: var(--teal-pale); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--teal-primary);">2. Gathering Information</div>
+                            <div style="padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; background: var(--teal-pale); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--teal-primary);">3. Physical Examination</div>
+                            <div style="padding: 0.5rem 0.8rem; margin-bottom: 0.4rem; background: var(--teal-pale); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--teal-primary);">4. Explanation &amp; Planning</div>
+                            <div style="padding: 0.5rem 0.8rem; background: var(--teal-pale); border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: var(--teal-primary);">5. Closing the Session</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div style="border: 2px solid var(--accent-coral); border-radius: 12px; overflow: hidden; margin-bottom: 1rem;">
+                        <div style="background: var(--accent-coral); color: white; padding: 0.6rem 1rem; font-weight: 700; font-family: 'Playfair Display', serif; font-size: 0.95rem;">Relationship Track (The Heart)</div>
+                        <div style="padding: 1rem; font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;">
+                            <p><strong style="color: var(--accent-coral);">Providing structure</strong> — making organisation overt, attending to flow, signposting transitions</p>
+                            <p style="margin-top: 0.5rem;"><strong style="color: var(--accent-coral);">Building relationship</strong> — developing rapport, involving the patient, demonstrating empathy (Rogers' core conditions in action)</p>
+                        </div>
+                    </div>
+                    <div class="callout coral-callout" style="margin-top: 0;">
+                        <strong>The key insight:</strong> Most interviews fail not because of poor <em>process</em> but because of poor <em>relationship</em>. Technical skill without relational skill produces compliant but disengaged patients.
+                    </div>
+                </div>
+            </div>
+            <p class="ref">Silverman, J., Kurtz, S. & Draper, J. (2013) <em>Skills for Communicating with Patients</em>, 3rd edn. Widely adopted across NHS Scotland medical and nursing education.</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 16: ACTIVITY 4 — PREPARING YOUR OWN INTERVIEW -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-activity" data-slide="16" data-notes="<strong>Activity 4: Preparing for Your Worksheet Task (15 min).</strong> This is the key activity that connects the session to the AULA worksheet. Students need to interview a friend this week on a set topic and reflect. Use this activity to prepare them. First, they plan the interview using the five-stage framework (5 min individually). Then, they practise with a partner — one interviews, one observes using the observation checklist (5 min each way, so 10 min total). After the practice, the observer gives feedback. Emphasise: when they do this for real with a friend, they should reflect on all five stages, but particularly on what they learned about their own interviewing habits — where they defaulted to closed questions, where they interrupted, where they struggled with silence. This self-awareness is Level 9 critical reflection.">
+            <div class="slide-header">
+                <span class="section-tag">Workshop Activity</span>
+                <h2>Activity 4: Preparing Your Interview</h2>
+            </div>
+            <p style="margin-bottom: 1rem;">This week's worksheet task asks you to <strong>interview a friend on a set topic and reflect</strong>. Let's prepare:</p>
+            <div class="two-col">
+                <div>
+                    <div class="activity-box" style="margin-bottom: 0.8rem;">
+                        <h3>Step 1: Plan (5 min individually)</h3>
+                        <p>Using the five-stage interview skeleton, draft a brief plan for your interview:</p>
+                        <ul class="spaced" style="padding-left: 1.2rem; margin-top: 0.5rem;">
+                            <li>What is the <strong>purpose</strong> of your interview?</li>
+                            <li>What <strong>format</strong> will you use (structured / semi-structured / unstructured)?</li>
+                            <li>How will you <strong>open</strong> the conversation?</li>
+                            <li>What <strong>question types</strong> will you use? (Plan 3-4 opening questions)</li>
+                            <li>How will you <strong>close</strong>?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="activity-box" style="margin-bottom: 0.8rem;">
+                        <h3>Step 2: Practise in Pairs (10 min)</h3>
+                        <p>Take turns: one person interviews (3 min), the other observes and gives feedback (2 min), then swap.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Observer checklist:</strong></p>
+                        <ul class="spaced" style="padding-left: 1.2rem; margin-top: 0.3rem;">
+                            <li>Was the purpose clear from the start?</li>
+                            <li>What balance of open/closed questions?</li>
+                            <li>Did the interviewer listen or just wait to ask the next question?</li>
+                            <li>Was there a clear closing/summary?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="activity-box" style="border-color: var(--accent-gold);">
+                <h3 style="color: var(--accent-gold);">For Your Reflection (Worksheet)</h3>
+                <p>When you interview your friend this week, reflect on: What did you learn about your own interviewing habits? Where did you default to closed questions? Where did you struggle with silence? What would you do differently next time? This self-awareness is what Level 9 critical reflection looks like.</p>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 17: BRINGING IT TOGETHER -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-content" data-slide="17" data-notes="<strong>Synthesis (3 min).</strong> Bring together the key themes from the session. The point is that interviewing in healthcare is not just a skill — it's a <em>critical practice</em> that requires ongoing self-awareness, theoretical knowledge, and contextual judgement. The five-stage structure provides a skeleton, but effective interviewing also requires the interpersonal skills from Weeks 3-4 and will underpin the therapeutic interventions in Weeks 7-10. Next week: Special Contexts — we'll look at interviewing in challenging situations (breaking bad news, working with interpreters, managing conflict). That's Unit 3.">
+            <div class="slide-header">
+                <span class="section-tag">Synthesis</span>
+                <h2>Bringing It Together</h2>
+            </div>
+            <div class="two-col">
+                <div>
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <h3>What We've Covered Today</h3>
+                        <p>Interviewing is <strong>purposeful, planned communication</strong> — distinct from everyday conversation. The type of interview (information-seeking vs. problem-solving), the format (structured to unstructured), and the five-stage structure all shape how effectively we communicate with patients.</p>
+                    </div>
+                    <div class="card coral">
+                        <h3>The Critical Edge</h3>
+                        <p>Technical skill is necessary but insufficient. Effective interviewing also requires awareness of bias, power dynamics, attribution errors, cultural sensitivity, and the realities of contemporary healthcare delivery in NHS Scotland.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="card gold" style="margin-bottom: 1rem;">
+                        <h3>How This Connects</h3>
+                        <p>
+                            <span class="tag tag-teal">Week 3</span> Therapeutic relationship → the foundation<br>
+                            <span class="tag tag-teal">Week 4</span> Communication skills → the toolkit<br>
+                            <span class="tag tag-coral">Week 5</span> Interviewing skills → the application<br>
+                            <span class="tag tag-navy">Week 6</span> Special contexts → the challenges<br>
+                            <span class="tag tag-navy">Weeks 7–10</span> Therapeutic models → the frameworks
+                        </p>
+                    </div>
+                    <div class="card navy">
+                        <h3>This Week's Tasks</h3>
+                        <p>Complete the <strong>worksheet task</strong>: Interview a friend on a set topic. Use the five-stage framework. Reflect on your own interviewing behaviours. Complete the <strong>Unit 2 quiz</strong> on AULA.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <!-- SLIDE 18: REFERENCES & FURTHER READING -->
+        <!-- ═══════════════════════════════════════════════════════ -->
+        <div class="slide slide-dark" data-slide="18" data-notes="<strong>References (1 min).</strong> Don't read through these — just flag that they're available on AULA and in the slide deck download. Mention that Hargie is the key text for interviewing skills, and Silverman/Kurtz/Draper for the Calgary-Cambridge model. Remind students the reading list in the module handbook has additional articles. Ask if there are any final questions. Remind them of your email and office hours. Next week: Special Contexts.">
+            <div class="slide-header">
+                <span class="section-tag">Resources</span>
+                <h2>References &amp; Further Reading</h2>
+            </div>
+            <div class="two-col">
+                <div>
+                    <h3 style="color: var(--teal-light); font-size: 1rem; margin-bottom: 1rem;">Core Texts</h3>
+                    <div style="font-size: 0.82rem; color: rgba(255,255,255,0.75); line-height: 1.8;">
+                        <p>Egan, G. (2013) <em>The Skilled Helper</em>, 10th edn. Andover: Cengage Learning.</p>
+                        <p>Hargie, O. (2019) <em>Skilled Interpersonal Communication</em>, 7th edn. London: Routledge.</p>
+                        <p>Silverman, J., Kurtz, S. & Draper, J. (2013) <em>Skills for Communicating with Patients</em>, 3rd edn. London: CRC Press.</p>
+                        <p>Sully, P. & Dallas, J. (2010) <em>Essential Communication Skills for Nursing and Midwifery</em>. Edinburgh: Elsevier.</p>
+                        <p>McLeod, J. (2011) <em>Counselling Skills</em>. Maidenhead: Open University Press.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: var(--accent-coral); font-size: 1rem; margin-bottom: 1rem;">Key Articles &amp; Frameworks</h3>
+                    <div style="font-size: 0.82rem; color: rgba(255,255,255,0.75); line-height: 1.8;">
+                        <p>Heritage, J. & Clayman, S. (2010) <em>Talk in Action</em>. Chichester: Wiley-Blackwell.</p>
+                        <p>Hoffman, K.M. et al. (2016) 'Racial bias in pain assessment', <em>PNAS</em>, 113(16).</p>
+                        <p>Marvel, M.K. et al. (1999) 'Soliciting the Patient's Agenda', <em>JAMA</em>, 281(3).</p>
+                        <p>Miller, W.R. & Rollnick, S. (2013) <em>Motivational Interviewing</em>, 3rd edn. New York: Guilford Press.</p>
+                        <p>NMC (2018) <em>The Code</em>. London: Nursing & Midwifery Council.</p>
+                        <p>Scottish Government (2022) <em>Realising Realistic Medicine</em>.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 10px; text-align: center;">
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">Questions? Contact your module tutor · Additional resources available on AULA · Next week: <strong style="color: var(--teal-light);">Special Contexts</strong> (Unit 3)</p>
+            </div>
+        </div>
+
+    </div><!-- /slides-container -->
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+        <span class="slide-counter" id="slideCounter">1 / 25</span>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+    </div>
+
+    <!-- Notes Toggle -->
+    <button class="notes-toggle" id="notesToggle" onclick="toggleNotes()" title="Toggle facilitator notes">📋</button>
+    <div class="notes-panel" id="notesPanel"></div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[n].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${n + 1} / ${totalSlides}`;
+            document.getElementById('prevBtn').disabled = (n === 0);
+            document.getElementById('nextBtn').disabled = (n === totalSlides - 1);
+            document.getElementById('progressBar').style.width = `${((n + 1) / totalSlides) * 100}%`;
+
+            // Update notes
+            const notes = slides[n].getAttribute('data-notes') || 'No facilitator notes for this slide.';
+            document.getElementById('notesPanel').innerHTML = notes;
+        }
+
+        function changeSlide(dir) {
+            const next = currentSlide + dir;
+            if (next >= 0 && next < totalSlides) {
+                currentSlide = next;
+                showSlide(currentSlide);
+            }
+        }
+
+        function toggleNotes() {
+            document.getElementById('notesPanel').classList.toggle('visible');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+            if (e.key === 'n' || e.key === 'N') { toggleNotes(); }
+        });
+
+        // Touch navigation
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].screenX;
+            if (Math.abs(diff) > 50) { changeSlide(diff > 0 ? 1 : -1); }
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
