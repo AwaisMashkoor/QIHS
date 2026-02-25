@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 6: Digital Skills, AI & Technology | ASPIRE CHSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --uws-navy: #0a1e3d;
+            --uws-navy-mid: #142d54;
+            --uws-blue: #1a5276;
+            --uws-light-blue: #d6eaf8;
+            --uws-gold: #d4a843;
+            --uws-light-gold: #fdf6e3;
+            --uws-cream: #faf8f5;
+            --uws-warm-white: #fefdfb;
+            --care-green: #1a7a5a;
+            --care-light-green: #e8f5f0;
+            --accent-coral: #c0583a;
+            --accent-light-coral: #fdf0ec;
+            --text-dark: #1c2833;
+            --text-mid: #4a5568;
+            --text-light: #f7f9fb;
+            --shadow-soft: 0 4px 24px rgba(10, 30, 61, 0.08);
+            --shadow-card: 0 2px 12px rgba(10, 30, 61, 0.06);
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            background: var(--uws-cream);
+            color: var(--text-dark);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Slide Container ── */
+        .slide-container { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            padding: 3.5rem 5rem;
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        .slide.active { display: flex; opacity: 1; }
+
+        /* ── Slide Types ── */
+        .slide--title {
+            background: linear-gradient(145deg, var(--uws-navy) 0%, var(--uws-navy-mid) 60%, var(--uws-blue) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section {
+            background: linear-gradient(135deg, var(--uws-navy) 0%, var(--uws-blue) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--content {
+            background: var(--uws-warm-white);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--activity {
+            background: linear-gradient(160deg, var(--care-light-green) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--care-green);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--warning {
+            background: linear-gradient(160deg, var(--accent-light-coral) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--accent-coral);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--traffic {
+            background: var(--uws-warm-white);
+            justify-content: flex-start;
+            padding-top: 2.5rem;
+        }
+
+        .slide--demo {
+            background: linear-gradient(160deg, var(--uws-light-blue) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--uws-blue);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        /* ── Typography ── */
+        .slide-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .slide-title--small {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            color: var(--uws-navy);
+        }
+
+        .slide-subtitle {
+            font-size: 1.35rem;
+            font-weight: 300;
+            opacity: 0.85;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        .slide-subtitle--dark {
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--text-mid);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-label {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .slide-label--green { color: var(--care-green); }
+        .slide-label--coral { color: var(--accent-coral); }
+        .slide-label--blue { color: var(--uws-blue); }
+        .slide-label--gold { color: var(--uws-gold); }
+
+        /* ── Gold accent bar ── */
+        .gold-bar {
+            width: 60px;
+            height: 3px;
+            background: var(--uws-gold);
+            margin: 1rem auto;
+        }
+
+        .gold-bar--left {
+            width: 60px;
+            height: 3px;
+            background: var(--uws-gold);
+            margin: 0.8rem 0 1.5rem 0;
+        }
+
+        /* ── Cards ── */
+        .card-grid {
+            display: grid;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .card-grid--2 { grid-template-columns: 1fr 1fr; }
+        .card-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+        .card-grid--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(10, 30, 61, 0.06);
+        }
+
+        .card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: var(--uws-navy);
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+            line-height: 1.55;
+        }
+
+        .card ul { padding-left: 1.2rem; margin-top: 0.4rem; }
+        .card li { margin-bottom: 0.3rem; }
+
+        .card--green { border-left: 4px solid var(--care-green); }
+        .card--gold { border-left: 4px solid var(--uws-gold); }
+        .card--coral { border-left: 4px solid var(--accent-coral); }
+        .card--blue { border-left: 4px solid var(--uws-blue); }
+        .card--navy { border-left: 4px solid var(--uws-navy); }
+
+        /* ── Traffic Light System ── */
+        .traffic-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex: 1;
+        }
+
+        .traffic-card {
+            border-radius: 14px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .traffic-card--green {
+            background: linear-gradient(160deg, #e8f5e9 0%, #f1f8e9 100%);
+            border: 2px solid #4caf50;
+        }
+
+        .traffic-card--amber {
+            background: linear-gradient(160deg, #fff8e1 0%, #fff3e0 100%);
+            border: 2px solid #ff9800;
+        }
+
+        .traffic-card--red {
+            background: linear-gradient(160deg, #ffebee 0%, #fce4ec 100%);
+            border: 2px solid #e53935;
+        }
+
+        .traffic-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .traffic-icon--green { background: #4caf50; }
+        .traffic-icon--amber { background: #ff9800; }
+        .traffic-icon--red { background: #e53935; }
+
+        .traffic-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .traffic-card--green h3 { color: #2e7d32; }
+        .traffic-card--amber h3 { color: #e65100; }
+        .traffic-card--red h3 { color: #c62828; }
+
+        .traffic-card ul {
+            padding-left: 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .traffic-card li {
+            font-size: 0.92rem;
+            color: var(--text-mid);
+            line-height: 1.5;
+            margin-bottom: 0.35rem;
+        }
+
+        /* ── Demo Box ── */
+        .demo-box {
+            background: var(--uws-navy);
+            color: var(--text-light);
+            border-radius: 12px;
+            padding: 1.8rem 2rem;
+            margin-top: 1rem;
+            font-family: 'Source Sans 3', monospace;
+        }
+
+        .demo-box .prompt-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--uws-gold);
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .demo-box .prompt-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e7ef;
+            font-style: italic;
+        }
+
+        .demo-box .prompt-note {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            margin-top: 1rem;
+            font-style: normal;
+        }
+
+        /* ── Step List ── */
+        .step-list {
+            counter-reset: steps;
+            margin-top: 1rem;
+        }
+
+        .step-item {
+            counter-increment: steps;
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.2rem;
+            padding-left: 0.5rem;
+        }
+
+        .step-item::before {
+            content: counter(steps);
+            background: var(--uws-navy);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-item p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        .step-item span.muted {
+            color: var(--text-mid);
+            font-size: 0.92rem;
+        }
+
+        /* ── Scenario Cards (for activity) ── */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .scenario-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid rgba(10,30,61,0.06);
+            position: relative;
+        }
+
+        .scenario-card .scenario-num {
+            position: absolute;
+            top: -8px;
+            left: 16px;
+            background: var(--uws-navy);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .scenario-card p {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+            line-height: 1.5;
+            margin-top: 0.5rem;
+        }
+
+        .scenario-card .scenario-q {
+            font-weight: 600;
+            color: var(--uws-navy);
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+        }
+
+        /* ── Quote ── */
+        .quote-block {
+            border-left: 4px solid var(--uws-gold);
+            padding: 1.2rem 1.8rem;
+            margin: 1.5rem 0;
+            background: var(--uws-light-gold);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .quote-block p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .quote-block cite {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            margin-top: 0.5rem;
+            font-style: normal;
+        }
+
+        /* ── Bullet list ── */
+        .content-list {
+            padding-left: 1.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .content-list li {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-list li strong { color: var(--uws-navy); }
+
+        /* ── Two Column Layout ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            margin-top: 1rem;
+            flex: 1;
+        }
+
+        /* ── Learning Outcomes Badge ── */
+        .lo-badge {
+            display: inline-block;
+            background: var(--uws-navy);
+            color: white;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-right: 0.4rem;
+        }
+
+        .lo-badge--green { background: var(--care-green); }
+
+        /* ── Navigation ── */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 30, 61, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 1.5px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .nav-counter {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .nav-title {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ── UWS Watermark ── */
+        .uws-watermark {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            opacity: 0.3;
+        }
+
+        /* ── Comparison Table ── */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .compare-table th {
+            background: var(--uws-navy);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .compare-table td {
+            padding: 0.7rem 1.2rem;
+            border-bottom: 1px solid #e8e8e8;
+            color: var(--text-mid);
+            line-height: 1.4;
+        }
+
+        .compare-table tr:nth-child(even) td {
+            background: #f8f9fa;
+        }
+
+        .compare-table .emoji-cell {
+            font-size: 1.3rem;
+            text-align: center;
+            width: 50px;
+        }
+
+        /* ── Facilitator Note ── */
+        .facilitator-note {
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            border-left: 3px solid #aaa;
+            display: none; /* Hidden by default, toggle with F key */
+        }
+
+        .facilitator-note.visible { display: block; }
+
+        .facilitator-note::before {
+            content: '🎓 FACILITATOR NOTE';
+            display: block;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            color: #888;
+        }
+
+        /* ── Key Takeaway Box ── */
+        .takeaway-box {
+            background: linear-gradient(135deg, var(--uws-navy) 0%, var(--uws-blue) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-top: 1rem;
+        }
+
+        .takeaway-box h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            color: var(--uws-gold);
+        }
+
+        .takeaway-box p {
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* ── Checklist ── */
+        .checklist { margin-top: 0.8rem; }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.7rem;
+            padding: 0.6rem 0.8rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .checklist-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-right: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .checklist-icon--yes { background: #4caf50; }
+        .checklist-icon--caution { background: #ff9800; }
+        .checklist-icon--no { background: #e53935; }
+
+        .checklist-item p {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .slide { padding: 2rem 2.5rem; }
+            .slide-title { font-size: 2.2rem; }
+            .card-grid--3, .card-grid--4 { grid-template-columns: 1fr 1fr; }
+            .traffic-grid { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .scenario-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+
+        <!-- ============================================== -->
+        <!-- SLIDE 1: Title -->
+        <!-- ============================================== -->
+        <div class="slide slide--title active" data-slide="1">
+            <p class="slide-label" style="color: var(--uws-gold);">ASPIRE: Foundations for Success — Week 6</p>
+            <h1 class="slide-title" style="margin-bottom: 0.8rem;">Digital Skills, AI &<br>Technology in Care</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">Understanding digital transformation, using AI responsibly,<br>and developing your digital confidence</p>
+            <div style="margin-top: 2rem; opacity: 0.5; font-size: 0.85rem;">
+                BSc Collaborative Health &amp; Social Care Studies<br>
+                Thursday 27 February 2026 &bull; 1:30–3:30 PM &bull; PA_D126
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 2: Welcome & Check-in -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="2">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Welcome Back</p>
+            <h2 class="slide-title--small">Quick Check-in</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Welcome to Week 6. Today is a hands-on session — you'll need your laptop or phone.</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1.5rem;">
+                <div class="card card--gold">
+                    <h3>📋 How's the Action Plan going?</h3>
+                    <p>Your formative submission was due on 25 Feb. If you submitted — well done! If not, please speak to me after class.</p>
+                </div>
+                <div class="card card--green">
+                    <h3>💻 Today's Session</h3>
+                    <p>We'll explore how technology is changing health &amp; social care, learn to use AI tools responsibly, and check in on your group projects.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 1.5rem;">
+                <span class="lo-badge">LO4</span>
+                <span class="lo-badge lo-badge--green">LO5</span>
+                <span style="font-size: 0.85rem; color: var(--text-mid); margin-left: 0.5rem;">
+                    Recognise technological &amp; societal changes • Apply learning to disciplinary studies
+                </span>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Light touch — ask how action plans went, acknowledge any stress, move on. If many didn't submit, reassure it's formative and encourage them to submit late.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 3: Today's Plan -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="3">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--blue">Session Overview</p>
+            <h2 class="slide-title--small">Today's Journey</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="card-grid card-grid--4" style="margin-top: 1rem;">
+                <div class="card card--blue">
+                    <h3>🏥 Part 1</h3>
+                    <p><strong>Digital Health</strong><br>How technology is changing care delivery</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #999;">15 mins</p>
+                </div>
+                <div class="card card--green">
+                    <h3>🤖 Part 2</h3>
+                    <p><strong>AI in Care</strong><br>What it is, how it's used, and the ethical questions</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #999;">15 mins</p>
+                </div>
+                <div class="card card--gold">
+                    <h3>💻 Part 3</h3>
+                    <p><strong>Copilot Workshop</strong><br>Hands-on: using AI as a learning tool — responsibly</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #999;">45 mins</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>👥 Part 4</h3>
+                    <p><strong>Group Check-in</strong><br>Project progress, questions, and next steps</p>
+                    <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #999;">20 mins</p>
+                </div>
+            </div>
+
+            <div class="quote-block" style="margin-top: 1.5rem;">
+                <p>"Technology should enhance care, not replace the human relationships at its heart."</p>
+            </div>
+
+            <div class="facilitator-note">
+                Walk through the four parts briefly. Emphasise Part 3 is the big one — they'll be using their laptops. Ask everyone to have them ready.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 4: Section — Digital Health -->
+        <!-- ============================================== -->
+        <div class="slide slide--section" data-slide="4">
+            <p class="slide-label" style="color: var(--uws-gold);">Part 1</p>
+            <h1 class="slide-title">Digital Health &<br>Social Care</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">How technology is transforming the way care is delivered</p>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 5: Digital Transformation in Care -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="5">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--blue">Digital Transformation</p>
+            <h2 class="slide-title--small">Technology in Health &amp; Social Care</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Scotland's health and social care system is undergoing a digital transformation. As future practitioners, you need to understand these changes.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+                <div class="card card--blue">
+                    <h3>📱 Patient-Facing</h3>
+                    <ul>
+                        <li>NHS App — records &amp; appointments</li>
+                        <li>Telehealth &amp; video consultations</li>
+                        <li>Wearable health monitors</li>
+                        <li>Online self-management tools</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>🏥 Service Delivery</h3>
+                    <ul>
+                        <li>Electronic health records</li>
+                        <li>Digital social care records</li>
+                        <li>AI-assisted diagnosis</li>
+                        <li>Predictive analytics</li>
+                    </ul>
+                </div>
+                <div class="card card--gold">
+                    <h3>🏠 Community &amp; Home</h3>
+                    <ul>
+                        <li>Technology Enabled Care (TEC)</li>
+                        <li>Assistive technology</li>
+                        <li>Remote monitoring</li>
+                        <li>Smart home adaptations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway-box" style="margin-top: 1.2rem;">
+                <h3>Why This Matters for You</h3>
+                <p>Every role in health and social care now involves some level of digital skills. The SSSC, NMC and HCPC all expect practitioners to be digitally competent and to consider digital inclusion.</p>
+            </div>
+
+            <div class="facilitator-note">
+                10 mins. Keep this conversational — ask "has anyone used the NHS App?" or "has anyone had a video GP appointment?" Make it real for them. Mention Scotland's Digital Health and Care Strategy.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 6: The Digital Divide -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="6">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--coral">Critical Thinking</p>
+            <h2 class="slide-title--small">The Digital Divide in Care</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="two-col">
+                <div>
+                    <p class="slide-subtitle--dark">Not everyone benefits equally from digital health. As care professionals, you'll need to advocate for people who face digital barriers.</p>
+
+                    <ul class="content-list">
+                        <li><strong>Age:</strong> Older adults may have less confidence with technology</li>
+                        <li><strong>Poverty:</strong> Not everyone can afford devices or internet access</li>
+                        <li><strong>Disability:</strong> Some digital tools aren't accessible</li>
+                        <li><strong>Language:</strong> Many digital services are English-only</li>
+                        <li><strong>Rural areas:</strong> Poor broadband connectivity</li>
+                        <li><strong>Digital literacy:</strong> Not everyone has the skills to navigate online services</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="quote-block">
+                        <p>"Digital inclusion is a social justice issue. When we move services online, we need to ask: who gets left behind?"</p>
+                    </div>
+
+                    <div class="card card--coral" style="margin-top: 1rem;">
+                        <h3>💭 Quick Reflection</h3>
+                        <p>Think about someone you know or have worked with. How might digital health services affect them positively <em>or</em> negatively?</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #999;">Take 1 minute to think, then share with the person next to you.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Quick think-pair-share. Connects back to Week 2's health inequalities content. Ask 1-2 students to share. Then bridge: "This is why we need to be thoughtful about how technology is used — including AI."
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 7: Section — AI -->
+        <!-- ============================================== -->
+        <div class="slide slide--section" data-slide="7">
+            <p class="slide-label" style="color: var(--uws-gold);">Part 2</p>
+            <h1 class="slide-title">Artificial Intelligence<br>in Health &amp; Social Care</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">Understanding AI — what it can do, what it can't,<br>and the ethical questions it raises</p>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 8: What is AI? -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="8">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--blue">Understanding AI</p>
+            <h2 class="slide-title--small">What is Artificial Intelligence?</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="two-col">
+                <div>
+                    <p class="slide-subtitle--dark">AI is when computer systems perform tasks that normally require human intelligence — like recognising patterns, making predictions, or generating text.</p>
+
+                    <div class="card card--blue" style="margin-top: 1rem;">
+                        <h3>Traditional AI</h3>
+                        <p>Follows specific rules to perform tasks:</p>
+                        <ul>
+                            <li>Analysing medical images (spotting tumours)</li>
+                            <li>Predicting which patients are at risk</li>
+                            <li>Scheduling and resource planning</li>
+                        </ul>
+                    </div>
+
+                    <div class="card card--gold" style="margin-top: 1rem;">
+                        <h3>Generative AI</h3>
+                        <p>Creates new content from what it has learned:</p>
+                        <ul>
+                            <li>Writing text (ChatGPT, Copilot)</li>
+                            <li>Creating images and videos</li>
+                            <li>Answering questions conversationally</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="card card--green" style="margin-top: 0;">
+                        <h3>🏥 AI in Care Settings — Now</h3>
+                        <ul>
+                            <li>Diagnostic support — analysing scans &amp; test results</li>
+                            <li>Drug discovery and development</li>
+                            <li>Administrative tasks — notes, scheduling</li>
+                            <li>Chatbots for triage and information</li>
+                            <li>Personalised treatment recommendations</li>
+                            <li>Care documentation support</li>
+                        </ul>
+                    </div>
+
+                    <div class="card card--coral" style="margin-top: 1rem;">
+                        <h3>⚠️ What AI Can't Do</h3>
+                        <ul>
+                            <li>Truly understand your feelings</li>
+                            <li>Replace human compassion &amp; judgement</li>
+                            <li>Know your individual circumstances</li>
+                            <li>Be held professionally accountable</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Keep it accessible — many students won't know the difference between AI types. Ask: "How many of you have used ChatGPT or Copilot?" Get a show of hands.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 9: Ethical Questions -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="9">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--coral">Ethical Considerations</p>
+            <h2 class="slide-title--small">AI Ethics in Health &amp; Social Care</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">AI raises important ethical questions — especially in care settings where decisions affect people's lives and wellbeing.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+                <div class="card card--coral">
+                    <h3>⚖️ Bias &amp; Fairness</h3>
+                    <p>AI systems can reflect and amplify existing prejudices in society. If trained on biased data, AI can make unfair decisions about who gets care and how.</p>
+                </div>
+                <div class="card card--blue">
+                    <h3>🔒 Privacy &amp; Data</h3>
+                    <p>AI needs data to work. In care settings, this means sensitive personal information. Who has access? How is it protected? What happens if it's breached?</p>
+                </div>
+                <div class="card card--gold">
+                    <h3>🤝 Accountability</h3>
+                    <p>When AI makes a mistake in a care setting, who is responsible? The developer? The organisation? The practitioner who relied on it?</p>
+                </div>
+            </div>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--green">
+                    <h3>🔍 Transparency</h3>
+                    <p>Can AI decisions be explained? Service users have a right to understand why decisions are made about their care. Many AI systems are "black boxes."</p>
+                </div>
+                <div class="card card--navy">
+                    <h3>👤 Human Oversight</h3>
+                    <p>AI should support professional judgement, not replace it. Practitioners must maintain the skills to make independent decisions.</p>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Don't labour each point — the goal is awareness. Ask: "Which of these concerns you most?" Brief discussion. Bridge to: "So how do we use AI tools responsibly as students?"
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 10: Section — Copilot Workshop -->
+        <!-- ============================================== -->
+        <div class="slide slide--section" data-slide="10">
+            <p class="slide-label" style="color: var(--uws-gold);">Part 3 — Hands-On Workshop</p>
+            <h1 class="slide-title">Using Microsoft Copilot<br>Responsibly</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">Your UWS account gives you access to Copilot.<br>Let's learn how to use it ethically as a learning tool.</p>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 11: What is Copilot? -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="11">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Getting Started</p>
+            <h2 class="slide-title--small">What is Microsoft Copilot?</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="two-col">
+                <div>
+                    <p class="slide-subtitle--dark">Microsoft Copilot is an AI assistant built into your Microsoft 365 account. When you sign in with your UWS credentials, you get <strong>commercial data protection</strong> — meaning your conversations aren't used to train the AI.</p>
+
+                    <div class="card card--green" style="margin-top: 1rem;">
+                        <h3>✅ Why Copilot (not ChatGPT)?</h3>
+                        <ul>
+                            <li><strong>You already have it</strong> — free with your UWS account</li>
+                            <li><strong>Data protection</strong> — your prompts are protected</li>
+                            <li><strong>No sign-up needed</strong> — just log in with your UWS email</li>
+                            <li><strong>Web access</strong> — can search the internet for current info</li>
+                        </ul>
+                    </div>
+
+                    <div class="card card--coral" style="margin-top: 1rem;">
+                        <h3>⚠️ Important Limitations</h3>
+                        <ul>
+                            <li>It can be <strong>confidently wrong</strong> (hallucinations)</li>
+                            <li>It can <strong>invent references</strong> that don't exist</li>
+                            <li>It doesn't truly <strong>understand</strong> — it predicts text</li>
+                            <li>It can't replace <strong>your own thinking</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <div class="step-list">
+                        <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--uws-navy); margin-bottom: 1rem;">🔧 Let's Set Up — Do This Now</h3>
+                        <div class="step-item">
+                            <p>Open your browser and go to<br><strong>copilot.microsoft.com</strong></p>
+                        </div>
+                        <div class="step-item">
+                            <p>Click <strong>Sign In</strong> and use your<br><strong>UWS student email</strong><br><span class="muted">(B00xxxxxx@studentmail.uws.ac.uk)</span></p>
+                        </div>
+                        <div class="step-item">
+                            <p>Complete <strong>Multi-Factor Authentication</strong><br><span class="muted">(Microsoft Authenticator on your phone)</span></p>
+                        </div>
+                        <div class="step-item">
+                            <p>Look for the <strong style="color: var(--care-green);">green shield icon</strong> ✅<br><span class="muted">This confirms commercial data protection is active</span></p>
+                        </div>
+                        <div class="step-item">
+                            <p>You're in! 🎉<br><span class="muted">Don't type anything yet — wait for instructions</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                8 mins. Walk them through setup live on your screen. Help anyone who has trouble with MFA. Check everyone can see the green shield. Common issues: wrong browser, not signed in, MFA timeout.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 12: The Traffic Light Framework -->
+        <!-- ============================================== -->
+        <div class="slide slide--traffic" data-slide="12">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Responsible AI Use</p>
+            <h2 class="slide-title--small">The Traffic Light Framework</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark" style="margin-bottom: 0.5rem;">Before we start using Copilot, let's be clear about what's okay, what needs caution, and what's off-limits.</p>
+
+            <div class="traffic-grid">
+                <div class="traffic-card traffic-card--green">
+                    <div class="traffic-icon traffic-icon--green">✓</div>
+                    <h3>Green — Go Ahead</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); margin-bottom: 0.5rem;">Ethical, encouraged uses</p>
+                    <ul>
+                        <li><strong>Brainstorming</strong> — generating ideas for projects or topics</li>
+                        <li><strong>Explaining concepts</strong> — "explain person-centred care simply"</li>
+                        <li><strong>Grammar &amp; writing style</strong> — improving your own draft</li>
+                        <li><strong>Study planning</strong> — creating revision timetables</li>
+                        <li><strong>Practising structure</strong> — "show me how a reflection is structured"</li>
+                        <li><strong>Translation support</strong> — understanding terms in English</li>
+                    </ul>
+                </div>
+
+                <div class="traffic-card traffic-card--amber">
+                    <div class="traffic-icon traffic-icon--amber">!</div>
+                    <h3>Amber — Use with Caution</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); margin-bottom: 0.5rem;">Check, verify, and be transparent</p>
+                    <ul>
+                        <li><strong>Research starting points</strong> — always verify with academic sources</li>
+                        <li><strong>Understanding terminology</strong> — but cross-check definitions</li>
+                        <li><strong>Feedback on drafts</strong> — but the writing must be yours</li>
+                        <li><strong>Reference formats</strong> — Copilot often invents fake references</li>
+                        <li><strong>Summarising readings</strong> — to aid understanding, not replace reading</li>
+                    </ul>
+                </div>
+
+                <div class="traffic-card traffic-card--red">
+                    <div class="traffic-icon traffic-icon--red">✗</div>
+                    <h3>Red — Don't Do This</h3>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); margin-bottom: 0.5rem;">Academic integrity breach</p>
+                    <ul>
+                        <li><strong>Submitting AI text as your work</strong> — this is academic misconduct</li>
+                        <li><strong>Writing your reflections</strong> — only YOU can reflect on YOUR experience</li>
+                        <li><strong>Trusting clinical info</strong> — never rely on AI for care decisions</li>
+                        <li><strong>Pasting personal data</strong> — never enter patient/service user information</li>
+                        <li><strong>Using without checking</strong> — AI is often wrong</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Go through each column. Emphasise: "The green column is what we're going to practise today." Ask: "Can anyone think of something that might be hard to categorise?" Good discussion point.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 13: UWS Rules -->
+        <!-- ============================================== -->
+        <div class="slide slide--warning" data-slide="13">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--coral">Academic Integrity</p>
+            <h2 class="slide-title--small">What UWS Says About AI</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="two-col">
+                <div>
+                    <p class="slide-subtitle--dark">UWS doesn't ban AI — but it does require you to use it honestly and appropriately.</p>
+
+                    <div class="quote-block">
+                        <p>Submitting "material generated by artificial intelligence where such material has been specifically deemed unauthorised for that assessment item" is a breach of academic integrity.</p>
+                        <cite>— UWS Student Academic Integrity Procedure, 2023</cite>
+                    </div>
+
+                    <p style="font-size: 1rem; color: var(--text-dark); line-height: 1.6; margin-top: 1rem;">In plain English: <strong>always check your module handbook</strong> to see if and how AI can be used for each specific assessment.</p>
+                </div>
+                <div>
+                    <h3 style="font-family: 'DM Serif Display', serif; font-size: 1.15rem; color: var(--uws-navy); margin-bottom: 1rem;">UWS Library's 5-Point Check</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-mid); margin-bottom: 1rem;">Before using AI for assessed work, ask yourself:</p>
+
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-icon checklist-icon--caution">1</div>
+                            <p>Have I checked if AI use is <strong>permitted</strong> for this assessment?</p>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-icon checklist-icon--caution">2</div>
+                            <p>Did I follow the <strong>specific guidance</strong> on how AI can be used?</p>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-icon checklist-icon--caution">3</div>
+                            <p>Can I honestly say I am the <strong>author</strong> of this work?</p>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-icon checklist-icon--caution">4</div>
+                            <p>Did I consult <strong>multiple sources</strong>, not just AI?</p>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-icon checklist-icon--caution">5</div>
+                            <p>Have I <strong>credited</strong> AI tools I used? (UWS Library has referencing guidance)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                3 mins. Be clear but not scary. Emphasise: "For ASPIRE, your reflections must be YOUR words about YOUR experience. AI can't reflect for you. But you can use Copilot to help you understand concepts, plan your studies, and improve your writing."
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 14: For ASPIRE Specifically -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="14">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">For Your ASPIRE Portfolio</p>
+            <h2 class="slide-title--small">AI &amp; Your ASPIRE Assessments</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Let's be specific about what this means for your three portfolio pieces.</p>
+
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Assessment Piece</th>
+                        <th>Can You Use AI?</th>
+                        <th>How?</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Action Plan</strong> (1000 words)</td>
+                        <td>As a <strong>learning tool</strong> only</td>
+                        <td>Brainstorm goals, understand meta-skills, check grammar on YOUR draft</td>
+                        <td class="emoji-cell">🟡</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Group Project Reflection</strong> (750 words)</td>
+                        <td><strong>Very limited</strong></td>
+                        <td>Understand reflection models. The reflection itself must be entirely your own words about your own experience.</td>
+                        <td class="emoji-cell">🔴</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Personal &amp; Professional Reflection</strong> (1250 words)</td>
+                        <td><strong>Very limited</strong></td>
+                        <td>Same as above — understand theory, but the reflection is YOUR voice, YOUR journey.</td>
+                        <td class="emoji-cell">🔴</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Group Project Output</strong></td>
+                        <td><strong>Discuss with your group &amp; lecturer</strong></td>
+                        <td>Could be used for research, design ideas — but the creative work should be collaborative. Disclose any AI use.</td>
+                        <td class="emoji-cell">🟡</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="takeaway-box" style="margin-top: 1.2rem;">
+                <h3>The Key Principle</h3>
+                <p>AI is a study tool, like a calculator or a dictionary — it helps you learn, but it can't learn for you. Your reflections are about YOUR experiences, YOUR growth, and YOUR voice. No AI can write that.</p>
+            </div>
+
+            <div class="facilitator-note">
+                3 mins. Walk through the table. Emphasise: reflections are RED because reflection is inherently personal — AI has never had your experience. The group project is a discussion point — encourage groups to agree their approach.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 15: Live Demo -->
+        <!-- ============================================== -->
+        <div class="slide slide--demo" data-slide="15">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--blue">Live Demo</p>
+            <h2 class="slide-title--small">Let Me Show You — Good vs Bad Prompts</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Watch my screen. I'll show you three prompts — one green, one amber, one red.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+                <div class="card" style="border-left: 4px solid #4caf50;">
+                    <h3 style="color: #2e7d32;">🟢 Good Prompt</h3>
+                    <div class="demo-box" style="margin-top: 0.8rem;">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">"I'm a first-year health and social care student. Can you explain what person-centred care means in simple terms, with an example from a care home setting?"</div>
+                    </div>
+                    <p style="margin-top: 0.8rem; font-size: 0.85rem; color: var(--text-mid);">✅ Uses AI to <strong>understand a concept</strong>. You still need to do the thinking about what it means for you.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #ff9800;">
+                    <h3 style="color: #e65100;">🟡 Risky Prompt</h3>
+                    <div class="demo-box" style="margin-top: 0.8rem;">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">"Find me 5 academic references about reflection in health and social care published after 2020."</div>
+                    </div>
+                    <p style="margin-top: 0.8rem; font-size: 0.85rem; color: var(--text-mid);">⚠️ Copilot may <strong>invent references</strong> that look real but don't exist. Always verify in the library.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #e53935;">
+                    <h3 style="color: #c62828;">🔴 Bad Prompt</h3>
+                    <div class="demo-box" style="margin-top: 0.8rem;">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">"Write me a 750-word reflection on group work for my ASPIRE module. I worked with 4 people on a project about person-centred care."</div>
+                    </div>
+                    <p style="margin-top: 0.8rem; font-size: 0.85rem; color: var(--text-mid);">🚫 This is <strong>academic misconduct</strong>. The output isn't your reflection — it's fabricated.</p>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                7 mins. Run each prompt LIVE in Copilot on your projector. For the green one, show how useful the output is. For the amber one, try to verify the references — show they're often fake. For the red one, show how convincing but empty the output is — "this reads like a reflection, but it's not YOUR reflection."
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 16: Activity 1 — Try It Yourself -->
+        <!-- ============================================== -->
+        <div class="slide slide--activity" data-slide="16">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">Hands-On Activity 1</p>
+            <h2 class="slide-title--small">Try It Yourself — Green Light Prompts</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Open Copilot on your laptop. Try these prompts and see what comes back. <strong>10 minutes.</strong></p>
+
+            <div class="scenario-grid">
+                <div class="scenario-card">
+                    <div class="scenario-num">1</div>
+                    <p><strong>Concept Explainer:</strong> Ask Copilot to explain a concept from your studies in simple terms.</p>
+                    <p class="scenario-q">Try: "Explain [concept] as if I'm new to health and social care."</p>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-num">2</div>
+                    <p><strong>Study Planner:</strong> Ask it to help you create a study plan for the rest of term.</p>
+                    <p class="scenario-q">Try: "Help me plan my study time for the next 6 weeks. I have [list your assignments]."</p>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-num">3</div>
+                    <p><strong>Writing Improver:</strong> Type a paragraph from your Action Plan and ask Copilot to suggest improvements to clarity and grammar.</p>
+                    <p class="scenario-q">Try: "Can you suggest ways to make this paragraph clearer? [paste your text]"</p>
+                </div>
+                <div class="scenario-card">
+                    <div class="scenario-num">4</div>
+                    <p><strong>Brainstormer:</strong> Ask for ideas related to your group project topic.</p>
+                    <p class="scenario-q">Try: "What are some key issues around person-centred care in [your group's specific topic area]?"</p>
+                </div>
+            </div>
+
+            <div class="takeaway-box" style="margin-top: 1rem;">
+                <h3>While You Work</h3>
+                <p>Notice: Is the output helpful? Is it accurate? Would you trust it without checking? What would you change? These are the critical thinking skills you need.</p>
+            </div>
+
+            <div class="facilitator-note">
+                10 mins hands-on. Circulate and help. Encourage students to share interesting/surprising outputs. International students may find prompt 1 especially useful. If anyone doesn't have a device, pair them with someone who does.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 17: Activity 2 — Spot the Problem -->
+        <!-- ============================================== -->
+        <div class="slide slide--activity" data-slide="17">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">Hands-On Activity 2</p>
+            <h2 class="slide-title--small">Spot the Problem — AI Critical Thinking</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Now let's test Copilot's reliability. Try these prompts and <strong>evaluate</strong> the output. <strong>10 minutes.</strong></p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--coral">
+                    <h3>🔍 Challenge 1: Fake References</h3>
+                    <p>Ask Copilot: <em>"Give me 3 Harvard-formatted references about reflection in nursing, published after 2020."</em></p>
+                    <p style="margin-top: 0.8rem;"><strong>Then:</strong> Try to find these references on the UWS library (One Search). Do they exist?</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #999;">🔗 uws-primo.hosted.exlibrisgroup.com</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>🔍 Challenge 2: Confident but Wrong</h3>
+                    <p>Ask Copilot: <em>"What does the SSSC Code of Practice say about digital technology?"</em></p>
+                    <p style="margin-top: 0.8rem;"><strong>Then:</strong> Check the actual SSSC Codes of Practice. Is Copilot's answer accurate?</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #999;">🔗 sssc.uk.com/the-scottish-social-services-council/codes-of-practice/</p>
+                </div>
+            </div>
+
+            <div class="card card--green" style="margin-top: 1rem;">
+                <h3>💬 Discussion Questions — share with your neighbour</h3>
+                <ul>
+                    <li>Were the references real? What looked convincing about them?</li>
+                    <li>Was the SSSC information accurate? What was wrong or missing?</li>
+                    <li>How would you know if AI output was wrong if you didn't check?</li>
+                    <li>What's the risk for a care professional who trusts AI without verifying?</li>
+                </ul>
+            </div>
+
+            <div class="facilitator-note">
+                10 mins. This is the most important activity — it builds healthy scepticism. Most references will be fake. The SSSC answer will likely be partially wrong. When debriefing, connect to care practice: "If AI gets a reference wrong, you lose marks. If AI gets care information wrong, someone could be harmed."
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 18: Activity 3 — Traffic Light Scenarios -->
+        <!-- ============================================== -->
+        <div class="slide slide--activity" data-slide="18">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">Hands-On Activity 3</p>
+            <h2 class="slide-title--small">Traffic Light Scenarios — You Decide</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">For each scenario, discuss with your group: is this 🟢 Green, 🟡 Amber, or 🔴 Red? <strong>8 minutes.</strong></p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 0.8rem;">
+                <div class="card">
+                    <h3>Scenario A</h3>
+                    <p>"I'm struggling to understand what Gibbs' Reflective Cycle means. I ask Copilot to explain each stage with a care example, then I use that understanding to write my own reflection."</p>
+                </div>
+                <div class="card">
+                    <h3>Scenario B</h3>
+                    <p>"I wrote my group reflection but my English isn't great. I paste it into Copilot and ask it to fix the grammar and make it more academic-sounding."</p>
+                </div>
+                <div class="card">
+                    <h3>Scenario C</h3>
+                    <p>"I didn't have time to do the reading this week. I ask Copilot to summarise the chapter and I use the summary in my portfolio instead of reading it."</p>
+                </div>
+                <div class="card">
+                    <h3>Scenario D</h3>
+                    <p>"My group is working on our project about mental health services. I ask Copilot for recent statistics on mental health in Scotland to include in our presentation."</p>
+                </div>
+                <div class="card">
+                    <h3>Scenario E</h3>
+                    <p>"I'm on placement and a patient asks me a medical question I'm unsure about. I quickly check Copilot on my phone to find the answer."</p>
+                </div>
+                <div class="card">
+                    <h3>Scenario F</h3>
+                    <p>"I copy my entire Action Plan draft into Copilot and ask it to 'improve it and make it better.' I submit the improved version."</p>
+                </div>
+            </div>
+
+            <div class="facilitator-note">
+                8 mins. Get groups to discuss, then do a quick whole-class reveal. Suggested answers: A = 🟢 (understanding concepts), B = 🟡 (grammar help is okay but "make it academic" risks changing your voice), C = 🔴 (replacing learning), D = 🟡 (useful starting point but MUST verify stats), E = 🔴 (never use AI for clinical decisions on placement), F = 🔴 (it's no longer your work). Scenario B generates great debate — use it!
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 19: Traffic Light Answers -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="19">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Answers Revealed</p>
+            <h2 class="slide-title--small">Traffic Light Scenarios — Answers</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Let's see how you did. Some of these are genuinely debatable — and that's the point.</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 0.6rem;">
+                <div class="card" style="border-left: 4px solid #4caf50; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #4caf50; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🟢 GREEN</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario A</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;">Using Copilot to <strong>understand</strong> Gibbs' model, then writing your <strong>own</strong> reflection. This is a learning tool — like asking a tutor to explain something. The thinking and writing is still yours.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #ff9800; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #ff9800; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🟡 AMBER</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario B</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;">Fixing grammar is okay — but <em>"make it more academic-sounding"</em> risks changing <strong>your voice</strong>. Reflections should sound like you, not like AI. Stick to grammar corrections only.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #e53935; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #e53935; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🔴 RED</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario C</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;">This replaces learning entirely. The AI summary might be inaccurate, and you haven't engaged with the material. You can't reflect on learning that didn't happen.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #ff9800; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #ff9800; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🟡 AMBER</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario D</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;">A useful starting point — but you <strong>must verify every statistic</strong> from an official source (e.g. Public Health Scotland, Scottish Government). AI frequently invents plausible-sounding data.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #e53935; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #e53935; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🔴 RED</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario E</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;"><strong>Never use AI for clinical decisions.</strong> AI can hallucinate medical information. On placement, ask your supervisor or check approved clinical resources. Patient safety comes first.</p>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #e53935; padding: 1.1rem 1.3rem;">
+                    <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem;">
+                        <span style="background: #e53935; color: white; font-weight: 700; font-size: 0.72rem; padding: 0.2rem 0.65rem; border-radius: 20px;">🔴 RED</span>
+                        <h3 style="margin: 0; font-size: 1rem;">Scenario F</h3>
+                    </div>
+                    <p style="font-size: 0.88rem; color: var(--text-mid); line-height: 1.45;">If AI rewrites your entire Action Plan, <strong>it's no longer your work</strong>. This is academic misconduct. Getting grammar feedback is fine — handing over authorship is not.</p>
+                </div>
+            </div>
+
+            <div class="takeaway-box" style="margin-top: 0.8rem;">
+                <h3>The Grey Areas Are the Point</h3>
+                <p>Real life doesn't come with clear labels. The skill you're building here is <strong>ethical judgement</strong> — the same skill you'll need as a care professional making decisions every day. When in doubt, ask your lecturer.</p>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Go through each answer. Scenario B sparks the best debate — validate that it IS genuinely tricky. The line between "fix grammar" and "rewrite" is blurry, which is why amber exists. Key message: when in doubt, ask.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 20: Good Prompting Tips -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="20">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Practical Skills</p>
+            <h2 class="slide-title--small">Writing Better Prompts</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">The quality of what you get from Copilot depends on the quality of what you ask. Here are some tips.</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--green">
+                    <h3>✅ Good Prompt Ingredients</h3>
+                    <ul>
+                        <li><strong>Context:</strong> Tell it who you are — "I'm a first-year health and social care student"</li>
+                        <li><strong>Specific task:</strong> Be clear about what you want — "explain", "compare", "suggest"</li>
+                        <li><strong>Constraints:</strong> Set boundaries — "in simple terms", "in 3 bullet points"</li>
+                        <li><strong>Purpose:</strong> Say why — "I'm trying to understand this for my essay"</li>
+                    </ul>
+                </div>
+
+                <div class="card card--coral">
+                    <h3>❌ Common Mistakes</h3>
+                    <ul>
+                        <li><strong>Too vague:</strong> "Tell me about care" → what kind? where? for whom?</li>
+                        <li><strong>Asking it to write FOR you:</strong> "Write my essay on..." → academic misconduct</li>
+                        <li><strong>Not checking output:</strong> Taking the first response as truth</li>
+                        <li><strong>Sharing personal info:</strong> Never enter real names or patient data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="demo-box" style="margin-top: 1.2rem;">
+                <div class="prompt-label">Example: Before and After</div>
+                <div class="prompt-text" style="color: #ff8a80;">❌ "What is sustainability?"</div>
+                <div class="prompt-text" style="margin-top: 0.8rem; color: #b9f6ca;">✅ "I'm a first-year health and social care student in Scotland. Can you explain how environmental sustainability affects health outcomes, with one example from an NHS Scotland context? Keep it to about 200 words."</div>
+                <div class="prompt-note">The second prompt gives context, specificity, a relevant setting, and a length constraint — producing a much more useful response.</div>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Show the before/after live in Copilot — the difference is striking. Encourage students to refine prompts iteratively: "If the first answer isn't right, tell Copilot what to change."
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 20: Sustainability Quick Touch -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="21">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">Connecting Themes</p>
+            <h2 class="slide-title--small">Sustainability &amp; Health: A Quick Connection</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Sustainability isn't just about the environment — it's about building health and care systems that can last and serve everyone fairly.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 1rem;">
+                <div class="card card--green">
+                    <h3>🌍 Environmental</h3>
+                    <ul>
+                        <li>NHS Scotland aims for net zero by 2040</li>
+                        <li>Climate change increases health risks</li>
+                        <li>Air pollution, flooding, heat — all affect vulnerable people most</li>
+                    </ul>
+                </div>
+                <div class="card card--blue">
+                    <h3>👥 Social</h3>
+                    <ul>
+                        <li>Sustainable services mean fair access for all</li>
+                        <li>Workforce wellbeing — preventing burnout</li>
+                        <li>Community-based care reduces resource use</li>
+                    </ul>
+                </div>
+                <div class="card card--gold">
+                    <h3>💰 Economic</h3>
+                    <ul>
+                        <li>Prevention is cheaper than treatment</li>
+                        <li>Digital tools can reduce waste and cost</li>
+                        <li>Sustainable funding models for social care</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card--navy" style="margin-top: 1rem;">
+                <h3>💭 Connection to Your Group Project</h3>
+                <p>Whatever your group topic, there's a sustainability angle. How does your topic connect to building care systems that are fair, lasting, and environmentally responsible? This could strengthen your group project and your reflections.</p>
+            </div>
+
+            <div class="facilitator-note">
+                5 mins. Quick touch — this connects to LO4 and the macro themes in the Implementation Framework. Don't go deep — the main point is awareness and connecting it to their group project thinking. More detail available on Aula.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 21: Section — Group Check-in -->
+        <!-- ============================================== -->
+        <div class="slide slide--section" data-slide="22">
+            <p class="slide-label" style="color: var(--uws-gold);">Part 4</p>
+            <h1 class="slide-title">Group Project<br>Check-in</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">Where are you? What do you need?<br>Presentation is in Week 9 — that's 3 weeks away.</p>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 22: Group Check-in -->
+        <!-- ============================================== -->
+        <div class="slide slide--activity" data-slide="23">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--green">Group Work Time</p>
+            <h2 class="slide-title--small">Group Project Check-in 1</h2>
+            <div class="gold-bar--left"></div>
+            <p class="slide-subtitle--dark">Get into your groups. Use this time to review your progress and plan your next steps. <strong>15 minutes.</strong></p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--gold">
+                    <h3>📋 Check-in Questions</h3>
+                    <ul>
+                        <li>What has your group agreed on so far? (Topic, format, roles)</li>
+                        <li>Has everyone been able to contribute?</li>
+                        <li>What's your plan for the next 3 weeks?</li>
+                        <li>Are there any challenges you need help with?</li>
+                        <li>Have you discussed how/if you'll use AI tools?</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>📅 Timeline Reminder</h3>
+                    <ul>
+                        <li><strong>Week 7</strong> (6 March): Communication &amp; Feedback — group work time available</li>
+                        <li><strong>Week 8</strong> (13 March): Wellbeing &amp; Resilience — group work time available</li>
+                        <li><strong>Week 9</strong> (20 March): <strong>Group Presentations</strong></li>
+                        <li><strong>14 April:</strong> Portfolio submission deadline</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="takeaway-box" style="margin-top: 1rem;">
+                <h3>💡 Tip: Document Your Process</h3>
+                <p>Take notes, photos, or screenshots of your group meetings and discussions. This is evidence for your Group Project Reflection — you'll need to write about how you collaborated, what you contributed, and what you learned about teamwork.</p>
+            </div>
+
+            <div class="facilitator-note">
+                15 mins. Circulate between groups. Ask each group to briefly tell you their topic, format, and any concerns. Make notes — this is your observation evidence for participation. If any group is struggling, offer support. Watch for students who seem disengaged — check in privately.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 23: Wrap-up & Key Takeaways -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="24">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--gold">Wrapping Up</p>
+            <h2 class="slide-title--small">Today's Key Takeaways</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--blue">
+                    <h3>🏥 Digital Care</h3>
+                    <p>Technology is transforming health and social care. As future practitioners, you need digital skills <em>and</em> awareness of digital exclusion.</p>
+                </div>
+                <div class="card card--gold">
+                    <h3>🤖 AI Awareness</h3>
+                    <p>AI is a tool — powerful but imperfect. It can enhance learning but never replace your professional judgement or personal reflection.</p>
+                </div>
+                <div class="card card--green">
+                    <h3>🚦 Traffic Light</h3>
+                    <p>Remember: 🟢 learning &amp; understanding, 🟡 verify everything, 🔴 never submit AI work as yours or use it for clinical decisions.</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>👥 Group Projects</h3>
+                    <p>3 weeks to presentation. Stay in touch with your group, document your process, and start thinking about your reflection.</p>
+                </div>
+            </div>
+
+            <div class="takeaway-box" style="margin-top: 1.2rem;">
+                <h3>This Week on Aula</h3>
+                <p>Explore the Week 6 materials on sustainability in health &amp; social care, evaluating information online, and further resources on AI ethics. These will support your understanding of LO4 for your portfolio reflections.</p>
+            </div>
+
+            <div class="facilitator-note">
+                3 mins. Quick recap. Remind them of Aula materials for independent study. Ask: "What's one thing you'll take away from today?" Quick round if time allows.
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 24: Resources -->
+        <!-- ============================================== -->
+        <div class="slide slide--content" data-slide="25">
+            <span class="uws-watermark">ASPIRE CHSC</span>
+            <p class="slide-label slide-label--blue">Resources</p>
+            <h2 class="slide-title--small">Useful Links &amp; Further Reading</h2>
+            <div class="gold-bar--left"></div>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--blue">
+                    <h3>🔗 UWS Resources</h3>
+                    <ul>
+                        <li><strong>Copilot:</strong> copilot.microsoft.com (sign in with UWS email)</li>
+                        <li><strong>AI Library Guide:</strong> uws-uk.libguides.com/GenAI</li>
+                        <li><strong>Academic Integrity:</strong> UWS Student Academic Integrity Procedure</li>
+                        <li><strong>Referencing AI:</strong> uws-uk.libguides.com/GenAI/referencing</li>
+                        <li><strong>One Search (Library):</strong> uws-primo.hosted.exlibrisgroup.com</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>🔗 Care &amp; Digital Health</h3>
+                    <ul>
+                        <li><strong>Scotland's Digital Health Strategy:</strong> gov.scot/digital-health-and-care-strategy</li>
+                        <li><strong>SSSC Codes of Practice:</strong> sssc.uk.com</li>
+                        <li><strong>NHS Scotland Net Zero:</strong> nhsscotland.com</li>
+                        <li><strong>Digital Inclusion in Social Care:</strong> digitalhealth.net</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card card--gold" style="margin-top: 1rem;">
+                <h3>📧 Questions or Concerns?</h3>
+                <p>If you have any questions about using AI, your group project, or your assessments, please email me or come to my office hours. There are no silly questions — this is all new territory and we're navigating it together.</p>
+            </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- SLIDE 25: Thank You -->
+        <!-- ============================================== -->
+        <div class="slide slide--title" data-slide="26">
+            <p class="slide-label" style="color: var(--uws-gold);">Week 6 Complete</p>
+            <h1 class="slide-title">Thank You</h1>
+            <div class="gold-bar"></div>
+            <p class="slide-subtitle">Next Week: Communication &amp; Feedback<br><br>Keep working on your group projects!<br>Check Aula for this week's independent tasks.</p>
+            <div style="margin-top: 2rem; opacity: 0.5; font-size: 0.85rem;">
+                ASPIRE: Foundations for Success &bull; BSc Collaborative Health &amp; Social Care Studies
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="nav-bar">
+        <button class="nav-btn" onclick="prevSlide()">← Previous</button>
+        <div style="text-align: center;">
+            <span class="nav-title">ASPIRE Week 6 — Digital Skills, AI & Technology</span><br>
+            <span class="nav-counter" id="slideCounter">1 / 26</span>
+        </div>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 26;
+
+        function showSlide(n) {
+            document.querySelectorAll('.slide').forEach(s => {
+                s.classList.remove('active');
+                s.style.display = 'none';
+            });
+            const slide = document.querySelector(`[data-slide="${n}"]`);
+            if (slide) {
+                slide.style.display = 'flex';
+                requestAnimationFrame(() => slide.classList.add('active'));
+            }
+            document.getElementById('slideCounter').textContent = `${n} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+            // Press F to toggle facilitator notes
+            if (e.key === 'f' || e.key === 'F') {
+                document.querySelectorAll('.facilitator-note').forEach(n => {
+                    n.classList.toggle('visible');
+                });
+            }
+        });
+
+        showSlide(1);
+    </script>
+</body>
+</html>
