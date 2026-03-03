@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 7: Communication &amp; Feedback | ASPIRE CHSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --uws-navy: #0a1e3d;
+            --uws-navy-mid: #142d54;
+            --uws-blue: #1a5276;
+            --uws-light-blue: #d6eaf8;
+            --uws-gold: #d4a843;
+            --uws-light-gold: #fdf6e3;
+            --uws-cream: #faf8f5;
+            --uws-warm-white: #fefdfb;
+            --care-green: #1a7a5a;
+            --care-light-green: #e8f5f0;
+            --accent-coral: #c0583a;
+            --accent-light-coral: #fdf0ec;
+            --text-dark: #1c2833;
+            --text-mid: #4a5568;
+            --text-light: #f7f9fb;
+            --shadow-soft: 0 4px 24px rgba(10, 30, 61, 0.08);
+            --shadow-card: 0 2px 12px rgba(10, 30, 61, 0.06);
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            background: var(--uws-cream);
+            color: var(--text-dark);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .slide-container { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            padding: 3.5rem 5rem;
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        .slide.active { display: flex; opacity: 1; }
+
+        .slide--title {
+            background: linear-gradient(145deg, var(--uws-navy) 0%, var(--uws-navy-mid) 60%, var(--uws-blue) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section {
+            background: linear-gradient(145deg, var(--uws-navy-mid) 0%, var(--uws-blue) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--content {
+            background: var(--uws-warm-white);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--activity {
+            background: linear-gradient(160deg, var(--care-light-green) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--care-green);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--warning {
+            background: linear-gradient(160deg, var(--accent-light-coral) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--accent-coral);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--reflection {
+            background: linear-gradient(160deg, var(--uws-light-gold) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--uws-gold);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--demo {
+            background: linear-gradient(160deg, var(--uws-light-blue) 0%, var(--uws-warm-white) 40%);
+            border-left: 6px solid var(--uws-blue);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        /* Typography */
+        .slide-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3.2rem;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .slide-title--small {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 0.8rem;
+            color: var(--uws-navy);
+        }
+
+        .slide-subtitle {
+            font-size: 1.35rem;
+            font-weight: 300;
+            opacity: 0.85;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        .slide-subtitle--dark {
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--text-mid);
+            max-width: 800px;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-label {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .slide-label--green { color: var(--care-green); }
+        .slide-label--coral { color: var(--accent-coral); }
+        .slide-label--blue { color: var(--uws-blue); }
+        .slide-label--gold { color: var(--uws-gold); }
+
+        /* Cards & Layout */
+        .card-grid { display: grid; gap: 1.2rem; margin-top: 1rem; }
+        .card-grid--2 { grid-template-columns: 1fr 1fr; }
+        .card-grid--3 { grid-template-columns: 1fr 1fr 1fr; }
+        .card-grid--4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border-top: 3px solid var(--uws-gold);
+        }
+
+        .card--green { border-top-color: var(--care-green); }
+        .card--coral { border-top-color: var(--accent-coral); }
+        .card--blue { border-top-color: var(--uws-blue); }
+        .card--navy { border-top-color: var(--uws-navy); }
+
+        .card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .card p, .card li {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+            line-height: 1.55;
+        }
+
+        .card ul { list-style: none; padding: 0; }
+        .card ul li::before { content: "→ "; color: var(--uws-gold); font-weight: 600; }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: var(--uws-light-gold);
+            border-left: 4px solid var(--uws-gold);
+            padding: 1.2rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin-top: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .highlight-box--green { background: var(--care-light-green); border-left-color: var(--care-green); }
+        .highlight-box--coral { background: var(--accent-light-coral); border-left-color: var(--accent-coral); }
+        .highlight-box--blue { background: var(--uws-light-blue); border-left-color: var(--uws-blue); }
+
+        /* Quote */
+        .quote {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.6rem;
+            color: var(--uws-navy);
+            line-height: 1.4;
+            max-width: 750px;
+            position: relative;
+            padding-left: 2rem;
+        }
+        .quote::before {
+            content: "\201C";
+            position: absolute;
+            left: -0.5rem;
+            top: -0.3rem;
+            font-size: 4rem;
+            color: var(--uws-gold);
+            opacity: 0.4;
+        }
+        .quote-attribution {
+            font-size: 0.95rem;
+            color: var(--text-mid);
+            margin-top: 0.6rem;
+            padding-left: 2rem;
+        }
+
+        /* Bullet List */
+        .bullet-list { list-style: none; padding: 0; margin-top: 0.5rem; }
+        .bullet-list li {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            padding: 0.35rem 0 0.35rem 1.5rem;
+            position: relative;
+            color: var(--text-dark);
+        }
+        .bullet-list li::before {
+            content: "";
+            position: absolute;
+            left: 0; top: 0.75rem;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--uws-gold);
+        }
+        .bullet-list li.green::before { background: var(--care-green); }
+        .bullet-list li.coral::before { background: var(--accent-coral); }
+
+        /* Steps */
+        .steps { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; }
+        .step { display: flex; align-items: flex-start; gap: 1rem; }
+        .step-num {
+            min-width: 36px; height: 36px; border-radius: 50%;
+            background: var(--uws-navy); color: var(--text-light);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 0.9rem; flex-shrink: 0;
+        }
+        .step-num--green { background: var(--care-green); }
+        .step-num--gold { background: var(--uws-gold); }
+        .step-text { font-size: 1.05rem; line-height: 1.5; padding-top: 0.35rem; }
+        .step-text strong { color: var(--uws-navy); }
+
+        /* Two Column */
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1rem; }
+        .col h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.3rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.6rem;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 0.25rem 0.75rem; border-radius: 20px; margin-bottom: 0.6rem;
+        }
+        .tag--lo { background: var(--uws-light-blue); color: var(--uws-blue); }
+        .tag--time { background: var(--uws-light-gold); color: #8b6914; }
+        .tag--care { background: var(--care-light-green); color: var(--care-green); }
+
+        /* Scenario Box */
+        .scenario-box {
+            background: white; border-radius: 12px; padding: 1.5rem 1.8rem;
+            box-shadow: var(--shadow-card); margin-top: 1rem;
+            border-left: 5px solid var(--care-green);
+        }
+        .scenario-box h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem; color: var(--care-green); margin-bottom: 0.5rem;
+        }
+        .scenario-box p { font-size: 1rem; color: var(--text-mid); line-height: 1.6; }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: var(--uws-gold); transition: width 0.4s ease; z-index: 100;
+        }
+
+        /* Slide Counter */
+        .slide-counter {
+            position: fixed; bottom: 1.5rem; right: 2rem;
+            font-size: 0.8rem; color: var(--text-mid); opacity: 0.5; z-index: 50;
+        }
+
+        /* Nav */
+        .nav-arrows {
+            position: fixed; bottom: 1.5rem; left: 50%;
+            transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 50;
+        }
+        .nav-btn {
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 1.5px solid rgba(0,0,0,0.15);
+            background: rgba(255,255,255,0.85); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: var(--text-mid); transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        .nav-btn:hover { background: var(--uws-navy); color: white; border-color: var(--uws-navy); }
+
+        /* Facilitator Notes */
+        .notes-toggle {
+            position: fixed; top: 1rem; right: 1rem; z-index: 200;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            border: 1.5px solid rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.9); cursor: pointer;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.8rem; font-weight: 600; color: var(--text-mid);
+            backdrop-filter: blur(8px); transition: all 0.2s;
+        }
+        .notes-toggle:hover { background: var(--uws-navy); color: white; }
+
+        .notes-panel {
+            position: fixed; top: 0; right: -420px; width: 420px; height: 100vh;
+            background: var(--uws-cream); border-left: 1px solid rgba(0,0,0,0.1);
+            z-index: 150; transition: right 0.35s ease; overflow-y: auto;
+            padding: 3.5rem 1.8rem 2rem;
+            box-shadow: -4px 0 24px rgba(0,0,0,0.06);
+        }
+        .notes-panel.open { right: 0; }
+        .notes-panel h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem; color: var(--uws-navy); margin-bottom: 0.8rem;
+        }
+        .notes-content { font-size: 0.92rem; color: var(--text-mid); line-height: 1.65; }
+
+        .note-timing {
+            display: inline-block; background: var(--uws-light-blue);
+            color: var(--uws-blue); padding: 0.15rem 0.6rem;
+            border-radius: 12px; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.6rem;
+        }
+        .note-tip {
+            background: var(--uws-light-gold); border-left: 3px solid var(--uws-gold);
+            padding: 0.6rem 0.8rem; border-radius: 0 6px 6px 0;
+            margin-top: 0.6rem; font-size: 0.85rem; color: var(--text-dark);
+        }
+        .note-script {
+            background: white; border-radius: 8px; padding: 0.8rem;
+            margin-top: 0.5rem; font-size: 0.88rem; line-height: 1.6;
+            color: var(--text-dark); border: 1px solid rgba(0,0,0,0.06);
+        }
+
+        /* Timer */
+        .timer-container { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+        .timer-btn {
+            padding: 0.5rem 1.2rem; border-radius: 8px;
+            border: 1.5px solid var(--care-green); background: white;
+            color: var(--care-green); font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+        }
+        .timer-btn:hover { background: var(--care-green); color: white; }
+        .timer-display {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.8rem; font-weight: 300; color: var(--uws-navy); min-width: 80px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .slide { padding: 2rem 2.5rem; }
+            .slide-title { font-size: 2.2rem; }
+            .slide-title--small { font-size: 1.6rem; }
+            .card-grid--3, .card-grid--4 { grid-template-columns: 1fr 1fr; }
+            .two-col { grid-template-columns: 1fr; gap: 1.5rem; }
+            .notes-panel { width: 320px; right: -320px; }
+            .quote { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <button class="notes-toggle" id="notesToggle" onclick="toggleNotes()">📋 Facilitator Notes (F)</button>
+
+    <div class="notes-panel" id="notesPanel">
+        <h4>Facilitator Notes</h4>
+        <div class="notes-content" id="notesContent"></div>
+    </div>
+
+    <div class="slide-container" id="slideContainer">
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 1: TITLE -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--title active" data-notes="
+            <span class='note-timing'>Pre-session</span>
+            <div class='note-script'>Welcome students. This is Week 7 — the module's midpoint. Students are also studying a dedicated Communication Skills module this term, so today deliberately avoids repeating clinical communication theory (types of communication, barriers, models etc.). Instead, this session focuses on something their Comms module is unlikely to cover in depth: <strong>how you communicate within a team</strong> — navigating disagreement, speaking up, giving and receiving feedback — and then applies those skills directly to their group projects through structured peer review. Frame it early: 'You're learning about communication in your other module. Today is about putting it into practice in the teams you're actually working in right now.' The session has two halves — team communication (first ~40 mins) and feedback + peer review (second ~50 mins).</div>
+            <div class='note-tip'>💡 Have the peer feedback handout ready for the second half. Check you have enough for each student.</div>
+        ">
+            <div class="slide-label">ASPIRE — Foundations for Success · CHSC</div>
+            <h1 class="slide-title">Week 7: Communication<br>&amp; Feedback</h1>
+            <p class="slide-subtitle">How we communicate in teams — and how feedback helps us grow</p>
+            <div style="margin-top: 2rem; opacity: 0.5; font-size: 0.85rem;">Thursday 5 March 2026 · Paisley Campus · LO2, LO3, LO5</div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 2: FRAMING — WHY THIS SESSION IS DIFFERENT -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>3 mins</span>
+            <div class='note-script'>Set this up clearly. Students may initially think 'we're already doing communication in another module.' Acknowledge that directly and explain the distinction. Their Comms module focuses on how professionals communicate with service users, families, and other agencies — the clinical and professional communication skills they'll need in practice. This ASPIRE session focuses on something different: how you communicate <em>within a team</em>. How you speak up when you disagree. How you give feedback to a peer. How you handle it when someone gives you feedback you didn't expect. These are interpersonal skills that underpin collaboration — and they map directly to LO2 (group work) and LO3 (reflecting on learning). The honest truth is that most team breakdowns aren't caused by lack of knowledge — they're caused by poor communication between team members. That's what we're working on today.</div>
+        ">
+            <div class="slide-label slide-label--blue">Framing</div>
+            <h2 class="slide-title--small">A Different Kind of Communication</h2>
+            <p class="slide-subtitle--dark">You're studying communication skills in another module — so today isn't about repeating that. It's about something specific.</p>
+
+            <div class="card-grid card-grid--2">
+                <div class="card card--blue">
+                    <h3>📋 Your Comms Module</h3>
+                    <p style="font-weight: 600; margin-bottom: 0.4rem;">Professional &amp; clinical communication</p>
+                    <ul>
+                        <li>Communicating with service users &amp; families</li>
+                        <li>Models and theories of communication</li>
+                        <li>Barriers in care settings</li>
+                        <li>Professional documentation</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>💬 Today in ASPIRE</h3>
+                    <p style="font-weight: 600; margin-bottom: 0.4rem;">Communicating within a team</p>
+                    <ul>
+                        <li>Speaking up and being heard</li>
+                        <li>Navigating disagreement</li>
+                        <li>Giving &amp; receiving feedback</li>
+                        <li>What your group project is teaching you</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>The honest truth:</strong> Most team breakdowns aren't caused by lack of knowledge — they're caused by how people communicate with each other. That's what we're working on today.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 3: TODAY'S SESSION -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>2 mins</span>
+            <div class='note-script'>Quick overview of the structure. Part 1 explores how teams communicate — the dynamics, the challenges, and the habits that help. Part 2 moves into feedback as a specific team communication skill and then applies it live to their group projects. Emphasise that today is very hands-on — they'll be talking, practising, and reflecting more than listening to you.</div>
+        ">
+            <div class="slide-label slide-label--blue">Overview</div>
+            <h2 class="slide-title--small">Today's Session</h2>
+            <p class="slide-subtitle--dark">Two connected halves — both very hands-on.</p>
+
+            <div class="card-grid card-grid--2">
+                <div class="card card--blue">
+                    <h3>🗣️ Part 1: Communicating in Teams</h3>
+                    <ul>
+                        <li>What makes team communication work (and fail)</li>
+                        <li>Speaking up, staying open, navigating disagreement</li>
+                        <li>Reflection on your own group experience</li>
+                    </ul>
+                    <div class="tag tag--time" style="margin-top: 0.5rem;">~40 minutes</div>
+                </div>
+                <div class="card card--green">
+                    <h3>🔄 Part 2: Feedback &amp; Peer Review</h3>
+                    <ul>
+                        <li>What makes feedback constructive?</li>
+                        <li>A structured model for giving feedback</li>
+                        <li>Live peer feedback on group projects</li>
+                        <li>Connecting to your reflection</li>
+                    </ul>
+                    <div class="tag tag--time" style="margin-top: 0.5rem;">~50 minutes</div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>Learning Outcomes:</strong> LO2 (group work &amp; collaboration), LO3 (reflecting on learning), LO5 (connecting to your discipline)
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 4: SECTION — TEAM COMMUNICATION -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--section" data-notes="
+            <span class='note-timing'>Transition</span>
+            <div class='note-script'>Brief section divider. You might open with a question: 'Think about your group project so far. Has there been a moment where communication within your team made things easier — or harder? You don't have to share, just hold that in mind.' This grounds the section in their lived experience rather than abstract theory.</div>
+        ">
+            <div class="slide-label" style="opacity: 0.6;">Part 1</div>
+            <h1 class="slide-title">Communicating<br>in Teams</h1>
+            <p class="slide-subtitle">What makes it work — and what gets in the way</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 5: WHY TEAM COMMUNICATION IS DIFFERENT -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>5 mins</span>
+            <div class='note-script'>The key point here is that communicating in a team is genuinely different from one-to-one communication. In a team, you're not just exchanging information — you're negotiating roles, managing different working styles, and navigating the social dynamics of belonging and status. Amy Edmondson's research on psychological safety at Harvard is the gold standard here — her work with hospital teams showed that the best-performing teams weren't the ones that made fewer mistakes, but the ones where people felt safe to admit mistakes and speak up. Google's Project Aristotle confirmed this at scale: psychological safety was the single strongest predictor of team effectiveness. At Level 7, you don't need to teach the theory in depth — the concept is what matters. Ask: 'Do you feel you can say what you actually think in your group? If yes, why? If not, why not?' That's psychological safety in action.</div>
+        ">
+            <div class="slide-label slide-label--blue">Why It's Different</div>
+            <h2 class="slide-title--small">Team Communication ≠ One-to-One</h2>
+            <p class="slide-subtitle--dark">In a team, you're not just sharing information — you're navigating roles, styles, and social dynamics.</p>
+
+            <div class="card-grid card-grid--3">
+                <div class="card card--green">
+                    <h3>🛡️ Psychological Safety</h3>
+                    <p>The best teams aren't the ones that make no mistakes — they're the ones where people feel <strong>safe to speak up</strong>, ask questions, and admit when they don't know.</p>
+                </div>
+                <div class="card card--blue">
+                    <h3>🎯 Shared Understanding</h3>
+                    <p>Teams break down when people <em>assume</em> everyone is on the same page. Good team communication means <strong>checking</strong>, not assuming.</p>
+                </div>
+                <div class="card">
+                    <h3>⚖️ Different Styles</h3>
+                    <p>Some people think out loud. Others need time to process. Neither is wrong — but teams need to <strong>make room</strong> for both.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>Key question:</strong> Do you feel you can say what you actually think in your group? If yes — that's psychological safety working. If not — what would need to change?
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 6: TEAM COMMUNICATION HABITS -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>5 mins</span>
+            <div class='note-script'>This slide offers practical, actionable habits rather than abstract theory — appropriate for Level 7 students who are experiencing teamwork in real time. Walk through each pair. For 'checking in, not checking up' — this is about the difference between genuine interest in how a teammate is doing versus surveillance. For 'disagreeing with the idea, not the person' — this connects to assertiveness. In care teams, the ability to challenge a colleague's approach without making it personal is a safety-critical skill (think of a nurse questioning a prescribing decision). For 'sharing airtime' — this might resonate with groups where one person dominates or another stays silent. Research by Woolley et al. at Carnegie Mellon showed that groups with more equal conversational turn-taking were collectively more intelligent than groups dominated by one voice, regardless of individual IQ. For 'naming the elephant' — normalise the idea that it's better to say 'I think we're stuck' than to pretend everything is fine. Ask which of these their group does well and which they could work on.</div>
+        ">
+            <div class="slide-label slide-label--green">Practical Habits</div>
+            <h2 class="slide-title--small">Habits That Help Teams Communicate</h2>
+            <p class="slide-subtitle--dark">Small, practical things that make a real difference.</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 0.5rem;">
+                <div class="card card--green">
+                    <h3>✅ Check In, Don't Check Up</h3>
+                    <p>"How are you getting on with your section?" shows genuine interest.<br>"Have you done your section yet?" creates pressure.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--care-green); font-weight: 600;">The difference is tone, not words.</p>
+                </div>
+                <div class="card card--blue">
+                    <h3>💡 Disagree with the Idea, Not the Person</h3>
+                    <p>"I see it differently — what if we tried…" is constructive.<br>"That's wrong" shuts the conversation down.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--uws-blue); font-weight: 600;">In care teams, this skill protects patients.</p>
+                </div>
+                <div class="card">
+                    <h3>🗣️ Share the Airtime</h3>
+                    <p>Research shows groups with <strong>equal turn-taking</strong> outperform groups dominated by one voice — regardless of individual ability.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--uws-gold); font-weight: 600;">Invite quieter voices in. Make space.</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>🐘 Name the Elephant</h3>
+                    <p>If something isn't working — say so. "I think we're stuck" or "I'm not sure we all agree" is better than pretending.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--accent-coral); font-weight: 600;">Avoidance rarely makes things better.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 7: NAVIGATING DISAGREEMENT -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>5 mins</span>
+            <div class='note-script'>Disagreement is normal and healthy in teams — but most people haven't been taught how to handle it. Thomas and Kilmann's conflict styles model identifies five approaches, but for Level 7 students, the key distinction is between three accessible modes: passive (avoiding), aggressive (dominating), and assertive (engaging constructively). The assertive column is the goal — but it takes practice. In health and social care, the ability to assertively raise a concern is literally a patient safety skill. The NMC Code requires nurses to escalate concerns. The SSSC Codes expect registrants to challenge dangerous or discriminatory practice. But speaking up in a team — especially as a student, or as a junior staff member — is genuinely hard. Normalise that. The sentence starters at the bottom give students concrete language they can use. These are particularly useful for international students or students who find direct disagreement culturally uncomfortable.</div>
+            <div class='note-tip'>💡 If any students have SVQ or care experience, ask if they've ever had to speak up about something at work. Their stories can be powerful for the group.</div>
+        ">
+            <div class="slide-label slide-label--coral">Key Skill</div>
+            <h2 class="slide-title--small">Navigating Disagreement</h2>
+            <p class="slide-subtitle--dark">Disagreement isn't the problem. It's <em>how</em> you handle it that matters.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 0.5rem;">
+                <div class="card card--coral">
+                    <h3>😶 Passive</h3>
+                    <p>Staying quiet to avoid conflict. Going along with things you don't agree with. Not sharing your view.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Risk:</strong> Resentment builds. Issues stay unresolved. You don't learn.</p>
+                </div>
+                <div class="card card--green">
+                    <h3>💪 Assertive</h3>
+                    <p>Expressing your view clearly and respectfully. Listening to others. Looking for solutions together.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Result:</strong> Better decisions. Mutual respect. Stronger teams.</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>😤 Aggressive</h3>
+                    <p>Dominating the conversation. Dismissing others' views. Insisting on being right.</p>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Risk:</strong> Trust breaks down. People withdraw. The team fragments.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box--green" style="background: var(--care-light-green); border-left: 4px solid var(--care-green); padding: 1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 1rem;">
+                <strong>Assertive sentence starters:</strong> "I see it differently because…" · "I'm not sure I agree — can we talk it through?" · "I think there's another way to look at this" · "Can I share a concern?"
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 8: ACTIVITY — TEAM COMMUNICATION REFLECTION -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--activity" data-notes="
+            <span class='note-timing'>10 mins (5 min individual + 5 min group share)</span>
+            <div class='note-script'>This is a reflective activity, not a theoretical exercise. Students work in their project groups. First, 5 minutes individually thinking through the four questions on the slide — they can jot notes. Then 5 minutes sharing within their group. The point isn't to produce perfect answers — it's to have an honest conversation within the team about how they're communicating. Circulate and listen. Some groups will find this easy; others might find it uncomfortable (which is itself valuable data for their reflection). If a group seems stuck, prompt with: 'What's one thing that's working well? And one thing you'd change?' After the 10 minutes, you don't need a full class debrief — just acknowledge: 'These are exactly the kinds of observations your Group Project Reflection should capture.'</div>
+            <div class='note-tip'>💡 This activity often surfaces real issues. If a group seems to have a genuine problem, make a mental note to check in with them after class.</div>
+        ">
+            <div class="slide-label slide-label--green">Activity — 10 minutes</div>
+            <h2 class="slide-title--small">Reflect on Your Team's Communication</h2>
+            <p class="slide-subtitle--dark">5 minutes on your own, then 5 minutes sharing with your group.</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 0.5rem;">
+                <div class="card card--blue">
+                    <h3>Think About…</h3>
+                    <ul>
+                        <li>How does your group make decisions? Does everyone have a say?</li>
+                        <li>Has there been a disagreement? How did you handle it?</li>
+                        <li>Who tends to speak most? Who speaks least? Why?</li>
+                        <li>What's one thing your team does well and one thing you'd improve?</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>Then Share…</h3>
+                    <ul>
+                        <li>Share what you're comfortable sharing with your group</li>
+                        <li>Listen to what your teammates say — do you see it the same way?</li>
+                        <li>This is practice in the skills we've just discussed</li>
+                        <li>Jot down anything useful for your reflection</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1rem;">
+                <strong>For your reflection:</strong> These observations — how your team communicates, what works, what doesn't — are exactly what your Group Project Reflection should explore.
+            </div>
+
+            <div class="timer-container">
+                <button class="timer-btn" onclick="startTimer(this, 600)">▶ Start 10 mins</button>
+                <span class="timer-display" id="timer1">10:00</span>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 9: CARE CONTEXT — SPEAKING UP -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>4 mins</span>
+            <div class='note-script'>This slide brings the team communication discussion into the professional care context — connecting to LO5. The point is powerful: the same skill they're practising in their group projects (speaking up, raising concerns, disagreeing constructively) is the skill that regulators require of care professionals to keep people safe. The SSSC Codes of Practice require registrants to report dangerous, abusive, discriminatory or exploitative behaviour. The NMC Code requires nurses to escalate concerns and act as advocates. The HCPC Standards require registrants to take action if colleagues' behaviour puts people at risk. These aren't just bureaucratic requirements — they exist because people have been harmed when staff didn't speak up. The Mid Staffordshire inquiry, the Winterbourne View abuse scandal — in both cases, staff who saw problems didn't feel able or willing to raise them. Make this connection explicitly but without being heavy-handed — the message is: the skills you're building now in a group project genuinely matter for your future career.</div>
+        ">
+            <div class="slide-label slide-label--blue">Professional Context</div>
+            <h2 class="slide-title--small">Speaking Up in Care Teams</h2>
+            <p class="slide-subtitle--dark">The skill you're practising in your group project is the same skill that keeps people safe in care.</p>
+
+            <div class="card-grid card-grid--3" style="margin-top: 0.5rem;">
+                <div class="card card--blue">
+                    <h3>SSSC</h3>
+                    <p>Report dangerous, abusive, or discriminatory behaviour. Challenge practice that puts people at risk.</p>
+                    <div class="tag tag--care" style="margin-top: 0.5rem;">Social Work &amp; Social Care</div>
+                </div>
+                <div class="card card--green">
+                    <h3>NMC</h3>
+                    <p>Escalate concerns promptly. Act as an advocate for vulnerable people. Raise issues even when it's difficult.</p>
+                    <div class="tag tag--care" style="margin-top: 0.5rem;">Nursing &amp; Midwifery</div>
+                </div>
+                <div class="card card--coral">
+                    <h3>HCPC</h3>
+                    <p>Take action if colleagues' behaviour risks harm. Report concerns through appropriate channels.</p>
+                    <div class="tag tag--care" style="margin-top: 0.5rem;">Allied Health Professions</div>
+                </div>
+            </div>
+
+            <div class="highlight-box--coral" style="background: var(--accent-light-coral); border-left: 4px solid var(--accent-coral); padding: 1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 1.2rem;">
+                <strong>When staff don't speak up, people get harmed.</strong> Learning to raise concerns — respectfully, assertively, and clearly — starts now. Your group project is practice for your career.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 10: SECTION — FEEDBACK -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--section" data-notes="
+            <span class='note-timing'>Transition — 1 min</span>
+            <div class='note-script'>Mark the transition clearly. You might say: 'So we've been talking about how teams communicate — speaking up, navigating disagreement, making room for everyone. Now we're going to zoom into one specific team communication skill that's absolutely essential both at university and in your career: giving and receiving feedback. And you're going to practise it — on each other's group projects — right now.' This frames feedback as a natural extension of what they've been discussing, not a separate topic.</div>
+        ">
+            <div class="slide-label" style="opacity: 0.6;">Part 2</div>
+            <h1 class="slide-title">Giving &amp; Receiving<br>Feedback</h1>
+            <p class="slide-subtitle">The team communication skill that accelerates growth</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 11: WHY FEEDBACK MATTERS -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>4 mins</span>
+            <div class='note-script'>Hattie's research ranked feedback among the most powerful influences on learning and achievement — but quality matters enormously. Poorly delivered feedback can be more damaging than no feedback at all. In care practice, feedback is constant — from supervisors, colleagues, service users, and families. Learning to give it well and receive it with an open mind is a career-long skill. Link back to Week 4: a growth mindset treats feedback as information rather than judgement. Normalise that feedback can feel uncomfortable — that's human, not a sign of weakness. The two-way nature matters: in care teams, junior staff sometimes need to give feedback upwards (connecting back to the 'speaking up' discussion), which requires both courage and skill.</div>
+        ">
+            <div class="slide-label slide-label--green">Why It Matters</div>
+            <h2 class="slide-title--small">The Power of Feedback</h2>
+
+            <div class="two-col">
+                <div class="col">
+                    <div class="quote">Feedback is one of the most powerful influences on learning and achievement — but it must be done well.</div>
+                    <div class="quote-attribution">— John Hattie, <em>Visible Learning</em></div>
+
+                    <div class="highlight-box" style="margin-top: 1.5rem;">
+                        <strong>Remember Week 4?</strong> A growth mindset treats feedback as <em>information</em>, not <em>judgement</em>. That shift changes everything.
+                    </div>
+                </div>
+                <div class="col">
+                    <h3>In Your Career, Feedback Will Be…</h3>
+                    <ul class="bullet-list">
+                        <li>How supervisors help you develop</li>
+                        <li>How colleagues keep each other safe</li>
+                        <li class="green">How teams improve together</li>
+                        <li>How service users tell you what matters</li>
+                        <li class="coral">Sometimes uncomfortable — and that's OK</li>
+                    </ul>
+                    <div style="margin-top: 1rem; padding: 0.8rem; background: white; border-radius: 8px; box-shadow: var(--shadow-card); font-size: 0.9rem;">
+                        <strong>Two-way:</strong> Sometimes you'll need to give feedback to people more senior than you. That takes skill — and you're building it now.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 12: GIVING CONSTRUCTIVE FEEDBACK -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>5 mins</span>
+            <div class='note-script'>Walk through the framework. The classic 'feedback sandwich' (positive-negative-positive) is widely taught but has limitations — people learn to distrust the positives and wait for the 'but'. A more honest approach, supported by researchers like Stone and Heen, is to be direct and specific while remaining kind. The 'Instead of / Try' examples help students see the difference between vague and specific feedback. Emphasise that the best feedback is behavioural (what someone did) not personal (what someone is). You might model this live by giving feedback on something from today's session — 'Your engagement in the team reflection activity was strong because I noticed every group was actively talking' — to demonstrate specificity in real time.</div>
+            <div class='note-tip'>💡 Model a specific piece of feedback in real time so they see it in action, not just in theory.</div>
+        ">
+            <div class="slide-label slide-label--green">Framework</div>
+            <h2 class="slide-title--small">Giving Constructive Feedback</h2>
+            <p class="slide-subtitle--dark">Good feedback is specific, kind, and focused on actions — not personality.</p>
+
+            <div class="two-col" style="margin-top: 0.5rem;">
+                <div class="col">
+                    <h3>Key Principles</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-text"><strong>Be specific</strong> — focus on actions, not personality</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-text"><strong>Be timely</strong> — give feedback close to the event</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-text"><strong>Be balanced</strong> — strengths and development areas</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <div class="step-text"><strong>Use "I" language</strong> — "I noticed…" not "You always…"</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">5</div>
+                            <div class="step-text"><strong>Offer a path forward</strong> — suggestions, not just critique</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <h3>Instead of… → Try…</h3>
+                    <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.3rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <div style="background: var(--accent-light-coral); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ❌ "This isn't great"
+                            </div>
+                            <div style="background: var(--care-light-green); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ✅ "The intro is clear — the middle section needs more evidence"
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <div style="background: var(--accent-light-coral); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ❌ "You need to do more"
+                            </div>
+                            <div style="background: var(--care-light-green); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ✅ "I'd value your input on X — your perspective would strengthen it"
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+                            <div style="background: var(--accent-light-coral); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ❌ "Great job!"
+                            </div>
+                            <div style="background: var(--care-light-green); padding: 0.7rem; border-radius: 8px; font-size: 0.9rem;">
+                                ✅ "The NHS data in your research section really strengthens the argument"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 13: PENDLETON'S RULES -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--demo" data-notes="
+            <span class='note-timing'>4 mins</span>
+            <div class='note-script'>Pendleton's Rules are widely used in medical and nursing education. The key innovation is that the learner goes first — they identify their own strengths and development areas before the observer adds theirs. This gives the learner agency and often produces more honest self-assessment than external feedback alone. Walk through the four steps. Tell students: 'This is the model we're going to use for your peer feedback on group projects in a few minutes.' The 'learner first' principle also connects to reflective practice — it requires self-awareness, which is a core skill for health and social care professionals. If students have SVQ or practice experience, ask if they've seen something similar used in supervision.</div>
+        ">
+            <div class="slide-label slide-label--blue">Structured Model</div>
+            <h2 class="slide-title--small">Pendleton's Rules</h2>
+            <p class="slide-subtitle--dark">A structured feedback model used in healthcare education — and what you'll use today.</p>
+
+            <div class="steps" style="max-width: 700px; margin-top: 1rem;">
+                <div class="step">
+                    <div class="step-num step-num--green">1</div>
+                    <div class="step-text"><strong>Learner speaks first:</strong> What did I / we do well? What am I pleased with?</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">2</div>
+                    <div class="step-text"><strong>Observer adds:</strong> What else went well? What strengths did I notice?</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">3</div>
+                    <div class="step-text"><strong>Learner reflects:</strong> What would I do differently? Where could I improve?</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">4</div>
+                    <div class="step-text"><strong>Observer adds:</strong> What else could develop? Any suggestions?</div>
+                </div>
+            </div>
+
+            <div class="highlight-box--blue" style="background: var(--uws-light-blue); border-left: 4px solid var(--uws-blue); padding: 1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 1.5rem;">
+                <strong>Why learner-first?</strong> It gives you agency over your own development. People are often more honest about their own areas for growth than any observer — and it builds the self-awareness that reflective practice depends on.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 14: RECEIVING FEEDBACK -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>4 mins</span>
+            <div class='note-script'>Receiving feedback well is often harder than giving it. Stone and Heen's research identifies three common triggers that make us reject feedback: truth triggers ('that's wrong'), relationship triggers ('who are you to tell me?'), and identity triggers ('this means I'm a failure'). All three are normal human responses. The key message: you don't have to agree with every piece of feedback, but you do need to hear it. In professional care practice, responding defensively to feedback from supervisors or colleagues can be a red flag. The practical steps give students a toolkit — especially 'Say thank you,' which is a complete sentence that buys processing time without either agreeing or disagreeing. This connects directly to Part 1's discussion of assertive communication — receiving feedback assertively means neither collapsing into agreement nor becoming defensive.</div>
+        ">
+            <div class="slide-label slide-label--coral">The Other Side</div>
+            <h2 class="slide-title--small">Receiving Feedback Well</h2>
+            <p class="slide-subtitle--dark">Often harder than giving it — but just as important.</p>
+
+            <div class="two-col">
+                <div class="col">
+                    <h3>Common Reactions</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-mid); margin-bottom: 0.8rem;">It's normal to feel defensive. Three common triggers:</p>
+                    <div class="card card--coral" style="margin-bottom: 0.6rem; padding: 1rem;">
+                        <h3>🎯 Truth Triggers</h3>
+                        <p>"That's not right — they've misunderstood"</p>
+                    </div>
+                    <div class="card card--coral" style="margin-bottom: 0.6rem; padding: 1rem;">
+                        <h3>🤝 Relationship Triggers</h3>
+                        <p>"Who are they to tell me this?"</p>
+                    </div>
+                    <div class="card card--coral" style="padding: 1rem;">
+                        <h3>🪞 Identity Triggers</h3>
+                        <p>"Does this mean I'm not good enough?"</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <h3>What To Do</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div class="step-text"><strong>Listen fully</strong> — resist preparing your defence</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div class="step-text"><strong>Say thank you</strong> — it's a complete sentence. It buys you time.</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div class="step-text"><strong>Ask questions</strong> — "Can you give me an example?"</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <div class="step-text"><strong>Take time</strong> — you don't have to respond immediately</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">5</div>
+                            <div class="step-text"><strong>Decide what to keep</strong> — not all feedback needs action</div>
+                        </div>
+                    </div>
+                    <div class="highlight-box--green" style="background: var(--care-light-green); border-left: 4px solid var(--care-green); padding: 0.8rem 1rem; border-radius: 0 8px 8px 0; margin-top: 0.8rem; font-size: 0.9rem;">
+                        Assertive receiving: neither collapsing into agreement nor becoming defensive.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 15: GROUP PROJECT CHECK-IN -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>3 mins</span>
+            <div class='note-script'>Quick status check before the peer feedback activity. Groups are generally in good shape. Remind them: Week 9 presentations are in two weeks (25 March). Their submission includes evidence of their group output PLUS an individual 750-word reflection. The reflection is what's assessed — not the quality of the project output. Today's peer feedback gives them two things: practical improvement on their project AND material for their reflection (how they communicated, how they responded to feedback, what they learned). That second point is important — the experience of today IS reflective evidence.</div>
+        ">
+            <div class="slide-label slide-label--blue">Check-In</div>
+            <h2 class="slide-title--small">Group Project: Where Are You?</h2>
+            <p class="slide-subtitle--dark">Two weeks until presentations. Let's take stock.</p>
+
+            <div class="card-grid card-grid--3">
+                <div class="card card--green">
+                    <h3>📊 What's Due</h3>
+                    <p>Group evidence + individual reflection (750 words) — <strong>Week 9, 25 March</strong></p>
+                </div>
+                <div class="card card--blue">
+                    <h3>📝 What's Assessed</h3>
+                    <p>Your <em>individual reflection</em> on the experience — not the quality of the group output itself.</p>
+                </div>
+                <div class="card">
+                    <h3>💡 Today Gives You…</h3>
+                    <p>Practical improvement on your project <strong>and</strong> material for your reflection. The experience of today IS evidence.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>Self-check:</strong> Can you explain what your project is about, what you've each contributed, and what you've learned from working together? That's what your reflection needs to capture.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 16: PEER FEEDBACK ACTIVITY SETUP -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--activity" data-notes="
+            <span class='note-timing'>3 mins setup</span>
+            <div class='note-script'>This is the main activity of Part 2. Pair up groups so each gives feedback to one other. With ~14-18 students across roughly 4-5 groups, you'll have 2-3 pairings. Each group briefly presents their project (what they're doing, where they are, any challenges) and the paired group uses Pendleton's Rules to give structured feedback. Distribute the peer feedback handout now. Walk through the structure clearly so students know exactly what to do. Emphasise: this is practice in a professional skill — not just a project checkpoint. The Pendleton's model gives them a concrete structure so they don't have to improvise.</div>
+            <div class='note-tip'>💡 If a group is struggling, pair them with a stronger group. Circulate and listen — redirect vague feedback ('it's good') by prompting specificity.</div>
+        ">
+            <div class="slide-label slide-label--green">Main Activity — Setup</div>
+            <h2 class="slide-title--small">Peer Feedback on Group Projects</h2>
+            <p class="slide-subtitle--dark">Putting today's skills into practice. Using Pendleton's Rules.</p>
+
+            <div class="steps" style="max-width: 750px;">
+                <div class="step">
+                    <div class="step-num step-num--green">1</div>
+                    <div class="step-text"><strong>Pair up with another group</strong> — you'll give feedback to each other</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">2</div>
+                    <div class="step-text"><strong>Group A presents</strong> (3 mins) — What's your topic? Where are you? Any challenges?</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">3</div>
+                    <div class="step-text"><strong>Pendleton's feedback</strong> (5 mins) — Group A self-assesses first, then Group B gives feedback</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">4</div>
+                    <div class="step-text"><strong>Switch</strong> — Group B presents, Group A gives feedback</div>
+                </div>
+                <div class="step">
+                    <div class="step-num step-num--green">5</div>
+                    <div class="step-text"><strong>Note it down</strong> — What feedback did you get? What will you act on? (Use for your reflection)</div>
+                </div>
+            </div>
+
+            <div class="highlight-box--green" style="background: var(--care-light-green); border-left: 4px solid var(--care-green); padding: 1rem 1.3rem; border-radius: 0 10px 10px 0; margin-top: 1rem;">
+                <strong>Remember:</strong> This is practice in a professional skill. Give feedback the way you'd want to receive it — specific, kind, and useful.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 17: PEER FEEDBACK — GO -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--activity" data-notes="
+            <span class='note-timing'>20 mins total (10 per pairing)</span>
+            <div class='note-script'>Let the groups work. Circulate and listen. Your role is to gently redirect if feedback becomes vague ('it's fine') by prompting specificity ('what specifically is working well?'). Also watch for groups that slip into chatting — the Pendleton's structure should help. If some pairs finish early, prompt: 'What was it like receiving that feedback? What will you take forward?' — this generates reflection material. Use the timers to keep things moving. Take mental notes of good feedback you overhear for the debrief.</div>
+            <div class='note-tip'>💡 Note examples of good feedback to reference in the debrief — modelling what 'good' looks like.</div>
+        ">
+            <div class="slide-label slide-label--green">Activity — 20 minutes</div>
+            <h2 class="slide-title--small">Peer Feedback: Go!</h2>
+            <p class="slide-subtitle--dark">3 min present → 5 min Pendleton's → switch → repeat</p>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--green">
+                    <h3>While Giving Feedback…</h3>
+                    <ul>
+                        <li>Be specific — what exactly works?</li>
+                        <li>Be constructive — how could it improve?</li>
+                        <li>Use "I" language</li>
+                        <li>Offer suggestions, not instructions</li>
+                    </ul>
+                </div>
+                <div class="card card--blue">
+                    <h3>While Receiving Feedback…</h3>
+                    <ul>
+                        <li>Listen without defending</li>
+                        <li>Write down what you hear</li>
+                        <li>Ask clarifying questions</li>
+                        <li>Say thank you — then decide what to use</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 2rem; margin-top: 1.5rem;">
+                <div class="timer-container">
+                    <button class="timer-btn" onclick="startTimer(this, 600)">▶ Pairing 1 — 10 mins</button>
+                    <span class="timer-display" id="timer2">10:00</span>
+                </div>
+                <div class="timer-container">
+                    <button class="timer-btn" onclick="startTimer(this, 600)">▶ Pairing 2 — 10 mins</button>
+                    <span class="timer-display" id="timer3">10:00</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 18: DEBRIEF -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--reflection" data-notes="
+            <span class='note-timing'>5 mins</span>
+            <div class='note-script'>Whole-class debrief. Keep it brief and focused. Good questions: 'What was harder — giving feedback or receiving it?' (Most say giving.) 'Did anyone learn something about their project they hadn't realised?' 'Did the Pendleton's structure help — or did it feel forced?' Reference any strong examples of feedback you overheard (anonymised). Then make the explicit connection: today's experience maps to at least three learning outcomes — LO2 (collaboration and group work), LO3 (reflecting on learning experiences), and LO5 (applying to your discipline, since the models we used come from healthcare education). Their reflections can — and should — draw on what happened today.</div>
+        ">
+            <div class="slide-label slide-label--gold">Debrief</div>
+            <h2 class="slide-title--small">What Did You Notice?</h2>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card">
+                    <h3>💬 Let's Discuss</h3>
+                    <ul>
+                        <li>What was harder — giving or receiving feedback?</li>
+                        <li>Did anyone discover something new about their project?</li>
+                        <li>Did Pendleton's structure help? Or feel forced?</li>
+                        <li>How did it feel to assess yourselves first?</li>
+                    </ul>
+                </div>
+                <div class="card card--green">
+                    <h3>📝 For Your Reflection</h3>
+                    <p>Today's experience maps to <strong>three learning outcomes</strong>:</p>
+                    <ul>
+                        <li><strong>LO2</strong> — collaboration and working with others</li>
+                        <li><strong>LO3</strong> — reflecting on your learning experiences</li>
+                        <li><strong>LO5</strong> — the models come from healthcare education</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">Your reflection can and should draw on what happened today.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="margin-top: 1.5rem;">
+                <strong>The best reflections don't just describe what happened — they explore what it meant, how it felt, and what you'll take forward.</strong>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 19: KEY TAKEAWAYS -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--content" data-notes="
+            <span class='note-timing'>2 mins</span>
+            <div class='note-script'>Quick summary. Run through the four cards. These map to the session's arc: team communication dynamics, assertive communication and speaking up, structured feedback, and the professional context. If time, ask one student to name one thing they'll take away. Keep it encouraging.</div>
+        ">
+            <div class="slide-label slide-label--blue">Summary</div>
+            <h2 class="slide-title--small">Key Takeaways</h2>
+
+            <div class="card-grid card-grid--2" style="margin-top: 1rem;">
+                <div class="card card--blue">
+                    <h3>🗣️ Teams Need Good Communication</h3>
+                    <p>Psychological safety, equal airtime, and the willingness to name problems — these are what make teams work. You've been practising them all term.</p>
+                </div>
+                <div class="card card--green">
+                    <h3>💪 Speaking Up Is a Skill</h3>
+                    <p>Assertive communication — disagreeing respectfully, raising concerns clearly — is a professional competency that regulators expect of care workers.</p>
+                </div>
+                <div class="card">
+                    <h3>🔄 Feedback Gets Better with Practice</h3>
+                    <p>Specific, kind, behavioural feedback — and receiving it with openness — are skills you build over time. Today was practice, not perfection.</p>
+                </div>
+                <div class="card card--coral">
+                    <h3>📋 This All Connects</h3>
+                    <p>The team communication skills you're building in your group project are the same skills you'll need to keep people safe in care practice.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- SLIDE 20: NEXT WEEK & WRAP -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div class="slide slide--title" data-notes="
+            <span class='note-timing'>2 mins</span>
+            <div class='note-script'>Signpost next week — Wellbeing &amp; Resilience, which is important for care students thinking about the emotional demands of the profession. Remind them of the Group Project deadline: evidence and reflection due Week 9 (25 March). Encourage them to use the feedback they received today to strengthen their project and to note down their experience of today's session for their reflection while it's fresh. If any group is worried about progress, invite them to speak to you after class or by email. End warmly — they've done genuine professional skill-building today.</div>
+            <div class='note-tip'>💡 Watch for any students who seemed uncomfortable during the feedback activities — they may benefit from a quick check-in.</div>
+        ">
+            <div class="slide-label">Looking Ahead</div>
+            <h1 class="slide-title">Next Week:<br>Wellbeing &amp; Resilience</h1>
+            <p class="slide-subtitle">Looking after yourself — essential for sustainable success in care</p>
+            <div style="margin-top: 2rem; max-width: 500px; text-align: center;">
+                <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem;">
+                    <strong>📅 Group Project:</strong> Evidence + Reflection due Week 9 (25 March)<br>
+                    <span style="opacity: 0.7; font-size: 0.9rem;">Use today's feedback to strengthen your project — and note today's experience for your reflection</span>
+                </div>
+                <div style="opacity: 0.6; font-size: 0.9rem;">Thank you for your engagement today. See you next Thursday!</div>
+            </div>
+        </div>
+
+    </div><!-- end slide-container -->
+
+    <!-- Navigation -->
+    <div class="slide-counter" id="slideCounter"></div>
+    <div class="nav-arrows">
+        <button class="nav-btn" onclick="changeSlide(-1)">←</button>
+        <button class="nav-btn" onclick="changeSlide(1)">→</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let notesOpen = false;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(s => { s.classList.remove('active'); s.style.display = 'none'; });
+            slides[index].style.display = 'flex';
+            requestAnimationFrame(() => { slides[index].classList.add('active'); });
+            document.getElementById('progressBar').style.width = ((index + 1) / totalSlides * 100) + '%';
+            document.getElementById('slideCounter').textContent = (index + 1) + ' / ' + totalSlides;
+
+            const notes = slides[index].getAttribute('data-notes');
+            document.getElementById('notesContent').innerHTML = notes || '<p style="opacity:0.5;">No notes for this slide.</p>';
+        }
+
+        function changeSlide(dir) {
+            currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + dir));
+            showSlide(currentSlide);
+        }
+
+        function toggleNotes() {
+            notesOpen = !notesOpen;
+            document.getElementById('notesPanel').classList.toggle('open', notesOpen);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); changeSlide(-1); }
+            if (e.key === 'f' || e.key === 'F') { toggleNotes(); }
+            if (e.key === 'Escape' && notesOpen) { toggleNotes(); }
+        });
+
+        let touchStartX = 0;
+        document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 60) { changeSlide(diff > 0 ? 1 : -1); }
+        });
+
+        function startTimer(btn, seconds) {
+            const display = btn.nextElementSibling;
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            let remaining = seconds;
+
+            const interval = setInterval(() => {
+                remaining--;
+                const m = Math.floor(remaining / 60);
+                const s = remaining % 60;
+                display.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+
+                if (remaining <= 30) { display.style.color = 'var(--accent-coral)'; }
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    display.textContent = '0:00';
+                    display.style.color = 'var(--accent-coral)';
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.textContent = '↻ Restart';
+                    btn.onclick = function() {
+                        display.style.color = 'var(--uws-navy)';
+                        startTimer(btn, seconds);
+                    };
+                }
+            }, 1000);
+        }
+
+        showSlide(0);
+    </script>
+</body>
+</html>
