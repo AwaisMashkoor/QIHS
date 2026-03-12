@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 8: Wellbeing &amp; Resilience | ASPIRE CHSC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --uws-navy: #0a1e3d;
+            --uws-navy-mid: #142d54;
+            --uws-blue: #1a5276;
+            --uws-light-blue: #d6eaf8;
+            --uws-gold: #d4a843;
+            --uws-light-gold: #fdf6e3;
+            --uws-cream: #faf8f5;
+            --uws-warm-white: #fefdfb;
+            --care-green: #1a7a5a;
+            --care-light-green: #e8f5f0;
+            --accent-coral: #c0583a;
+            --accent-light-coral: #fdf0ec;
+            --text-dark: #1c2833;
+            --text-mid: #4a5568;
+            --text-light: #f7f9fb;
+            --shadow-soft: 0 4px 24px rgba(10, 30, 61, 0.08);
+            --shadow-card: 0 2px 12px rgba(10, 30, 61, 0.06);
+        }
+
+        body {
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            background: var(--uws-cream);
+            color: var(--text-dark);
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Slide Container ── */
+        .slide-container { width: 100vw; height: 100vh; position: relative; }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            padding: 3.5rem 5rem;
+            opacity: 0;
+            transition: opacity 0.45s ease;
+        }
+
+        .slide.active { display: flex; opacity: 1; }
+
+        /* ── Slide Types ── */
+        .slide--title {
+            background: linear-gradient(145deg, var(--uws-navy) 0%, var(--uws-navy-mid) 60%, var(--uws-blue) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section {
+            background: linear-gradient(135deg, var(--care-green) 0%, #15634a 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section-coral {
+            background: linear-gradient(135deg, var(--accent-coral) 0%, #a04830 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--section-gold {
+            background: linear-gradient(135deg, var(--uws-gold) 0%, #b8922e 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--content {
+            background: var(--uws-warm-white);
+            justify-content: flex-start;
+            padding-top: 3rem;
+        }
+
+        .slide--activity {
+            background: linear-gradient(170deg, var(--care-light-green) 0%, var(--uws-warm-white) 100%);
+            justify-content: flex-start;
+            padding-top: 3rem;
+            border-left: 6px solid var(--care-green);
+        }
+
+        .slide--activity-coral {
+            background: linear-gradient(170deg, var(--accent-light-coral) 0%, var(--uws-warm-white) 100%);
+            justify-content: flex-start;
+            padding-top: 3rem;
+            border-left: 6px solid var(--accent-coral);
+        }
+
+        .slide--quote {
+            background: var(--uws-light-gold);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide--break {
+            background: linear-gradient(145deg, var(--uws-navy) 0%, var(--uws-navy-mid) 100%);
+            color: var(--text-light);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* ── Typography ── */
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 3rem;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            color: var(--uws-navy);
+        }
+
+        .slide--section h2,
+        .slide--section-coral h2,
+        .slide--section-gold h2 {
+            font-size: 2.6rem;
+            color: var(--text-light);
+        }
+
+        h3 {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--care-green);
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .slide--title h3 { color: var(--uws-gold); }
+
+        p, li {
+            font-size: 1.25rem;
+            line-height: 1.65;
+            color: var(--text-mid);
+        }
+
+        .lead {
+            font-size: 1.4rem;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--text-mid);
+            max-width: 42em;
+        }
+
+        .slide--title .lead,
+        .slide--section .lead,
+        .slide--break .lead { color: rgba(255,255,255,0.8); }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        /* ── Cards & Layout ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.2rem;
+            flex: 1;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.2rem;
+            flex: 1;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border-top: 4px solid var(--care-green);
+        }
+
+        .card--navy { border-top-color: var(--uws-navy); }
+        .card--gold { border-top-color: var(--uws-gold); }
+        .card--coral { border-top-color: var(--accent-coral); }
+        .card--green { border-top-color: var(--care-green); }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p, .card li {
+            font-size: 1.05rem;
+            line-height: 1.55;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Five Ways cards */
+        .five-ways {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 1.2rem;
+            flex: 1;
+            align-items: stretch;
+        }
+
+        .way-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .way-card .card-icon { font-size: 2.2rem; margin-bottom: 0.6rem; }
+        .way-card h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.15rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.5rem;
+        }
+        .way-card p { font-size: 0.95rem; line-height: 1.45; }
+
+        /* ── Highlight Box ── */
+        .highlight-box {
+            background: var(--uws-light-gold);
+            border-left: 4px solid var(--uws-gold);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .highlight-box p { color: var(--text-dark); font-size: 1.15rem; }
+
+        .green-box {
+            background: var(--care-light-green);
+            border-left: 4px solid var(--care-green);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .coral-box {
+            background: var(--accent-light-coral);
+            border-left: 4px solid var(--accent-coral);
+            border-radius: 0 8px 8px 0;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        /* ── Quote ── */
+        .quote-text {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2.2rem;
+            color: var(--uws-navy);
+            line-height: 1.4;
+            max-width: 36em;
+        }
+
+        .quote-attr {
+            font-size: 1.1rem;
+            color: var(--text-mid);
+            margin-top: 1.2rem;
+            font-style: italic;
+        }
+
+        /* ── Badge / Tag ── */
+        .badge {
+            display: inline-block;
+            background: var(--uws-navy);
+            color: white;
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .badge--green { background: var(--care-green); }
+        .badge--gold { background: var(--uws-gold); }
+        .badge--coral { background: var(--accent-coral); }
+
+        .lo-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .lo-tag--dark {
+            background: var(--uws-light-blue);
+            border: 1px solid var(--uws-blue);
+            color: var(--uws-navy);
+        }
+
+        /* ── Activity styling ── */
+        .activity-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .activity-header .activity-icon {
+            font-size: 1.8rem;
+        }
+
+        .activity-header h2 {
+            margin-bottom: 0;
+        }
+
+        .activity-steps {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            box-shadow: var(--shadow-card);
+            margin-top: 1rem;
+        }
+
+        .activity-steps ol { margin-left: 1.2rem; }
+        .activity-steps li { margin-bottom: 0.6rem; font-size: 1.15rem; }
+
+        /* ── Timer ── */
+        .timer-display {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            border: 2px solid var(--care-green);
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .timer-display:hover { background: var(--care-light-green); }
+
+        .timer-display .timer-icon { font-size: 1.4rem; }
+        .timer-display .timer-value {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--care-green);
+            min-width: 4rem;
+            text-align: center;
+        }
+
+        .timer-label {
+            font-size: 0.85rem;
+            color: var(--text-mid);
+            margin-top: 0.3rem;
+        }
+
+        /* ── Warning / Signs card ── */
+        .warning-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex: 1;
+        }
+
+        .warning-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.3rem 1.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .warning-card h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.1rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-card ul { margin-left: 1.2rem; }
+        .warning-card li { font-size: 1rem; margin-bottom: 0.35rem; }
+
+        /* ── Resilience Strategies ── */
+        .strategy-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .strategy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            background: white;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .strategy-item .strat-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--care-green);
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .strategy-item p { font-size: 1.05rem; line-height: 1.45; }
+        .strategy-item strong { color: var(--uws-navy); }
+
+        /* ── Self-care wheel ── */
+        .selfcare-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            margin-top: 1rem;
+            flex: 1;
+        }
+
+        .selfcare-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+        }
+
+        .selfcare-card .card-icon { font-size: 2rem; margin-bottom: 0.4rem; }
+        .selfcare-card h4 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.05rem;
+            color: var(--uws-navy);
+            margin-bottom: 0.4rem;
+        }
+        .selfcare-card p { font-size: 0.95rem; }
+
+        /* ── Support resources ── */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: var(--shadow-card);
+            border-left: 4px solid var(--uws-blue);
+        }
+
+        .resource-card h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--uws-navy);
+            margin-bottom: 0.3rem;
+        }
+
+        .resource-card p { font-size: 0.95rem; }
+
+        /* ── Navigation ── */
+        .nav {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 100;
+        }
+
+        .nav button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--uws-navy);
+            background: white;
+            color: var(--uws-navy);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .nav button:hover { background: var(--uws-navy); color: white; }
+        .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .nav .slide-counter {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-mid);
+            min-width: 3.5rem;
+            text-align: center;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--care-green);
+            z-index: 200;
+            transition: width 0.35s ease;
+        }
+
+        /* ── Footer ── */
+        .slide-footer {
+            position: absolute;
+            bottom: 1rem;
+            left: 5rem;
+            font-size: 0.8rem;
+            color: var(--text-mid);
+            opacity: 0.5;
+        }
+
+        .slide--title .slide-footer,
+        .slide--section .slide-footer,
+        .slide--section-coral .slide-footer,
+        .slide--section-gold .slide-footer,
+        .slide--break .slide-footer { color: rgba(255,255,255,0.35); }
+
+        /* ── Responsive ── */
+        @media (max-width: 1200px) {
+            .slide { padding: 2.5rem 3.5rem; }
+            h1 { font-size: 2.6rem; }
+            h2 { font-size: 2rem; }
+            .five-ways { grid-template-columns: repeat(3, 1fr); }
+            .three-col { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .slide { padding: 2rem 2rem; }
+            h1 { font-size: 2rem; }
+            .five-ways { grid-template-columns: 1fr 1fr; }
+            .two-col, .warning-grid, .strategy-list, .resource-grid { grid-template-columns: 1fr; }
+            .selfcare-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ── Print ── */
+        @media print {
+            .slide { display: flex !important; opacity: 1 !important; position: relative; page-break-after: always; height: auto; min-height: 100vh; }
+            .nav, .progress-bar { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="slide-container" id="slideContainer">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 1: TITLE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--title active">
+        <h3>ASPIRE: Foundations for Success</h3>
+        <h1>Week 8: Wellbeing &amp; Resilience</h1>
+        <p class="lead" style="margin-top:1rem;">Looking after yourself — so you can look after others</p>
+        <p class="lead" style="font-size:1.1rem; margin-top:1.5rem; opacity:0.7;">BSc Collaborative Health &amp; Social Care Studies &bull; Semester 2, 2025/26</p>
+        <span class="lo-tag">LO1 &bull; LO3 &bull; LO4 &bull; LO5</span>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 2: TODAY'S SESSION
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Today's Plan</h3>
+        <h2>What We'll Cover</h2>
+        <div class="two-col" style="margin-top:1rem;">
+            <div class="card card--green">
+                <span class="card-icon">💚</span>
+                <h3>Part 1: Understanding Wellbeing</h3>
+                <ul>
+                    <li>Why wellbeing matters in care</li>
+                    <li>The 5 Ways to Wellbeing</li>
+                    <li>Compassion fatigue &amp; burnout</li>
+                    <li>Empathy and understanding</li>
+                </ul>
+            </div>
+            <div class="card card--navy">
+                <span class="card-icon">🛡️</span>
+                <h3>Part 2: Building Resilience</h3>
+                <ul>
+                    <li>What resilience actually means</li>
+                    <li>Strategies for resilience</li>
+                    <li>Self-care planning</li>
+                    <li>Asking for help</li>
+                    <li>Group project: Final prep</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top:1.2rem;">
+            <p><strong>Portfolio connection:</strong> Today's themes feed directly into your Personal &amp; Professional Reflection (LO1, LO3). How you manage your own wellbeing is part of your professional development.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 3: SECTION — WHY WELLBEING MATTERS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--section">
+        <h3 style="color:rgba(255,255,255,0.7);">Part 1</h3>
+        <h2>Why Wellbeing Matters</h2>
+        <p class="lead">Especially when your career is about caring for others</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 4: WELLBEING IN CARE CONTEXT
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>The Care Context</h3>
+        <h2>Why This Matters for You</h2>
+        <div class="two-col">
+            <div>
+                <p>Health and social care is one of the most rewarding career paths — but it's also one of the most emotionally demanding.</p>
+                <div class="coral-box" style="margin-top:1.5rem;">
+                    <p><strong>The reality:</strong></p>
+                    <ul style="margin-top:0.5rem;">
+                        <li>You'll work with people in crisis, pain, and loss</li>
+                        <li>Emotional labour is constant and often invisible</li>
+                        <li>Staff shortages and time pressure are real</li>
+                        <li>Boundaries between caring and over-giving blur easily</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="green-box">
+                    <p><strong>Professional body expectations:</strong></p>
+                    <ul style="margin-top:0.5rem;">
+                        <li><strong>SSSC:</strong> Workers should look after their own health and wellbeing</li>
+                        <li><strong>NMC:</strong> Nurses must prioritise self-care to practise safely</li>
+                        <li><strong>HCPC:</strong> Registrants must manage their own health to maintain fitness to practise</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top:1rem;">
+                    <p>Wellbeing isn't a luxury or a soft topic. It's a <strong>professional responsibility</strong>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 5: QUOTE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--quote">
+        <p class="quote-text">"You can't pour from an empty cup.<br>Take care of yourself first."</p>
+        <p class="quote-attr">— Common saying in health &amp; social care practice</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 6: ACTIVITY — WELLBEING CHECK-IN
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--activity">
+        <div class="activity-header">
+            <span class="activity-icon">🔍</span>
+            <h2 style="color:var(--care-green);">Activity: Wellbeing Check-In</h2>
+        </div>
+        <p class="lead">Take a moment to honestly reflect on how you're doing right now.</p>
+        <div class="activity-steps">
+            <p><strong>Rate yourself 1–10 in each area:</strong></p>
+            <div class="three-col" style="margin-top:1rem;">
+                <div class="card card--green" style="text-align:center;">
+                    <span class="card-icon">🧠</span>
+                    <h3>Mental</h3>
+                    <p>Stress levels, clarity of thinking, motivation</p>
+                </div>
+                <div class="card card--navy" style="text-align:center;">
+                    <span class="card-icon">💪</span>
+                    <h3>Physical</h3>
+                    <p>Sleep, energy, exercise, nutrition</p>
+                </div>
+                <div class="card card--gold" style="text-align:center;">
+                    <span class="card-icon">👥</span>
+                    <h3>Social</h3>
+                    <p>Connections, belonging, support network</p>
+                </div>
+            </div>
+            <p style="margin-top:1rem; font-size:1.05rem; color:var(--text-mid);">This is private — for your eyes only. No sharing required. But notice where you scored lowest.</p>
+        </div>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="120">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value">2:00</span>
+        </div>
+        <p class="timer-label">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 7: 5 WAYS TO WELLBEING — OVERVIEW
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Evidence-Based Framework</h3>
+        <h2>The 5 Ways to Wellbeing</h2>
+        <p style="margin-bottom:0.8rem;">Developed by the New Economics Foundation — evidence-based actions to improve mental health and wellbeing.</p>
+        <div class="five-ways">
+            <div class="way-card" style="border-top: 4px solid #e74c3c;">
+                <span class="card-icon">🤝</span>
+                <h4>Connect</h4>
+                <p>Build relationships with the people around you</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #e67e22;">
+                <span class="card-icon">🏃</span>
+                <h4>Be Active</h4>
+                <p>Find physical activities that you enjoy</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #f1c40f;">
+                <span class="card-icon">👀</span>
+                <h4>Take Notice</h4>
+                <p>Be present, mindful of the world around you</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #27ae60;">
+                <span class="card-icon">📚</span>
+                <h4>Keep Learning</h4>
+                <p>Try something new, embrace curiosity</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #2980b9;">
+                <span class="card-icon">🎁</span>
+                <h4>Give</h4>
+                <p>Do something for others, volunteer, be kind</p>
+            </div>
+        </div>
+        <div class="green-box" style="margin-top:1rem;">
+            <p><strong>Key insight:</strong> These aren't big dramatic changes. They're small, daily habits. The evidence shows even modest engagement across all five improves wellbeing significantly.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 8: 5 WAYS — CARE CONTEXT
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>In Practice</h3>
+        <h2>The 5 Ways in Health &amp; Social Care</h2>
+        <div class="five-ways">
+            <div class="way-card" style="border-top: 4px solid #e74c3c;">
+                <span class="card-icon">🤝</span>
+                <h4>Connect</h4>
+                <p>Debrief with colleagues after difficult shifts. Build peer support networks. Don't isolate.</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #e67e22;">
+                <span class="card-icon">🏃</span>
+                <h4>Be Active</h4>
+                <p>Walk between visits. Use breaks for movement. Physical activity counters emotional fatigue.</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #f1c40f;">
+                <span class="card-icon">👀</span>
+                <h4>Take Notice</h4>
+                <p>Notice the good moments — a client's smile, a breakthrough, a thank you. They matter.</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #27ae60;">
+                <span class="card-icon">📚</span>
+                <h4>Keep Learning</h4>
+                <p>CPD isn't just a requirement — it keeps you engaged and growing. You're doing it right now.</p>
+            </div>
+            <div class="way-card" style="border-top: 4px solid #2980b9;">
+                <span class="card-icon">🎁</span>
+                <h4>Give</h4>
+                <p>You already give through your work. But giving in other ways — mentoring, volunteering — replenishes differently.</p>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 9: ACTIVITY — 5 WAYS AUDIT
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--activity">
+        <div class="activity-header">
+            <span class="activity-icon">📝</span>
+            <h2 style="color:var(--care-green);">Activity: Your 5 Ways Audit</h2>
+        </div>
+        <p class="lead">Which of the 5 Ways do you already practise? Which are you neglecting?</p>
+        <div class="activity-steps">
+            <ol>
+                <li><strong>Score each Way from 1–5</strong> — how regularly do you engage with it?</li>
+                <li><strong>Identify your strongest</strong> — what comes naturally to you?</li>
+                <li><strong>Identify the one you neglect most</strong> — why might that be?</li>
+                <li><strong>Think of one small action</strong> you could take this week for your weakest area</li>
+            </ol>
+            <p style="margin-top:1rem;"><strong>Discuss with a neighbour:</strong> What did you discover? Were there any surprises?</p>
+        </div>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="300">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value">5:00</span>
+        </div>
+        <p class="timer-label">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 10: EMPATHY & UNDERSTANDING
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Core Care Skill</h3>
+        <h2>Empathy &amp; Understanding</h2>
+        <div class="two-col">
+            <div>
+                <p>Empathy is the ability to understand and share the feelings of another person. In care, it's not optional — it's foundational.</p>
+                <div class="highlight-box" style="margin-top:1rem;">
+                    <p><strong>Empathy vs Sympathy:</strong></p>
+                    <ul style="margin-top:0.5rem;">
+                        <li><strong>Sympathy:</strong> "I feel sorry for you"</li>
+                        <li><strong>Empathy:</strong> "I'm trying to understand what this is like for you"</li>
+                    </ul>
+                </div>
+                <p style="margin-top:1rem;">Empathy connects. Sympathy creates distance.</p>
+            </div>
+            <div>
+                <div class="card card--green">
+                    <h3>Practising Empathy</h3>
+                    <ul>
+                        <li><strong>Listen actively</strong> — without planning your response</li>
+                        <li><strong>Acknowledge feelings</strong> — "That sounds really difficult"</li>
+                        <li><strong>Avoid fixing</strong> — sometimes people need to be heard, not solved</li>
+                        <li><strong>Be curious</strong> — "Tell me more about that"</li>
+                        <li><strong>Check assumptions</strong> — your experience isn't everyone's</li>
+                    </ul>
+                </div>
+                <div class="coral-box" style="margin-top:1rem;">
+                    <p><strong>But:</strong> Empathy without boundaries leads to emotional exhaustion. That's where compassion fatigue comes in.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 11: COMPASSION FATIGUE & BURNOUT
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Understanding the Risks</h3>
+        <h2>Compassion Fatigue &amp; Burnout</h2>
+        <div class="two-col">
+            <div class="card card--coral">
+                <span class="card-icon">🔥</span>
+                <h3 style="color:var(--accent-coral);">Burnout</h3>
+                <p>Gradual exhaustion from prolonged workplace stress. Builds slowly over time.</p>
+                <ul style="margin-top:0.6rem;">
+                    <li>Emotional exhaustion</li>
+                    <li>Feeling detached or cynical</li>
+                    <li>Reduced sense of achievement</li>
+                    <li>Physical symptoms (fatigue, headaches)</li>
+                    <li>"I just can't do this anymore"</li>
+                </ul>
+            </div>
+            <div class="card card--navy">
+                <span class="card-icon">💔</span>
+                <h3 style="color:var(--uws-navy);">Compassion Fatigue</h3>
+                <p>The emotional cost of caring for people who are suffering. Can develop more suddenly.</p>
+                <ul style="margin-top:0.6rem;">
+                    <li>Reduced empathy</li>
+                    <li>Emotional numbness</li>
+                    <li>Difficulty separating work from home</li>
+                    <li>Intrusive thoughts about clients/patients</li>
+                    <li>"I don't care anymore" (but you do)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="green-box" style="margin-top:1rem;">
+            <p><strong>Important:</strong> These are normal human responses to abnormal levels of emotional demand. They are not signs of weakness. Recognising them early is a professional skill.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 12: SIGNS TO WATCH FOR
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Early Warning Signs</h3>
+        <h2>How Would You Know?</h2>
+        <div class="warning-grid">
+            <div class="warning-card" style="border-left: 4px solid #e74c3c;">
+                <h4>🧠 Emotional</h4>
+                <ul>
+                    <li>Feeling overwhelmed or helpless</li>
+                    <li>Irritability or mood swings</li>
+                    <li>Loss of motivation</li>
+                    <li>Dreading work or study</li>
+                </ul>
+            </div>
+            <div class="warning-card" style="border-left: 4px solid #e67e22;">
+                <h4>💪 Physical</h4>
+                <ul>
+                    <li>Constant tiredness</li>
+                    <li>Frequent illness</li>
+                    <li>Sleep problems</li>
+                    <li>Changes in appetite</li>
+                </ul>
+            </div>
+            <div class="warning-card" style="border-left: 4px solid #2980b9;">
+                <h4>🤝 Social</h4>
+                <ul>
+                    <li>Withdrawing from friends/family</li>
+                    <li>Avoiding colleagues or classmates</li>
+                    <li>Feeling isolated</li>
+                    <li>Loss of interest in social activities</li>
+                </ul>
+            </div>
+            <div class="warning-card" style="border-left: 4px solid #8e44ad;">
+                <h4>📋 Behavioural</h4>
+                <ul>
+                    <li>Missing deadlines or classes</li>
+                    <li>Procrastinating more than usual</li>
+                    <li>Increased use of alcohol or other coping mechanisms</li>
+                    <li>Difficulty concentrating</li>
+                </ul>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top:1rem;">
+            <p><strong>Reflection prompt:</strong> Have you noticed any of these in yourself recently? In a friend or classmate? What would you do?</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 13: ACTIVITY — SCENARIO DISCUSSION
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--activity-coral">
+        <div class="activity-header">
+            <span class="activity-icon">💬</span>
+            <h2 style="color:var(--accent-coral);">Activity: What Would You Do?</h2>
+        </div>
+        <p class="lead">In pairs or small groups, discuss these scenarios:</p>
+        <div class="two-col" style="margin-top:1rem;">
+            <div class="card card--coral">
+                <h3 style="color:var(--accent-coral);">Scenario A</h3>
+                <p>Your flatmate on the same course has missed the last three weeks of classes. They say they're "fine" but you've noticed they're sleeping a lot and not eating properly. They used to love their placement but now they say "what's the point?"</p>
+                <p style="margin-top:0.6rem; font-weight:600;">What signs concern you? What would you say?</p>
+            </div>
+            <div class="card card--navy">
+                <h3 style="color:var(--uws-navy);">Scenario B</h3>
+                <p>You've been feeling constantly tired and anxious about your assignments. You're snapping at people and you've stopped going to the gym, which you used to enjoy. A friend says "you don't seem like yourself."</p>
+                <p style="margin-top:0.6rem; font-weight:600;">Would you recognise this in yourself? What's the first step?</p>
+            </div>
+        </div>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="360">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value">6:00</span>
+        </div>
+        <p class="timer-label">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 14: FINDING A BALANCE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Practical Strategies</h3>
+        <h2>Finding a Balance</h2>
+        <div class="two-col">
+            <div>
+                <p>Balance doesn't mean everything gets equal time. It means being intentional about what matters and noticing when things are tipping.</p>
+                <div class="card card--green" style="margin-top:1rem;">
+                    <h3>The Balance Wheel</h3>
+                    <p>Consider how much time and energy you give to each area:</p>
+                    <ul style="margin-top:0.5rem;">
+                        <li>Study &amp; academic work</li>
+                        <li>Paid work / placement</li>
+                        <li>Relationships &amp; social life</li>
+                        <li>Physical health</li>
+                        <li>Rest &amp; recovery</li>
+                        <li>Hobbies &amp; enjoyment</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="card card--gold">
+                    <h3>Signs You're Out of Balance</h3>
+                    <ul>
+                        <li>One area dominates everything</li>
+                        <li>You've dropped things you used to enjoy</li>
+                        <li>You feel guilty when you're not studying</li>
+                        <li>You never feel "done" for the day</li>
+                        <li>Small problems feel overwhelming</li>
+                    </ul>
+                </div>
+                <div class="green-box" style="margin-top:1rem;">
+                    <p><strong>Key point:</strong> Balance isn't a destination — it's something you keep adjusting. Being aware of the imbalance is the first step.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 15: BREAK
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--break">
+        <h1>☕ Break</h1>
+        <p class="lead" style="margin-top:1rem;">15 minutes — stretch, move, get a drink</p>
+        <p class="lead" style="font-size:1.1rem; margin-top:1.5rem; opacity:0.6;">Practice "Be Active" and "Connect" while you're at it</p>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="900" style="border-color: rgba(255,255,255,0.4); margin-top:1.5rem;">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value" style="color: var(--text-light);">15:00</span>
+        </div>
+        <p class="timer-label" style="color:rgba(255,255,255,0.5);">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 16: SECTION — BUILDING RESILIENCE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--section-gold">
+        <h3 style="color:rgba(255,255,255,0.7);">Part 2</h3>
+        <h2>Building Resilience</h2>
+        <p class="lead">It's not about being tough. It's about bouncing back.</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 17: WHAT IS RESILIENCE?
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Understanding Resilience</h3>
+        <h2>What Resilience Actually Means</h2>
+        <div class="two-col">
+            <div>
+                <div class="coral-box">
+                    <p><strong>Resilience is NOT:</strong></p>
+                    <ul style="margin-top:0.5rem;">
+                        <li>Never feeling stressed or upset</li>
+                        <li>Being "tough" or unemotional</li>
+                        <li>Pushing through no matter what</li>
+                        <li>A fixed personality trait you're born with</li>
+                        <li>An excuse for poor working conditions</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="green-box">
+                    <p><strong>Resilience IS:</strong></p>
+                    <ul style="margin-top:0.5rem;">
+                        <li>The ability to adapt and recover from difficulty</li>
+                        <li>A skill that can be learned and strengthened</li>
+                        <li>Knowing when to ask for help</li>
+                        <li>Having strategies ready before you need them</li>
+                        <li>Accepting setbacks as part of the process</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top:1.2rem;">
+            <p><strong>In care settings:</strong> Resilience is recognised by SSSC, NMC and HCPC as essential for sustainable, safe practice. It protects both you and the people you work with.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 18: BUILDING CONFIDENCE & RESILIENCE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Practical Approaches</h3>
+        <h2>Building Confidence &amp; Resilience</h2>
+        <div class="strategy-list">
+            <div class="strategy-item">
+                <span class="strat-num">1</span>
+                <div>
+                    <p><strong>Reframe setbacks</strong><br>A failed assignment isn't proof you can't do this. It's information about what to work on next.</p>
+                </div>
+            </div>
+            <div class="strategy-item">
+                <span class="strat-num">2</span>
+                <div>
+                    <p><strong>Build your support network</strong><br>Know who you can turn to — friends, family, lecturers, services. Don't wait for a crisis.</p>
+                </div>
+            </div>
+            <div class="strategy-item">
+                <span class="strat-num">3</span>
+                <div>
+                    <p><strong>Develop a routine</strong><br>Predictable structure reduces decision fatigue and creates space for recovery.</p>
+                </div>
+            </div>
+            <div class="strategy-item">
+                <span class="strat-num">4</span>
+                <div>
+                    <p><strong>Celebrate small wins</strong><br>Submitted on time? Attended every class this week? That counts. Acknowledge progress.</p>
+                </div>
+            </div>
+            <div class="strategy-item">
+                <span class="strat-num">5</span>
+                <div>
+                    <p><strong>Set boundaries</strong><br>Saying "no" to protect your energy is not selfish. It's professional self-management.</p>
+                </div>
+            </div>
+            <div class="strategy-item">
+                <span class="strat-num">6</span>
+                <div>
+                    <p><strong>Practise self-compassion</strong><br>Talk to yourself the way you'd talk to a friend. You deserve the same kindness you give others.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 19: DEALING WITH CHALLENGE & CHANGE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>LO4 Connection</h3>
+        <h2>Dealing with Challenge &amp; Change</h2>
+        <div class="two-col">
+            <div>
+                <p>University is a period of significant change. So is entering the care workforce. Learning to navigate uncertainty is a core professional skill.</p>
+                <div class="card card--navy" style="margin-top:1rem;">
+                    <h3>Common Challenges You'll Face</h3>
+                    <ul>
+                        <li>Academic pressure and deadlines</li>
+                        <li>Financial stress</li>
+                        <li>Adjusting to new environments</li>
+                        <li>Balancing study with work/family</li>
+                        <li>Dealing with difficult placement experiences</li>
+                        <li>Uncertainty about the future</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="card card--green">
+                    <h3>Strategies for Navigating Change</h3>
+                    <ul>
+                        <li><strong>Accept uncertainty</strong> — not everything needs to be figured out now</li>
+                        <li><strong>Focus on what you can control</strong> — your effort, your attitude, your next step</li>
+                        <li><strong>Break it down</strong> — overwhelming problems become manageable tasks</li>
+                        <li><strong>Talk about it</strong> — sharing reduces the weight</li>
+                        <li><strong>Look back at past challenges</strong> — you've survived 100% of your worst days so far</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <span class="lo-tag lo-tag--dark">LO4: Recognise how changes shape academic and professional environments</span>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 20: SELF-CARE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Making It Practical</h3>
+        <h2>Self-Care: The Six Dimensions</h2>
+        <div class="selfcare-grid">
+            <div class="selfcare-card" style="border-top: 3px solid #e74c3c;">
+                <span class="card-icon">💪</span>
+                <h4>Physical</h4>
+                <p>Sleep, nutrition, movement, rest</p>
+            </div>
+            <div class="selfcare-card" style="border-top: 3px solid #3498db;">
+                <span class="card-icon">🧠</span>
+                <h4>Emotional</h4>
+                <p>Processing feelings, self-compassion, boundaries</p>
+            </div>
+            <div class="selfcare-card" style="border-top: 3px solid #27ae60;">
+                <span class="card-icon">👥</span>
+                <h4>Social</h4>
+                <p>Meaningful connections, community, belonging</p>
+            </div>
+            <div class="selfcare-card" style="border-top: 3px solid #9b59b6;">
+                <span class="card-icon">✨</span>
+                <h4>Spiritual</h4>
+                <p>Purpose, meaning, values, gratitude</p>
+            </div>
+            <div class="selfcare-card" style="border-top: 3px solid #e67e22;">
+                <span class="card-icon">📖</span>
+                <h4>Intellectual</h4>
+                <p>Stimulation, curiosity, growth, creativity</p>
+            </div>
+            <div class="selfcare-card" style="border-top: 3px solid #1abc9c;">
+                <span class="card-icon">🏢</span>
+                <h4>Professional</h4>
+                <p>Work-life boundaries, CPD, supervision, purpose</p>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top:1rem;">
+            <p><strong>Self-care isn't selfish.</strong> In care professions, it's a professional responsibility. You can't provide compassionate care from a place of exhaustion.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 21: ACTIVITY — SELF-CARE PLAN
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--activity">
+        <div class="activity-header">
+            <span class="activity-icon">📋</span>
+            <h2 style="color:var(--care-green);">Activity: Your Self-Care Plan</h2>
+        </div>
+        <p class="lead">Create a realistic self-care plan you'll actually follow. Not a wish list — a real plan.</p>
+        <div class="activity-steps">
+            <p><strong>For each of the six dimensions, write down:</strong></p>
+            <ol>
+                <li><strong>One thing you already do well</strong> — keep doing it</li>
+                <li><strong>One thing you want to start or do more of</strong> — make it specific</li>
+                <li><strong>One barrier</strong> — what usually gets in the way?</li>
+                <li><strong>One solution</strong> — how will you overcome that barrier?</li>
+            </ol>
+            <div class="green-box" style="margin-top:1rem;">
+                <p><strong>Portfolio tip:</strong> This self-care plan can be referenced in your Personal &amp; Professional Reflection. It shows LO1 (self-awareness) and LO3 (drawing connections between personal and professional development).</p>
+            </div>
+        </div>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="600">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value">10:00</span>
+        </div>
+        <p class="timer-label">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 22: ASKING FOR HELP
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>A Professional Strength</h3>
+        <h2>Asking for Help</h2>
+        <div class="two-col">
+            <div>
+                <p>In care professions, asking for help isn't weakness — it's a core professional skill. Supervision, debriefing, and peer support are built into care practice for a reason.</p>
+                <div class="card card--coral" style="margin-top:1rem;">
+                    <h3 style="color:var(--accent-coral);">Why People Don't Ask</h3>
+                    <ul>
+                        <li>"I should be able to handle this"</li>
+                        <li>"Everyone else seems fine"</li>
+                        <li>"I don't want to be a burden"</li>
+                        <li>"They'll think I'm not coping"</li>
+                        <li>"I don't know who to ask"</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <div class="card card--green">
+                    <h3>How to Ask</h3>
+                    <ul>
+                        <li><strong>Be specific:</strong> "I'm struggling with X, can you help me with Y?"</li>
+                        <li><strong>Be honest:</strong> "I'm not coping as well as I'd like"</li>
+                        <li><strong>Start small:</strong> You don't have to share everything at once</li>
+                        <li><strong>Choose your person:</strong> Friend, lecturer, support service — pick who fits</li>
+                        <li><strong>Remember:</strong> The people who help others for a living understand this better than anyone</li>
+                    </ul>
+                </div>
+                <div class="green-box" style="margin-top:1rem;">
+                    <p><strong>Practice now:</strong> Think of one thing you could use help with. Who would you ask?</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 23: SUPPORT RESOURCES
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Where to Get Support</h3>
+        <h2>You Don't Have to Figure This Out Alone</h2>
+        <div class="resource-grid">
+            <div class="resource-card" style="border-left-color: var(--uws-navy);">
+                <h4>🎓 UWS Student Wellbeing</h4>
+                <p>Free, confidential support — counselling, mental health advisors, disability services</p>
+            </div>
+            <div class="resource-card" style="border-left-color: var(--care-green);">
+                <h4>💰 UWS Student Funding</h4>
+                <p>Hardship funds, bursaries, emergency funding — financial stress doesn't have to be silent</p>
+            </div>
+            <div class="resource-card" style="border-left-color: var(--uws-gold);">
+                <h4>📧 Your Lecturers</h4>
+                <p>We're here to help. If you're struggling, tell us. Extensions, support, signposting — we want you to succeed</p>
+            </div>
+            <div class="resource-card" style="border-left-color: var(--accent-coral);">
+                <h4>📞 External Support</h4>
+                <p><strong>Samaritans:</strong> 116 123 (24/7, free)<br>
+                <strong>Breathing Space:</strong> 0800 83 85 87 (Scotland)<br>
+                <strong>Shout:</strong> Text "SHOUT" to 85258</p>
+            </div>
+            <div class="resource-card" style="border-left-color: #9b59b6;">
+                <h4>🤝 SAUWS (Students' Association)</h4>
+                <p>Advice, advocacy, social activities — your student voice and support network</p>
+            </div>
+            <div class="resource-card" style="border-left-color: #1abc9c;">
+                <h4>🏥 NHS &amp; GP</h4>
+                <p>Register with a local GP if you haven't already. NHS 24: 111. Your physical and mental health matters.</p>
+            </div>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 24: QUOTE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--quote">
+        <p class="quote-text">"Resilience is not about never falling.<br>It's about how you get back up —<br>and who you let help you."</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 25: SECTION — GROUP PROJECT
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--section-coral">
+        <h3 style="color:rgba(255,255,255,0.7);">Final Check-In</h3>
+        <h2>Group Project:<br>Presentation Prep</h2>
+        <p class="lead">Next week is Week 9 — you're presenting. Let's make sure you're ready.</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 26: PRESENTATION EXPECTATIONS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Week 9 Preview</h3>
+        <h2>Group Presentation: What to Expect</h2>
+        <div class="two-col">
+            <div class="card card--navy">
+                <span class="card-icon">📋</span>
+                <h3>Format</h3>
+                <ul>
+                    <li>10–15 minutes per group</li>
+                    <li>All group members must contribute</li>
+                    <li>Format is flexible: slides, video, poster, website, etc.</li>
+                    <li>Followed by brief Q&amp;A / feedback</li>
+                </ul>
+            </div>
+            <div class="card card--green">
+                <span class="card-icon">✅</span>
+                <h3>What We're Looking For</h3>
+                <ul>
+                    <li>Clear connection to your topic and person-centred care</li>
+                    <li>Evidence of collaboration (not just divided labour)</li>
+                    <li>Everyone's voice is represented</li>
+                    <li>Engagement with the theme, not perfection</li>
+                </ul>
+            </div>
+        </div>
+        <div class="coral-box" style="margin-top:1rem;">
+            <p><strong>Remember:</strong> The presentation itself isn't assessed. But your <strong>reflection on the experience</strong> is. So pay attention to how the process feels — the challenges, the teamwork, what you're learning about yourself and others. That's the material for your Group Project Reflection (750 words).</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 27: ACTIVITY — GROUP WORK TIME
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--activity">
+        <div class="activity-header">
+            <span class="activity-icon">👥</span>
+            <h2 style="color:var(--care-green);">Group Project Work Time</h2>
+        </div>
+        <p class="lead">Use this time to finalise your presentation with your group.</p>
+        <div class="activity-steps">
+            <p><strong>Focus on:</strong></p>
+            <ol>
+                <li><strong>Content:</strong> Is your argument clear? Does it link to person-centred care?</li>
+                <li><strong>Structure:</strong> Who's presenting which section? What's the flow?</li>
+                <li><strong>Practicalities:</strong> Do you need to test tech? Print anything? Bring props?</li>
+                <li><strong>Rehearsal:</strong> Run through it once. Time yourselves. Identify weak spots.</li>
+            </ol>
+            <div class="highlight-box" style="margin-top:1rem;">
+                <p><strong>Reflection prep:</strong> While you work, notice: How are decisions being made? Who leads? Who listens? Are there tensions? This is all material for your 750-word reflection.</p>
+            </div>
+        </div>
+        <div class="timer-display" onclick="toggleTimer(this)" data-seconds="1500">
+            <span class="timer-icon">⏱</span>
+            <span class="timer-value">25:00</span>
+        </div>
+        <p class="timer-label">Click to start/pause</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 28: PORTFOLIO CONNECTIONS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Assessment Link</h3>
+        <h2>Today &amp; Your Portfolio</h2>
+        <div class="two-col">
+            <div class="card card--green">
+                <span class="card-icon">📝</span>
+                <h3>Personal &amp; Professional Reflection (1250 words)</h3>
+                <p>Today's content connects directly to your final reflection. You could write about:</p>
+                <ul style="margin-top:0.5rem;">
+                    <li>How your understanding of wellbeing has changed</li>
+                    <li>What self-care strategies you've adopted</li>
+                    <li>How wellbeing connects to your professional role</li>
+                    <li>Your resilience journey through the module</li>
+                </ul>
+                <span class="badge badge--green" style="margin-top:0.6rem;">LO1, LO3, LO5</span>
+            </div>
+            <div class="card card--coral">
+                <span class="card-icon">👥</span>
+                <h3>Group Project Reflection (750 words)</h3>
+                <p>Start thinking about:</p>
+                <ul style="margin-top:0.5rem;">
+                    <li>Your contribution to the group</li>
+                    <li>How you communicated and collaborated</li>
+                    <li>What you learned about working with others</li>
+                    <li>Challenges and how you handled them</li>
+                </ul>
+                <span class="badge badge--coral" style="margin-top:0.6rem;">LO2, LO3</span>
+            </div>
+        </div>
+        <div class="highlight-box" style="margin-top:1rem;">
+            <p><strong>Deadline reminder:</strong> Full portfolio due <strong>14 April 2026</strong> via Turnitin.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 29: KEY TAKEAWAYS
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--content">
+        <h3>Today's Summary</h3>
+        <h2>Key Takeaways</h2>
+        <div class="three-col">
+            <div class="card card--green" style="text-align:center;">
+                <span class="card-icon">💚</span>
+                <h3>Wellbeing Is Professional</h3>
+                <p>Looking after yourself isn't a luxury — it's a requirement for safe, sustainable care practice.</p>
+            </div>
+            <div class="card card--gold" style="text-align:center;">
+                <span class="card-icon">🛡️</span>
+                <h3>Resilience Is a Skill</h3>
+                <p>It's not about being tough. It's about having strategies, support, and self-awareness.</p>
+            </div>
+            <div class="card card--coral" style="text-align:center;">
+                <span class="card-icon">🤝</span>
+                <h3>Help Is a Strength</h3>
+                <p>Knowing when and how to ask for support is one of the most professional things you can do.</p>
+            </div>
+        </div>
+        <div class="green-box" style="margin-top:1.5rem;">
+            <p><strong>On Aula this week:</strong> Financial Wellbeing resources — practical guidance on budgeting, student funding, and managing money as a student. Please read in your own time.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 30: NEXT WEEK
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--title">
+        <h3 style="color:var(--uws-gold);">Looking Ahead</h3>
+        <h1>Next Week: Group Presentations</h1>
+        <p class="lead" style="margin-top:1rem;">Week 9 &bull; Thursday &bull; 1:30 PM</p>
+        <p class="lead" style="margin-top:1.5rem; font-size:1.15rem;">Come prepared. Come on time. Support each other.</p>
+        <div class="highlight-box" style="background:rgba(255,255,255,0.1); border-left-color:var(--uws-gold); max-width:32em; margin-top:1.5rem;">
+            <p style="color:var(--text-light);"><strong>Bring:</strong> Your presentation materials, any handouts or tech you need, and a willingness to give constructive feedback to other groups.</p>
+        </div>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SLIDE 31: CLOSE
+         ═══════════════════════════════════════════════════════════════ -->
+    <div class="slide slide--title">
+        <h3 style="color:var(--uws-gold);">Thank You</h3>
+        <h1>Take care of yourselves this week.</h1>
+        <p class="lead" style="margin-top:1.5rem;">Questions? Email me or come to office hours.</p>
+        <p class="lead" style="margin-top:1rem; font-size:1.05rem; opacity:0.6;">Remember: wellbeing isn't something you'll get round to later. It starts now.</p>
+        <div class="slide-footer">ASPIRE CHSC &bull; UWS Paisley</div>
+    </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="nav">
+    <button id="prevBtn" onclick="changeSlide(-1)" disabled>◀</button>
+    <span class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides"></span></span>
+    <button id="nextBtn" onclick="changeSlide(1)">▶</button>
+</div>
+
+<script>
+    // ── Slide Navigation ──
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    document.getElementById('totalSlides').textContent = totalSlides;
+
+    function showSlide(n) {
+        if (n < 1 || n > totalSlides) return;
+        slides.forEach(s => { s.classList.remove('active'); });
+        slides[n - 1].classList.add('active');
+        currentSlide = n;
+        document.getElementById('currentSlide').textContent = n;
+        document.getElementById('prevBtn').disabled = (n === 1);
+        document.getElementById('nextBtn').disabled = (n === totalSlides);
+        // Progress bar
+        const pct = ((n - 1) / (totalSlides - 1)) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+    }
+
+    function changeSlide(dir) {
+        showSlide(currentSlide + dir);
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
+        else if (e.key === 'ArrowLeft') { changeSlide(-1); }
+    });
+
+    // Touch navigation
+    let touchStartX = 0;
+    document.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    document.addEventListener('touchend', (e) => {
+        const diff = touchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) { changeSlide(diff > 0 ? 1 : -1); }
+    }, { passive: true });
+
+    // ── Timers ──
+    const timers = new Map();
+
+    function toggleTimer(el) {
+        const id = el.dataset.seconds;
+        if (timers.has(el)) {
+            // Pause
+            clearInterval(timers.get(el).interval);
+            timers.delete(el);
+        } else {
+            // Start or resume
+            const valueEl = el.querySelector('.timer-value');
+            let remaining;
+            // Parse current displayed time
+            const parts = valueEl.textContent.split(':');
+            remaining = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            if (remaining <= 0) {
+                remaining = parseInt(el.dataset.seconds);
+            }
+
+            const interval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    timers.delete(el);
+                    valueEl.textContent = '0:00';
+                    el.style.borderColor = '#e74c3c';
+                    valueEl.style.color = '#e74c3c';
+                    return;
+                }
+                const m = Math.floor(remaining / 60);
+                const s = remaining % 60;
+                valueEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            }, 1000);
+
+            timers.set(el, { interval, remaining });
+        }
+    }
+
+    // Init
+    showSlide(1);
+</script>
+
+</body>
+</html>
