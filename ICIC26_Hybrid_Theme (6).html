@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Integrative Leader — ICIC26</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* === DARK MODE (title, gap, integrative leader, close) === */
+  --bg-deep:#121d30;
+  --bg-dark:#1a2840;
+  --bg-card-dk:#223350;
+  --bg-card-dk-h:#283b5c;
+  --border-dk:#2e4468;
+  --white:#ffffff;
+  --text-dk:#e8ecf2;
+  --muted-dk:#8d9bb5;
+  --faint-dk:#5a6e8e;
+  /* === LIGHT MODE (scotland, methods, context, implications) === */
+  --bg-light:#f6f4f0;
+  --bg-card-lt:#ffffff;
+  --bg-card-lt-h:#f0ece6;
+  --border-lt:#d8d2c8;
+  --heading-lt:#1a2840;
+  --text-lt:#3a4860;
+  --muted-lt:#7a8698;
+  --faint-lt:#a0a8b4;
+  /* === SHARED ACCENTS === */
+  --copper-dk:#d4954a;
+  --copper-lt:#b87d28;
+  --copper-dk-soft:rgba(212,149,74,0.12);
+  --copper-dk-bdr:rgba(212,149,74,0.35);
+  --copper-lt-soft:rgba(184,125,40,0.10);
+  --copper-lt-bdr:rgba(184,125,40,0.35);
+  /* Context colours — dual sets */
+  --cf-dk:#e08a30;--cp-dk:#dc4040;--ca-dk:#2db5a0;--cg-dk:#40b060;--cw-dk:#9070e0;
+  --cf-lt:#c87520;--cp-lt:#c03030;--ca-lt:#1a9a86;--cg-lt:#2d8a48;--cw-lt:#6e50c8;
+}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:#121d30;color:#fff;-webkit-font-smoothing:antialiased}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;transition:opacity .55s,transform .55s;transform:translateY(14px);overflow:hidden}
+.slide.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+.si{width:100%;height:100%;max-width:1200px;margin:0 auto;padding:44px 64px;display:flex;flex-direction:column;position:relative;z-index:2}
+
+/* ============================================================
+   DARK SLIDES — default
+   ============================================================ */
+.dark{background:var(--bg-dark)}
+.dark h1,.dark h2,.dark h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--white)}
+.dark p,.dark .bt{color:var(--text-dk);font-weight:300}
+.dark .lb{color:var(--copper-dk)}
+.dark .hl{color:var(--copper-dk)}
+.dark .gs{color:var(--copper-dk)}
+.dark .gsl{color:var(--muted-dk)}
+.dark .gq{color:var(--text-dk);border-color:var(--copper-dk)}
+.dark .gl{border-color:var(--border-dk)}
+.dark .mcard{background:var(--bg-card-dk);border-color:var(--border-dk)}
+.dark .mcard::before{background:var(--copper-dk)}
+.dark .mnum{color:var(--copper-dk)}
+
+/* ============================================================
+   LIGHT SLIDES
+   ============================================================ */
+.light{background:var(--bg-light)}
+.light h1,.light h2,.light h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--heading-lt)}
+.light p,.light .bt{color:var(--text-lt);font-weight:400}
+.light .lb{color:var(--copper-lt)}
+.light .hl{color:var(--copper-lt)}
+.light .gs{color:var(--copper-lt)}
+.light .gsl{color:var(--muted-lt)}
+.light .gq{color:var(--text-lt);border-color:var(--copper-lt)}
+.light .gl{border-color:var(--border-lt)}
+.light .ob-n{background:rgba(26,154,134,0.07);border-color:var(--ca-lt);color:var(--ca-lt)}
+.light .ob-l{background:rgba(192,48,48,0.07);border-color:var(--cp-lt);color:var(--cp-lt)}
+.light .ob-i{background:var(--copper-lt-soft);border-color:var(--copper-lt);color:var(--copper-lt)}
+.light .oa{color:var(--faint-lt)}
+.light .dl{color:var(--muted-lt)}
+.light .mcard{background:var(--bg-card-lt);border-color:var(--border-lt);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.light .mcard::before{background:var(--copper-lt)}
+.light .mnum{color:var(--copper-lt)}
+.light .mcard p{color:var(--text-lt)}
+.light .mcard h3{color:var(--heading-lt)}
+/* Context explorer — light */
+.light .pfr{border-color:rgba(26,40,64,.12)}
+.light .pf-hub{background:var(--bg-card-lt);border-color:var(--copper-lt);box-shadow:0 2px 12px rgba(184,125,40,.12)}
+.light .pf-hub-t{color:var(--copper-lt)}
+.light .fn-ic{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.light .fn.act .fn-ic{box-shadow:0 2px 16px rgba(0,0,0,.12)}
+.light .fn-top .fn-ic{background:rgba(200,117,32,0.08);color:var(--cf-lt);border-color:var(--cf-lt)}.light .fn-top .fn-lb{color:var(--cf-lt)}
+.light .fn-tr .fn-ic{background:rgba(192,48,48,0.07);color:var(--cp-lt);border-color:var(--cp-lt)}.light .fn-tr .fn-lb{color:var(--cp-lt)}
+.light .fn-br .fn-ic{background:rgba(26,154,134,0.07);color:var(--ca-lt);border-color:var(--ca-lt)}.light .fn-br .fn-lb{color:var(--ca-lt)}
+.light .fn-bl .fn-ic{background:rgba(45,138,72,0.07);color:var(--cg-lt);border-color:var(--cg-lt)}.light .fn-bl .fn-lb{color:var(--cg-lt)}
+.light .fn-tl .fn-ic{background:rgba(110,80,200,0.07);color:var(--cw-lt);border-color:var(--cw-lt)}.light .fn-tl .fn-lb{color:var(--cw-lt)}
+.light .tap-hint{color:var(--faint-lt)}
+.light .ctx-r{border-color:var(--border-lt)}
+.light .ctx-r.tint-finance{background:rgba(200,117,32,0.05);border-left-color:rgba(200,117,32,0.35)}
+.light .ctx-r.tint-partisan{background:rgba(192,48,48,0.04);border-left-color:rgba(192,48,48,0.30)}
+.light .ctx-r.tint-admin{background:rgba(26,154,134,0.04);border-left-color:rgba(26,154,134,0.30)}
+.light .ctx-r.tint-geo{background:rgba(45,138,72,0.04);border-left-color:rgba(45,138,72,0.30)}
+.light .ctx-r.tint-workforce{background:rgba(110,80,200,0.04);border-left-color:rgba(110,80,200,0.30)}
+.light .ctx-def-icon{color:var(--faint-lt)}
+.light .ctx-def p{color:var(--faint-lt)}
+.light .cp-hd .cp-bg[style*="cf-bg"]{background:rgba(200,117,32,0.08)}
+.light .cp-tt{color:var(--heading-lt);font-weight:700}
+.light .cp-pat{color:var(--text-lt);font-weight:500;font-style:normal}
+.light .cp-cd{background:var(--bg-card-lt);border-color:var(--border-lt);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.light .cp-cd:hover{background:var(--bg-card-lt-h)}
+.light .tint-finance .cp-cd{background:rgba(200,117,32,0.06);border-color:rgba(200,117,32,0.22)}
+.light .tint-partisan .cp-cd{background:rgba(192,48,48,0.05);border-color:rgba(192,48,48,0.20)}
+.light .tint-admin .cp-cd{background:rgba(26,154,134,0.05);border-color:rgba(26,154,134,0.20)}
+.light .tint-geo .cp-cd{background:rgba(45,138,72,0.05);border-color:rgba(45,138,72,0.20)}
+.light .tint-workforce .cp-cd{background:rgba(110,80,200,0.05);border-color:rgba(110,80,200,0.20)}
+.light .cp-cd-t{color:var(--heading-lt);font-weight:700;font-size:.7rem}
+.light .cp-cd-d{color:var(--text-lt);font-weight:400;font-size:.6rem}
+.light .cp-q{color:var(--heading-lt);font-weight:500}
+.light .cp-at{color:var(--muted-lt);font-weight:500}
+.light .sty.sf{background:rgba(26,154,134,0.10);color:var(--ca-lt);font-size:.56rem;font-weight:700}
+.light .sty.sd2{background:rgba(192,48,48,0.10);color:var(--cp-lt);font-size:.56rem;font-weight:700}
+.light .sty.sp{background:rgba(200,117,32,0.10);color:var(--cf-lt);font-size:.56rem;font-weight:700}
+.light .sty.ss{background:rgba(45,138,72,0.10);color:var(--cg-lt);font-size:.56rem;font-weight:700}
+.light .sty.sdm{background:rgba(26,40,64,.08);color:var(--text-lt);font-size:.56rem;font-weight:700}
+.light .sty.st{background:rgba(110,80,200,0.10);color:var(--cw-lt);font-size:.56rem;font-weight:700}
+/* Implications — light */
+.light .icl{background:var(--bg-card-lt);border-color:var(--border-lt);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.light .icl:hover{background:var(--bg-card-lt-h)}
+.light .icl h3{color:var(--heading-lt)}
+.light .icl p{color:var(--text-lt)}
+.light .i-pol{background:var(--copper-lt-soft);color:var(--copper-lt);border-color:var(--copper-lt-bdr)}
+.light .i-pra{background:rgba(26,154,134,0.07);color:var(--ca-lt);border-color:rgba(26,154,134,0.28)}
+.light .i-int{background:rgba(45,138,72,0.07);color:var(--cg-lt);border-color:rgba(45,138,72,0.28)}
+
+/* ============================================================
+   SHARED TYPOGRAPHY + COMPONENTS (mode-agnostic)
+   ============================================================ */
+h1{font-size:clamp(2.2rem,4.2vw,3.6rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,2.8vw,2.2rem);letter-spacing:-.01em}
+h3{font-size:clamp(.9rem,1.5vw,1.2rem)}
+p,.bt{font-size:clamp(.78rem,1.1vw,.95rem);line-height:1.6}
+.lb{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;display:inline-block;margin-bottom:8px}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--copper-dk);z-index:100;transition:width .4s}
+.counter{position:fixed;bottom:16px;right:32px;font-size:.6rem;color:var(--faint-dk);letter-spacing:.1em;z-index:100;font-weight:500}
+.nav-hint{position:fixed;bottom:16px;left:32px;font-size:.55rem;color:var(--faint-dk);z-index:100;animation:fH 4s ease forwards}
+@keyframes fH{0%,60%{opacity:1}100%{opacity:0}}
+.slide.active .au{animation:aU .55s ease forwards}.au{opacity:0;transform:translateY(14px)}
+@keyframes aU{to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.1s!important}.d2{animation-delay:.2s!important}.d3{animation-delay:.3s!important}.d4{animation-delay:.4s!important}
+
+/* ===== TITLE ===== */
+.s-title{background:var(--bg-deep)}
+.s-title::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 35% 45%,rgba(212,149,74,.06)0%,transparent 70%);z-index:1}
+.s-title .si{justify-content:center;align-items:center;text-align:center}
+.t-rule{width:55px;height:2px;background:var(--copper-dk);margin:22px auto}
+.s-title .sub{font-size:clamp(.8rem,1.1vw,.95rem);color:var(--muted-dk);font-weight:300;max-width:560px;margin-top:4px}
+.s-title .auth{margin-top:32px;font-size:.75rem;color:var(--text-dk);font-weight:400}
+.s-title .auth span{color:var(--muted-dk);font-weight:300}
+.badge{position:absolute;top:32px;right:40px;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dk);font-weight:500;border:1px solid var(--border-dk);padding:4px 10px;border-radius:2px;z-index:10}
+
+/* ===== GAP ===== */
+.s-gap .si{justify-content:center}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:24px;align-items:start}
+.gl{padding-right:44px}
+.gs{font-family:'Cormorant Garamond',serif;font-size:clamp(2.6rem,4vw,3.6rem);font-weight:700;line-height:1;margin-bottom:4px}
+.gsl{font-size:.74rem;margin-bottom:20px;line-height:1.45}
+.gq{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.05rem;line-height:1.5;border-left:2.5px solid;padding-left:16px;margin-top:8px}
+
+/* ===== SCOTLAND ===== */
+.s-scot .si{justify-content:center}
+.sd{display:flex;align-items:center;justify-content:center;gap:0;margin-top:28px;flex-wrap:wrap}
+.ob{padding:16px 24px;border-radius:5px;text-align:center;font-size:.78rem;font-weight:600;min-width:150px}
+.ob-n{background:rgba(45,181,160,0.1);border:1.5px solid var(--ca-dk);color:var(--ca-dk)}
+.ob-l{background:rgba(220,64,64,0.1);border:1.5px solid var(--cp-dk);color:var(--cp-dk)}
+.ob-i{background:var(--copper-dk-soft);border:2px solid var(--copper-dk);color:var(--copper-dk);padding:22px 32px;font-size:.9rem;font-weight:700;margin:0 24px}
+.oa{font-size:1.2rem;margin:0 3px}
+.dl{display:block;margin-top:12px;font-size:.65rem;text-align:center;font-style:italic;font-weight:400}
+
+/* ===== METHODS ===== */
+.s-meth .si{justify-content:center}
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px}
+.mcard{border:1px solid;border-radius:6px;padding:26px;position:relative;overflow:hidden}
+.mcard::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.mnum{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700;opacity:.4;position:absolute;top:8px;right:16px}
+.mcard h3{margin-bottom:8px}.mcard p{font-size:.72rem;line-height:1.5}
+
+/* ===== CONTEXT EXPLORER ===== */
+.s-ctx .si{flex-direction:row;gap:0;align-items:stretch}
+.ctx-l{width:36%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-right:16px}
+.ctx-l-head{text-align:center;margin-bottom:8px}
+.pf{position:relative;width:300px;height:300px;flex-shrink:0}
+.pfr{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid;transform:translate(-50%,-50%)}
+.pfr1{width:130px;height:130px}.pfr2{width:215px;height:215px}.pfr3{width:300px;height:300px}
+.pf-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;z-index:5}
+.pf-hub-t{font-family:'Cormorant Garamond',serif;font-size:.62rem;font-weight:600;line-height:1.25}
+.pf-svg{position:absolute;inset:0;z-index:2}
+.fn{position:absolute;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:6;cursor:pointer;transition:transform .25s}
+.fn:hover{transform:scale(1.08)}
+.fn.act{transform:scale(1.12)}
+.fn-ic{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;border:2px solid;transition:all .25s}
+.fn-lb{font-size:.56rem;font-weight:600;text-align:center;max-width:78px;line-height:1.25}
+.fn-top{top:-6px;left:50%;transform:translateX(-50%)}.fn-top.act{transform:translateX(-50%) scale(1.12)}
+.fn-tr{top:12%;right:-8px}.fn-br{bottom:8%;right:2px}
+.fn-bl{bottom:8%;left:2px}.fn-tl{top:12%;left:-8px}
+/* Dark-mode defaults for context nodes */
+.fn-top .fn-ic{background:rgba(224,138,48,0.12);color:var(--cf-dk);border-color:var(--cf-dk)}.fn-top .fn-lb{color:var(--cf-dk)}
+.fn-tr .fn-ic{background:rgba(220,64,64,0.1);color:var(--cp-dk);border-color:var(--cp-dk)}.fn-tr .fn-lb{color:var(--cp-dk)}
+.fn-br .fn-ic{background:rgba(45,181,160,0.1);color:var(--ca-dk);border-color:var(--ca-dk)}.fn-br .fn-lb{color:var(--ca-dk)}
+.fn-bl .fn-ic{background:rgba(64,176,96,0.1);color:var(--cg-dk);border-color:var(--cg-dk)}.fn-bl .fn-lb{color:var(--cg-dk)}
+.fn-tl .fn-ic{background:rgba(144,112,224,0.1);color:var(--cw-dk);border-color:var(--cw-dk)}.fn-tl .fn-lb{color:var(--cw-dk)}
+.tap-hint{text-align:center;font-size:.56rem;margin-top:8px;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* Right panel */
+.ctx-r{width:64%;display:flex;flex-direction:column;justify-content:center;padding-left:28px;border-left:1px solid;position:relative;overflow-y:auto;border-radius:0 8px 8px 0;transition:background .4s ease,border-color .4s ease}
+.ctx-r.tint-finance{background:rgba(224,138,48,0.06);border-left-color:rgba(224,138,48,0.3)}
+.ctx-r.tint-partisan{background:rgba(220,64,64,0.05);border-left-color:rgba(220,64,64,0.25)}
+.ctx-r.tint-admin{background:rgba(45,181,160,0.05);border-left-color:rgba(45,181,160,0.25)}
+.ctx-r.tint-geo{background:rgba(64,176,96,0.05);border-left-color:rgba(64,176,96,0.25)}
+.ctx-r.tint-workforce{background:rgba(144,112,224,0.05);border-left-color:rgba(144,112,224,0.25)}
+.ctx-def{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%}
+.ctx-def-icon{font-size:1.8rem;margin-bottom:10px}
+.ctx-def p{font-size:.78rem;font-style:italic}
+.cpan{display:none;flex-direction:column;gap:14px;padding:6px 0;opacity:0;transition:opacity .35s}
+.cpan.vis{display:flex;opacity:1}
+.cp-hd{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.cp-bg{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.cp-tt{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600}
+.cp-pat{font-size:.68rem;font-style:italic;line-height:1.45;margin-bottom:2px}
+.cp-cards{display:flex;gap:10px;flex-wrap:wrap}
+.cp-cd{flex:1;min-width:130px;border:1px solid;border-radius:5px;padding:13px 14px;transition:background .3s,border-color .3s}
+.cp-cd-t{font-size:.66rem;font-weight:600;margin-bottom:5px}
+.cp-cd-d{font-size:.58rem;line-height:1.4;margin-bottom:7px}
+.sty{display:inline-block;padding:2px 7px;border-radius:3px;font-size:.52rem;font-weight:600;margin-right:3px}
+.sf{background:rgba(45,181,160,0.1);color:var(--ca-dk)}
+.sd2{background:rgba(220,64,64,0.1);color:var(--cp-dk)}
+.sp{background:rgba(224,138,48,0.12);color:var(--cf-dk)}
+.ss{background:rgba(64,176,96,0.1);color:var(--cg-dk)}
+.sdm{background:rgba(141,155,181,.15);color:var(--text-dk)}
+.st{background:rgba(144,112,224,0.1);color:var(--cw-dk)}
+.cp-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.76rem;line-height:1.5;border-left:2.5px solid;padding-left:13px;margin-top:4px}
+.cp-at{font-size:.56rem;font-style:normal;display:block;margin-top:4px}
+
+/* ===== INTEGRATIVE LEADER (dark) ===== */
+.s-il .si{justify-content:center}
+.il-g{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:16px;align-items:center}
+.mv{position:relative;width:100%;max-width:340px;aspect-ratio:1;margin:0 auto}
+.mv-orb{position:absolute;top:50%;left:50%;width:265px;height:265px;transform:translate(-50%,-50%);border-radius:50%;border:1.5px dashed rgba(46,68,104,.5)}
+.mvn{position:absolute;width:76px;height:76px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:2px solid;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+.mvn .nl{font-size:.54rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px}
+.mvn .ns{font-size:.44rem;font-weight:300;opacity:.65;line-height:1.2}
+.mvf{top:-6px;left:50%;transform:translateX(-50%);background:rgba(45,181,160,0.1);border-color:var(--ca-dk)}.mvf .nl,.mvf .ns{color:var(--ca-dk)}
+.mvd{top:50%;right:-6px;transform:translateY(-50%);background:rgba(220,64,64,0.1);border-color:var(--cp-dk)}.mvd .nl,.mvd .ns{color:var(--cp-dk)}
+.mvp{bottom:-6px;left:50%;transform:translateX(-50%);background:rgba(224,138,48,0.12);border-color:var(--cf-dk)}.mvp .nl,.mvp .ns{color:var(--cf-dk)}
+.mvc{top:50%;left:-6px;transform:translateY(-50%);background:rgba(64,176,96,0.1);border-color:var(--cg-dk)}.mvc .nl,.mvc .ns{color:var(--cg-dk)}
+.mv-hub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:82px;height:82px;border-radius:50%;background:var(--bg-card-dk);border:2.5px solid var(--copper-dk);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:5;box-shadow:0 0 20px rgba(212,149,74,.12)}
+.mv-hub h3{font-family:'Cormorant Garamond',serif;font-size:.72rem;color:var(--copper-dk);line-height:1.2}
+.mv-hub p{font-size:.42rem;color:var(--muted-dk);margin-top:2px}
+.mv-svg{position:absolute;inset:0;z-index:3;pointer-events:none}
+.il-r{display:flex;flex-direction:column;gap:14px}
+.dblk{background:var(--bg-card-dk);border:1px solid var(--border-dk);border-radius:6px;padding:16px 18px}
+.dblk h3{font-size:.8rem;margin-bottom:9px}
+.dwrap{display:flex;flex-wrap:wrap;gap:4px}
+.dch{padding:3px 10px;border-radius:16px;font-size:.56rem;font-weight:600;background:var(--copper-dk-soft);border:1px solid var(--copper-dk-bdr);color:var(--copper-dk)}
+.mst{display:flex;flex-direction:column;gap:5px}
+.mi{display:flex;align-items:flex-start;gap:9px;padding:6px 10px;border-radius:4px}
+.mi:hover{background:rgba(255,255,255,.02)}
+.mi-n{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700;width:20px;flex-shrink:0;text-align:center;line-height:1}
+.mi-c h3{font-size:.68rem;margin-bottom:0;font-family:'DM Sans',sans-serif;font-weight:600}
+.mi-c p{font-size:.56rem;color:var(--muted-dk);line-height:1.3}
+.mc1 .mi-n{color:var(--cf-dk)}.mc2 .mi-n{color:var(--ca-dk)}.mc3 .mi-n{color:var(--cg-dk)}.mc4 .mi-n{color:var(--cp-dk)}
+
+/* Mode panels (Integrative Leader interactive) */
+.mvn{cursor:pointer}
+.mvn.mact{transform:scale(1.12);box-shadow:0 2px 18px rgba(0,0,0,.25)}
+.mvf.mact{transform:translateX(-50%) scale(1.12)}
+.mvd.mact{transform:translateY(-50%) scale(1.12)}
+.mvp.mact{transform:translateX(-50%) scale(1.12)}
+.mvc.mact{transform:translateY(-50%) scale(1.12)}
+.il-tap{text-align:center;font-size:.56rem;color:var(--faint-dk);margin-top:8px;animation:pulse 2s ease infinite}
+.mpan{display:none;flex-direction:column;gap:12px;opacity:0;transition:opacity .35s}
+.mpan.mvis{display:flex;opacity:1}
+.mp-hd{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.mp-ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;border:2px solid;flex-shrink:0}
+.mp-tt{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:700}
+.mp-ctx{font-size:.68rem;color:var(--muted-dk);font-style:italic;line-height:1.45;margin-bottom:2px}
+.mp-dims{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.mp-cards{display:flex;gap:10px;flex-wrap:wrap}
+.mp-cd{flex:1;min-width:130px;background:var(--bg-card-dk);border:1px solid var(--border-dk);border-radius:5px;padding:13px 14px}
+.mp-cd-t{font-size:.68rem;font-weight:700;color:var(--white);margin-bottom:5px}
+.mp-cd-d{font-size:.58rem;color:var(--muted-dk);line-height:1.4}
+.mp-q{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.76rem;color:var(--text-dk);line-height:1.5;border-left:2.5px solid;padding-left:13px;margin-top:4px}
+.mp-at{font-size:.56rem;color:var(--muted-dk);font-style:normal;display:block;margin-top:4px}
+
+/* ===== IMPLICATIONS ===== */
+.s-imp .si{justify-content:center}
+.icg{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px}
+.icl{padding:24px;border-radius:6px;border:1px solid}
+.icl h3{font-size:.85rem;margin-bottom:10px}
+.icl p{font-size:.72rem;line-height:1.55}
+.ici{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;margin-bottom:12px;border:1.5px solid}
+.i-pol{background:var(--copper-dk-soft);color:var(--copper-dk);border-color:var(--copper-dk-bdr)}
+.i-pra{background:rgba(45,181,160,0.1);color:var(--ca-dk);border-color:rgba(45,181,160,0.35)}
+.i-int{background:rgba(64,176,96,0.1);color:var(--cg-dk);border-color:rgba(64,176,96,0.35)}
+
+/* ===== CLOSE ===== */
+.s-close{background:var(--bg-deep)}
+.s-close::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 50% 50%,rgba(212,149,74,.06)0%,transparent 70%);z-index:1}
+.s-close .si{justify-content:center;align-items:center;text-align:center}
+.cq{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.4vw,1.9rem);color:var(--white);font-weight:400;font-style:italic;line-height:1.4;max-width:680px}
+.cq .hl{color:var(--copper-dk);font-weight:700;font-style:normal}
+.c-rule{width:50px;height:2px;background:var(--copper-dk);margin:26px auto}
+.c-con{font-size:.74rem;color:var(--muted-dk);margin-top:5px;line-height:1.8}
+.c-ref{margin-top:18px;font-size:.6rem;color:var(--faint-dk)}
+
+@media(max-width:900px){
+  .si{padding:24px 20px}.gg,.il-g{grid-template-columns:1fr}.gl{border-right:none;padding-right:0;border-bottom:1px solid;padding-bottom:16px}
+  .mrow,.icg{grid-template-columns:1fr}
+  .s-ctx .si{flex-direction:column}.ctx-l{width:100%;padding:0}.ctx-r{width:100%;border-left:none;border-top:1px solid;padding:14px 0 0}
+  .pf{width:220px;height:220px}
+  .sd{flex-direction:column;gap:8px}.ob-i{margin:8px 0}.oa{transform:rotate(90deg)}
+  .badge{display:none}
+}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint">← → or tap to navigate</div>
+
+<!-- 1. TITLE -->
+<div class="slide s-title active" data-i="0">
+<div class="badge">ICIC26 · Session 8.I · 14 April 2026</div>
+<div class="si">
+  <span class="lb au">Governing, Scaling &amp; Sustaining Integrated Care</span>
+  <h1 class="au d1">The <span class="hl">Integrative</span> Leader</h1>
+  <div class="t-rule"></div>
+  <p class="sub au d2">Elected-member leadership as the missing link in Scotland's integrated care</p>
+  <p class="auth au d3">Awais Mashkoor<br><span>University of the West of Scotland</span></p>
+</div>
+</div>
+
+<!-- 2. GAP -->
+<div class="slide dark s-gap" data-i="1">
+<div class="si">
+  <span class="lb au">The problem</span>
+  <h2 class="au d1">A leadership role <span class="hl">hiding in plain sight</span></h2>
+  <div class="gg au d2">
+    <div class="gl">
+      <div class="gs">31</div>
+      <div class="gsl">Integration Joint Boards in Scotland, each with elected councillors as voting members</div>
+      <div class="gs" style="margin-top:12px">0</div>
+      <div class="gsl">Empirical studies on how these elected members exercise leadership within integration governance in Scotland</div>
+    </div>
+    <div>
+      <p class="bt" style="margin-bottom:14px">Elected officials are among the most invested political actors in public organisations. Yet public administration literature contains a <span class="hl">significant knowledge gap</span> on the precise role local political leaders play in strategic decision-making within integrated care governance.</p>
+      <p class="bt" style="margin-bottom:14px">The 2014 Public Bodies Act placed councillors alongside NHS non-executives with voting power over health and social care — a governance space where political authority meets professional expertise.</p>
+      <div class="gq">What role do local political leaders play in strategic decision-making — and how does political context shape the leadership they practise?</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 3. SCOTLAND -->
+<div class="slide light s-scot" data-i="2">
+<div class="si">
+  <span class="lb au">The Scottish context</span>
+  <h2 class="au d1">Integration Joint Boards: <span class="hl">a natural laboratory</span></h2>
+  <p class="bt au d2" style="max-width:680px;margin-top:10px">Scotland's Public Bodies (Joint Working) Act 2014 created a unique governance structure where councillors and NHS non-executives share authority over integrated health and social care.</p>
+  <div class="sd au d3">
+    <div class="ob ob-n">NHS Health Board</div>
+    <span class="oa">⟶</span>
+    <div class="ob ob-i">Integration<br>Joint Board<span class="dl">Councillors as voting members</span></div>
+    <span class="oa">⟵</span>
+    <div class="ob ob-l">Local Authority</div>
+  </div>
+  <p class="bt au d4" style="text-align:center;margin-top:22px;max-width:580px;margin-left:auto;margin-right:auto">This dual accountability creates a governance space where <span class="hl">hierarchical authority gives way to collaborative governance</span> — and councillors must reconcile political representation with service redesign.</p>
+</div>
+</div>
+
+<!-- 4. METHODS -->
+<div class="slide light s-meth" data-i="3">
+<div class="si">
+  <span class="lb au">Research design</span>
+  <h2 class="au d1">Qualitative multi-case study</h2>
+  <div class="mrow au d2">
+    <div class="mcard"><div class="mnum">11</div><h3>IJB Areas</h3><p>Spanning all three regional networks. Variation in deprivation, political control, and health board configuration.</p></div>
+    <div class="mcard"><div class="mnum">22</div><h3>Interviews</h3><p>Semi-structured with councillors, chief officers, and senior officials. Exploring leadership, context, and governance.</p></div>
+    <div class="mcard"><div class="mnum">85+</div><h3>Documents</h3><p>Policy documents, audit reports, and meeting minutes. Content analysis of contextual factors across IJB areas.</p></div>
+  </div>
+  <p class="bt au d3" style="text-align:center;margin-top:20px;font-size:.74rem">Grounded in contingency theory (Fiedler, 1967) and situational leadership (Hersey &amp; Blanchard, 1969)</p>
+</div>
+</div>
+
+<!-- 5. INTERACTIVE CONTEXT EXPLORER -->
+<div class="slide light s-ctx" data-i="4">
+<div class="si">
+  <div class="ctx-l">
+    <div class="ctx-l-head">
+      <span class="lb">Findings I</span>
+      <h2 style="font-size:1.15rem">How context shapes <span class="hl">leadership</span></h2>
+    </div>
+    <div class="pf">
+      <div class="pfr pfr1"></div><div class="pfr pfr2"></div><div class="pfr pfr3"></div>
+      <svg class="pf-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <line x1="150" y1="54" x2="150" y2="112" stroke="var(--cf-lt)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"><animate attributeName="stroke-dashoffset" from="16" to="0" dur="2s" repeatCount="indefinite"/></line>
+        <line x1="252" y1="76" x2="198" y2="124" stroke="var(--cp-lt)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"><animate attributeName="stroke-dashoffset" from="16" to="0" dur="2.2s" repeatCount="indefinite"/></line>
+        <line x1="244" y1="230" x2="196" y2="184" stroke="var(--ca-lt)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"><animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.8s" repeatCount="indefinite"/></line>
+        <line x1="56" y1="230" x2="104" y2="184" stroke="var(--cg-lt)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"><animate attributeName="stroke-dashoffset" from="16" to="0" dur="2.1s" repeatCount="indefinite"/></line>
+        <line x1="48" y1="76" x2="102" y2="124" stroke="var(--cw-lt)" stroke-width="1.5" stroke-dasharray="4 4" opacity=".55"><animate attributeName="stroke-dashoffset" from="16" to="0" dur="1.9s" repeatCount="indefinite"/></line>
+      </svg>
+      <div class="pf-hub"><div class="pf-hub-t">The<br>Councillor</div></div>
+      <div class="fn fn-top" data-ctx="finance" onclick="showCtx('finance')"><div class="fn-ic">£</div><div class="fn-lb">Financial<br>pressure</div></div>
+      <div class="fn fn-tr" data-ctx="partisan" onclick="showCtx('partisan')"><div class="fn-ic">⚖</div><div class="fn-lb">Partisan<br>dynamics</div></div>
+      <div class="fn fn-br" data-ctx="admin" onclick="showCtx('admin')"><div class="fn-ic">⟷</div><div class="fn-lb">Political-admin<br>relations</div></div>
+      <div class="fn fn-bl" data-ctx="geo" onclick="showCtx('geo')"><div class="fn-ic">◈</div><div class="fn-lb">Geography</div></div>
+      <div class="fn fn-tl" data-ctx="workforce" onclick="showCtx('workforce')"><div class="fn-ic">⟐</div><div class="fn-lb">Workforce</div></div>
+    </div>
+    <div class="tap-hint" id="tapHint">Click a factor to explore →</div>
+  </div>
+  <div class="ctx-r">
+    <div class="ctx-def" id="ctxDef"><div class="ctx-def-icon">◉</div><p>Select a contextual factor to see<br>how leadership unfolds within it</p></div>
+    <div class="cpan" id="p-finance">
+      <div class="cp-hd"><div class="cp-bg" style="background:rgba(200,117,32,0.08);color:var(--cf-lt)">£</div><div class="cp-tt" style="color:var(--cf-lt)">Financial &amp; Economic Pressure</div></div>
+      <div class="cp-pat">Constrained budgets and split funding between NHS and local authorities shaped leadership across all 11 cases</div>
+      <div class="cp-cards">
+        <div class="cp-cd"><div class="cp-cd-t">Austerity conditions</div><div class="cp-cd-d">Protecting services and managing competing claims on limited resources</div><span class="sty sp">Pragmatic</span><span class="sty sd2">Directive</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Budget negotiation</div><div class="cp-cd-d">Cross-party consensus needed to agree funding within the IJB</div><span class="sty sdm">Democratic</span><span class="sty sf">Facilitative</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Crisis response</div><div class="cp-cd-d">Acute pressures required faster, top-down decisions</div><span class="sty sd2">Directive</span></div>
+      </div>
+      <div class="cp-q" style="border-color:var(--cf-lt)">Our local council receives the most per capita of any council in Scotland, but the Scottish government continues to squeeze services, creating an underlying structural deficit. The health and social care budget consistently have a gap of £15 to 20 million pounds per year, which remains a challenge to balance.<span class="cp-at">— Interviewee C, 2022</span></div>
+    </div>
+    <div class="cpan" id="p-partisan">
+      <div class="cp-hd"><div class="cp-bg" style="background:rgba(192,48,48,0.07);color:var(--cp-lt)">⚖</div><div class="cp-tt" style="color:var(--cp-lt)">Partisan Dynamics</div></div>
+      <div class="cp-pat">Different political contexts influenced which leadership styles were adopted by local leaders</div>
+      <div class="cp-cards">
+        <div class="cp-cd"><div class="cp-cd-t">Cross-party contexts</div><div class="cp-cd-d">Leaders balanced party and local interests through inclusive approaches</div><span class="sty sf">Facilitative</span><span class="sty sdm">Democratic</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Single-party dominance</div><div class="cp-cd-d">De-politicised rhetoric — people-first language with flexible responses</div><span class="sty ss">Servant</span><span class="sty st">Situational</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Conflictual contexts</div><div class="cp-cd-d">Funding disputes and political rivalries required direct intervention</div><span class="sty sd2">Directive</span></div>
+      </div>
+      <div class="cp-q" style="border-color:var(--cp-lt)">I try to make it non-political. And again, it does get political, and usually that is around funding. But I try to say to people, this is not about politics. This is about what is good for the population, for the individual, with a people focused organization.<span class="cp-at">— Interviewee E, 2022</span></div>
+    </div>
+    <div class="cpan" id="p-admin">
+      <div class="cp-hd"><div class="cp-bg" style="background:rgba(26,154,134,0.07);color:var(--ca-lt)">⟷</div><div class="cp-tt" style="color:var(--ca-lt)">Political-Administrative Relations</div></div>
+      <div class="cp-pat">The quality of councillor-officer relationships shaped which leadership approaches were possible</div>
+      <div class="cp-cards">
+        <div class="cp-cd"><div class="cp-cd-t">Strong relationships</div><div class="cp-cd-d">High trust between elected members and officers enabled collaborative leadership</div><span class="sty sf">Facilitative</span><span class="sty ss">Servant</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Tension management</div><div class="cp-cd-d">Officers managing tensions allowed leaders to maintain engaging styles</div><span class="sty sdm">Democratic</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Role blending</div><div class="cp-cd-d">Ongoing collaboration enabled longer-term joint approaches</div><span class="sty st">Transformational</span></div>
+      </div>
+      <div class="cp-q" style="border-color:var(--ca-lt)">I put a lot of effort into creating an environment where people felt safe to ask questions. You know that there's no such thing as a 'daft' question. And the chief financial officer and the chief officer were super in terms of how they responded.<span class="cp-at">— Interviewee H, 2022</span></div>
+    </div>
+    <div class="cpan" id="p-geo">
+      <div class="cp-hd"><div class="cp-bg" style="background:rgba(45,138,72,0.07);color:var(--cg-lt)">◈</div><div class="cp-tt" style="color:var(--cg-lt)">Geography &amp; Board Size</div></div>
+      <div class="cp-pat">Different geographic contexts related to different leadership approaches in our cases</div>
+      <div class="cp-cards">
+        <div class="cp-cd"><div class="cp-cd-t">Urban contexts</div><div class="cp-cd-d">Large boards, complex demands, multiple competing priorities, formal processes</div><span class="sty sdm">Democratic</span><span class="sty sf">Facilitative</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Rural contexts</div><div class="cp-cd-d">Smaller boards, community familiarity, distance and transport challenges, workforce shortages</div><span class="sty ss">Servant</span><span class="sty sp">Pragmatic</span></div>
+      </div>
+      <div class="cp-q" style="border-color:var(--cg-lt)">If you sent a district nurse, a doctor, a health worker to join them at lunch, you would get more intelligence from that lunch, than any appointment from any doctor, because they will tell you about how crap the bus service is. They would never tell you that in a face-to-face appointment.<span class="cp-at">— Interviewee E, 2022</span></div>
+    </div>
+    <div class="cpan" id="p-workforce">
+      <div class="cp-hd"><div class="cp-bg" style="background:rgba(110,80,200,0.07);color:var(--cw-lt)">⟐</div><div class="cp-tt" style="color:var(--cw-lt)">Workforce Expectations</div></div>
+      <div class="cp-pat">Frontline staff expectations for clarity, direction, and responsiveness shaped the leadership approach adopted</div>
+      <div class="cp-cards">
+        <div class="cp-cd"><div class="cp-cd-t">Demand for direction</div><div class="cp-cd-d">Staff expected clear strategic leadership and visible decision-making</div><span class="sty sd2">Directive</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Listening and advocacy</div><div class="cp-cd-d">Trust built through informal engagement, acting as advocates for staff concerns</div><span class="sty ss">Servant</span><span class="sty sdm">Democratic</span></div>
+        <div class="cp-cd"><div class="cp-cd-t">Values-led response</div><div class="cp-cd-d">Principled stances on workforce welfare, even against majority positions</div><span class="sty st">Transformational</span></div>
+      </div>
+      <div class="cp-q" style="border-color:var(--cw-lt)">Frontline workers expect the board to collectively take responsibility and demonstrate a clear view of direction.<span class="cp-at">— Interviewee F, 2022</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 6. INTEGRATIVE LEADER (interactive) -->
+<div class="slide dark s-il" data-i="5">
+<div class="si">
+  <span class="lb au">Findings II</span>
+  <h2 class="au d1">The <span class="hl">Integrative Leader</span>: situational adaptation, not a fixed profile</h2>
+  <div class="il-g au d2">
+    <div class="mv">
+      <div class="mv-orb"></div>
+      <svg class="mv-svg" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+        <path d="M170,132 Q170,85 170,44" fill="none" stroke="var(--ca-dk)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".35"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.5s" repeatCount="indefinite"/></path>
+        <path d="M208,170 Q252,170 296,170" fill="none" stroke="var(--cp-dk)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".35"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.7s" repeatCount="indefinite"/></path>
+        <path d="M170,208 Q170,255 170,296" fill="none" stroke="var(--cf-dk)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".35"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+        <path d="M132,170 Q85,170 44,170" fill="none" stroke="var(--cg-dk)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".35"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.8s" repeatCount="indefinite"/></path>
+        <path d="M170,44 A132,132 0 0,1 302,170" fill="none" stroke="rgba(255,255,255,.03)" stroke-width="16"/>
+        <path d="M302,170 A132,132 0 0,1 170,302" fill="none" stroke="rgba(255,255,255,.025)" stroke-width="16"/>
+        <path d="M170,302 A132,132 0 0,1 38,170" fill="none" stroke="rgba(255,255,255,.02)" stroke-width="16"/>
+        <path d="M38,170 A132,132 0 0,1 170,44" fill="none" stroke="rgba(255,255,255,.028)" stroke-width="16"/>
+      </svg>
+      <div class="mvn mvf" data-mode="fac" onclick="showMode('fac')"><span class="nl">Facilitative</span><span class="ns">Urban boards,<br>partisan contexts</span></div>
+      <div class="mvn mvd" data-mode="dir" onclick="showMode('dir')"><span class="nl">Directive</span><span class="ns">Financial crisis,<br>workforce demand</span></div>
+      <div class="mvn mvp" data-mode="pra" onclick="showMode('pra')"><span class="nl">Pragmatic</span><span class="ns">Rural settings,<br>resource scarcity</span></div>
+      <div class="mvn mvc" data-mode="com" onclick="showMode('com')"><span class="nl">Community</span><span class="ns">Co-production,<br>seldom-heard voices</span></div>
+      <div class="mv-hub"><h3>Integrative<br>Leader</h3><p>Fluid shift</p></div>
+    </div>
+    <div class="il-r" id="ilPanel">
+      <!-- DEFAULT: nine dimensions + four mechanisms -->
+      <div class="il-def" id="ilDef">
+        <div class="dblk"><h3>Nine dimensions</h3><div class="dwrap">
+          <span class="dch">Vision</span><span class="dch">Inclusivity</span><span class="dch">Participation</span>
+          <span class="dch">Pragmatism</span><span class="dch">Cautiousness</span><span class="dch">Engagement</span>
+          <span class="dch">Empowerment</span><span class="dch">Adaptive Flexibility</span><span class="dch">Innovation</span>
+        </div></div>
+        <div class="mst">
+          <div class="mi mc1"><div class="mi-n">1</div><div class="mi-c"><h3>Balance political–managerial tensions</h3><p>Switch between facilitative and directive modes as context shifts</p></div></div>
+          <div class="mi mc2"><div class="mi-n">2</div><div class="mi-c"><h3>Bridge professional boundaries</h3><p>Create safe spaces; transform tensions into collaboration</p></div></div>
+          <div class="mi mc3"><div class="mi-n">3</div><div class="mi-c"><h3>Embed authentic co-production</h3><p>Move beyond tokenism; extend voice to seldom-heard groups</p></div></div>
+          <div class="mi mc4"><div class="mi-n">4</div><div class="mi-c"><h3>Adapt to place</h3><p>Urban: inclusive facilitation. Rural: pragmatic problem-solving</p></div></div>
+        </div>
+        <div class="il-tap" id="ilTap">Click a mode to explore</div>
+      </div>
+      <!-- FACILITATIVE -->
+      <div class="mpan" id="m-fac">
+        <div class="mp-hd"><div class="mp-ic" style="background:rgba(45,181,160,0.1);color:var(--ca-dk);border-color:var(--ca-dk)">◎</div><div class="mp-tt" style="color:var(--ca-dk)">Facilitative Mode</div></div>
+        <div class="mp-ctx">Activated in urban boards and cross-party settings where multiple interests must be reconciled</div>
+        <div class="mp-dims"><span class="dch">Vision</span><span class="dch">Inclusivity</span><span class="dch">Participation</span><span class="dch">Engagement</span></div>
+        <div class="mp-cards">
+          <div class="mp-cd"><div class="mp-cd-t">Consensus-building</div><div class="mp-cd-d">Creating inclusive spaces for diverse stakeholders to find common ground across party lines</div></div>
+          <div class="mp-cd"><div class="mp-cd-t">Safe environment</div><div class="mp-cd-d">Ensuring no question is dismissed; promoting openness and non-defensive dialogue</div></div>
+        </div>
+        <div class="mp-q" style="border-color:var(--ca-dk)">I try to make it non-political. This is about what is good for the population, for the individual, with a people focused organization.<span class="mp-at">— Interviewee E, 2022</span></div>
+      </div>
+      <!-- DIRECTIVE -->
+      <div class="mpan" id="m-dir">
+        <div class="mp-hd"><div class="mp-ic" style="background:rgba(220,64,64,0.1);color:var(--cp-dk);border-color:var(--cp-dk)">▸</div><div class="mp-tt" style="color:var(--cp-dk)">Directive Mode</div></div>
+        <div class="mp-ctx">Activated under acute financial pressure or workforce crisis demanding fast, visible decisions</div>
+        <div class="mp-dims"><span class="dch">Vision</span><span class="dch">Pragmatism</span><span class="dch">Cautiousness</span></div>
+        <div class="mp-cards">
+          <div class="mp-cd"><div class="mp-cd-t">Crisis response</div><div class="mp-cd-d">Taking clear strategic direction when budgets are under acute pressure and services are at risk</div></div>
+          <div class="mp-cd"><div class="mp-cd-t">Shifting the balance</div><div class="mp-cd-d">Driving difficult service redesign decisions that prioritise population outcomes over local attachment</div></div>
+        </div>
+        <div class="mp-q" style="border-color:var(--cp-dk)">It may be necessary to concentrate staff in one particular location. It can be difficult for people to understand, but ultimately, those who receive care prefer to have it in their own home.<span class="mp-at">— Interviewee H, 2022</span></div>
+      </div>
+      <!-- PRAGMATIC -->
+      <div class="mpan" id="m-pra">
+        <div class="mp-hd"><div class="mp-ic" style="background:rgba(224,138,48,0.12);color:var(--cf-dk);border-color:var(--cf-dk)">◆</div><div class="mp-tt" style="color:var(--cf-dk)">Pragmatic Mode</div></div>
+        <div class="mp-ctx">Activated in rural settings facing resource scarcity, transport challenges, and workforce shortages</div>
+        <div class="mp-dims"><span class="dch">Pragmatism</span><span class="dch">Adaptive Flexibility</span><span class="dch">Innovation</span></div>
+        <div class="mp-cards">
+          <div class="mp-cd"><div class="mp-cd-t">Working within constraints</div><div class="mp-cd-d">Finding unconventional solutions when formal channels cannot meet dispersed rural needs</div></div>
+          <div class="mp-cd"><div class="mp-cd-t">Local intelligence</div><div class="mp-cd-d">Using informal community settings to understand real service gaps and transport barriers</div></div>
+        </div>
+        <div class="mp-q" style="border-color:var(--cf-dk)">If you sent a district nurse to join them at lunch, you would get more intelligence from that lunch than any appointment from any doctor.<span class="mp-at">— Interviewee E, 2022</span></div>
+      </div>
+      <!-- COMMUNITY -->
+      <div class="mpan" id="m-com">
+        <div class="mp-hd"><div class="mp-ic" style="background:rgba(64,176,96,0.1);color:var(--cg-dk);border-color:var(--cg-dk)">✦</div><div class="mp-tt" style="color:var(--cg-dk)">Community Mode</div></div>
+        <div class="mp-ctx">Activated when extending voice to seldom-heard groups and embedding authentic co-production</div>
+        <div class="mp-dims"><span class="dch">Participation</span><span class="dch">Engagement</span><span class="dch">Empowerment</span></div>
+        <div class="mp-cards">
+          <div class="mp-cd"><div class="mp-cd-t">Beyond tokenism</div><div class="mp-cd-d">Involving communities in difficult decisions, not just consulting them after the fact</div></div>
+          <div class="mp-cd"><div class="mp-cd-t">Emotional attachment</div><div class="mp-cd-d">Recognising that local services carry deep identity meaning and managing change with care</div></div>
+        </div>
+        <div class="mp-q" style="border-color:var(--cg-dk)">Closures are terrible. These community hospitals are often an identity. It means so much, it's where you perhaps lose a parent, or your auntie works. It's really difficult.<span class="mp-at">— Interviewee B, 2022</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 7. IMPLICATIONS -->
+<div class="slide light s-imp" data-i="6">
+<div class="si">
+  <span class="lb au">So what?</span>
+  <h2 class="au d1">From research to <span class="hl">practice and policy</span></h2>
+  <div class="icg au d2">
+    <div class="icl"><div class="ici i-pol">⬡</div><h3>Policy</h3><p>Criteria for selecting and developing councillor leaders on IJBs. Framework already tabled with the Scottish Government Directorate of Health and Social Care.</p></div>
+    <div class="icl"><div class="ici i-pra">◇</div><h3>Practice</h3><p>Self-assessment framework for boards and leadership developers. Aligns with COSLA's investment in political leadership development programmes.</p></div>
+    <div class="icl"><div class="ici i-int">○</div><h3>International Transfer</h3><p>Guidance for any place-based governance model navigating democratic legitimacy and professional complexity — including England's Integrated Care Systems.</p></div>
+  </div>
+  <p class="bt au d3" style="text-align:center;margin-top:18px;max-width:560px;margin-left:auto;margin-right:auto">Aligns with IFIC Pillar 6 (Governance) and Theme 4 (Workforce &amp; Inclusivity)</p>
+</div>
+</div>
+
+<!-- 8. CLOSE -->
+<div class="slide s-close" data-i="7">
+<div class="si">
+  <div class="cq au">Successful integration requires sophisticated political leadership — transforming <span class="hl">political capital</span> into <span class="hl">collaborative advantage</span>.</div>
+  <div class="c-rule au d1"></div>
+  <p class="c-con au d2">Awais Mashkoor<br>University of the West of Scotland<br><span style="color:var(--copper-dk)">Awais.mashkoor@uws.ac.uk</span></p>
+  <p class="c-ref au d3">Mashkoor, A. (2024). The Role of Local Political Leaders in Shaping the Planning and Implementation of Health and Social Care Integration: A Case Study from Scotland. PhD Thesis, UWS.</p>
+</div>
+</div>
+
+</div>
+<script>
+const S=document.querySelectorAll('.slide'),P=document.getElementById('progress'),C=document.getElementById('counter');
+let cur=0;const N=S.length;
+function go(n){if(n<0||n>=N||n===cur)return;S[cur].classList.remove('active');cur=n;S[cur].classList.add('active');upd()}
+function upd(){P.style.width=((cur+1)/N*100)+'%';C.textContent=(cur+1)+' / '+N}
+let activeCtx=null;
+const ctxR=document.querySelector('.ctx-r');
+function showCtx(id){
+  document.querySelectorAll('.fn').forEach(f=>f.classList.remove('act'));
+  document.querySelectorAll('.cpan').forEach(p=>p.classList.remove('vis'));
+  ctxR.className=ctxR.className.replace(/\btint-\w+/g,'').trim();
+  if(activeCtx===id){activeCtx=null;document.getElementById('ctxDef').style.display='flex';return}
+  activeCtx=id;document.getElementById('ctxDef').style.display='none';
+  document.querySelector(`.fn[data-ctx="${id}"]`).classList.add('act');
+  document.getElementById('p-'+id).classList.add('vis');
+  ctxR.classList.add('tint-'+id);
+  document.getElementById('tapHint').style.display='none';
+}
+document.addEventListener('keydown',e=>{
+  if(cur===4){const m={1:'finance',2:'partisan',3:'admin',4:'geo',5:'workforce'};if(m[e.key]){showCtx(m[e.key]);return}}
+  if(cur===5){const mm={1:'fac',2:'dir',3:'pra',4:'com'};if(mm[e.key]){showMode(mm[e.key]);return}}
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(cur+1)}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+  if(e.key==='Home')go(0);if(e.key==='End')go(N-1);
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1)}});
+document.addEventListener('click',e=>{
+  if(e.target.closest('.fn,.cpan,.dch,.mvn,.mpan'))return;
+  if(e.target.closest('.ctx-r'))return;
+  if(e.target.closest('.il-r'))return;
+  if(e.clientX>window.innerWidth*.5)go(cur+1);else go(cur-1);
+});
+let activeMode=null;
+function showMode(id){
+  document.querySelectorAll('.mvn').forEach(n=>n.classList.remove('mact'));
+  document.querySelectorAll('.mpan').forEach(p=>p.classList.remove('mvis'));
+  if(activeMode===id){activeMode=null;document.getElementById('ilDef').style.display='';return}
+  activeMode=id;document.getElementById('ilDef').style.display='none';
+  document.querySelector(`.mvn[data-mode="${id}"]`).classList.add('mact');
+  document.getElementById('m-'+id).classList.add('mvis');
+}
+upd();
+</script>
+</body>
+</html>
