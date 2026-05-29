@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Working Across the Divide — SASW Policy Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-deep:#121d30;
+  --bg-dark:#1a2840;
+  --bg-card-dk:#223350;
+  --bg-card-dk-h:#283b5c;
+  --border-dk:#2e4468;
+  --white:#ffffff;
+  --text-dk:#e8ecf2;
+  --muted-dk:#8d9bb5;
+  --faint-dk:#5a6e8e;
+  --bg-light:#f6f4f0;
+  --bg-card-lt:#ffffff;
+  --bg-card-lt-h:#f0ece6;
+  --border-lt:#d8d2c8;
+  --heading-lt:#1a2840;
+  --text-lt:#3a4860;
+  --muted-lt:#7a8698;
+  --faint-lt:#a0a8b4;
+  --copper-dk:#d4954a;
+  --copper-lt:#b87d28;
+  --copper-dk-soft:rgba(212,149,74,0.12);
+  --copper-lt-soft:rgba(184,125,40,0.10);
+  --sw-color:#2db5a0;
+  --sw-lt:#1a9a86;
+  --nhs-color:#5a7fa8;
+  --nhs-lt:#3d6a96;
+  --trust-color:#40b060;
+  --trust-lt:#2d8a48;
+  --comm-color:#9070e0;
+  --comm-lt:#6e50c8;
+  --safe-color:#e08a30;
+  --safe-lt:#c87520;
+}
+html,body{height:100%;overflow:hidden;font-family:'DM Sans',sans-serif;background:#121d30;color:#fff;-webkit-font-smoothing:antialiased}
+.deck{position:relative;width:100vw;height:100vh;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;opacity:0;pointer-events:none;transition:opacity .55s,transform .55s;transform:translateY(14px);overflow:hidden}
+.slide.active{opacity:1;pointer-events:auto;transform:translateY(0)}
+.si{width:100%;height:100%;max-width:1200px;margin:0 auto;padding:44px 64px;display:flex;flex-direction:column;position:relative;z-index:2}
+
+/* ============ DARK ============ */
+.dark{background:var(--bg-dark)}
+.dark h1,.dark h2,.dark h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--white)}
+.dark p,.dark .bt{color:var(--text-dk);font-weight:300}
+.dark .lb{color:var(--copper-dk)}
+.dark .hl{color:var(--copper-dk)}
+
+/* ============ LIGHT ============ */
+.light{background:var(--bg-light)}
+.light h1,.light h2,.light h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.15;color:var(--heading-lt)}
+.light p,.light .bt{color:var(--text-lt);font-weight:400}
+.light .lb{color:var(--copper-lt)}
+.light .hl{color:var(--copper-lt)}
+
+/* ============ SHARED ============ */
+h1{font-size:clamp(2.2rem,4.2vw,3.6rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,2.8vw,2.2rem);letter-spacing:-.01em}
+h3{font-size:clamp(.9rem,1.5vw,1.15rem)}
+p,.bt{font-size:clamp(.78rem,1.1vw,.95rem);line-height:1.6}
+.lb{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;display:inline-block;margin-bottom:8px}
+.progress{position:fixed;bottom:0;left:0;height:3px;background:var(--copper-dk);z-index:100;transition:width .4s}
+.counter{position:fixed;bottom:16px;right:32px;font-size:.6rem;color:var(--faint-dk);letter-spacing:.1em;z-index:100;font-weight:500}
+.nav-hint{position:fixed;bottom:16px;left:32px;font-size:.55rem;color:var(--faint-dk);z-index:100;animation:fH 5s ease forwards}
+@keyframes fH{0%,70%{opacity:1}100%{opacity:0}}
+.slide.active .au{animation:aU .55s ease forwards}.au{opacity:0;transform:translateY(14px)}
+@keyframes aU{to{opacity:1;transform:translateY(0)}}
+.d1{animation-delay:.1s!important}.d2{animation-delay:.2s!important}.d3{animation-delay:.3s!important}.d4{animation-delay:.4s!important}.d5{animation-delay:.5s!important}
+
+/* ===== 1. TITLE ===== */
+.s-title{background:var(--bg-deep)}
+.s-title::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 35% 45%,rgba(212,149,74,.06)0%,transparent 70%);z-index:1}
+.s-title .si{justify-content:center;align-items:center;text-align:center}
+.t-rule{width:55px;height:2px;background:var(--copper-dk);margin:22px auto}
+.s-title .sub{font-size:clamp(.8rem,1.1vw,.95rem);color:var(--muted-dk);font-weight:300;max-width:600px;margin-top:4px;line-height:1.6}
+.s-title .auth{margin-top:32px;font-size:.75rem;color:var(--text-dk);font-weight:400}
+.s-title .auth span{color:var(--muted-dk);font-weight:300}
+.badge{position:absolute;top:32px;right:40px;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dk);font-weight:500;border:1px solid var(--border-dk);padding:4px 10px;border-radius:2px;z-index:10}
+
+/* ===== 2. THE DIVIDE ===== */
+.s-divide .si{justify-content:center}
+.divide-wrap{display:flex;gap:0;margin-top:28px;align-items:stretch;height:auto}
+.div-col{flex:1;display:flex;flex-direction:column;gap:0}
+.div-col-sw{padding-right:20px}
+.div-col-nhs{padding-left:20px}
+.div-bridge{width:3px;background:var(--copper-lt);position:relative;flex-shrink:0;margin:0 8px;border-radius:2px;opacity:.5}
+.div-header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.div-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;border:2px solid;flex-shrink:0}
+.div-icon-sw{background:rgba(26,154,134,0.08);color:var(--sw-lt);border-color:var(--sw-lt)}
+.div-icon-nhs{background:rgba(61,106,150,0.08);color:var(--nhs-lt);border-color:var(--nhs-lt)}
+.div-header h3{font-size:1rem}
+.div-dims{display:flex;flex-direction:column;gap:10px}
+.div-dim{padding:12px 16px;border-radius:6px;transition:all .25s;border:1px solid transparent}
+.div-refs{margin-top:16px;text-align:center;padding:10px 16px;border-top:1px solid var(--border-lt)}
+.div-refs p{font-size:.6rem;color:var(--faint-lt);font-style:italic;line-height:1.6}
+.div-dim-sw{background:rgba(26,154,134,0.04)}
+.div-dim-sw:hover,.div-dim-sw.act{background:rgba(26,154,134,0.10);border-color:rgba(26,154,134,0.25)}
+.div-dim-nhs{background:rgba(61,106,150,0.04)}
+.div-dim-nhs:hover,.div-dim-nhs.act{background:rgba(61,106,150,0.10);border-color:rgba(61,106,150,0.25)}
+.div-dim-label{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:3px}
+.div-dim-label-sw{color:var(--sw-lt)}
+.div-dim-label-nhs{color:var(--nhs-lt)}
+.div-dim-text{font-size:.78rem;line-height:1.45;font-weight:400}
+.div-quote-area{margin-top:20px;min-height:80px;position:relative}
+.div-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.95rem;line-height:1.55;border-left:2.5px solid var(--copper-lt);padding:12px 16px;background:rgba(184,125,40,0.04);border-radius:0 6px 6px 0;display:none}
+.div-quote.vis{display:block;animation:aU .4s ease forwards}
+.div-quote-at{display:block;font-family:'DM Sans',sans-serif;font-style:normal;font-size:.65rem;color:var(--muted-lt);margin-top:6px;font-weight:500}
+.div-prompt{font-size:.68rem;color:var(--faint-lt);text-align:center;font-style:italic}
+
+/* ===== 3. WHAT LEADERS TOLD US ===== */
+.s-leaders .si{flex-direction:row;gap:0;align-items:stretch}
+.leaders-left{width:38%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-right:24px}
+.leaders-left h2{text-align:center;margin-bottom:6px}
+.leaders-left .bt{text-align:center;max-width:320px;margin-top:4px;font-size:.78rem}
+.leader-hub{position:relative;width:280px;height:280px;margin-top:20px}
+.hub-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;background:var(--bg-card-dk);border:2px solid var(--copper-dk);display:flex;align-items:center;justify-content:center;text-align:center;z-index:5;box-shadow:0 2px 16px rgba(212,149,74,.15)}
+.hub-center h3{font-family:'Cormorant Garamond',serif;font-size:.65rem;font-weight:600;color:var(--copper-dk);line-height:1.3}
+.hub-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:6;cursor:pointer;transition:transform .25s}
+.hub-node:hover{transform:scale(1.08)}
+.hub-node.hn-act{transform:scale(1.12)}
+.hub-ic{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:700;border:2px solid;transition:all .25s;background:var(--bg-card-dk);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hub-node.hn-act .hub-ic{box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.hub-lb{font-size:.56rem;font-weight:600;text-align:center;max-width:85px;line-height:1.25;color:var(--muted-dk)}
+.hub-node.hn-act .hub-lb{color:var(--white)}
+.hn-top{top:-8px;left:50%;transform:translateX(-50%)}.hn-top.hn-act{transform:translateX(-50%) scale(1.12)}
+.hn-right{top:50%;right:-12px;transform:translateY(-50%)}.hn-right.hn-act{transform:translateY(-50%) scale(1.12)}
+.hn-bottom{bottom:-8px;left:50%;transform:translateX(-50%)}.hn-bottom.hn-act{transform:translateX(-50%) scale(1.12)}
+.hn-left{top:50%;left:-12px;transform:translateY(-50%)}.hn-left.hn-act{transform:translateY(-50%) scale(1.12)}
+.hub-svg{position:absolute;inset:0;z-index:2}
+.leaders-right{flex:1;display:flex;align-items:center;padding-left:16px}
+.lr-panel{width:100%}
+.lr-def{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px}
+.lr-def h3{color:var(--muted-dk);font-family:'Cormorant Garamond',serif;font-size:1rem}
+.lr-def p{color:var(--faint-dk);font-size:.75rem;max-width:300px}
+.lr-insight{display:none}
+.lr-insight.lvis{display:flex;flex-direction:column;gap:14px;animation:aU .4s ease forwards}
+.lr-insight-hd{display:flex;align-items:center;gap:10px;margin-bottom:2px}
+.lr-insight-ic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;border:2px solid;flex-shrink:0}
+.lr-insight-title{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600}
+.lr-insight-ctx{font-size:.76rem;color:var(--text-dk);line-height:1.55;margin-bottom:4px}
+.lr-cards{display:flex;flex-direction:column;gap:8px}
+.lr-card{background:var(--bg-card-dk);border:1px solid var(--border-dk);border-radius:6px;padding:14px 16px}
+.lr-card h3{font-size:.78rem;margin-bottom:3px}
+.lr-card p{font-size:.7rem;line-height:1.5;color:var(--text-dk)}
+.lr-quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.92rem;line-height:1.5;padding:12px 16px;border-left:2.5px solid;border-radius:0 6px 6px 0;margin-top:4px}
+.lr-quote-at{display:block;font-family:'DM Sans',sans-serif;font-style:normal;font-size:.62rem;margin-top:6px;font-weight:500}
+.hub-tap{font-size:.6rem;color:var(--faint-dk);text-align:center;margin-top:14px;font-style:italic}
+
+/* ===== 4. WHERE WE GO ===== */
+.s-close{background:var(--bg-deep)}
+.s-close::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 65% 55%,rgba(212,149,74,.05)0%,transparent 70%);z-index:1}
+.s-close .si{justify-content:center;gap:0}
+.close-q{font-family:'Cormorant Garamond',serif;font-size:clamp(1.2rem,2.2vw,1.7rem);font-weight:500;line-height:1.45;color:var(--white);max-width:800px;text-align:center;margin:0 auto}
+.close-rule{width:55px;height:2px;background:var(--copper-dk);margin:28px auto}
+.close-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px;max-width:820px;margin-left:auto;margin-right:auto}
+.close-card{background:var(--bg-card-dk);border:1px solid var(--border-dk);border-radius:6px;padding:20px;position:relative;overflow:hidden}
+.close-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--copper-dk)}
+.close-card h3{font-size:.82rem;margin-bottom:6px;color:var(--white)}
+.close-card p{font-size:.7rem;line-height:1.55;color:var(--text-dk)}
+.close-pdp{margin-top:28px;text-align:center;padding:16px 24px;border:1px solid var(--border-dk);border-radius:6px;max-width:620px;margin-left:auto;margin-right:auto;background:rgba(212,149,74,0.04)}
+.close-pdp h3{font-size:.8rem;color:var(--copper-dk);margin-bottom:4px}
+.close-pdp p{font-size:.7rem;color:var(--muted-dk);line-height:1.5}
+.close-contact{margin-top:24px;text-align:center;font-size:.72rem;color:var(--text-dk)}
+.close-contact span{color:var(--copper-dk)}
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="progress" id="progress"></div>
+<div class="counter" id="counter"></div>
+<div class="nav-hint">← → or click to navigate</div>
+
+<!-- ==================== 1. TITLE ==================== -->
+<div class="slide dark s-title active" data-i="0">
+<div class="badge au">SASW Policy Panel · 2 June 2026</div>
+<div class="si">
+  <span class="lb au">Culture · Leadership · Integration</span>
+  <h1 class="au d1">Working Across the <span class="hl">Divide</span></h1>
+  <div class="t-rule au d2"></div>
+  <p class="sub au d3">What integration really asks of the people who do the work</p>
+  <p class="auth au d4">Awais Mashkoor<br><span>University of the West of Scotland</span></p>
+</div>
+</div>
+
+<!-- ==================== 2. THE DIVIDE ==================== -->
+<div class="slide light s-divide" data-i="1">
+<div class="si">
+  <span class="lb au">The reality</span>
+  <h2 class="au d1">Two systems. One room. <span class="hl">No manual.</span></h2>
+  <p class="bt au d2" style="max-width:700px;margin-bottom:4px">A decade ago, we put structures in place and assumed people would know how to work together. They didn't. Here's what the divide actually looks like.</p>
+
+  <div class="divide-wrap au d3">
+    <!-- SOCIAL WORK COLUMN -->
+    <div class="div-col div-col-sw">
+      <div class="div-header">
+        <div class="div-icon div-icon-sw">SW</div>
+        <h3 style="color:var(--sw-lt)">Social Work</h3>
+      </div>
+      <div class="div-dims">
+        <div class="div-dim div-dim-sw">
+          <div class="div-dim-label div-dim-label-sw">Values</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Person-centred. Rights-based. Strengths-focused. Relationship is the intervention.</div>
+        </div>
+        <div class="div-dim div-dim-sw">
+          <div class="div-dim-label div-dim-label-sw">Accountability</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Council committees. Elected members. Local democratic mandate.</div>
+        </div>
+        <div class="div-dim div-dim-sw">
+          <div class="div-dim-label div-dim-label-sw">Pay &amp; Status</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Often lower-paid and lower-status within integrated spaces, even when carrying comparable complexity, risk and responsibility.</div>
+        </div>
+        <div class="div-dim div-dim-sw">
+          <div class="div-dim-label div-dim-label-sw">Language</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Care plans. Outcomes. Wellbeing. Co-production. Lived experience.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-bridge"></div>
+
+    <!-- NHS COLUMN -->
+    <div class="div-col div-col-nhs">
+      <div class="div-header">
+        <div class="div-icon div-icon-nhs">NHS</div>
+        <h3 style="color:var(--nhs-lt)">Health</h3>
+      </div>
+      <div class="div-dims">
+        <div class="div-dim div-dim-nhs">
+          <div class="div-dim-label div-dim-label-nhs">Values</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Clinical pathways. Risk management. Evidence-based. Protocol is the safeguard.</div>
+        </div>
+        <div class="div-dim div-dim-nhs">
+          <div class="div-dim-label div-dim-label-nhs">Accountability</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Health boards. Clinical governance. National performance targets.</div>
+        </div>
+        <div class="div-dim div-dim-nhs">
+          <div class="div-dim-label div-dim-label-nhs">Pay &amp; Status</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Often better resourced and institutionally dominant, with greater perceived power in the room.</div>
+        </div>
+        <div class="div-dim div-dim-nhs">
+          <div class="div-dim-label div-dim-label-nhs">Language</div>
+          <div class="div-dim-text" style="color:var(--text-lt)">Pathways. Protocols. Discharge. Referral criteria. Clinical thresholds.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- References -->
+  <div class="div-refs au d4">
+    <p>Audit Scotland (2024); Christie Commission (2011); Connolly &amp; Pyper (2020); Dickinson &amp; Glasby (2010); Ham &amp; Alderwick (2015); Hudson (2019); Petch (2012)</p>
+  </div>
+</div>
+</div>
+
+<!-- ==================== 3. WHAT LEADERS TOLD US ==================== -->
+<div class="slide dark s-leaders" data-i="2">
+<div class="leaders-left">
+  <span class="lb au">The research</span>
+  <h2 class="au d1">How leaders <span class="hl">navigate</span> the divide</h2>
+  <p class="bt au d2">Based on interviews with the people chairing and running integration spaces across Scotland</p>
+
+  <div class="leader-hub au d3">
+    <svg class="hub-svg" viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="140" cy="140" r="100" fill="none" stroke="var(--border-dk)" stroke-width="1" opacity=".3"/>
+      <circle cx="140" cy="140" r="60" fill="none" stroke="var(--border-dk)" stroke-width="1" opacity=".2"/>
+      <path d="M140,100 Q140,60 140,30" fill="none" stroke="var(--sw-color)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".3"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.5s" repeatCount="indefinite"/></path>
+      <path d="M180,140 Q220,140 250,140" fill="none" stroke="var(--nhs-color)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".3"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.7s" repeatCount="indefinite"/></path>
+      <path d="M140,180 Q140,220 140,250" fill="none" stroke="var(--safe-color)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".3"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.6s" repeatCount="indefinite"/></path>
+      <path d="M100,140 Q60,140 30,140" fill="none" stroke="var(--comm-color)" stroke-width="1.5" stroke-dasharray="3 3" opacity=".3"><animate attributeName="stroke-dashoffset" from="12" to="0" dur="1.8s" repeatCount="indefinite"/></path>
+    </svg>
+    <div class="hub-center"><h3>Relational<br>Labour</h3></div>
+    <div class="hub-node hn-top" data-mode="trust" onclick="showLeader('trust')">
+      <div class="hub-ic" style="color:var(--sw-color);border-color:var(--sw-color)">⟡</div>
+      <span class="hub-lb">Building trust across boundaries</span>
+    </div>
+    <div class="hub-node hn-right" data-mode="hard" onclick="showLeader('hard')">
+      <div class="hub-ic" style="color:var(--nhs-color);border-color:var(--nhs-color)">▸</div>
+      <span class="hub-lb">Making hard calls together</span>
+    </div>
+    <div class="hub-node hn-bottom" data-mode="local" onclick="showLeader('local')">
+      <div class="hub-ic" style="color:var(--safe-color);border-color:var(--safe-color)">◆</div>
+      <span class="hub-lb">Using local intelligence</span>
+    </div>
+    <div class="hub-node hn-left" data-mode="safe" onclick="showLeader('safe')">
+      <div class="hub-ic" style="color:var(--comm-color);border-color:var(--comm-color)">◎</div>
+      <span class="hub-lb">Creating safe spaces</span>
+    </div>
+  </div>
+  <p class="hub-tap au d4" id="hubTap">Click a node to explore</p>
+</div>
+
+<div class="leaders-right au d3">
+  <div class="lr-panel">
+    <!-- DEFAULT -->
+    <div class="lr-def" id="lrDef">
+      <h3>The relational work nobody designed</h3>
+      <p>Leaders described years of informal, unstructured work that makes integration function. It isn't funded. It isn't measured. But without it, structures are empty.</p>
+      <p style="color:var(--copper-dk);font-size:.68rem;margin-top:8px">Four practical patterns stood out</p>
+    </div>
+
+    <!-- TRUST -->
+    <div class="lr-insight" id="lr-trust">
+      <div class="lr-insight-hd">
+        <div class="lr-insight-ic" style="background:rgba(45,181,160,0.1);color:var(--sw-color);border-color:var(--sw-color)">⟡</div>
+        <div class="lr-insight-title" style="color:var(--sw-color)">Building trust across boundaries</div>
+      </div>
+      <div class="lr-insight-ctx">Trust isn't built in board meetings. It's built over years of personal contact — corridor conversations, shared problems, keeping promises when nobody's watching. Some leaders invested years in cross-party relationships before they could lead effectively.</div>
+      <div class="lr-cards">
+        <div class="lr-card"><h3>Years, not months</h3><p>One leader spent years building trust with opposition members who were suspicious of their party. That investment paid off when they needed cross-party support for a difficult service decision.</p></div>
+        <div class="lr-card"><h3>Relationships before role</h3><p>In smaller boards, pre-existing personal relationships drove governance more than formal structures. People knew each other — there was no anonymity.</p></div>
+      </div>
+      <div class="lr-quote" style="border-color:var(--sw-color);background:rgba(45,181,160,0.06)">I spent years working with them building up trust with those opposition members because some of them are quite suspicious of my party. And that time I've invested over these years, I thought it's starting to pay off.<span class="lr-quote-at" style="color:var(--muted-dk)">— Interviewee B, 2022</span></div>
+    </div>
+
+    <!-- HARD CALLS -->
+    <div class="lr-insight" id="lr-hard">
+      <div class="lr-insight-hd">
+        <div class="lr-insight-ic" style="background:rgba(61,106,150,0.1);color:var(--nhs-color);border-color:var(--nhs-color)">▸</div>
+        <div class="lr-insight-title" style="color:var(--nhs-color)">Making hard calls together</div>
+      </div>
+      <div class="lr-insight-ctx">When budgets are under acute pressure, leaders can't just facilitate — they have to make difficult decisions about services that communities are deeply attached to. The leaders who did this well brought communities with them rather than imposing decisions on them.</div>
+      <div class="lr-cards">
+        <div class="lr-card"><h3>Closures carry identity</h3><p>Community hospitals are places where people lost a parent, where their auntie works. Closing them isn't just a service decision — it's an identity decision. Leaders had to understand that emotional weight.</p></div>
+        <div class="lr-card"><h3>Finance drives everything</h3><p>When resources don't shift, integration stalls. Leaders described competing for the same shrinking budget across two systems with different priorities.</p></div>
+      </div>
+      <div class="lr-quote" style="border-color:var(--nhs-color);background:rgba(61,106,150,0.06)">Closures are terrible. These community hospitals are often an identity. It means so much — it's where you perhaps lose a parent, or your auntie works. It's really difficult.<span class="lr-quote-at" style="color:var(--muted-dk)">— Interviewee B, 2022</span></div>
+    </div>
+
+    <!-- LOCAL INTELLIGENCE -->
+    <div class="lr-insight" id="lr-local">
+      <div class="lr-insight-hd">
+        <div class="lr-insight-ic" style="background:rgba(224,138,48,0.12);color:var(--safe-color);border-color:var(--safe-color)">◆</div>
+        <div class="lr-insight-title" style="color:var(--safe-color)">Using local intelligence</div>
+      </div>
+      <div class="lr-insight-ctx">The most effective leaders didn't rely on formal consultations to understand community needs. They went to where people already were — lunch clubs, community centres, informal gatherings — and listened. The intelligence they gathered there was richer than anything a formal appointment could produce.</div>
+      <div class="lr-cards">
+        <div class="lr-card"><h3>Informal beats formal</h3><p>People share things in a lunch club they would never share in a surgery appointment — the state of the bus service, the real barriers to care, the isolation.</p></div>
+        <div class="lr-card"><h3>Local knowledge matters</h3><p>Rural leaders in particular used deep community familiarity to identify service gaps that data couldn't capture.</p></div>
+      </div>
+      <div class="lr-quote" style="border-color:var(--safe-color);background:rgba(224,138,48,0.06)">If you sent a district nurse to join them at lunch, you would get more intelligence from that lunch than any appointment from any doctor. They would never tell you that in a face-to-face appointment.<span class="lr-quote-at" style="color:var(--muted-dk)">— Interviewee E, 2022</span></div>
+    </div>
+
+    <!-- SAFE SPACES -->
+    <div class="lr-insight" id="lr-safe">
+      <div class="lr-insight-hd">
+        <div class="lr-insight-ic" style="background:rgba(144,112,224,0.1);color:var(--comm-color);border-color:var(--comm-color)">◎</div>
+        <div class="lr-insight-title" style="color:var(--comm-color)">Creating safe spaces</div>
+      </div>
+      <div class="lr-insight-ctx">Some leaders deliberately created environments where people felt safe to ask questions, challenge assumptions, and admit when they didn't understand something. In boards of 20 where two organisational cultures meet, that psychological safety is the precondition for everything else.</div>
+      <div class="lr-cards">
+        <div class="lr-card"><h3>No daft questions</h3><p>One leader insisted there was no such thing as a stupid question. Nine times out of ten, when someone asked the "daft" question, others around the table were thinking the same thing.</p></div>
+        <div class="lr-card"><h3>The simplest questions</h3><p>The power that should be invested in every board member — especially community members — is the power to ask: what does that actually mean? Why is that important? Why isn't what I think important?</p></div>
+      </div>
+      <div class="lr-quote" style="border-color:var(--comm-color);background:rgba(144,112,224,0.06)">I put a lot of effort into creating an environment where people felt safe to ask questions. There's no such thing as a daft question. And the chief financial officer and the chief officer were super in terms of how they responded.<span class="lr-quote-at" style="color:var(--muted-dk)">— Interviewee H, 2022</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== 4. WHERE WE GO FROM HERE ==================== -->
+<div class="slide s-close" data-i="3">
+<div class="si" style="justify-content:center">
+  <div class="close-q au">Structures were never enough. Integration asks people to lead without authority, build trust across professional boundaries, and persist when the system doesn't support them. <span class="hl">These skills can be developed.</span></div>
+  <div class="close-rule au d1"></div>
+  <div class="close-cards au d2">
+    <div class="close-card">
+      <h3>The assumption</h3>
+      <p>We put structures in place and assumed people would know how to work collaboratively. A decade on, practitioners are telling us they need help.</p>
+    </div>
+    <div class="close-card">
+      <h3>The reality</h3>
+      <p>The relational work that makes integration function — trust-building, cultural translation, navigating competing logics — was never designed, funded, or measured.</p>
+    </div>
+    <div class="close-card">
+      <h3>The opportunity</h3>
+      <p>We don't have more resources. But we can invest in the only flexible resource there is — human capital. Better relationships are the only way to make better use of what we have.</p>
+    </div>
+  </div>
+  <div class="close-pdp au d3">
+    <h3>Continuing Professional Development</h3>
+    <p>This research is now informing a CPD/PDP programme being developed through UWS, IFIC and Scottish Government, designed to support leaders working across health and social care integration. Happy to discuss further if useful.</p>
+  </div>
+  <div class="close-contact au d4">
+    Awais Mashkoor · University of the West of Scotland · <span>Awais.Mashkoor@uws.ac.uk</span>
+  </div>
+</div>
+</div>
+
+</div>
+
+<script>
+const S=document.querySelectorAll('.slide'),P=document.getElementById('progress'),C=document.getElementById('counter');
+let cur=0;const N=S.length;
+function go(n){if(n<0||n>=N||n===cur)return;S[cur].classList.remove('active');cur=n;S[cur].classList.add('active');upd()}
+function upd(){P.style.width=((cur+1)/N*100)+'%';C.textContent=(cur+1)+' / '+N}
+
+// SLIDE 3: Leader hub
+let activeLeader=null;
+function showLeader(id){
+  document.querySelectorAll('.hub-node').forEach(n=>n.classList.remove('hn-act'));
+  document.querySelectorAll('.lr-insight').forEach(p=>p.classList.remove('lvis'));
+  if(activeLeader===id){activeLeader=null;document.getElementById('lrDef').style.display='';return}
+  activeLeader=id;
+  document.getElementById('lrDef').style.display='none';
+  document.querySelector(`.hub-node[data-mode="${id}"]`).classList.add('hn-act');
+  document.getElementById('lr-'+id).classList.add('lvis');
+  document.getElementById('hubTap').style.display='none';
+}
+
+// Navigation
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(cur+1)}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1)}
+  if(e.key==='Home')go(0);if(e.key==='End')go(N-1);
+  // Number keys for slide 3 leader hub
+  if(cur===2){const m={1:'trust',2:'hard',3:'local',4:'safe'};if(m[e.key]){showLeader(m[e.key]);return}}
+});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50){d<0?go(cur+1):go(cur-1)}});
+document.addEventListener('click',e=>{
+  if(e.target.closest('.hub-node,.lr-panel'))return;
+  if(e.clientX>window.innerWidth*.5)go(cur+1);else go(cur-1);
+});
+upd();
+</script>
+</body>
+</html>
