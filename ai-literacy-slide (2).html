@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Literacy as Professional Competency — Lightning Talk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0e14;
+    --panel-bg:#0e131d;
+    --ink:#f4f6fb;
+    --ink-soft:rgba(244,246,251,.66);
+    --ink-faint:rgba(244,246,251,.34);
+    --hair:rgba(255,255,255,.08);
+
+    --green:#34d399;  --green-bg:#0e2a1d;  --green-txt:#86efac;
+    --amber:#f5b13c;  --amber-bg:#2a1c06;  --amber-txt:#fcd34d;
+    --red:#f87171;    --red-bg:#2a1014;    --red-txt:#fca5a5;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+
+  html,body{height:100%}
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, rgba(52,211,153,.05), transparent 60%),
+      var(--bg);
+    font-family:'Inter',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    color:var(--ink);
+  }
+
+  /* Scale wrapper keeps the 1280x720 stage crisp and fits any screen */
+  #stage-wrap{
+    width:1280px;height:720px;
+    transform-origin:center center;
+  }
+
+  .slide{
+    width:1280px;height:720px;
+    background:var(--panel-bg);
+    border:1px solid var(--hair);
+    border-radius:6px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 50px 120px rgba(0,0,0,.7);
+  }
+
+  /* ───────── HEADER ───────── */
+  .header{
+    padding:30px 44px 26px;
+    border-bottom:1px solid var(--hair);
+    display:flex;justify-content:space-between;align-items:flex-start;gap:32px;
+    background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+  }
+  .eyebrow{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  }
+  /* traffic-light mark = the talk's signature */
+  .mark{display:inline-flex;gap:5px;align-items:center;padding:3px 7px;border:1px solid var(--hair);border-radius:20px}
+  .lamp{width:8px;height:8px;border-radius:50%}
+  .lamp.g{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .lamp.a{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+  .lamp.r{background:var(--red);box-shadow:0 0 8px var(--red)}
+
+  .title{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:31px;font-weight:700;letter-spacing:-.02em;line-height:1.12;color:var(--ink);
+  }
+  .subtitle{font-size:15px;font-weight:400;color:var(--ink-soft);margin-top:7px;letter-spacing:.005em}
+
+  .meta{text-align:right;flex-shrink:0;padding-top:4px}
+  .meta .who{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:var(--ink-soft)}
+  .meta .where{font-size:13px;color:var(--ink-faint);margin-top:5px;line-height:1.5}
+
+  /* ───────── THESIS BAR ───────── */
+  .thesis{
+    padding:18px 44px;
+    border-bottom:1px solid var(--hair);
+    display:flex;align-items:baseline;gap:16px;
+    background:rgba(255,255,255,.015);
+  }
+  .thesis .lead{
+    font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);white-space:nowrap;
+  }
+  .thesis .line{
+    font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:500;
+    letter-spacing:-.01em;color:var(--ink);
+  }
+  .thesis .line b{color:var(--green-txt);font-weight:700}
+  .thesis .line i{font-style:normal;color:var(--red-txt);font-weight:700}
+
+  /* ───────── COLUMNS ───────── */
+  .columns{flex:1;display:grid;grid-template-columns:1fr 1fr 1fr;min-height:0}
+  .col{display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .col + .col{border-left:1px solid var(--hair)}
+  .col.green{background:var(--green-bg)}
+  .col.amber{background:var(--amber-bg)}
+  .col.red{background:var(--red-bg)}
+  .col::before{content:'';position:absolute;inset:0;opacity:.5;pointer-events:none}
+  .col.green::before{background:radial-gradient(420px 200px at 50% -40px, rgba(52,211,153,.12), transparent 70%)}
+  .col.amber::before{background:radial-gradient(420px 200px at 50% -40px, rgba(245,177,60,.12), transparent 70%)}
+  .col.red::before{background:radial-gradient(420px 200px at 50% -40px, rgba(248,113,113,.12), transparent 70%)}
+
+  /* top lamp bar */
+  .col-bar{height:6px;position:relative;z-index:1}
+  .col.green .col-bar{background:var(--green)}
+  .col.amber .col-bar{background:var(--amber)}
+  .col.red .col-bar{background:var(--red)}
+
+  .col-head{padding:20px 26px 16px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--hair);position:relative;z-index:1}
+  .signal{width:22px;height:22px;border-radius:50%;flex-shrink:0;position:relative}
+  .col.green .signal{background:var(--green)}
+  .col.amber .signal{background:var(--amber)}
+  .col.red .signal{background:var(--red)}
+  .signal::after{content:'';position:absolute;inset:-6px;border-radius:50%;opacity:.0}
+  /* gentle live pulse on the signals; disabled for reduced motion */
+  @media (prefers-reduced-motion: no-preference){
+    .signal{animation:glow 3.4s ease-in-out infinite}
+    .col.amber .signal{animation-delay:.5s}
+    .col.red .signal{animation-delay:1s}
+  }
+  @keyframes glow{
+    0%,100%{box-shadow:0 0 8px 0 currentColor}
+    50%{box-shadow:0 0 18px 3px currentColor}
+  }
+  .col.green .signal{color:var(--green)}
+  .col.amber .signal{color:var(--amber)}
+  .col.red .signal{color:var(--red)}
+
+  .zone{display:flex;flex-direction:column;gap:2px}
+  .zone-name{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.01em;line-height:1}
+  .col.green .zone-name{color:var(--green-txt)}
+  .col.amber .zone-name{color:var(--amber-txt)}
+  .col.red .zone-name{color:var(--red-txt)}
+  .zone-action{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+
+  .items{flex:1;padding:18px 26px 22px;display:flex;flex-direction:column;gap:14px;position:relative;z-index:1}
+  .item{display:flex;align-items:flex-start;gap:11px}
+  .tick{flex-shrink:0;width:18px;height:18px;margin-top:1px}
+  .item-text{font-size:17px;font-weight:400;line-height:1.4;color:var(--ink)}
+  .item-text span{display:block;font-size:14px;color:var(--ink-soft);font-weight:400;margin-top:1px}
+
+  /* ───────── GOLDEN RULE STRIP (replaces vendor-specific warning) ───────── */
+  .rule{
+    padding:16px 44px;
+    display:flex;align-items:center;gap:18px;
+    background:linear-gradient(90deg, rgba(245,177,60,.12), rgba(245,177,60,.04));
+    border-top:1px solid rgba(245,177,60,.25);
+    border-bottom:1px solid var(--hair);
+  }
+  .rule .badge{
+    font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:#0b0e14;
+    background:var(--amber);padding:6px 11px;border-radius:5px;white-space:nowrap;flex-shrink:0;
+  }
+  .rule .txt{font-size:17px;font-weight:500;color:var(--amber-txt);line-height:1.4}
+  .rule .txt b{color:#ffe7a8;font-weight:700}
+
+  /* ───────── FOOTER ───────── */
+  .footer{height:46px;display:flex;align-items:center;justify-content:center;gap:40px}
+  .f-item{font-size:13px;color:var(--ink-faint);letter-spacing:.04em}
+  .f-item b{color:var(--ink-soft);font-weight:600}
+</style>
+</head>
+<body>
+
+<div id="stage-wrap">
+<div class="slide">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="eyebrow">
+        <span class="mark"><span class="lamp g"></span><span class="lamp a"></span><span class="lamp r"></span></span>
+        Lightning Talk · 5 min · UWS L&amp;T Conference 2026
+      </div>
+      <div class="title">AI Literacy as a Professional Competency</div>
+      <div class="subtitle">A scaffolded traffic-light framework across two Health &amp; Social Care modules</div>
+    </div>
+    <div class="meta">
+      <div class="who">Awais Mashkoor · HLS, UWS</div>
+      <div class="where">Tue 16 June 2026<br>Lanarkshire Campus</div>
+    </div>
+  </div>
+
+  <!-- THESIS -->
+  <div class="thesis">
+    <span class="lead">The one idea</span>
+    <span class="line">AI is a tool you <b>supervise</b> — never a colleague you <i>trust</i>.</span>
+  </div>
+
+  <!-- COLUMNS -->
+  <div class="columns">
+
+    <!-- GREEN -->
+    <div class="col green">
+      <div class="col-bar"></div>
+      <div class="col-head">
+        <div class="signal"></div>
+        <div class="zone"><div class="zone-name">Green</div><div class="zone-action">Go ahead</div></div>
+      </div>
+      <div class="items">
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div class="item-text">Brainstorming and first ideas</div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div class="item-text">Explaining concepts in plain language<span>e.g. drafting patient education material</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div class="item-text">Improving grammar and style of your own writing</div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div class="item-text">Planning study and organising your workload</div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><div class="item-text">Translation support for additional-language students</div></div>
+      </div>
+    </div>
+
+    <!-- AMBER -->
+    <div class="col amber">
+      <div class="col-bar"></div>
+      <div class="col-head">
+        <div class="signal"></div>
+        <div class="zone"><div class="zone-name">Amber</div><div class="zone-action">Check before you trust</div></div>
+      </div>
+      <div class="items">
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f5b13c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div class="item-text">Research starting points<span>verify everything independently</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f5b13c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div class="item-text">Feedback on your drafts<span>the words must stay yours</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f5b13c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div class="item-text">Terminology checks<span>cross-reference clinical sources</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f5b13c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div class="item-text">Admin drafts<span>rotas, letters, documentation templates</span></div></div>
+      </div>
+    </div>
+
+    <!-- RED -->
+    <div class="col red">
+      <div class="col-bar"></div>
+      <div class="col-head">
+        <div class="signal"></div>
+        <div class="zone"><div class="zone-name">Red</div><div class="zone-action">Never</div></div>
+      </div>
+      <div class="items">
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><div class="item-text">Submitting AI text as your own<span>academic misconduct</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><div class="item-text">Writing your reflective accounts<span>only you can reflect on your experience</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><div class="item-text">Clinical decisions or information<span>patient-safety risk</span></div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><div class="item-text">Patient or service-user data into any AI tool</div></div>
+        <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg><div class="item-text">Replacing professional judgement<span>AI assists — you decide</span></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- GOLDEN RULE -->
+  <div class="rule">
+    <span class="badge">⚠ Golden rule</span>
+    <span class="txt">Any AI tool can invent facts and citations, and state them with total confidence. <b>Verify every source before you use it — and own what you submit.</b></span>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="f-item">Anchored in the <b>UWS Academic Integrity Policy</b></div>
+    <div class="f-item">Taught across <b>HLTH09002 &amp; HLTH09013</b></div>
+    <div class="f-item">Transfers to <b>any discipline</b></div>
+  </div>
+
+</div>
+</div>
+
+<script>
+  // Scale the 1280x720 stage to fit the viewport (keeps type crisp on any screen / projector)
+  const wrap = document.getElementById('stage-wrap');
+  function fit(){
+    const pad = 48;
+    const s = Math.min((innerWidth - pad)/1280, (innerHeight - pad)/720);
+    wrap.style.transform = 'scale(' + s + ')';
+  }
+  addEventListener('resize', fit); fit();
+  // F toggles fullscreen
+  addEventListener('keydown', e=>{
+    if(e.key==='f'||e.key==='F'){
+      if(!document.fullscreenElement){ document.documentElement.requestFullscreen(); }
+      else{ document.exitFullscreen(); }
+    }
+  });
+</script>
+
+</body>
+</html>
