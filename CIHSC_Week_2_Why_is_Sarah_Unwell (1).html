@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why is Sarah unwell? | Interactive determinants builder | HLTH09002 Week 2</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a1e3d;--blue:#1a5276;--blue-soft:#e5f0f6;--green:#1a7a5a;--green-soft:#e7f4ee;--gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;--purple:#6b4f83;--purple-soft:#f2edf6;--teal:#287a80;--teal-soft:#e5f3f3;--ochre:#a5651e;--ochre-soft:#f8efe2;--ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--focus:#005ea8}
+body{font-family:Aptos,'Segoe UI',Arial,sans-serif;background:linear-gradient(160deg,#0a1e3d,#17375e 64%,#214b76);color:var(--ink);min-height:100vh;padding:20px}
+.wrap{max-width:1180px;margin:0 auto;background:#fffefb;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:26px 30px 30px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);color:var(--navy);text-align:center;margin-bottom:14px}
+.eyebrow{text-align:center;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.scenario{background:linear-gradient(135deg,var(--navy),#214b76);color:#fff;border-radius:12px;padding:18px 22px;margin-bottom:14px}
+.scenario h2{font-family:Georgia,serif;font-weight:400;font-size:1.25rem;margin-bottom:6px;text-align:center}
+.scenario p{text-align:center;line-height:1.45;font-size:.98rem;max-width:80ch;margin:0 auto}
+.task{background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:.95rem;line-height:1.45}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1;border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;color:var(--navy);text-align:left}
+.tab[aria-selected=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab small{display:block;font-weight:400;color:inherit;opacity:.8;font-size:.8rem}
+.controls{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:14px}
+.toggle{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem}
+.switch{position:relative;width:46px;height:24px;background:#c9d3de;border-radius:999px;border:none;cursor:pointer}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s}
+.switch[aria-checked=true]{background:var(--purple)}.switch[aria-checked=true]::after{left:25px}
+.spacer{flex:1}
+.btn{border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:.9rem}
+.btn-go{background:var(--green);color:#fff}.btn-reset{background:#8a96a3;color:#fff}
+.btn:focus-visible,.switch:focus-visible,.tab:focus-visible,.factor:focus-visible,.zone:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.board{display:grid;grid-template-columns:260px 1fr;gap:16px}
+.pool{background:#f3f4f6;border-radius:12px;padding:14px;max-height:620px;overflow:auto}
+.pool h3{font-size:1rem;color:var(--navy);margin-bottom:10px}
+.factor{background:#fff;border-left:5px solid var(--blue);border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:.85rem;line-height:1.35;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.08);user-select:none}
+.factor.lens{border-left-color:var(--purple);background:var(--purple-soft)}
+.factor.selected{outline:3px solid var(--gold)}
+.factor.dragging{opacity:.5}
+.factor.placed{cursor:default}
+.chain{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch;position:relative}
+.chain.three{grid-template-columns:repeat(3,1fr)}
+.zone{background:#fff;border:2px dashed var(--line);border-radius:12px;padding:10px;min-height:280px;display:flex;flex-direction:column;transition:background .15s,border-color .15s}
+.zone.over{background:var(--gold-soft);border-color:var(--gold)}
+.zone h4{font-size:.85rem;color:var(--navy);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.zone p.hint{font-size:.75rem;color:var(--muted);margin-bottom:8px;line-height:1.3}
+.zone .drop{flex:1;display:flex;flex-direction:column;gap:6px}
+.zone .factor{margin-bottom:0;font-size:.8rem}
+.arrowrow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:6px}
+.arrowrow div{text-align:center;color:var(--gold);font-size:1.4rem;line-height:1}
+.outcome{margin-top:12px;background:var(--coral);color:#fff;border-radius:12px;padding:12px 16px;text-align:center;font-weight:700}
+.results{display:none;margin-top:18px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px}
+.results.show{display:block}
+.results h3{font-family:Georgia,serif;font-weight:400;font-size:1.4rem;color:var(--navy);margin-bottom:10px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.stat{border-radius:10px;padding:12px;text-align:center}
+.stat b{display:block;font-size:2rem;font-family:Georgia,serif;font-weight:400}
+.stat.g{background:var(--green-soft);color:var(--green)}.stat.b{background:var(--blue-soft);color:var(--blue)}.stat.r{background:var(--coral-soft);color:var(--coral)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.cols h4{font-size:.95rem;color:var(--navy);margin-bottom:6px}
+.cols ul{list-style:none}.cols li{font-size:.85rem;padding:6px 8px;border-radius:6px;margin-bottom:5px;background:#f7f7f5;line-height:1.35}
+.cols li.ok{background:var(--green-soft)}.cols li.wrong{background:var(--gold-soft)}.cols li.missed{background:var(--coral-soft)}
+.cols li small{color:var(--muted);display:block}
+.lensbox{background:var(--purple-soft);border-left:6px solid var(--purple);border-radius:10px;padding:14px 16px;font-size:.92rem;line-height:1.5}
+.lensbox h4{color:var(--purple);margin-bottom:6px}
+.trap{margin-top:12px;background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;font-size:.95rem}
+.trap b{color:var(--gold)}
+.sr{position:absolute;left:-9999px}
+.foot{margin-top:16px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.4}
+@media (max-width:860px){.board{grid-template-columns:1fr}.chain{grid-template-columns:1fr 1fr}.chain.three{grid-template-columns:1fr}.arrowrow{display:none}.stats,.cols{grid-template-columns:1fr}.pool{max-height:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="eyebrow">Contemporary Issues in Health and Social Care | Week 2 | Interactive builder</div>
+<h1>Why is Sarah unwell?</h1>
+<div class="scenario">
+<h2>Sarah, 52</h2>
+<p>Sarah has COPD and type 2 diabetes. She has smoked since she was 16. She lives alone and has missed some clinic appointments. Her practice nurse describes her as "not engaging with her care plan".</p>
+</div>
+<div class="task" id="taskText"><b>Your task:</b> Drag the factors from the left panel onto the chain to build your explanation of why Sarah is unwell. Start with what you can see. Then toggle the <b>Wider determinants lens</b> to reveal what a clinical view does not show, and place those too. When ready, click <b>Show analysis</b> to compare your explanation with the determinants analysis and see what changed. On a touchscreen, tap a factor then tap where it goes.</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" id="tab1" data-tab="1">1 · Explain Sarah<small>Build the chain from circumstances to outcome</small></button>
+  <button class="tab" role="tab" aria-selected="false" id="tab2" data-tab="2">2 · Where would prevention act?<small>Place interventions on the causal chain</small></button>
+</div>
+
+<div class="controls">
+  <div class="toggle" id="lensCtl"><span>Clinical view</span><button class="switch" id="lens" role="switch" aria-checked="false" aria-label="Wider determinants lens"></button><span>Wider determinants lens</span></div>
+  <div class="spacer"></div>
+  <button class="btn btn-go" id="go">Show analysis</button>
+  <button class="btn btn-reset" id="reset">Reset</button>
+</div>
+
+<div class="board">
+  <aside class="pool" aria-label="Factors to place"><h3 id="poolTitle">Factors</h3><div id="pool"></div></aside>
+  <main>
+    <div class="arrowrow" id="arrows"><div>→</div><div>→</div><div>→</div><div>→</div><div>→</div></div>
+    <div class="chain" id="chain"></div>
+    <div class="outcome" id="outcome">Outcome: COPD and type 2 diabetes at 52, worsening, with missed appointments</div>
+  </main>
+</div>
+
+<section class="results" id="results" aria-live="polite">
+  <h3 id="rTitle">Analysis and comparison</h3>
+  <div class="stats"><div class="stat b"><b id="nPlaced">0</b>Factors you placed</div><div class="stat g"><b id="nMatch">0</b>Placed where the analysis places them</div><div class="stat r"><b id="nMissed">0</b>Lens factors you did not place</div></div>
+  <div class="cols"><div><h4>Your placements</h4><ul id="yours"></ul></div><div><h4 id="expTitle">The determinants analysis</h4><ul id="theirs"></ul></div></div>
+  <div class="lensbox" id="lensbox"></div>
+  <div class="trap" id="trapbox"></div>
+</section>
+
+<div class="foot">A teaching activity for HLTH09002. Sarah is fictional. The chain is this module's working model of how social conditions become health outcomes; it is a tool to think with, not a published framework. Nothing you place here is stored or sent anywhere.</div>
+</div>
+<div class="sr" aria-live="polite" id="ann"></div>
+
+<script>
+(function(){
+// ---------- DATA ----------
+const ACT = {
+ 1: {
+  pool:'Factors', outcome:'Outcome: COPD and type 2 diabetes at 52, worsening, with missed appointments',
+  task:'<b>Your task:</b> Drag the factors from the left panel onto the chain to build your explanation of why Sarah is unwell. Start with what you can see. Then toggle the <b>Wider determinants lens</b> to reveal what a clinical view does not show, and place those too. When ready, click <b>Show analysis</b> to compare your explanation with the determinants analysis and see what changed. On a touchscreen, tap a factor then tap where it goes.',
+  zones:[
+   {id:'mat',name:'Material circumstances',hint:'Income, work, housing, place: what Sarah has to live with.'},
+   {id:'exp',name:'Exposure and opportunity',hint:'What she is exposed to, and what is open or closed to her.'},
+   {id:'str',name:'Stress and resources',hint:'Chronic strain, and the time, money and support available to cope.'},
+   {id:'acc',name:'Accumulated disadvantage',hint:'How it adds up across the life course.'},
+   {id:'beh',name:'Behaviour and biology',hint:'What shows up in the body and in the record.'}
+  ],
+  factors:[
+   {t:'Smoked since age 16',ok:['beh'],lens:false,why:'The behaviour is real, and it sits at the end of the chain, not the start. The question is why a 16-year-old started and why stopping has been hard.'},
+   {t:'Lives alone',ok:['str','mat'],lens:false,why:'Fewer people to share care, transport, money and worry with. A resource question.'},
+   {t:'Misses some clinic appointments',ok:['beh','exp'],lens:false,why:'Recorded as behaviour; usually produced by transport, work, caring or cost.'},
+   {t:'Aged 52 with two long-term conditions',ok:['acc','beh'],lens:false,why:'Disease has arrived earlier than in less deprived areas. That timing is what accumulated disadvantage looks like.'},
+   {t:'"Not engaging with her care plan"',ok:['beh'],lens:false,why:'A label. It describes the record, not the reasons.'},
+   {t:'Left school at 16 with few qualifications',ok:['exp','acc'],lens:true,why:'Education shapes work, income, health information and confidence with services.'},
+   {t:'Insecure, low-paid shift work; no sick pay',ok:['mat','str'],lens:true,why:'Income, and the impossibility of taking a morning off for a clinic.'},
+   {t:'Damp, cold rented flat with mould',ok:['mat','exp'],lens:true,why:'Direct respiratory exposure, and a cost pressure every winter.'},
+   {t:'Cares for her mother three evenings a week',ok:['str','exp'],lens:true,why:'Unpaid caring: time, stress and a reason appointments are missed.'},
+   {t:'No car; two buses to the health centre',ok:['exp','mat'],lens:true,why:'Access is not the same as availability. The service exists; the route to it costs half a day.'},
+   {t:'Grew up in a household on a low income',ok:['acc'],lens:true,why:'The life course starts early. Childhood poverty is one of the strongest predictors of adult health.'},
+   {t:'Neighbourhood with cheap alcohol and takeaways, no green space',ok:['exp','mat'],lens:true,why:'The food and drink environment, and where a walk is possible, are decided for her.'},
+   {t:'Debt and rent arrears',ok:['str','mat'],lens:true,why:'Chronic financial stress: cortisol, sleep, blood pressure, and no headroom for anything else.'},
+   {t:'Treated dismissively at the practice in the past',ok:['exp','str'],lens:true,why:'Experience of services shapes whether people return. Discrimination and disrespect are determinants too.'}
+  ],
+  lensText:'<h4>What the wider determinants lens reveals</h4>The clinical view sees a smoker with two conditions who misses appointments. The lens sees a woman who started smoking at 16 in a household on a low income, left school with few qualifications, works shifts with no sick pay, lives in a damp flat she cannot afford to heat, cares for her mother, takes two buses to a health centre where she was once treated badly, and is in debt. Every factor on the right of the chain has a cause on the left. The service she "is not engaging with" is available; the opportunity to benefit from it is not equal. That is the Week 1 question answered.',
+  trap:'<b>The fourth trap: individual behaviour is not an explanation by itself.</b> Smoking, missed appointments and "not engaging" are where the chain ends up, not where it starts. If your first explanation stopped at behaviour, that is exactly the reflex this week is about.'
+ },
+ 2: {
+  pool:'Interventions', outcome:'Question for each one: which determinant does it change, and which does it leave untouched?',
+  task:'<b>Your task:</b> Drag each intervention onto the level of the causal chain where it acts: <b>upstream / structural</b>, <b>community / service</b>, or <b>individual / downstream</b>. Then click <b>Show analysis</b> to see where the analysis places each one and which determinant it changes. Remember the guardrail: primary/secondary/tertiary describes <i>when</i> in the disease course; upstream/downstream describes <i>where</i> in the causal chain. They are not the same scale.',
+  zones:[
+   {id:'up',name:'Upstream / structural',hint:'Changes income, price, housing, law or environment for a whole population before exposure happens.'},
+   {id:'com',name:'Community / service',hint:'Changes what is available, reachable or supported locally.'},
+   {id:'ind',name:'Individual / downstream',hint:'Asks or helps the person to change, after exposure or after disease.'}
+  ],
+  factors:[
+   {t:'Minimum unit pricing for alcohol',ok:['up'],lens:false,why:'Changes price for everyone; largest effect in the heaviest-purchasing households and the 40% most deprived areas. Alters exposure before harm. Structural, population-wide.'},
+   {t:'Scottish Child Payment',ok:['up'],lens:false,why:'Changes household income directly. Acts on material circumstances at the start of the life course.'},
+   {t:'Enforced standard for damp and mould in rented homes',ok:['up'],lens:false,why:'Changes the housing determinant for tenants without asking them to do anything. Structural.'},
+   {t:'Free bus travel',ok:['up','com'],lens:false,why:'Removes a cost barrier to access. Structural if universal; community if local.'},
+   {t:'Community link worker in the GP practice',ok:['com'],lens:false,why:'Connects people to local support: debt advice, carers\' services, housing help. Changes what is reachable, not what exists upstream.'},
+   {t:'Community food pantry',ok:['com'],lens:false,why:'Changes local availability of affordable food. Does not change the income that makes it necessary.'},
+   {t:'Hypertension case-finding in the most deprived 20% (Core20PLUS5)',ok:['com','ind'],lens:false,why:'A healthcare-inequalities action: earlier detection for a targeted population. Changes access and detection; leaves the determinants of hypertension untouched.'},
+   {t:'Smoking-cessation clinic',ok:['ind'],lens:false,why:'Helps the person change. Effective and worthwhile, and downstream: it does not change why she started or what keeps her smoking.'},
+   {t:'Text reminders for appointments',ok:['ind','com'],lens:false,why:'Addresses the recorded behaviour. Does nothing about the two buses, the shift pattern or the caring.'},
+   {t:'A leaflet on healthy eating',ok:['ind'],lens:false,why:'Information to an individual whose food environment and income decide what she can buy. The weakest lever on the board.'}
+  ],
+  lensText:'<h4>Where in the chain, and what stays untouched</h4>Every intervention on the board is real and most of them help. The Level 9 question is not "is this good?" but "which determinant does it change, and which does it leave alone?" Downstream measures ask Sarah to adapt to her circumstances. Community measures make her circumstances more navigable. Upstream measures change the circumstances. A system can run all three; the contest is about where the money and the responsibility should sit. That is the debrief question for this week.',
+  trap:'<b>Two traps here.</b> <b>Intention is not outcome</b>: placing an intervention upstream does not mean it worked; MUP is on this board because it was evaluated. And <b>works here is not works there</b>: free bus travel changes access in Scotland; where there are no buses, it changes nothing.'
+ }
+};
+
+let cur=1, lensOn=false, sel=null;
+const $=id=>document.getElementById(id);
+const chain=$('chain'), pool=$('pool'), results=$('results'), ann=$('ann');
+
+function build(){
+  const A=ACT[cur];
+  $('taskText').innerHTML=A.task; $('poolTitle').textContent=A.pool; $('outcome').textContent=A.outcome;
+  chain.className='chain'+(A.zones.length===3?' three':''); $('arrows').style.display=A.zones.length===5?'':'none';
+  $('lensCtl').style.display=cur===1?'':'none';
+  chain.innerHTML=''; pool.innerHTML=''; results.classList.remove('show');
+  A.zones.forEach(z=>{const d=document.createElement('div');d.className='zone';d.dataset.zone=z.id;d.tabIndex=0;d.setAttribute('role','group');d.setAttribute('aria-label',z.name);
+    d.innerHTML=`<h4>${z.name}</h4><p class="hint">${z.hint}</p><div class="drop"></div>`;
+    d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});d.addEventListener('dragleave',()=>d.classList.remove('over'));
+    d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('over');const i=e.dataTransfer.getData('text/plain');place(i,z.id)});
+    d.addEventListener('click',()=>{if(sel!==null){place(sel,z.id);sel=null;}});
+    d.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&sel!==null){e.preventDefault();place(sel,z.id);sel=null;}});
+    chain.appendChild(d);});
+  A.factors.forEach((f,i)=>{f.placed=null;});
+  renderPool();
+}
+function renderPool(){
+  const A=ACT[cur]; pool.innerHTML='';
+  A.factors.forEach((f,i)=>{ if(f.placed) return; if(f.lens&&!lensOn) return;
+    pool.appendChild(mkFactor(f,i)); });
+  document.querySelectorAll('.factor').forEach(el=>el.classList.toggle('selected',sel!==null&&el.dataset.i===String(sel)));
+}
+function mkFactor(f,i){const el=document.createElement('div');el.className='factor'+(f.lens?' lens':'')+(f.placed?' placed':'');el.textContent=f.t;el.draggable=!f.placed;el.dataset.i=i;el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label',f.t+(f.placed?', placed. Press to return to the list.':', press to select, then choose a place.'));
+  el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(i));el.classList.add('dragging')});el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+  el.addEventListener('click',e=>{e.stopPropagation();if(f.placed){f.placed=null;el.remove();renderPool();ann.textContent=f.t+' returned to the list';}else{sel=(sel===i)?null:i;renderPool();ann.textContent=sel===null?'Selection cleared':f.t+' selected. Now choose a place on the chain.';}});
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+  return el;}
+function place(i,zone){const f=ACT[cur].factors[i]; if(!f) return; f.placed=zone;
+  document.querySelectorAll('.zone .factor[data-i="'+i+'"]').forEach(x=>x.remove());
+  chain.querySelector('[data-zone="'+zone+'"] .drop').appendChild(mkFactor(f,i)); renderPool(); ann.textContent=f.t+' placed in '+zone;}
+
+function analyse(){
+  const A=ACT[cur]; const zn=id=>A.zones.find(z=>z.id===id).name;
+  let placed=0,match=0,missed=0; const yours=$('yours'),theirs=$('theirs'); yours.innerHTML='';theirs.innerHTML='';
+  A.factors.forEach(f=>{
+    if(f.placed){placed++;const ok=f.ok.includes(f.placed); if(ok)match++;
+      const li=document.createElement('li');li.className=ok?'ok':'wrong';li.innerHTML=`<b>${f.t}</b> → ${zn(f.placed)}${ok?'':' <small>Analysis places it: '+f.ok.map(zn).join(' or ')+'</small>'}`;yours.appendChild(li);}
+    else if(f.lens&&cur===1){missed++;}
+    const li2=document.createElement('li');li2.className=(f.placed?'':(f.lens?'missed':''));li2.innerHTML=`<b>${f.t}</b> → ${f.ok.map(zn).join(' or ')}<small>${f.why}</small>`;theirs.appendChild(li2);
+  });
+  if(cur===1&&!lensOn){ // count all lens factors as missed and prompt
+    missed=A.factors.filter(f=>f.lens).length;
+  }
+  $('nPlaced').textContent=placed;$('nMatch').textContent=match;$('nMissed').textContent=cur===1?missed:'—';
+  document.querySelector('.stat.r').style.display=cur===1?'':'none';
+  $('rTitle').textContent=cur===1?'Your explanation, and the determinants analysis':'Your placements, and where the analysis puts them';
+  $('expTitle').textContent=cur===1?'The determinants analysis':'The analysis';
+  $('lensbox').innerHTML=(cur===1&&!lensOn)?'<h4>You have not used the lens yet</h4>Your explanation so far uses only what the clinical record shows. Toggle the wider determinants lens, place what appears, and run the analysis again. Then compare the two explanations: that comparison is the exercise.':A.lensText;
+  $('trapbox').innerHTML=A.trap;
+  results.classList.add('show'); results.scrollIntoView({behavior:'smooth',block:'start'}); ann.textContent='Analysis shown';
+}
+
+$('lens').addEventListener('click',()=>{lensOn=!lensOn;$('lens').setAttribute('aria-checked',String(lensOn));renderPool();ann.textContent=lensOn?'Wider determinants lens on. New factors added to the list.':'Clinical view.';});
+$('go').addEventListener('click',analyse);
+$('reset').addEventListener('click',()=>{sel=null;build();ann.textContent='Reset';});
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{cur=parseInt(t.dataset.tab);document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',String(x===t)));sel=null;build();}));
+document.addEventListener('click',()=>{if(sel!==null){sel=null;renderPool();}});
+build();
+})();
+</script>
+</body>
+</html>
