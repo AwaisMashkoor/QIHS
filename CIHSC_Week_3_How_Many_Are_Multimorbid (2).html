@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How many are multimorbid? | HLTH09002 Week 3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a1e3d;--blue:#1a5276;--blue-soft:#e5f0f6;--green:#1a7a5a;--green-soft:#e7f4ee;--gold:#d4a843;--gold-soft:#fdf6e3;--purple:#6b4f83;--purple-soft:#f2edf6;--teal:#287a80;--teal-soft:#e5f3f3;--coral:#b55436;--coral-soft:#f9ece6;--ochre:#a5651e;--ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--focus:#005ea8}
+body{font-family:Aptos,'Segoe UI',Arial,sans-serif;background:linear-gradient(160deg,#0a1e3d,#17375e 64%,#214b76);color:var(--ink);min-height:100vh;padding:20px}
+.wrap{max-width:1000px;margin:0 auto;background:#fffefb;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:26px 30px 30px}
+.eyebrow{text-align:center;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);color:var(--navy);text-align:center;margin-bottom:12px}
+.task{background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:.95rem;line-height:1.45}
+.q{font-family:Georgia,serif;font-size:1.3rem;color:var(--navy);text-align:center;margin:18px 0 10px}
+.qsub{display:block;font-family:Aptos,'Segoe UI',Arial,sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);margin-top:4px;letter-spacing:.01em}
+.qalt{font-size:1.15rem;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+.qalt .qsub{color:var(--teal)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.btn{border:2px solid var(--purple);background:#fff;color:var(--purple);border-radius:999px;padding:10px 20px;font-weight:800;font-size:1rem;cursor:pointer}
+.btn[aria-pressed=true]{background:var(--purple);color:#fff}
+.btn:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.result{display:grid;grid-template-columns:1fr 2fr;gap:16px;align-items:stretch;margin-bottom:14px}
+.big{background:var(--purple-soft);border:2px solid var(--purple);border-radius:14px;padding:16px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.big b{font-family:Georgia,serif;font-size:4.2rem;font-weight:400;color:var(--purple);line-height:1}
+.big span{color:var(--muted);font-size:.9rem;margin-top:6px}
+.bar{background:#f3f4f6;border-radius:10px;height:26px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),#9b86b3);width:0;transition:width .35s}
+.note{background:#fff;border:2px solid var(--line);border-radius:14px;padding:14px 16px;font-size:.95rem;line-height:1.45}
+.note h3{font-size:1rem;color:var(--navy);margin-bottom:6px}
+.close{display:none;background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:14px 16px;margin-top:10px;font-size:.95rem;line-height:1.5}
+.close.show{display:block}
+.prompt{background:var(--teal-soft);border-left:6px solid var(--teal);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.92rem;line-height:1.45}
+.trap{background:var(--navy);color:#fff;border-radius:10px;padding:12px 16px;margin-top:12px;font-size:.95rem}.trap b{color:var(--gold)}
+.pred{display:none;background:var(--gold-soft);border:2px solid var(--gold);border-radius:14px;padding:14px 16px;margin-bottom:14px;text-align:center}
+.pred.show{display:block}
+.pred h3{font-family:Georgia,serif;font-weight:400;font-size:1.15rem;color:var(--navy);margin-bottom:10px}
+.pbtn{border:2px solid var(--ochre);background:#fff;color:var(--ochre);border-radius:10px;padding:9px 14px;font-weight:700;font-size:.95rem;cursor:pointer;margin:4px}
+.pbtn:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.verdict{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:999px;font-size:.8rem;font-weight:800}
+.hit{background:var(--green-soft);color:var(--green)}.miss{background:var(--coral-soft);color:var(--coral)}
+.score{font-size:.85rem;color:var(--muted);text-align:center;margin:6px 0 10px}
+.quiz{display:none;background:#fff;border:2px solid var(--purple);border-radius:14px;padding:14px 16px;margin-top:12px}
+.quiz.show{display:block}
+.quiz h3{font-family:Georgia,serif;font-weight:400;font-size:1.15rem;color:var(--navy);margin-bottom:8px}
+.qopt{display:block;width:100%;text-align:left;border:2px solid var(--line);background:#fff;border-radius:10px;padding:10px 12px;margin:6px 0;font-size:.93rem;cursor:pointer;line-height:1.4}
+.qopt:focus-visible{outline:4px solid var(--focus);outline-offset:2px}
+.qopt.right{border-color:var(--green);background:var(--green-soft)}.qopt.wrong{border-color:var(--coral);background:var(--coral-soft)}
+.qfb{margin-top:10px;font-size:.93rem;line-height:1.45;display:none}.qfb.show{display:block}
+.foot{margin-top:14px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.4}
+.sr{position:absolute;left:-9999px}
+@media(max-width:700px){.result{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<div class="eyebrow">Contemporary Issues in Health and Social Care | Week 3 | Interactive</div>
+<h1>How many are multimorbid?</h1>
+<div class="task"><b>Multimorbidity means having two or more conditions from a list.</b> Here is the catch: the answer depends on how long the list is.<br><br>One study. 1,168,620 people in England. The researchers made a list of 80 conditions, ranked from commonest to rarest, and asked the same question again and again: <i>how many of these people have two or more conditions from the list?</i> First with a list of only 2. Then 10. Then all 80.</div>
+<div class="q" id="q">How long is the list?<span class="qsub">Same 1,168,620 people every time. Only the length of the list changes.</span></div>
+<div class="btns" id="counts"></div>
+<div class="pred" id="pred"></div>
+<div class="score" id="score"></div>
+<div class="result"><div class="big"><b id="val">—</b><span id="lab">tap a list length</span></div><div><div class="bar"><i id="fill"></i></div><div class="note" id="note"><h3>Start with 2</h3>Tap the shortest list first. You will be asked to guess before you see the number, and that guess is the point.</div></div></div>
+<div class="close" id="close"></div>
+<div class="quiz" id="quiz"></div>
+<div class="trap"><b>A figure counts what it counts.</b> When you quote a multimorbidity figure, say which list, how long it was, and how the conditions were found. Without that, the number means nothing.</div>
+<div class="foot">Figures from MacRae, C. et al. (2023) doi:10.1371/journal.pmed.1004208 (CPRD, 80 conditions). Nothing you tap is stored or sent anywhere.</div>
+</div><div class="sr" aria-live="polite" id="ann"></div>
+<script>
+(function(){
+const counts=[
+ {n:2,v:4.6,t:'The list has just two conditions on it: high blood pressure and depression. To count as multimorbid you need <b>both</b>. Fewer than one in twenty people do.'},
+ {n:10,v:29.5,t:'Ten conditions on the list. Now you count if you have <b>any two of the ten</b>. Same people, longer list, and the figure has risen sixfold. Common conditions do most of the work.'},
+ {n:20,v:35.2,t:'Twenty on the list. Still rising, more slowly. Most published studies use a list of roughly this length.'},
+ {n:30,v:37.4,t:'Thirty on the list. Each condition added now is rarer, so it changes less.'},
+ {n:50,v:39.8,t:'Fifty on the list. Within one percentage point of counting everything.'},
+ {n:80,v:40.5,t:'All eighty. After about 50 the number barely moved: the last thirty conditions are rare enough that almost nobody qualifies through them alone.'}];
+const bands=[{l:'Under 10%',lo:0,hi:10},{l:'10 to 25%',lo:10,hi:25},{l:'25 to 40%',lo:25,hi:40},{l:'Over 40%',lo:40,hi:101}];
+const $=id=>document.getElementById(id);let seen=new Set(),hits=0,tries=0,pending=null;
+function band(v){return bands.findIndex(b=>v>=b.lo&&v<b.hi);}
+function ask(c,i){pending={c,i};$('pred').className='pred show';$('pred').innerHTML='<h3>Before you see it: with a list of <b>'+c.n+'</b>, what share of these 1,168,620 people do you expect to be multimorbid?</h3>'+bands.map((b,k)=>'<button class="pbtn" data-k="'+k+'">'+b.l+'</button>').join('');
+ $('pred').querySelectorAll('.pbtn').forEach(b=>b.onclick=()=>reveal(parseInt(b.dataset.k)));$('ann').textContent='Predict the share for a list of '+c.n;$('pred').querySelector('.pbtn').focus();}
+function reveal(k){const {c,i}=pending;const ok=band(c.v)===k;tries++;if(ok)hits++;
+ $('pred').className='pred';$('val').textContent=c.v+'%';$('lab').textContent='list of '+c.n;$('fill').style.width=(c.v/45*100)+'%';
+ $('note').innerHTML='<h3>List of '+c.n+' conditions: '+c.v+'%</h3>'+c.t+'<br><span class="verdict '+(ok?'hit':'miss')+'">'+(ok?'Your guess was in the right band':'You guessed '+bands[k].l+'; it is '+c.v+'%')+'</span>';
+ $('score').textContent='Predictions in the right band so far: '+hits+' of '+tries;$('ann').textContent='List of '+c.n+' conditions: '+c.v+' percent. '+(ok?'Right band.':'You guessed '+bands[k].l);
+ seen.add(i);if(seen.size>=3){$('close').classList.add('show');$('close').innerHTML='<b>What you have just seen.</b> Same people every time. The only thing that changed was the length of the list, and the answer moved from under 5% to over 40%. Two things follow. First, <b>“count everything” is not the answer either</b>: the number stops changing at about 50. Second, <b>which</b> conditions go on the list matters as much as how many. Nine different published lists, applied to these same people, gave anywhere from 11% to 36%. So there is no single true figure for how many people are multimorbid. There is only a figure with its list attached.';quiz();}}
+function quiz(){const q=$('quiz');if(q.classList.contains('show'))return;q.className='quiz show';
+ q.innerHTML='<h3>Now test yourself. A classmate writes: “Multimorbidity affects 40% of the population.” What is wrong with that sentence?</h3>'+
+ '<button class="qopt" data-a="0">Nothing. 40.5% is the published figure for all 80 conditions.</button>'+
+ '<button class="qopt" data-a="1">It is out of date; the true figure is now higher.</button>'+
+ '<button class="qopt" data-a="2">It quotes a number without its list. With a shorter list the same people give 4.6%; with a different published list, 11% to 36%. The figure means nothing until you say what was counted, and where.</button>'+
+ '<button class="qopt" data-a="3">It should say 42.4%, from the international review.</button><div class="qfb" id="qfb"></div>';
+ q.querySelectorAll('.qopt').forEach(b=>b.onclick=()=>{q.querySelectorAll('.qopt').forEach(x=>{x.disabled=true;x.className='qopt '+(x.dataset.a==='2'?'right':(x===b?'wrong':''))});const fb=$('qfb');fb.className='qfb show';
+  fb.innerHTML=(b.dataset.a==='2')?'<b>Yes.</b> That is the habit this whole activity exists to build. In your essay, the version that earns marks reads: <i>a study of 1.17 million people in England found 40.5% had two or more of 80 listed conditions; with shorter lists the figure fell as low as 4.6% (MacRae et al., 2023)</i>.':
+  (b.dataset.a==='0')?'<b>Not quite.</b> 40.5% is real, but it is the figure for one list of 80 in one English population. The same people gave 4.6% with a list of 2. A figure without its list is not a fact; it is a fragment.':
+  (b.dataset.a==='1')?'<b>Not quite.</b> Whether it is higher or lower depends entirely on what gets counted, not on the year. That is the point you have just watched.':
+  '<b>Not quite.</b> Swapping one bare number for another bare number repeats the mistake. 42.4% comes from 193 studies that counted wildly different lists. Both numbers need their definition attached.';
+  $('ann').textContent=fb.textContent;});}
+counts.forEach((c,i)=>{const b=document.createElement('button');b.className='btn';b.textContent='List of '+c.n;b.setAttribute('aria-pressed','false');b.onclick=()=>{document.querySelectorAll('.btn').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');ask(c,i)};$('counts').appendChild(b)});
+})();
+</script></body></html>
