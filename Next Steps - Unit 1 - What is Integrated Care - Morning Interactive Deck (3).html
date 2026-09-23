@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Steps Unit 1 | What is integrated care? — morning session</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1e3d;--navy2:#17375e;--blue:#1a5276;--blue-soft:#e7f1f7;
+  --teal:#287a80;--teal-soft:#e6f4f3;--green:#1a7a5a;--green-soft:#e8f5ee;
+  --gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;
+  --purple:#6b4f83;--purple-soft:#f2edf6;--grey:#667482;--grey-soft:#eef1f3;
+  --ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--paper:#fffefb;--cream:#faf8f5;
+  --focus:#005ea8;--serif:Georgia,'Times New Roman',serif;--sans:Aptos,'Segoe UI',Arial,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,a,textarea{font:inherit}a{color:var(--blue)}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(1.25rem,2.7vw,2.6rem) clamp(1.45rem,4.3vw,4.25rem) clamp(4.4rem,7vh,5.2rem);opacity:0;overflow:hidden;background:var(--paper);transition:opacity .18s}
+.slide.active{display:flex;opacity:1}
+.slide--dark{background:linear-gradient(155deg,var(--navy),var(--navy2) 66%,#214b76);color:#f7f9fb}
+.slide--blue{background:linear-gradient(135deg,var(--blue-soft),#fbfdfe)}
+.slide--green{background:linear-gradient(135deg,var(--green-soft),#fbfdfc)}
+.slide--gold{background:linear-gradient(135deg,var(--gold-soft),#fffdf8)}
+.slide--teal{background:linear-gradient(135deg,var(--teal-soft),#f9fdfd)}
+.slide--coral{background:linear-gradient(135deg,var(--coral-soft),#fffaf8)}
+.slide--purple{background:linear-gradient(135deg,var(--purple-soft),#fcfafd)}
+.eyebrow{margin-bottom:.55rem;font-size:clamp(.78rem,.9vw,1rem);font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.slide--dark .eyebrow{color:var(--gold)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,4.9vw,5rem);line-height:1.03}
+h2{font-size:clamp(1.9rem,3.1vw,3.2rem);line-height:1.08;margin-bottom:.8rem;color:var(--navy)}
+.slide--dark h1,.slide--dark h2{color:#fff}
+h3{font-size:clamp(1.02rem,1.35vw,1.35rem);line-height:1.2;color:var(--navy)}
+.lede{font-size:clamp(1.02rem,1.43vw,1.47rem);line-height:1.42;color:var(--muted);max-width:67ch;margin-bottom:1rem}
+.slide--dark .lede{color:#dfe6ee}
+.bigline{font-family:var(--serif);font-size:clamp(2.1rem,3.9vw,4rem);line-height:1.12;color:var(--navy);max-width:27ch}
+.slide--dark .bigline{color:#fff}
+.grid{display:grid;gap:clamp(.7rem,1.15vw,1.15rem);flex:1;align-content:center;min-height:0}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:clamp(.8rem,1.15vw,1.15rem);box-shadow:0 4px 18px rgba(10,30,61,.055);min-width:0}
+.card h3{margin-bottom:.35rem}.card p,.card li{font-size:clamp(.88rem,1.06vw,1.07rem);line-height:1.38;color:var(--muted)}
+.card ul,.card ol{padding-left:1.15rem}.card li{margin:.24rem 0}
+.card--blue{background:var(--blue-soft);border-color:var(--blue)}.card--green{background:var(--green-soft);border-color:var(--green)}.card--gold{background:var(--gold-soft);border-color:var(--gold)}.card--teal{background:var(--teal-soft);border-color:var(--teal)}.card--coral{background:var(--coral-soft);border-color:var(--coral)}.card--purple{background:var(--purple-soft);border-color:var(--purple)}
+.tag{display:inline-block;font-size:.68rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .58rem;border-radius:999px;margin-bottom:.45rem;background:var(--navy);color:#fff}
+.lo{display:inline-flex;align-items:center;justify-content:center;min-width:2.9rem;border-radius:999px;padding:.23rem .58rem;background:var(--navy);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:.5rem}
+.band{margin-top:auto;background:var(--navy);color:#fff;border-radius:13px;padding:.82rem 1.15rem;font-size:clamp(.96rem,1.23vw,1.25rem);line-height:1.38}.band b{color:var(--gold)}.slide--dark .band{background:rgba(255,255,255,.12)}
+.prompt{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:.78rem 1rem;font-size:clamp(.96rem,1.18vw,1.2rem);line-height:1.4;margin-top:.65rem}
+.source{font-size:clamp(.68rem,.76vw,.8rem);line-height:1.3;color:var(--muted);margin-top:.45rem}.slide--dark .source{color:#d3dce6}
+.foot{position:absolute;left:0;right:9rem;bottom:0;display:flex;align-items:center;justify-content:flex-start;gap:1.7rem;padding:.65rem clamp(1.45rem,4.3vw,4.25rem);font-size:.71rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.slide--dark .foot{color:#c9d3de}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:.26rem .62rem;font-size:.78rem;font-weight:800;background:#fff;border:1px solid var(--line);color:var(--navy)}
+.timer{font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);line-height:1;color:var(--navy);text-align:center;margin:.55rem 0 .45rem;font-variant-numeric:tabular-nums}.slide--dark .timer{color:#fff}.tbtns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap}.tbtns button{border-radius:999px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;padding:.43rem .95rem;cursor:pointer}.tbtns button.primary{background:var(--navy);color:#fff}.slide--dark .tbtns button{border-color:#fff;background:transparent;color:#fff}.slide--dark .tbtns button.primary{background:#fff;color:var(--navy)}
+.timer--small{font-size:clamp(2rem,3.4vw,3.4rem);margin:.2rem 0}
+.reveal{margin-top:.55rem;background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:.38rem .9rem;font-weight:750;font-size:.88rem;cursor:pointer}
+.reveal.on{background:var(--blue);color:#fff}
+
+/* running order */
+.runorder{display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.2rem;flex:1;align-content:center}
+.ro{display:grid;grid-template-columns:4.2rem 1fr auto;gap:.6rem;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:.5rem .75rem;font-size:clamp(.82rem,1vw,1.02rem)}
+.ro b{color:var(--gold);font-variant-numeric:tabular-nums}.ro em{font-style:normal;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#c9d3de}
+.ro.do{background:rgba(212,168,67,.16);border-color:rgba(212,168,67,.4)}
+
+/* retrieval */
+.retrieval{display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem;flex:1;align-content:center}
+.qs{display:grid;gap:.6rem}.q{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem;font-family:var(--serif);font-size:clamp(1.05rem,1.5vw,1.5rem);color:var(--navy);line-height:1.25}
+.q small{display:block;font-family:var(--sans);font-size:.8rem;color:var(--muted);margin-top:.3rem}
+
+/* the hinge */
+.hinge{display:grid;grid-template-columns:1fr 1.25fr;gap:1.2rem;flex:1;min-height:0;align-items:center}
+.hinge .qs .q{cursor:default;transition:transform .35s,opacity .35s}
+.hinge .q[data-goes]{border-color:var(--teal)}
+.hinge .q .goes{display:none;font-family:var(--sans);font-size:.82rem;font-weight:800;color:var(--teal);margin-top:.35rem;letter-spacing:.05em;text-transform:uppercase}
+.hinge.placed .q .goes{display:block}
+
+/* house svg */
+.housewrap{display:grid;grid-template-columns:1.15fr .85fr;gap:1.1rem;flex:1;min-height:0;align-items:center}
+.house{width:100%;height:auto;max-height:62vh;display:block}
+.house .comp{cursor:pointer;transition:opacity .25s,filter .25s}
+.house .comp .shape{stroke:#fff;stroke-width:3;transition:fill .25s,stroke .25s,stroke-dasharray .25s}
+.house .comp text{font-family:var(--sans);font-weight:800;fill:#fff;pointer-events:none;text-anchor:middle}
+.house .comp .lab{font-size:15px}.house .comp .sub{font-size:11px;font-weight:600;opacity:.9}
+.house .comp:hover .shape{filter:brightness(1.08)}
+.house .comp.selected .shape{stroke:var(--gold);stroke-width:6}
+.house .comp.removed{opacity:.28}.house .comp.removed .shape{stroke-dasharray:8 6;stroke:var(--coral);fill:#d9d3cb!important}
+.house .comp.weak .shape{fill:#c98a76!important;stroke-dasharray:6 5;stroke:var(--coral)}
+.house .comp.fixed .shape{fill:var(--green)!important;stroke:#fff;stroke-dasharray:none}
+.house .crack{stroke:var(--coral);stroke-width:3;fill:none;stroke-linecap:round;opacity:0;transition:opacity .3s}
+.house.mode-remove .removed ~ .crack,.house .showcrack{opacity:1}
+.panel{background:#fff;border:2px solid var(--line);border-radius:18px;padding:1.05rem 1.15rem;min-height:0;display:flex;flex-direction:column;gap:.45rem;box-shadow:0 4px 18px rgba(10,30,61,.055)}
+.panel .eyebrow{margin-bottom:.15rem}
+.panel h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.9vw,1.9rem);line-height:1.15}
+.panel p{font-size:clamp(.9rem,1.08vw,1.08rem);line-height:1.4;color:var(--muted)}
+.panel .ric{background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.55rem .75rem}
+.panel .link{background:var(--teal-soft);border-left:5px solid var(--teal);border-radius:8px;padding:.55rem .75rem}
+.panel .fail{background:var(--coral-soft);border-left:5px solid var(--coral);border-radius:8px;padding:.55rem .75rem}
+.panel .fix{background:var(--green-soft);border-left:5px solid var(--green);border-radius:8px;padding:.55rem .75rem}
+.panel .hint{font-size:.82rem;color:var(--muted);margin-top:auto}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+.chip{border-radius:999px;border:1px solid var(--line);background:#fff;padding:.3rem .7rem;font-size:.8rem;font-weight:750;color:var(--navy);cursor:pointer}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* claims */
+.claims{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.claim{background:#fff;border:2px solid var(--line);border-radius:18px;padding:1.1rem;cursor:pointer;min-height:16rem;display:flex;flex-direction:column;transition:border-color .2s}
+.claim .num{font-family:var(--serif);font-size:clamp(2.4rem,4vw,4rem);line-height:1;color:var(--navy)}
+.claim .what{font-size:clamp(.95rem,1.15vw,1.15rem);color:var(--muted);margin-top:.35rem}
+.claim .n{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.claim .ask{display:none;margin-top:.7rem;border-top:1px dashed var(--line);padding-top:.6rem}
+.claim .ask li{font-size:clamp(.85rem,1vw,1rem);line-height:1.35;color:var(--navy);margin:.28rem 0 .28rem 1rem}
+.claim.open{border-color:var(--coral)}.claim.open .ask{display:block}
+.claim .tap{margin-top:auto;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:800}
+
+/* readability lab */
+.lab{display:grid;grid-template-columns:1.2fr .8fr;gap:1.1rem;flex:1;min-height:0}
+.lab textarea{width:100%;height:100%;min-height:11rem;resize:none;border:2px solid var(--navy);border-radius:14px;padding:.9rem 1rem;font-size:clamp(1rem,1.3vw,1.3rem);line-height:1.5;color:var(--ink);background:#fff}
+.labcol{display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.stat{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.55rem .7rem}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(1.5rem,2.3vw,2.3rem);line-height:1;color:var(--navy)}
+.stat span{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat.ok{border-color:var(--green)}.stat.warn{border-color:var(--coral)}
+.preview{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.7rem .85rem;font-size:clamp(.9rem,1.05vw,1.05rem);line-height:1.5;overflow:auto;flex:1;min-height:5rem;color:var(--muted)}
+.preview mark{background:var(--coral-soft);color:var(--coral);border-bottom:2px solid var(--coral);padding:0 .15em;border-radius:3px}
+.preview .long{background:var(--gold-soft);border-radius:4px}
+.legend{font-size:.78rem;color:var(--muted)}
+
+/* module map */
+.units{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem;flex:1;align-content:center}
+.unit{background:#fff;border:2px solid var(--line);border-radius:13px;padding:.65rem .7rem;min-width:0}
+.unit b{display:block;color:var(--navy);font-size:clamp(.82rem,.98vw,.98rem);line-height:1.25}
+.unit small{display:block;color:var(--muted);font-size:.72rem;margin-top:.3rem}
+.unit.today{border-color:var(--gold);background:var(--gold-soft)}
+.unit.campus{border-left:6px solid var(--blue)}
+.unit.assess{background:var(--navy);color:#fff;border-color:var(--navy)}.unit.assess b,.unit.assess small{color:#fff}
+
+/* maria */
+.fixlist{display:grid;gap:.45rem}
+.fixbtn{text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:.55rem .75rem;cursor:pointer;color:var(--navy);font-weight:700;font-size:clamp(.85rem,1vw,1rem)}
+.fixbtn.done{border-color:var(--green);background:var(--green-soft)}
+.fixbtn small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:.15rem}
+
+/* controls */
+.nav{position:fixed;right:1rem;bottom:.72rem;display:flex;gap:.45rem;align-items:center;z-index:20}.nav button{width:2.45rem;height:2.45rem;border-radius:50%;border:none;background:var(--navy);color:#fff;font-size:1.08rem;cursor:pointer}.nav button:disabled{opacity:.3}.nav span{font-size:.82rem;color:var(--muted);min-width:4.3rem;text-align:center}.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--gold);width:0;z-index:25;transition:width .18s}
+.menu-toggle{position:fixed;right:1rem;top:.75rem;width:2.45rem;height:2.45rem;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.93);color:var(--navy);font-size:1.15rem;font-weight:800;cursor:pointer;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tools{position:fixed;right:4rem;top:.78rem;display:none;gap:.4rem;z-index:29;flex-wrap:wrap;justify-content:flex-end}.tools.open{display:flex}.tools button{border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.96);padding:.32rem .72rem;font-size:.76rem;cursor:pointer;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sr{position:absolute;left:-9999px}.speaker-note{display:none}
+.notes-panel{position:fixed;left:1rem;bottom:3.6rem;width:min(43rem,80vw);max-height:44vh;overflow:auto;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:1rem 1.1rem;z-index:80;box-shadow:0 15px 50px rgba(0,0,0,.22);display:none}.notes-panel.open{display:block}.notes-panel h3{margin-bottom:.45rem}.notes-panel p,.notes-panel li{font-size:.9rem;line-height:1.42;color:var(--muted)}.notes-panel ul{padding-left:1.1rem}
+.overlay{position:fixed;inset:0;background:rgba(5,16,31,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:2rem}.overlay.open{display:flex}.modal{width:min(92vw,68rem);max-height:86vh;overflow:auto;background:var(--paper);border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 24px 80px rgba(0,0,0,.35)}.modal h2{font-size:2rem}.modal .close{float:right;border:none;background:var(--navy);color:#fff;border-radius:999px;padding:.42rem .8rem;cursor:pointer}.modal ol,.modal ul{padding-left:1.4rem}.modal li{margin:.5rem 0;line-height:1.45}.modal p{line-height:1.45;margin:.5rem 0}.modal a{overflow-wrap:anywhere}.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}.slide-list button{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55rem .7rem;cursor:pointer;color:var(--navy)}.slide-list button:hover{background:var(--blue-soft)}
+.verify{display:inline-block;background:var(--coral-soft);color:var(--coral);border:1px solid var(--coral);border-radius:999px;padding:.1rem .5rem;font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-left:.3rem}
+
+/* ---- morning specific ---- */
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;flex:1;align-content:center}
+.statc{background:#fff;border:2px solid var(--line);border-radius:16px;padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.statc .big{font-family:var(--serif);font-size:clamp(2.2rem,3.9vw,4rem);line-height:1;color:var(--navy)}
+.statc .what{font-size:clamp(.9rem,1.08vw,1.1rem);line-height:1.35;color:var(--ink)}
+.statc .src{font-size:.72rem;color:var(--muted);margin-top:auto;padding-top:.4rem}
+.statc.hot{border-color:var(--coral);background:var(--coral-soft)}.statc.hot .big{color:var(--coral)}
+.statc.gold{border-color:var(--gold);background:var(--gold-soft)}
+.quote{background:#fff;border-left:6px solid var(--teal);border-radius:12px;padding:1rem 1.2rem;font-family:var(--serif);font-size:clamp(1.15rem,1.7vw,1.7rem);line-height:1.3;color:var(--navy)}
+.quote small{display:block;font-family:var(--sans);font-size:.8rem;color:var(--muted);margin-top:.45rem}
+@media(max-width:820px){.stats4{grid-template-columns:1fr 1fr}}
+.progression{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch;flex:1;align-content:center}.progbox{border:2px solid var(--line);border-radius:18px;padding:1.2rem;background:#fff}.progbox h3{font-family:var(--serif);font-size:clamp(1.45rem,2vw,2rem);font-weight:400;margin-bottom:.55rem}.progbox p{font-size:clamp(.95rem,1.17vw,1.17rem);line-height:1.42;color:var(--muted)}.arrowbig{display:flex;align-items:center;justify-content:center;font-size:clamp(2.4rem,4vw,4rem);color:var(--gold)}
+.assess{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}.assess .weight{font-family:var(--serif);font-size:clamp(3rem,5.2vw,5.4rem);line-height:1;color:var(--navy)}
+.daymap{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}.half{border-radius:20px;padding:1.3rem;border:2px solid var(--line);background:#fff}.half h3{font-family:var(--serif);font-size:clamp(1.55rem,2.2vw,2.2rem);font-weight:400;margin-bottom:.55rem}.half p{font-size:clamp(.95rem,1.16vw,1.16rem);line-height:1.4;color:var(--muted)}
+.wall{display:flex;flex-wrap:wrap;gap:.45rem;align-content:flex-start;min-height:6rem;background:#fff;border:2px dashed var(--line);border-radius:14px;padding:.7rem}
+.wall .w{background:var(--gold-soft);border:1px solid var(--gold);color:var(--navy);border-radius:999px;padding:.35rem .8rem;font-weight:750;font-size:clamp(.9rem,1.1vw,1.1rem);cursor:pointer}
+.wall .w.person{background:var(--green-soft);border-color:var(--green)}.wall .w.system{background:var(--blue-soft);border-color:var(--blue)}
+.wallin{display:flex;gap:.5rem;margin:.6rem 0}.wallin input{flex:1;border:2px solid var(--navy);border-radius:999px;padding:.5rem .9rem;font-size:1rem}.wallin button{border-radius:999px;border:none;background:var(--navy);color:#fff;font-weight:700;padding:.5rem 1rem;cursor:pointer}
+.richard{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:.8rem;align-items:center;flex:1;min-height:0}.richard .centre{border:3px solid var(--gold);background:var(--gold-soft);border-radius:50%;width:min(28vw,15rem);aspect-ratio:1;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1rem}.richard .centre strong{font-family:var(--serif);font-size:clamp(1.55rem,2.5vw,2.55rem);color:var(--navy)}.richard .centre span{font-size:clamp(.82rem,1vw,1rem);color:var(--muted);margin-top:.3rem}.needstack{display:grid;gap:.5rem}.need{padding:.62rem .75rem;border-radius:11px;background:#fff;border:2px solid var(--line);font-size:clamp(.87rem,1.04vw,1.04rem);font-weight:750;color:var(--navy)}
+.frag{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;flex:1;align-items:center;min-height:0}.frag .need{cursor:pointer;transition:transform .15s}.frag .need.on{border-color:var(--coral);background:var(--coral-soft);transform:translateX(.3rem)}
+.route{padding:.62rem .75rem;border-radius:11px;background:#fff;border:2px solid var(--line);font-size:clamp(.87rem,1.04vw,1.04rem);color:var(--muted);transition:all .2s}.route b{color:var(--navy);display:block}.route.lit{border-color:var(--coral);background:var(--coral-soft);color:var(--navy)}.route small{display:block;font-size:.78rem;margin-top:.15rem}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1;align-content:center}.pane{border-radius:18px;padding:1.25rem;border:2px solid var(--line);background:#fff}.pane h3{font-family:var(--serif);font-size:clamp(1.35rem,2vw,2rem);font-weight:400;margin-bottom:.6rem}.pane p{font-size:clamp(.95rem,1.17vw,1.17rem);line-height:1.44;color:var(--muted)}
+.means{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin:.4rem 0 .8rem}.arr{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.9rem;cursor:pointer;min-height:7.5rem;position:relative;overflow:hidden}.arr h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.1rem,1.5vw,1.5rem)}.arr p{color:var(--muted);font-size:.9rem;margin-top:.3rem}.arr .stamp{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(10,30,61,.92);color:#fff;font-family:var(--serif);font-size:clamp(1rem,1.3vw,1.3rem);text-align:center;padding:.8rem;opacity:0;transition:opacity .25s}.arr.on .stamp{opacity:1}
+.continuity{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}.cont{background:#fff;border:2px solid var(--teal);border-radius:18px;padding:1.2rem;display:flex;flex-direction:column}.cont .q{font-family:var(--serif);font-size:clamp(1.35rem,1.9vw,1.9rem);line-height:1.15;color:var(--navy);margin-bottom:.55rem}.cont .term{margin-top:auto;padding-top:.7rem;color:var(--teal);font-weight:800;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase}.cont p{font-size:clamp(.88rem,1.03vw,1.04rem);line-height:1.35;color:var(--muted)}
+.chain5{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;flex:1;align-content:center}.chain5 .node{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem;text-align:center;min-width:0;position:relative;cursor:pointer;transition:all .2s}.chain5 .node b{display:block;color:var(--navy);font-size:clamp(.9rem,1.05vw,1.05rem)}.chain5 .node small{display:block;margin-top:.2rem;color:var(--muted);font-size:.75rem}.chain5 .node:not(:last-child)::after{content:'→';position:absolute;right:-1.05rem;top:50%;transform:translateY(-50%);color:var(--gold);font-size:1.45rem;font-weight:800;z-index:2}.chain5 .node.flag{border-color:var(--green);background:var(--green-soft)}.chain5 .node.flag::before{content:'earlier help here';position:absolute;top:-.9rem;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:.15rem .5rem;border-radius:999px;white-space:nowrap}.chain5 .node:last-child{background:var(--navy);border-color:var(--navy)}.chain5 .node:last-child b{color:#fff}.chain5 .node:last-child small{color:#c9d3de}
+.scotarch{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;flex:1;align-content:center}.parent{background:#fff;border:2px solid var(--blue);border-radius:14px;padding:.9rem 1rem;text-align:center}.parent b{font-family:var(--serif);font-size:clamp(1.2rem,1.7vw,1.65rem);font-weight:400;color:var(--navy);display:block}.parent small{color:var(--muted)}.merge{grid-column:1/-1;display:grid;justify-items:center;gap:.35rem}.v{font-size:1.5rem;color:var(--gold)}.box{width:min(78%,50rem);background:var(--gold-soft);border:2px solid var(--gold);border-radius:14px;padding:.76rem 1rem;text-align:center;color:var(--navy);transition:opacity .4s,transform .4s}.box b{font-family:var(--serif);font-size:clamp(1.1rem,1.55vw,1.5rem);font-weight:400;display:block}.box small{font-size:.78rem;color:var(--muted)}.box.person{background:var(--green-soft);border-color:var(--green)}.scotarch.unconnected .merge .box,.scotarch.unconnected .merge .v{opacity:0;transform:translateY(-.4rem)}
+.successgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;margin-top:.6rem}.outcome4{background:#fff;border:2px solid var(--green);border-radius:14px;padding:.75rem .8rem;color:var(--navy);font-size:clamp(.84rem,1vw,1rem);line-height:1.3}.outcome4 b{display:block;margin-bottom:.2rem}
+.bridge{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;flex:1}.bridge .side{background:#fff;border:2px solid var(--line);border-radius:17px;padding:1.05rem}.bridge .side h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.35rem,1.9vw,1.9rem);margin-bottom:.5rem}.bridge .side p,.bridge .side li{color:var(--muted);font-size:clamp(.88rem,1.03vw,1.04rem);line-height:1.36}.bridge .side ul{padding-left:1.1rem}.bridge .mid{display:flex;flex-direction:column;align-items:center;gap:.25rem;color:var(--gold);font-weight:800}.bridge .mid span:first-child{font-size:2.2rem}
+.evidence{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}.evidence .col{border-radius:18px;padding:1.15rem;border:2px solid var(--line);background:#fff}.evidence .col h3{font-family:var(--serif);font-size:clamp(1.4rem,2vw,2rem);font-weight:400;margin-bottom:.6rem}.evidence .col ul{padding-left:1.1rem}.evidence .col li{font-size:clamp(.92rem,1.1vw,1.1rem);line-height:1.42;margin:.34rem 0;color:var(--muted)}.evidence .col.person{border-color:var(--green)}.evidence .col.system{border-color:var(--blue)}
+.eval3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}.eval3 .reason{border-radius:18px;padding:1.15rem;background:#fff;border:2px solid var(--line)}.eval3 .reason strong{font-family:var(--serif);font-size:clamp(1.45rem,2vw,2rem);font-weight:400;color:var(--navy);display:block;margin-bottom:.55rem}.eval3 .reason p{font-size:clamp(.9rem,1.06vw,1.07rem);line-height:1.42;color:var(--muted)}
+.marking{display:grid;gap:.55rem;flex:1;align-content:center}.markrow{display:grid;grid-template-columns:17rem 1fr 3.2rem;gap:.7rem;align-items:center}.markrow .name{font-size:clamp(.82rem,1vw,1rem);font-weight:750;color:var(--navy)}.track{height:1.25rem;border-radius:999px;background:var(--grey-soft);overflow:hidden}.fill{height:100%;border-radius:999px;background:var(--blue)}.fill.top{background:var(--gold)}.markrow .mark{text-align:right;font-weight:850;color:var(--navy)}
+.objectives{display:flex;gap:.55rem;flex-wrap:wrap;margin-top:.85rem}.objective{background:#fff;border:1px solid var(--line);border-radius:999px;padding:.38rem .72rem;font-size:.82rem;font-weight:800;color:var(--navy)}
+@media(max-width:820px){.progression,.bridge,.assess,.daymap,.evidence,.frag,.dual{grid-template-columns:1fr}.arrowbig{transform:rotate(90deg)}.scotarch{grid-template-columns:1fr}.parent,.merge{grid-column:1/-1}.markrow{grid-template-columns:10rem 1fr 2.8rem}.means,.successgrid{grid-template-columns:1fr 1fr}.richard{grid-template-columns:1fr}.richard .centre{width:min(44vw,12rem)}.continuity,.eval3{grid-template-columns:1fr 1fr}}
+
+@media(max-width:820px){.g4,.g3,.claims,.units{grid-template-columns:1fr 1fr}.housewrap,.hinge,.retrieval,.lab,.runorder{grid-template-columns:1fr}.house{max-height:40vh}.tools button:nth-child(n+5){display:none}}
+@media(max-height:720px){.slide{padding-top:1rem;padding-bottom:3.8rem}h1{font-size:clamp(2.2rem,4vw,3.8rem)}h2{font-size:clamp(1.7rem,2.8vw,2.7rem)}.card{padding:.65rem .8rem}.lede{margin-bottom:.65rem}.foot{padding-bottom:.5rem}.timer{font-size:4.2rem}.house{max-height:52vh}}
+@media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex;opacity:1;page-break-after:always;width:13.333in;height:7.5in}.nav,.menu-toggle,.tools,.progress,.notes-panel,.overlay{display:none!important}.speaker-note{display:none!important}}
+@page{size:13.333in 7.5in;margin:0}
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuBtn" aria-label="Open presentation tools" aria-expanded="false">⋯</button>
+<div class="tools" id="tools"><button id="slidesBtn">Slides</button><button id="notesBtn">Notes</button><button id="sourcesBtn">Sources</button><button id="glossBtn">Glossary</button><button id="helpBtn">Help</button><button id="fsBtn">Full screen</button><button id="printBtn">Print</button></div>
+<div class="sr" aria-live="polite" id="ann"></div>
+<main class="deck">
+
+<section class="slide slide--dark" id="s1" tabindex="-1" aria-label="Welcome to Next Steps">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Module induction</span></div>
+  <div class="eyebrow">Next Steps: Collaborative Health and Social Care · Level 8</div>
+  <h1>Welcome to Next Steps</h1>
+  <p class="lede" style="margin-top:1rem">Today begins with the module induction, then Unit 1: <b>What is integrated care?</b> After lunch, Unit 2: <b>The House of Care.</b></p>
+  <div class="band"><b>Module coordinator:</b> Fiona Millar · <b>Today:</b> Awais Mashkoor is covering both sessions.</div>
+  <aside class="speaker-note"><p>Introduce yourself once, plainly. Say Fiona is unwell and you are covering today; do not over-explain. Nothing about the module changes. Induction first, teaching second — but keep the induction moving; the day is long.</p></aside>
+</section>
+
+
+<section class="slide slide--gold" id="s1b" tabindex="-1" aria-label="Check-in: where are we starting from?">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Check-in · 2 minutes</span></div>
+  <div class="eyebrow">Hands up · nothing to prepare</div>
+  <h2>Different starting points are the normal thing here</h2>
+  <div class="grid g4" style="flex:none;margin-bottom:.9rem">
+    <div class="card"><h3>Came through First Steps</h3><p>Some of the landscape will feel familiar. Good — you'll help the room.</p></div>
+    <div class="card"><h3>Came from college or another route</h3><p>You have not missed anything you cannot pick up in the next ten minutes.</p></div>
+    <div class="card"><h3>Worked in health or care</h3><p>You will recognise the boundaries from the inside. We want that experience in the room.</p></div>
+    <div class="card"><h3>Trained or lived outside the UK</h3><p>The Scottish set-up has its own names and rules. We map them before we use them.</p></div>
+  </div>
+  <div class="band">Press <b>G</b> at any point today for the glossary — every role and term in Richard's story, in one line each. <b>Nobody is expected to already know the words.</b></div>
+  <aside class="speaker-note"><p>Two minutes, four quick shows of hands. This is calibration for you — how much to lean on the who-does-what map that follows — and a signal to students that mixed starting points are expected, not a problem. Say the glossary line out loud; it lowers the cost of asking. If a large part of the room is new to the Scottish system, slow the next slide down to five minutes.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s2" tabindex="-1" aria-label="What Next Steps is about">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Where the module sits</span></div>
+  <div class="eyebrow">What changes at Level 8?</div>
+  <h2>From knowing the landscape to understanding how it joins up</h2>
+  <div class="progression">
+    <div class="progbox"><span class="tag">Foundation</span><h3>Services and the landscape</h3><p>Who provides health and social care, the sectors involved, how services developed and how local provision is organised.</p></div>
+    <div class="arrowbig">→</div>
+    <div class="progbox" style="border-color:var(--green);background:var(--green-soft)"><span class="tag" style="background:var(--green)">Next Steps</span><h3>How the pieces work together</h3><p>How people, professionals, services, organisations and communities coordinate around needs that cross boundaries.</p></div>
+  </div>
+  <div class="band">Different entry routes are normal. <b>We build the common foundation together.</b></div>
+  <aside class="speaker-note"><p>Do not say "as you learned in First Steps". Some students articulate from college or other routes. Say: if you came through First Steps, some of the landscape will be familiar; if not, that is fine. The intellectual progression is the point.</p></aside>
+</section>
+
+
+<section class="slide" id="s2b" tabindex="-1" aria-label="Who does what in Scotland">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Common ground · 3 minutes</span></div>
+  <div class="eyebrow">The terrain — the 90-second map everyone needs</div>
+  <h2>Who does what in Scotland</h2>
+  <div class="grid g4" style="flex:1">
+    <div class="card card--blue"><span class="tag">Health</span><h3>The NHS</h3><p>Organised into <b>health boards</b> for each area. GPs, hospitals, community nursing, mental health teams.</p><p style="margin-top:.4rem"><b>Free at the point of use.</b></p></div>
+    <div class="card card--purple"><span class="tag" style="background:var(--purple)">Social care &amp; housing</span><h3>The council</h3><p>Your <b>local authority</b>. Social work, help at home, care homes, housing, money and benefits advice.</p><p style="margin-top:.4rem"><b>Assessed, and can be charged for.</b></p></div>
+    <div class="card card--green"><span class="tag" style="background:var(--green)">Community</span><h3>The third sector</h3><p>Charities, voluntary and community organisations. Advice, advocacy, peer support, activities. Not government, not business.</p></div>
+    <div class="card card--gold"><span class="tag" style="background:var(--gold);color:var(--navy)">Home</span><h3>Family and unpaid carers</h3><p>The people who do most of the caring — and who have needs and rights of their own.</p></div>
+  </div>
+  <div class="band">Two public organisations, two budgets, two sets of rules — <b>and one person who needs all four boxes at once.</b></div>
+  <aside class="speaker-note"><p>This is the First Steps content in its smallest useful form, and it is not a detour: Richard's needs will scatter across these four boxes in ten minutes, and the Scotland slide after the break is built from the same two public boxes. Teach it as "this is the terrain", never as "for those who don't know". Three minutes; five if the check-in showed a lot of new-to-Scotland students. Make the money point once: the NHS is free at the point of use, social care is assessed and can be means-tested — that single difference explains a lot of the friction later.</p></aside>
+</section>
+
+<section class="slide" id="s3" tabindex="-1" aria-label="Module learning outcomes">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Module learning outcomes</span></div>
+  <div class="eyebrow">The destination for the whole module</div>
+  <h2>Three learning outcomes</h2>
+  <div class="grid g3">
+    <div class="card"><span class="lo">L1</span><h3>Understand effective integrated provision</h3><p>Including preventative and anticipatory care that improves health and wellbeing for individuals, families and communities.</p></div>
+    <div class="card"><span class="lo">L2</span><h3>Critically evaluate the concept and value base</h3><p>Ask whether integrated, person-centred care actually reflects what matters to people — not just whether structures exist.</p></div>
+    <div class="card"><span class="lo">L3</span><h3>Know the key elements of collaborative care</h3><p>Recognise what needs to be in place for effective collaborative, person-centred health and social care.</p></div>
+  </div>
+  <p class="source">Student-friendly wording. Full formal wording is in the module handbook.</p>
+  <aside class="speaker-note"><p>High level only. The three verbs matter: understand, critically evaluate, know. Unit 1 is a foundation for all three; the afternoon is mostly L3.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s4" tabindex="-1" aria-label="How the module works">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>How the module works</span></div>
+  <div class="eyebrow">Practicalities</div>
+  <h2>How to keep on track</h2>
+  <div class="grid g4" style="flex:none;margin-bottom:.8rem">
+    <div class="card"><h3>Campus</h3><p>A full teaching day every fortnight: explanation, application, discussion, assessment preparation.</p></div>
+    <div class="card"><h3>Between</h3><p>Online learning units and independent study. Part of the module, not optional extras.</p></div>
+    <div class="card"><h3>Brightspace</h3><p>One site for all three campuses. Handbook, timetable, units and confirmed assessment information live there.</p></div>
+    <div class="card"><h3>Contact</h3><p>Check UWS email and Brightspace regularly. Ask early when something is unclear.</p></div>
+  </div>
+  <div class="band">Engagement is monitored — campus scanners and the class register. <b>If circumstances are affecting attendance, contact a tutor rather than disappearing.</b></div>
+  <aside class="speaker-note"><p>Keep logistics concise; do not read procedures aloud. Tell international students visa attendance obligations also apply and the detail is in the handbook. Confirm the fortnightly pattern against the 2026–27 timetable before you say it.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s5" tabindex="-1" aria-label="Assessment journey">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Assessment journey</span></div>
+  <div class="eyebrow">Two components</div>
+  <h2>What you will produce</h2>
+  <div class="assess">
+    <div class="card"><div class="weight">30%</div><h3>Patient / family information leaflet</h3><p>One-page A4 leaflet explaining integrated care, person-centred care and the House of Care, in accessible language for people using services and their families.</p><p><b>Today:</b> the morning gives you integrated care; the afternoon gives you the House.</p></div>
+    <div class="card"><div class="weight">70%</div><h3>2,100-word case report</h3><p>Richard's case, examined through person-centred values, anticipatory planning, interdisciplinary working and non-statutory support.</p><p><b>Today:</b> you meet Richard, and by 16:30 you will have mapped his care and rebuilt it.</p></div>
+  </div>
+  <div class="band">Deadlines and submission details are <b>confirmed on Brightspace</b> — not from memory, and not today.</div>
+  <aside class="speaker-note"><p>Orientation only. Do not brief the marking criteria yet; that comes at 12:15 when they understand what integrated care means. Do not announce a deadline unless the 2026–27 handbook confirms it.</p></aside>
+</section>
+
+<section class="slide" id="s6" tabindex="-1" aria-label="Today">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Today</span></div>
+  <div class="eyebrow">One day · two connected units</div>
+  <h2>Morning = the problem. Afternoon = the response.</h2>
+  <div class="daymap">
+    <div class="half"><span class="tag">Morning · Unit 1</span><h3>What is integrated care?</h3><p>Why care fragments, what integration means from the person's side, how Scotland tries to organise it, and what the evidence can — and cannot — tell us.</p></div>
+    <div class="half" style="border-color:var(--green);background:var(--green-soft)"><span class="tag" style="background:var(--green)">Afternoon · Unit 2</span><h3>The House of Care</h3><p>A practical framework for bringing person, professionals, systems and community together — built on this morning's work, and the framework your leaflet is built on.</p></div>
+  </div>
+  <div class="objectives"><span class="objective">Explain integration</span><span class="objective">Apply it to Richard</span><span class="objective">Describe Scotland's approach</span><span class="objective">Judge benefits and limits</span></div>
+  <aside class="speaker-note"><p>Last induction slide. Make the bridge explicit: the morning establishes why integration is needed and why it is difficult; the afternoon gives a practical response. The four chips are the morning objectives — you check them off at 12:25.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s7" tabindex="-1" aria-label="The question this module asks">
+  <div class="foot"><span>Unit 1 · What is integrated care?</span><span>Start with the person</span></div>
+  <div class="eyebrow">The question this module asks</div>
+  <p class="bigline">A person's life does not come divided into NHS, council, housing, family and third sector.<br><br>Services often do.</p>
+  <p class="lede" style="margin-top:1.4rem">So how do we make support feel coherent around one person's life?</p>
+  <aside class="speaker-note"><p>Let the line breathe. Do not rush into policy or definitions. Everything in Unit 1 unpacks this one mismatch: people's lives cross boundaries that organisations still have to manage. You return to this sentence at the close.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s8" tabindex="-1" aria-label="Opener: integrated care means">
+  <div class="foot"><span>Unit 1</span><span>Opener · 12 minutes</span></div>
+  <div class="eyebrow">Whole room · 5 minutes writing, then discussion</div>
+  <h2>Integrated care means…</h2>
+  <div class="grid g2" style="flex:1;align-items:start">
+    <div>
+      <p class="lede">One word or short phrase. Post-it, board or Mentimeter. There is no "correct" word yet.</p>
+      <div class="timer timer--small" data-secs="300">05:00</div>
+      <div class="tbtns"><button class="primary" data-act="start">Start 5 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+      <div class="prompt">Then ask: <b>Integrated for whom?</b> Can organisations be integrated while the person still experiences fragmented care?</div>
+    </div>
+    <div>
+      <h3>The wall — type what the room says</h3>
+      <div class="wallin"><input id="wallInput" placeholder="e.g. working together" aria-label="Add a word to the wall"><button id="wallAdd">Add</button></div>
+      <div class="wall" id="wall"><i style="color:var(--muted);font-weight:400">Words appear here. They come back at the close.</i></div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Five minutes writing, then guide about ten minutes of discussion. As students call out words, type them into the wall — the same words reappear on the closing slide, which is far stronger than a photograph. Cluster aloud without correcting. The two questions work whatever is written; do not rely on the room forgetting the person. The opener creates the problem; it is not the main teaching.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s9" tabindex="-1" aria-label="Meet Richard">
+  <div class="foot"><span>Unit 1</span><span>Meet Richard · 3 minutes</span></div>
+  <div class="eyebrow">The human anchor for the morning</div>
+  <h2>Meet Richard — before we meet the system</h2>
+  <div class="richard">
+    <div class="needstack"><div class="need">His mental health<br><small style="font-weight:500;color:var(--muted)">A long-term mental illness (schizophrenia). In and out of hospital a lot.</small></div><div class="need">His diabetes<br><small style="font-weight:500;color:var(--muted)">Just diagnosed. New tablets, new diet.</small></div></div>
+    <div class="centre"><strong>Richard</strong><span>"I want to live at home."</span></div>
+    <div class="needstack"><div class="need">His home<br><small style="font-weight:500;color:var(--muted)">Behind on the rent. Damp and cold.</small></div><div class="need">His daughter<br><small style="font-weight:500;color:var(--muted)">Helping him — and finding it hard.</small></div></div>
+  </div>
+  <p class="source" style="margin:.3rem 0 .5rem"><b>Long-term condition:</b> a health problem that can be managed but not cured, that someone lives with for years. Both of Richard's are examples. Press <b>G</b> for any other word.</p>
+  <div class="band">Three problems. One wish. One helper. <b>And no single service looks after the whole of him.</b></div>
+  <aside class="speaker-note"><p>Three problems, one wish, one helper — do not explain the illness, the word relapse or the ward; the glossary has them for anyone who asks. One sentence on how the two conditions connect: when his mental health is bad, he stops looking after his diabetes. Define long-term condition out loud. Point at the boxes from the who-does-what map: mental health and diabetes are NHS; his home is the council; his daughter is box four. A short introduction, not the full case. Richard's expressed outcome sits in the middle before his diagnoses — that is deliberate and you point it out. Everything in the next forty minutes now has somewhere concrete to land.</p></aside>
+</section>
+
+
+<section class="slide" id="s11b" tabindex="-1" aria-label="Richard is one of millions">
+  <div class="foot"><span>Unit 1</span><span>Scale · 4 minutes</span></div>
+  <div class="eyebrow">He is not unusual</div>
+  <h2>Richard is one of millions</h2>
+  <div class="stats4">
+    <div class="statc"><div class="big">1 in 2</div><div class="what">adults in Scotland now has at least one long-term condition — the highest ever recorded. Two in five say it limits their daily life.</div><div class="src">Scottish Health Survey 2024</div></div>
+    <div class="statc"><div class="big">15m+</div><div class="what">people in England live with at least one. People with long-term conditions take up 7 out of every 10 pounds spent on health and care.</div><div class="src">Department of Health, England</div></div>
+    <div class="statc gold"><div class="big">Under 65</div><div class="what">In Scotland, <b>more</b> people under 65 have two or more conditions than people over 65. This is not just an old-age problem.</div><div class="src">Barnett et al., Lancet 2012 — 1.75 million Scottish patients</div></div>
+    <div class="statc hot"><div class="big">10–15 yrs</div><div class="what">earlier — that's when multiple conditions start in Scotland's poorest areas compared with the richest. And people with schizophrenia die about 11 years sooner, mostly from physical illness.</div><div class="src">Barnett et al. 2012 · University of Edinburgh 2025</div></div>
+  </div>
+  <div class="band">Richard's damp house and his diabetes are not two separate stories. <b>Where you live and what you earn shape how many conditions you get, and how early.</b></div>
+  <aside class="speaker-note"><p>Four numbers, one minute each. Let the room react to "1 in 2" — half of them, statistically. The under-65 fact surprises everyone. The last card is the one to slow down on: it is Richard's whole situation in a statistic, and it is why his mental health, his diabetes and his housing cannot be treated as separate boxes. The schizophrenia figure is Scottish (Edinburgh, 2000–2019 data) — the gap has widened, and two thirds of it is physical illness like heart disease and diabetes. Say that plainly: his diabetes is not a side issue.</p></aside>
+</section>
+
+<section class="slide" id="s10" tabindex="-1" aria-label="Where fragmentation starts">
+  <div class="foot"><span>Unit 1</span><span>Fragmentation · click a need</span></div>
+  <div class="eyebrow">Build the problem from the person outwards</div>
+  <h2>One person. Three problems. Three different doors.</h2>
+  <div class="frag">
+    <div class="needstack" id="fragNeeds">
+      <div class="need" data-r="teams routes systems">His mental health<br><small style="font-weight:500;color:var(--muted)">NHS — hospital and the mental health team</small></div>
+      <div class="need" data-r="teams routes systems">His diabetes<br><small style="font-weight:500;color:var(--muted)">NHS — GP and the diabetes clinic</small></div>
+      <div class="need" data-r="teams routes resp">His home<br><small style="font-weight:500;color:var(--muted)">Council — the housing office</small></div>
+    </div>
+    <div class="arrowbig">→</div>
+    <div class="needstack" id="fragRoutes">
+      <div class="route" data-k="teams"><b>Different people</b><small>hospital team · GP · diabetes nurse · housing officer</small></div>
+      <div class="route" data-k="routes"><b>Different doors in</b><small>a referral, a form, a waiting list — for each one</small></div>
+      <div class="route" data-k="systems"><b>Different notes</b><small>the hospital's notes, the GP's notes — not the same computer</small></div>
+      <div class="route" data-k="resp"><b>Different money and different rules</b><small>NHS money or council money · whose job it is</small></div>
+    </div>
+  </div>
+  <div class="band">And who joins it all up? <b>Right now — his daughter.</b></div>
+  <aside class="speaker-note"><p>Tell the story before you touch the screen: a mental health need, diabetes, housing problems, money problems, a daughter trying to help — none of which belongs to one service. Then click each need and watch the routes light up. Keep returning to Richard. Mention eligibility and budgets while you explain, but do not make students hold six categories as concepts. Ask which boundary they have seen cause the most trouble on placement.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s11" tabindex="-1" aria-label="The Level 8 distinction">
+  <div class="foot"><span>Unit 1</span><span>The key shift</span></div>
+  <div class="eyebrow">The Level 8 distinction</div>
+  <p class="bigline">A person can receive competent care from several separate services — and still experience poor care overall.</p>
+  <p class="lede" style="margin-top:1.2rem">Even if every service does its own part well, the overall experience can fail at the joins.</p>
+  <div class="band" style="margin-top:.6rem">Good parts do not automatically add up to good care.</div>
+  <aside class="speaker-note"><p>Let this sit. The move is away from "someone did a bad job" towards a system problem: individually reasonable actions can still produce an incoherent whole. Do not claim anything about how well Richard's services perform — the point holds without it. This is the bridge into what integrated care means.</p></aside>
+</section>
+
+
+<section class="slide slide--teal" id="s11c" tabindex="-1" aria-label="Patient voice">
+  <div class="foot"><span>Unit 1</span><span>Patient voice · 3 minutes</span></div>
+  <div class="eyebrow">What it feels like from the inside</div>
+  <h2>In their own words</h2>
+  <div style="display:grid;gap:.9rem;flex:1;align-content:center">
+    <div class="quote">"Every appointment feels like starting from scratch — nobody sees the full picture."<small>A patient with several long-term conditions</small></div>
+    <div class="quote">"I just want to tell my story once, to one person."<small>National Voices — what people said good, joined-up care would feel like</small></div>
+    <div class="quote">"I want to set my own goals, not just chase lab numbers."<small>A patient with several long-term conditions</small></div>
+  </div>
+  <div class="band">Three people. None of them is complaining about a bad doctor. <b>They are describing the joins.</b></div>
+  <aside class="speaker-note"><p>Read all three aloud, slowly. Then the band: none of these is about a bad professional; every one is about the gaps between good ones. The middle quote is from the National Voices narrative — the set of "I" statements written by patients and carers that became the official definition of integrated care in England. It comes back on the next slide as the person's view. The first and third quotes are from the module's existing House of Care materials, attributed there to King's Fund case interviews.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s12" tabindex="-1" aria-label="Two perspectives">
+  <div class="foot"><span>Unit 1</span><span>Definition</span></div>
+  <div class="eyebrow">So what do we mean by integrated care?</div>
+  <h2>Two perspectives on the same ambition</h2>
+  <div class="dual">
+    <div class="pane"><span class="tag" style="background:var(--grey)">System view</span><h3>Coordinate the services</h3><p>Care is coordinated across services, settings and stages so people receive the support they need across their life — within health services and beyond them.</p><p class="source">WHO, teaching-language summary.</p></div>
+    <div class="pane" style="border-color:var(--teal);background:var(--teal-soft)"><span class="tag" style="background:var(--teal)">Person's view</span><h3>Make the experience coherent</h3><p>People work together around what matters to me, give me control, understand me and my carer, and organise support around the outcomes important to me.</p><p class="source">National Voices, conceptually paraphrased.</p></div>
+  </div>
+  <div class="band">Suppose Richard receives every referral he needs, but still repeats his story, receives conflicting advice and does not know who to contact. <b>Has his care really become integrated?</b></div>
+  <aside class="speaker-note"><p>Spend the time on the difference between the two panes. No parade of definitions, and no need to say dozens exist. The question at the bottom is hypothetical by design — we are not inventing facts about his case. Sit with it: every box ticked on the system's side, and the person's experience still fragmented.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s13" tabindex="-1" aria-label="Integration is a means, not the outcome">
+  <div class="foot"><span>Unit 1</span><span>Means ≠ outcome · click each</span></div>
+  <div class="eyebrow">The test to carry through the module</div>
+  <h2>Integration is a means — not the outcome</h2>
+  <p class="lede">None of these, on its own, proves that care improved. Click one.</p>
+  <div class="means">
+    <div class="arr"><h3>Shared building</h3><p>Services sit together.</p><div class="stamp">So… what changed for the person?</div></div>
+    <div class="arr"><h3>Pooled budget</h3><p>Money is brought together.</p><div class="stamp">So… what changed for the person?</div></div>
+    <div class="arr"><h3>Formal partnership</h3><p>Organisations create a joint arrangement.</p><div class="stamp">So… what changed for the person?</div></div>
+    <div class="arr"><h3>Joint meeting</h3><p>Professionals are in the same room.</p><div class="stamp">So… what changed for the person?</div></div>
+  </div>
+  <div class="band">The question is always: <b>what changed for the person?</b></div>
+  <aside class="speaker-note"><p>This is the difference between describing integration and evaluating it. Every structure they meet later — partnerships, teams, the House of Care itself this afternoon — faces the same question. Deliberately no mention of integration joint boards here; that term arrives after the break. A report that says an arrangement was created has described; a report that says what changed for Richard has evaluated. That is most of the gap between a C and an A.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s14" tabindex="-1" aria-label="Three continuity questions">
+  <div class="foot"><span>Unit 1</span><span>Continuity lens</span></div>
+  <div class="eyebrow">A simple way of testing it — from the person's side</div>
+  <h2>Three questions for telling them apart</h2>
+  <div class="continuity">
+    <div class="cont"><div class="q">Does the right information follow him?</div><p>What needs to travel with Richard when his care crosses hospital, local-authority and community services?</p><div class="term">Informational continuity</div></div>
+    <div class="cont"><div class="q">Does his support make sense as one plan?</div><p>Mental health, diabetes, housing and money may all be addressed — but are they addressed coherently, aware of each other?</p><div class="term">Management continuity</div></div>
+    <div class="cont"><div class="q">Where it matters, does someone know him over time?</div><p>Can knowledge of the person, and trust, persist as he moves between services — or does he start again every time?</p><div class="term">Relational continuity</div></div>
+  </div>
+  <div class="band">Continuity is not another definition of integration. <b>It is a way of testing the person's experience of it.</b> This afternoon, these three questions have a home.</div>
+  <p class="source">Haggerty JL et al. BMJ 2003;327:1219.</p>
+  <aside class="speaker-note"><p>Teach the plain questions before the labels — the experience should be "three fairly obvious questions, which happen to have names". Say explicitly: management continuity does not mean managers; it means whether the parts of someone's care make sense as one coherent approach. These three come back this afternoon as the roof, the centre and the two walls of the house — say only "these have a home this afternoon" and nothing more.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s15" tabindex="-1" aria-label="Richard's web activity">
+  <div class="foot"><span>Unit 1</span><span>Apply · groups of 3–4 · 20 minutes</span></div>
+  <div class="eyebrow">Now the full case — read it properly first</div>
+  <h2>Richard's web</h2>
+  <div class="grid g2" style="flex:1;align-items:start">
+    <div class="card card--gold" style="height:100%"><h3>Start in the middle</h3><p><b>What does Richard want?</b> Write that in the centre. Then read the full case from your handout — three or four minutes, in silence.</p><h3 style="margin-top:.8rem">Then three steps</h3><ol><li><b>Who is involved?</b> Draw everyone around him — people, services, his daughter.</li><li><b>Who needs to talk to each other?</b> Draw a line between them.</li><li><b>Pick one line that could break.</b> Write why. Is it the information, the plan, or nobody knowing him?</li></ol></div>
+    <div>
+      <div class="timer" data-secs="720">12:00</div>
+      <div class="tbtns"><button class="primary" data-act="start">Start 12 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button><button data-overlay="debriefOverlay">Open debrief</button></div>
+      <div class="prompt" style="margin-top:.9rem"><b>Keep the sheet.</b> This afternoon you build Richard's house on top of it.</div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Consolidation, not first exposure — they already have fragmentation, the two perspectives and the three questions, so the task is simply: can you use what we have just learned? Three or four minutes reading, twelve working, the rest debrief. Circulate. The value is in the debrief — open the overlay. The information question is a deliberate plant for Unit 3: do not answer it, note it on the board.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s16" tabindex="-1" aria-label="Break">
+  <div class="foot"><span>Unit 1</span><span>Break</span></div>
+  <div class="eyebrow">Break</div>
+  <h2 style="color:#fff">Fifteen minutes</h2>
+  <div class="timer" data-secs="900">15:00</div>
+  <div class="tbtns"><button class="primary" data-act="start">Start break</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+  <p class="lede" style="margin-top:1.2rem">When we come back: why individual professionals cannot solve every boundary by simply trying harder.</p>
+  <aside class="speaker-note"><p>On return, bridge levels before showing anything: everything on Richard's map is a problem professionals cannot solve by goodwill alone. Some of it needs services and organisations structured differently. So let's move one level out — how has Scotland tried to do that? Now Scotland is the answer to a problem they discovered, not a new topic.</p></aside>
+</section>
+
+
+<section class="slide slide--gold" id="s17a" tabindex="-1" aria-label="Why it costs so much">
+  <div class="foot"><span>Unit 1</span><span>Money · 4 minutes</span></div>
+  <div class="eyebrow">Before we look at Scotland's answer — the money</div>
+  <h2>Why long-term conditions cost so much</h2>
+  <div class="stats4" style="grid-template-columns:repeat(3,1fr)">
+    <div class="statc"><div class="big">£7 in £10</div><div class="what">Around 70% of all health and care spending in England goes on the 30% of people who have long-term conditions.</div><div class="src">Department of Health, England</div></div>
+    <div class="statc gold"><div class="big">£1k → £3k → £8k</div><div class="what">What one person costs the system each year: with no long-term condition, with one, with three. Richard has two.</div><div class="src">Department of Health, England</div></div>
+    <div class="statc hot"><div class="big">40%</div><div class="what">of all public spending in Scotland goes on problems that could have been prevented if help had come earlier.</div><div class="src">Christie Commission, 2011</div></div>
+  </div>
+  <div class="band">Christie's verdict on the system, in 2011: <b>"fragmented, complex and opaque"</b> — which is exactly what Richard's map showed you before the break.</div>
+  <aside class="speaker-note"><p>Three numbers, then the Christie line. The £1k–£3k–£8k card is the one that makes the case: cost doesn't rise in a straight line, it jumps, because people with several conditions bounce between services. Richard is the £8,000 end of that — and most of it is the crisis end, not the prevention end. That is the bridge to the next slide: Scotland's answer was to try to spend earlier.</p></aside>
+</section>
+
+<section class="slide slide--green" id="s17" tabindex="-1" aria-label="From Richard's problem to Scotland's response">
+  <div class="foot"><span>Unit 1</span><span>Prevention · click a step</span></div>
+  <div class="eyebrow">From Richard's problem to Scotland's response</div>
+  <h2>Why integrate at all? Move help earlier.</h2>
+  <p class="lede">Too much public-service activity responds after problems have become crises. Click the step where support could have come earlier — and cost less.</p>
+  <div class="chain5" id="chain">
+    <div class="node"><b>Rent arrears</b><small>financial pressure</small></div>
+    <div class="node"><b>Damp &amp; cold</b><small>housing problem</small></div>
+    <div class="node"><b>Stress</b><small>wellbeing deteriorates</small></div>
+    <div class="node"><b>Mental health worsens</b><small>needs intensify</small></div>
+    <div class="node"><b>Crisis / admission</b><small>reactive response</small></div>
+  </div>
+  <div class="prompt">Where in this chain would support have been better for Richard <b>and</b> less intensive for services?</div>
+  <p class="source">Christie Commission (2011): prevention, partnership, people and performance.</p>
+  <aside class="speaker-note"><p>Five to seven minutes, not a Christie history lesson. Let students call out where they would intervene, click it, and ask what that intervention would have been — usually money advice and a housing repair, months before anyone in a ward was involved. That is the preventative and anticipatory wording in L1 made concrete, and the argument Unit 8 rests on. Prevention does not mean health promotion only; it means acting earlier on housing, money, social support and coordination.</p></aside>
+</section>
+
+<section class="slide" id="s18" tabindex="-1" aria-label="How Scotland tries to connect care">
+  <div class="foot"><span>Unit 1</span><span>Scotland · click to connect</span></div>
+  <div class="eyebrow">One diagram — enough structure for Unit 1</div>
+  <h2>How Scotland tries to connect care</h2>
+  <div class="scotarch unconnected" id="scot">
+    <div class="parent" style="background:var(--blue-soft)"><b>The NHS — health board</b><small>Health · free at the point of use · the blue box from this morning</small></div>
+    <div class="parent" style="background:var(--purple-soft);border-color:var(--purple)"><b>The council — local authority</b><small>Social care and housing · assessed, can be charged for · the purple box</small></div>
+    <div class="merge">
+      <div class="v">↓ &nbsp; ↓</div>
+      <div class="box"><b>Integration arrangements</b><small>Usually an Integration Authority / Integration Joint Board, under the Public Bodies (Joint Working) (Scotland) Act 2014</small></div>
+      <div class="v">↓</div>
+      <div class="box"><b>Health &amp; Social Care Partnership delivery</b><small>Services and professionals working through local arrangements</small></div>
+      <div class="v">↓</div>
+      <div class="box person"><b>Richard, his family and his community</b></div>
+      <button class="reveal" id="connectBtn">Connect them</button>
+    </div>
+  </div>
+  <div class="band">Integration connects organisations. <b>It does not dissolve them into one organisation.</b> The 2014 architecture remains the local foundation; wider care reform continues.</div>
+  <aside class="speaker-note"><p>Point back to the who-does-what map: these are the same two public boxes, and they are still two organisations with two budgets. Show the two organisations first and say they remain distinct — health and local government are not merged. Then click Connect. Explain each level in plain language, no governance detail. "Usually an IJB" is deliberate — Highland uses a lead-agency model. The reform line in the band is all they need; say it once and move on, and verify the current position before the session. Discussion note only: from 1 September 2026, appointed service-user, carer and third-sector IJB members have voting rights — use only if lived experience and governance come up.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s19" tabindex="-1" aria-label="What would success look like for Richard?">
+  <div class="foot"><span>Unit 1</span><span>Outcomes · ask first, reveal second</span></div>
+  <div class="eyebrow">Whole room · 3 minutes</div>
+  <h2>Scotland has built the structures. How would we know they worked for Richard?</h2>
+  <div class="grid g2" style="flex:1;align-items:start">
+    <div>
+      <p class="lede">Capture the room's answers first. Type them here — you sort them later.</p>
+      <div class="wallin"><input id="succInput" placeholder="e.g. stays at home" aria-label="Add a success measure"><button id="succAdd">Add</button></div>
+      <div class="wall" id="succWall"><i style="color:var(--muted);font-weight:400">Answers appear here.</i></div>
+    </div>
+    <div>
+      <button class="reveal" data-toggle="four" data-on="Hide four outcomes" data-off="Reveal four relevant outcomes">Reveal four relevant outcomes</button>
+      <button class="reveal" data-overlay="outcomesOverlay">See all nine official outcomes</button>
+      <div id="four" hidden><div class="successgrid" style="grid-template-columns:1fr 1fr">
+        <div class="outcome4"><b>Independent living</b>Live at home or in a homely setting as far as reasonably practicable.</div>
+        <div class="outcome4"><b>Positive experience &amp; dignity</b>Care should feel respectful and coherent to the person using it.</div>
+        <div class="outcome4"><b>Unpaid carers supported</b>Richard's daughter has needs of her own. Scotland's unpaid carers do work worth £15.9 billion a year — almost the whole NHS Scotland budget. Two thirds of us will be one, one day.</div>
+        <div class="outcome4"><b>Resources used effectively</b>Good integration should also use public resources wisely.</div>
+      </div><p class="source" style="margin-top:.5rem">These sound remarkably like what you just told me. The statutory outcomes are written around people's lives, not organisational success.</p></div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Ask first, reveal second — that sequence is the point. Type the room's answers in as they come (stays at home, feeling supported, fewer crises, daughter supported, dignity, good communication, sensible use of services). Then reveal the four and let them notice the match. Do not read all nine. The carers figures are Carers Scotland and the Centre for Care, from the 2022 census: £15.9 billion, against an NHS Scotland budget of £17.8 billion that year, and four times what Scotland spends on adult social care. If carers arise: an identified adult carer must be offered an adult carer support plan, and one must be prepared if requested — about her own outcomes.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s20" tabindex="-1" aria-label="Integration still has boundaries">
+  <div class="foot"><span>Unit 1</span><span>Boundaries</span></div>
+  <div class="eyebrow">Is everything Richard needs now inside the partnership?</div>
+  <h2>Not quite. Integration has edges.</h2>
+  <div class="bridge" style="flex:none;margin:.4rem 0">
+    <div class="side" style="border-color:var(--teal);background:var(--teal-soft)"><h3>Joined up through the partnership</h3><ul><li>His mental health care</li><li>His social care</li><li>Planning his discharge from hospital</li></ul></div>
+    <div class="mid"><span>↔</span><span>someone has to cross this line</span></div>
+    <div class="side" style="border-color:var(--purple);background:var(--purple-soft)"><h3>Still the council's housing job</h3><ul><li>His tenancy</li><li>His rent arrears</li><li>Repairs, damp and heating</li></ul></div>
+  </div>
+  <div class="stats4" style="flex:none;margin:.4rem 0 .8rem;gap:.6rem">
+    <div class="statc hot" style="padding:.7rem .85rem"><div class="big" style="font-size:clamp(1.8rem,3vw,2.8rem)">1,934</div><div class="what">hospital beds, every day, used by people who are well enough to go home but waiting for care or housing to be arranged.</div><div class="src">Public Health Scotland, 2025/26</div></div>
+    <div class="statc" style="padding:.7rem .85rem"><div class="big" style="font-size:clamp(1.8rem,3vw,2.8rem)">1 in 9</div><div class="what">of all hospital bed days in Scotland are people waiting to leave.</div><div class="src">Public Health Scotland, 2024/25</div></div>
+    <div class="statc" style="padding:.7rem .85rem"><div class="big" style="font-size:clamp(1.8rem,3vw,2.8rem)">£440m+</div><div class="what">what those waiting beds cost in one year — before counting the cost to the people in them.</div><div class="src">Audit Scotland, January 2026</div></div>
+    <div class="statc" style="padding:.7rem .85rem"><div class="big" style="font-size:clamp(1.8rem,3vw,2.8rem)">24 hrs</div><div class="what">in a hospital bed can cost 2–5% of muscle strength. A week can cost 20%.</div><div class="src">Audit Scotland, January 2026</div></div>
+  </div>
+  <div class="band">This is what the edge costs. <b>Nearly two thousand people a day, stuck at the line between the NHS and the council.</b></div>
+  <aside class="speaker-note"><p>The delayed discharge numbers are the boundary made visible: people the hospital has finished with, waiting for the council side — a care package, a care home place, sometimes housing. Say the 24-hours fact slowly; it turns a bed-days statistic into a person losing the ability to walk. Detail for you, not the slide: some housing-related functions can be delegated into integration arrangements and others remain with local-authority housing services; arrangements vary locally, and housing contribution statements are intended as the bridge. Open with the question in the eyebrow, and the answer is no — because integration connects organisations rather than erasing them, which they saw two slides ago. Be precise: do not say "housing is outside integration". Richard's location is unspecified, so attribute no particular arrangement to his partnership. The point is the interface, not a fixed local model. This is a stronger Level 8 idea than any taxonomy of integration types.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s21" tabindex="-1" aria-label="What does the evidence suggest?">
+  <div class="foot"><span>Unit 1</span><span>Evidence</span></div>
+  <div class="eyebrow">Does any of this actually improve care?</div>
+  <h2>What the evidence says</h2>
+  <p class="lede" style="margin-bottom:.4rem">What we said success would look like for Richard:</p>
+  <div class="wall" id="sortWall" style="margin-bottom:.7rem;min-height:3.4rem"><i style="color:var(--muted);font-weight:400">Our answers from earlier.</i></div>
+  <div class="evidence">
+    <div class="col person"><h3>Usually gets better</h3><ul><li>Getting to the right services</li><li>Care that joins up</li><li>How people feel about their care</li><li>Satisfaction</li></ul></div>
+    <div class="col system"><h3>Doesn't happen automatically</h3><ul><li>Saving money</li><li>Fewer hospital stays</li><li>Fixing staff shortages</li><li>Ending arguments between organisations</li></ul></div>
+  </div>
+  <div class="band"><b>Better care and cheaper care are not the same thing.</b></div>
+  <aside class="speaker-note"><p>The room's own words come back here. Click each chip to sort it live: green for an outcome for Richard and his family, blue for an outcome for the system. Person outcomes (wellbeing, independence, experience, continuity) tend to be where the evidence is more consistently supportive; system outcomes (admissions, cost, workforce) are where it is not automatic. Say "more consistently supported", not "proven". A report that acknowledges the right-hand column will score better than one claiming integration fixes everything — the brief asks for benefits and challenges.</p></aside>
+</section>
+
+<section class="slide" id="s22" tabindex="-1" aria-label="Why the evidence is hard to read">
+  <div class="foot"><span>Unit 1</span><span>Evaluation</span></div>
+  <div class="eyebrow">Why am I telling you this?</div>
+  <h2>When a programme says "admissions fell 10%", ask three things</h2>
+  <div class="eval3">
+    <div class="reason"><strong>Compared with what?</strong><p><b>Unmet need.</b> Better coordination may uncover needs that were missed. Better care can therefore mean <i>more</i> recorded service use at first.</p></div>
+    <div class="reason"><strong>Over how long?</strong><p><b>Time.</b> Organisational change takes years to mature. A short evaluation may ask whether a programme worked before it had time to work.</p></div>
+    <div class="reason"><strong>What else could explain it?</strong><p><b>Who was chosen.</b> If people are selected because their service use has recently been unusually high, some of that use may fall anyway. Be careful about claiming cause.</p></div>
+  </div>
+  <div class="band">So fewer hospital admissions cannot be our only definition of good integrated care. <b>You will use these three questions again this afternoon.</b></div>
+  <aside class="speaker-note"><p>Open with why: a Level 8 student should not accept "admissions fell 10%" without asking these. They are not learning evaluation methodology for its own sake; they are learning not to make naive claims. Plain language throughout — do not say "regression to the mean" unless asked. The afternoon deck puts three claims about the House of Care in front of them and asks exactly these questions; tell them it is coming.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s23" tabindex="-1" aria-label="Assessment 1: where the marks sit">
+  <div class="foot"><span>Unit 1</span><span>Assessment 1 · 10 minutes</span></div>
+  <div class="eyebrow">Now the task makes more sense</div>
+  <h2>Assessment 1: where the marks actually sit</h2>
+  <p class="lede"><b>You are not expected to know the House of Care yet — that is this afternoon.</b> One-page A4 leaflet for patients and families · 30% of the module. <b>The people reading it won't all be like Richard.</b></p>
+  <div class="marking">
+    <div class="markrow"><span class="name">House of Care — all five components</span><div class="track"><div class="fill top" style="width:100%"></div></div><span class="mark">30</span></div>
+    <div class="markrow"><span class="name">Quality and design</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="mark">15</span></div>
+    <div class="markrow"><span class="name">Readability for patients and families</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="mark">15</span></div>
+    <div class="markrow"><span class="name">Integrated care — accuracy and relevance</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="mark">15</span></div>
+    <div class="markrow"><span class="name">Person-centred care — accuracy and relevance</span><div class="track"><div class="fill" style="width:50%"></div></div><span class="mark">15</span></div>
+    <div class="markrow"><span class="name">Introduction</span><div class="track"><div class="fill" style="width:17%"></div></div><span class="mark">5</span></div>
+    <div class="markrow"><span class="name">References — 3–4 peer-reviewed, separate page</span><div class="track"><div class="fill" style="width:17%"></div></div><span class="mark">5</span></div>
+  </div>
+  <div class="band">This morning gives you the integrated-care part. <b>This afternoon gives you the largest single block.</b> Deadline: confirmed on Brightspace.</div>
+  <aside class="speaker-note"><p>Lead with the reassurance line. Name the two failure modes verbally — an attractive leaflet with very little content; an academic essay squeezed into a leaflet — but do not put them on screen. Do not announce a deadline until 2026–27 information is confirmed on Brightspace, and check the current AI wording before saying anything about it.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s24" tabindex="-1" aria-label="Close and bridge to the afternoon">
+  <div class="foot"><span>Unit 1</span><span>Close · 5 minutes</span></div>
+  <div class="eyebrow">Your words from 09:50</div>
+  <div class="wall" id="closeWall" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);min-height:3.2rem;margin-bottom:.9rem"><i style="color:#c9d3de;font-weight:400">The opening wall reappears here.</i></div>
+  <h2 style="color:#fff">Organisations can be integrated. Care can be experienced as integrated.</h2>
+  <p class="lede">They are not the same thing. You now have three questions for telling them apart — information, plan, relationships.</p>
+  <div class="band">This morning was why joining care up is difficult. <b>After lunch: the House of Care</b> — a framework for doing it, built on the map you drew, and the one your leaflet is built on. Bring your sheet.</div>
+  <aside class="speaker-note"><p>The opening words come back on their own. Read two or three aloud, then ask what the wall was missing — the person — and let the room say it. Check the four objectives: explain, apply, describe, judge. Then the bridge and stop. Do not start teaching the House of Care before lunch. Tell them to keep their flipchart sheet; the afternoon builds on it.</p></aside>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">←</button><span id="lbl">1 / 29</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress" id="bar"></div>
+<div class="notes-panel" id="notesPanel" role="dialog" aria-label="Presenter notes"><h3 id="notesTitle">Presenter notes</h3><div id="notesBody"></div></div>
+
+<div class="overlay" id="slidesOverlay" role="dialog" aria-modal="true" aria-label="Slide navigator"><div class="modal"><button class="close" data-close="slidesOverlay">Close</button><h2>Slide navigator</h2><div class="slide-list" id="slideList"></div></div></div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="Keyboard help"><div class="modal"><button class="close" data-close="helpOverlay">Close</button><h2>Controls</h2><ul><li><b>← / →</b> or Page Up / Page Down: move slides</li><li><b>Home / End</b>: first / last slide</li><li><b>N</b>: presenter notes</li><li><b>S</b>: slide navigator</li><li><b>R</b>: sources</li><li><b>G</b>: glossary</li><li><b>F</b>: full screen</li><li><b>Esc</b>: close overlays/notes</li></ul><p>Press G for the glossary at any point. The word wall on slide 10 and the success measures on slide 19 are kept in memory for the session and reappear later in the deck. Refreshing the page clears them. Timers run locally. Print produces one slide per page.</p></div></div>
+<div class="overlay" id="debriefOverlay" role="dialog" aria-modal="true" aria-label="Richard activity debrief"><div class="modal"><button class="close" data-close="debriefOverlay">Close</button><h2>Richard's web — three questions</h2><div class="grid g3" style="display:grid;flex:none"><div class="card card--blue"><h3>Who is holding this together?</h3><p>Is anyone actually in charge of the whole picture — or are we assuming someone is?</p></div><div class="card card--teal"><h3>Where does his information live?</h3><p>Is it in one place? <i>(Don't answer this one yet — it comes back in Unit 3.)</i></p></div><div class="card card--gold"><h3>What does Richard want — and what do the services do?</h3><p>Is the support built around his wish, or around what each service happens to offer?</p></div></div><p style="margin-top:1rem"><b>Only if a student raises the daughter:</b> she is not free help. If she is identified as an unpaid carer, the council must offer her a support plan of her own. One sentence, then move on — the rest waits for December.</p></div></div>
+<div class="overlay" id="outcomesOverlay" role="dialog" aria-modal="true" aria-label="All nine national health and wellbeing outcomes"><div class="modal"><button class="close" data-close="outcomesOverlay">Close</button><h2>All nine national health and wellbeing outcomes</h2><ol><li>People are able to look after and improve their own health and wellbeing and live in good health for longer.</li><li>People, including those with disabilities or long term conditions, or who are frail, are able to live, as far as reasonably practicable, independently and at home or in a homely setting in their community.</li><li>People who use health and social care services have positive experiences of those services, and have their dignity respected.</li><li>Health and social care services are centred on helping to maintain or improve the quality of life of people who use those services.</li><li>Health and social care services contribute to reducing health inequalities.</li><li>People who provide unpaid care are supported to look after their own health and wellbeing, including to reduce any negative impact of their caring role on their own health and well-being.</li><li>People who use health and social care services are safe from harm.</li><li>People who work in health and social care services feel engaged with the work they do and are supported to continuously improve the information, support, care and treatment they provide.</li><li>Resources are used effectively and efficiently in the provision of health and social care services.</li></ol><p class="source">Scottish Government, National Health and Wellbeing Outcomes Framework. Check wording against the current published framework before the session.</p></div></div>
+<div class="overlay" id="glossOverlay" role="dialog" aria-modal="true" aria-label="Glossary"><div class="modal"><button class="close" data-close="glossOverlay">Close</button><h2>Glossary — the words in Richard's story</h2><p>Plain-English, one line each. Nobody is expected to know these already.</p>
+<div class="grid g2" style="display:grid;flex:none;gap:.5rem 1.2rem">
+<div><h3>The organisations</h3><ul>
+<li><b>NHS Scotland</b> — the health service. Free at the point of use. Organised into area <b>health boards</b> that run hospitals, community health and mental health services.</li>
+<li><b>Local authority / council</b> — elected local government. Responsible for social work, social care, housing, benefits advice, schools.</li>
+<li><b>Social care</b> — help with daily living: washing, dressing, meals, support at home, care homes. Assessed by the council and can be charged for.</li>
+<li><b>Third sector</b> — charities, voluntary and community organisations. Advice, advocacy, peer support, activities.</li>
+<li><b>Integration authority / Integration Joint Board (IJB)</b> — the body set up in each area, under the 2014 Act, to plan health and social care together.</li>
+<li><b>Health and Social Care Partnership (HSCP)</b> — the local arrangement through which integrated services are delivered.</li>
+</ul></div>
+<div><h3>The people</h3><ul>
+<li><b>GP</b> — general practitioner, the family doctor. First point of contact; refers to specialists.</li>
+<li><b>Ward team</b> — the doctors, nurses and others looking after someone while they are in hospital.</li>
+<li><b>Community mental health team</b> — NHS team supporting people with mental illness at home rather than in hospital.</li>
+<li><b>Social worker</b> — council professional who assesses needs, arranges support and protects people at risk.</li>
+<li><b>Housing officer</b> — council or housing association staff who manage tenancies, rent arrears and repairs.</li>
+<li><b>Unpaid carer</b> — a family member or friend who provides care without being paid. Has rights to support of their own.</li>
+<li><b>Link worker</b> — connects people to non-medical support in the community (<b>social prescribing</b>).</li>
+</ul></div>
+<div><h3>Richard's situation</h3><ul>
+<li><b>Long-term condition</b> — a health condition that can be managed but not cured, lived with for years, shaping daily life.</li>
+<li><b>Schizophrenia</b> — a serious mental illness affecting thinking, perception and mood. Treatable; often long-term, with periods of being well and periods of <b>relapse</b>.</li>
+<li><b>Type 2 diabetes</b> — a long-term condition where the body cannot control blood sugar well; managed by diet, activity and often medication.</li>
+<li><b>Inpatient unit / admission / discharge</b> — a hospital ward where someone stays for treatment; being taken in; being sent home with a plan.</li>
+<li><b>Tenancy</b> — the legal agreement to rent a home. <b>Rent arrears</b> — unpaid rent that is owed. Both can put the home at risk.</li>
+<li><b>Wellbeing hub / community wellbeing service</b> — a local service bringing together help with housing, money, health and community activities in one place.</li>
+</ul></div>
+<div><h3>The ideas</h3><ul>
+<li><b>Integrated care</b> — health and social care planned and delivered so they work as one around the person.</li>
+<li><b>Fragmentation</b> — care that falls apart at the joins between services.</li>
+<li><b>Continuity</b> — whether information, the plan and relationships hold together over time.</li>
+<li><b>Care plan</b> — a written record of someone's needs, goals and the support agreed.</li>
+<li><b>Multidisciplinary team (MDT)</b> — professionals from different disciplines working together on one person's care.</li>
+<li><b>Person-centred care</b> — care organised around what matters to the person, with them as a partner. Unit 4.</li>
+<li><b>Anticipatory care planning</b> — planning ahead for what might happen, before it becomes a crisis. Unit 8.</li>
+<li><b>House of Care</b> — the framework for doing all of this. This afternoon.</li>
+</ul></div>
+</div></div></div>
+<div class="overlay" id="sourcesOverlay" role="dialog" aria-modal="true" aria-label="Sources"><div class="modal"><button class="close" data-close="sourcesOverlay">Close</button><h2>Core sources behind this session</h2><ol>
+<li><b>Module handbook:</b> HLTH08010 Next Steps — assessment brief, Component 1 marking guide, Richard case.</li>
+<li><b>World Health Organization.</b> Integrated health services — service organisation and integration. <a href="https://www.who.int/teams/integrated-health-services/clinical-services-and-systems/service-organizations-and-integration" target="_blank" rel="noopener">WHO</a>.</li>
+<li><b>National Voices.</b> A narrative for person-centred coordinated care. <a href="https://www.nationalvoices.org.uk/publication/narrative-person-centred-coordinated-care/" target="_blank" rel="noopener">National Voices</a>.</li>
+<li><b>Haggerty JL et al. (2003).</b> Continuity of care: a multidisciplinary review. BMJ 327:1219. <a href="https://www.bmj.com/content/327/7425/1219" target="_blank" rel="noopener">BMJ</a>.</li>
+<li><b>Christie Commission (2011).</b> Commission on the Future Delivery of Public Services. <a href="https://www.gov.scot/publications/commission-future-delivery-public-services/" target="_blank" rel="noopener">Scottish Government</a>.</li>
+<li><b>Public Bodies (Joint Working) (Scotland) Act 2014</b> and current integration joint board guidance. <a href="https://www.gov.scot/" target="_blank" rel="noopener">Scottish Government</a> <span class="verify">verify current guidance</span></li>
+<li><b>National Health and Wellbeing Outcomes Framework.</b> <a href="https://www.gov.scot/publications/national-health-wellbeing-outcomes-framework/" target="_blank" rel="noopener">Scottish Government</a> <span class="verify">check wording</span></li>
+<li><b>Local Housing Strategy guidance</b> — housing, health and social care integration; delegated and non-delegated housing functions; housing contribution statements. Scottish Government. <span class="verify">verify current guidance</span></li>
+<li><b>Carers (Scotland) Act 2016</b> statutory guidance — adult carer support plans. Scottish Government.</li>
+<li><b>Care Reform (Scotland) Act 2025</b> — the former National Care Service Bill, substantially amended. <span class="verify">verify short title and assent date on legislation.gov.uk</span></li>
+<li><b>Scottish Health Survey 2024</b> (published October 2025) — half of adults with a long-term condition; 39% limiting; 8% diabetes. <a href="https://www.gov.scot/publications/scottish-health-survey-2024-volume-1-main-report/" target="_blank" rel="noopener">gov.scot</a></li>
+<li><b>Barnett K, Mercer SW et al. (2012).</b> Epidemiology of multimorbidity. Lancet 380:37–43 — 42% one or more conditions, 23% multimorbid, more under-65s than over-65s, onset 10–15 years earlier in deprived areas. <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(12)60240-2/fulltext" target="_blank" rel="noopener">Lancet</a></li>
+<li><b>Department of Health (2012).</b> Long Term Conditions Compendium, 3rd edition — 15m in England; 70% of spend; £1,000/£3,000/£8,000 per person. <a href="https://www.gov.uk/government/publications/long-term-conditions-compendium-of-information-third-edition" target="_blank" rel="noopener">gov.uk</a></li>
+<li><b>University of Edinburgh (2025).</b> Time trends in life expectancy of people with severe mental illness in Scotland, 2000–2019. BJPsych Open — schizophrenia gap about 11 years and widening. <a href="https://www.ed.ac.uk/news/life-expectancy-gap-widening-for-scots-with-schizophrenia" target="_blank" rel="noopener">ed.ac.uk</a></li>
+<li><b>Public Health Scotland.</b> Delayed discharges in NHS Scotland, annual summary, data to March 2026 — 705,952 bed days; 1,934 beds per day; 1 in 9 bed days in 2024/25. <a href="https://www.publichealthscotland.scot/publications/delayed-discharges-in-nhs-scotland-annual/delayed-discharges-in-nhs-scotland-annual-summary-of-occupied-bed-days-and-census-figures-data-to-march-2026/" target="_blank" rel="noopener">PHS</a></li>
+<li><b>Audit Scotland (January 2026).</b> Delayed discharges — over £440m; muscle loss from bed rest.</li>
+<li><b>Carers Scotland / Centre for Care (2024).</b> Valuing Carers 2022, Scotland — £15.9bn; NHS Scotland budget £17.8bn. <a href="https://www.carersuk.org/press-releases/new-figures-show-the-staggering-value-of-unpaid-carers-in-scotland/" target="_blank" rel="noopener">Carers UK</a></li>
+<li><b>National Voices (2013).</b> A narrative for person-centred coordinated care — the "I" statements, including "to just tell my story once to one person". <a href="https://www.england.nhs.uk/wp-content/uploads/2013/05/nv-narrative-cc.pdf" target="_blank" rel="noopener">NHS England</a></li>
+<li><b>Patient quotes</b> "starting from scratch" and "chase lab numbers" are carried over from the module's existing Unit 2 materials, attributed there to King's Fund case interviews. <span class="verify">source not independently verified</span></li>
+<li><b>Baxter S et al. (2018).</b> The effects of integrated care: a systematic review of UK and international evidence. BMC Health Services Research.</li>
+<li><b>Umbrella review (2024)</b> of integrated health and social care implementation and impact. <span class="verify">confirm citation before naming on a slide</span></li>
+<li><b>Module reading list:</b> Ham et al. (2013) Integrated Care in Northern Ireland, Scotland and Wales, King's Fund; Miller, Brown &amp; Mangan (2016) Integrated Care in Action.</li>
+</ol></div></div>
+
+<script>
+(function(){
+/* ---------- deck shell ---------- */
+const slides=[...document.querySelectorAll('.slide')],total=slides.length;let cur=0;
+const bar=document.getElementById('bar'),lbl=document.getElementById('lbl'),prev=document.getElementById('prev'),next=document.getElementById('next'),ann=document.getElementById('ann');
+const notesPanel=document.getElementById('notesPanel'),notesBody=document.getElementById('notesBody'),notesTitle=document.getElementById('notesTitle');
+const menuBtn=document.getElementById('menuBtn'),tools=document.getElementById('tools');
+function updateNotes(){const n=slides[cur].querySelector('.speaker-note');notesTitle.textContent='Presenter notes · '+(cur+1)+' / '+total;notesBody.innerHTML=n?n.innerHTML:'<p>No presenter notes for this slide.</p>';}
+function show(n){slides[cur]?.classList.remove('active');cur=Math.max(0,Math.min(n,total-1));slides[cur].classList.add('active');bar.style.width=((cur+1)/total*100)+'%';lbl.textContent=(cur+1)+' / '+total;prev.disabled=cur===0;next.disabled=cur===total-1;ann.textContent=slides[cur].getAttribute('aria-label');slides[cur].focus({preventScroll:true});location.hash='slide-'+(cur+1);updateNotes();}
+function openOverlay(id){document.getElementById(id)?.classList.add('open');}
+function closeAll(){document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));notesPanel.classList.remove('open');tools.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+prev.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);
+menuBtn.onclick=()=>{const on=tools.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(on));};
+document.getElementById('notesBtn').onclick=()=>notesPanel.classList.toggle('open');
+document.getElementById('slidesBtn').onclick=()=>openOverlay('slidesOverlay');
+document.getElementById('sourcesBtn').onclick=()=>openOverlay('sourcesOverlay');document.getElementById('glossBtn').onclick=()=>openOverlay('glossOverlay');
+document.getElementById('helpBtn').onclick=()=>openOverlay('helpOverlay');
+document.getElementById('fsBtn').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('printBtn').onclick=()=>window.print();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+document.querySelectorAll('[data-overlay]').forEach(b=>b.addEventListener('click',()=>openOverlay(b.dataset.overlay)));
+document.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const x=document.getElementById(b.dataset.toggle);const willShow=x.hidden;x.hidden=!willShow;b.textContent=willShow?b.dataset.on:b.dataset.off;b.classList.toggle('on',willShow);}));
+const slideList=document.getElementById('slideList');slides.forEach((s,i)=>{const b=document.createElement('button');const h=s.querySelector('h1,h2,.bigline');b.textContent=(i+1)+'. '+(h?h.textContent.trim().slice(0,70):s.getAttribute('aria-label'));b.onclick=()=>{document.getElementById('slidesOverlay').classList.remove('open');show(i)};slideList.appendChild(b)});
+document.querySelectorAll('.timer').forEach(t=>{const secs=parseInt(t.dataset.secs,10);let left=secs,iv=null;const buttons=t.nextElementSibling?.querySelectorAll('button[data-act]')||[];const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');const draw=()=>{t.textContent=fmt(left);if(left===0)t.style.color='var(--coral)'};buttons.forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;if(a==='start'&&!iv){iv=setInterval(()=>{if(left>0){left--;draw()}else{clearInterval(iv);iv=null}},1000)}else if(a==='pause'){clearInterval(iv);iv=null}else if(a==='reset'){clearInterval(iv);iv=null;left=secs;t.style.color='';draw()}}));draw();});
+document.addEventListener('keydown',e=>{const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key==='Escape'){closeAll();return}if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();show(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(total-1)}else if(e.key.toLowerCase()==='n'){notesPanel.classList.toggle('open')}else if(e.key.toLowerCase()==='s'){openOverlay('slidesOverlay')}else if(e.key.toLowerCase()==='r'){openOverlay('sourcesOverlay')}else if(e.key.toLowerCase()==='g'){openOverlay('glossOverlay')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}});
+
+
+/* ---------- word wall (slide 8 -> slide 24) ---------- */
+const wallWords=[];
+function renderWall(el,words,cls){if(!el)return;el.innerHTML='';if(!words.length){el.innerHTML='<i style="color:var(--muted);font-weight:400">Nothing added yet.</i>';return;}words.forEach((w,i)=>{const b=document.createElement('button');b.className='w '+(cls?cls(w,i):'');b.textContent=w.text||w;b.type='button';b.dataset.i=i;el.appendChild(b);});}
+const wallEl=document.getElementById('wall'),wallIn=document.getElementById('wallInput'),wallAdd=document.getElementById('wallAdd'),closeWall=document.getElementById('closeWall');
+function addWord(){const v=wallIn.value.trim();if(!v)return;wallWords.push(v);wallIn.value='';renderWall(wallEl,wallWords);renderWall(closeWall,wallWords);}
+wallAdd?.addEventListener('click',addWord);wallIn?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addWord();}});
+wallEl?.addEventListener('click',e=>{const b=e.target.closest('.w');if(!b)return;wallWords.splice(+b.dataset.i,1);renderWall(wallEl,wallWords);renderWall(closeWall,wallWords);});
+
+/* ---------- success measures (slide 19 -> slide 21 sort) ---------- */
+const succ=[];
+const succWall=document.getElementById('succWall'),succIn=document.getElementById('succInput'),succAdd=document.getElementById('succAdd'),sortWall=document.getElementById('sortWall');
+function renderSucc(){renderWall(succWall,succ.map(x=>x.text));renderWall(sortWall,succ,(w)=>w.tag||'');if(!succ.length&&sortWall)sortWall.innerHTML='<i style="color:var(--muted);font-weight:400">Our answers from earlier.</i>';}
+function addSucc(){const v=succIn.value.trim();if(!v)return;succ.push({text:v,tag:''});succIn.value='';renderSucc();}
+succAdd?.addEventListener('click',addSucc);succIn?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addSucc();}});
+succWall?.addEventListener('click',e=>{const b=e.target.closest('.w');if(!b)return;succ.splice(+b.dataset.i,1);renderSucc();});
+sortWall?.addEventListener('click',e=>{const b=e.target.closest('.w');if(!b)return;const it=succ[+b.dataset.i];it.tag=it.tag===''?'person':it.tag==='person'?'system':'';renderSucc();});
+
+/* ---------- fragmentation (slide 10) ---------- */
+const needs=document.getElementById('fragNeeds'),routes=document.getElementById('fragRoutes');
+needs?.addEventListener('click',e=>{const n=e.target.closest('.need');if(!n)return;const on=!n.classList.contains('on');needs.querySelectorAll('.need').forEach(x=>x.classList.remove('on'));routes.querySelectorAll('.route').forEach(r=>r.classList.remove('lit'));if(on){n.classList.add('on');n.dataset.r.split(' ').forEach(k=>routes.querySelector('.route[data-k="'+k+'"]')?.classList.add('lit'));}});
+
+/* ---------- means ≠ outcome (slide 13) ---------- */
+document.querySelectorAll('.arr').forEach(a=>a.addEventListener('click',()=>a.classList.toggle('on')));
+
+/* ---------- prevention chain (slide 17) ---------- */
+document.getElementById('chain')?.addEventListener('click',e=>{const n=e.target.closest('.node');if(!n||n===n.parentElement.lastElementChild)return;n.classList.toggle('flag');});
+
+/* ---------- Scotland connect (slide 18) ---------- */
+document.getElementById('connectBtn')?.addEventListener('click',function(){const s=document.getElementById('scot');const now=s.classList.toggle('unconnected');this.textContent=now?'Connect them':'Show two organisations again';this.classList.toggle('on',!now);});
+
+const m=location.hash.match(/slide-(\d+)/);show(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>

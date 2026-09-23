@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Steps Unit 2 | The House of Care — afternoon session</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1e3d;--navy2:#17375e;--blue:#1a5276;--blue-soft:#e7f1f7;
+  --teal:#287a80;--teal-soft:#e6f4f3;--green:#1a7a5a;--green-soft:#e8f5ee;
+  --gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;
+  --purple:#6b4f83;--purple-soft:#f2edf6;--grey:#667482;--grey-soft:#eef1f3;
+  --ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--paper:#fffefb;--cream:#faf8f5;
+  --focus:#005ea8;--serif:Georgia,'Times New Roman',serif;--sans:Aptos,'Segoe UI',Arial,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,a,textarea{font:inherit}a{color:var(--blue)}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(1.25rem,2.7vw,2.6rem) clamp(1.45rem,4.3vw,4.25rem) clamp(4.4rem,7vh,5.2rem);opacity:0;overflow:hidden;background:var(--paper);transition:opacity .18s}
+.slide.active{display:flex;opacity:1}
+.slide--dark{background:linear-gradient(155deg,var(--navy),var(--navy2) 66%,#214b76);color:#f7f9fb}
+.slide--blue{background:linear-gradient(135deg,var(--blue-soft),#fbfdfe)}
+.slide--green{background:linear-gradient(135deg,var(--green-soft),#fbfdfc)}
+.slide--gold{background:linear-gradient(135deg,var(--gold-soft),#fffdf8)}
+.slide--teal{background:linear-gradient(135deg,var(--teal-soft),#f9fdfd)}
+.slide--coral{background:linear-gradient(135deg,var(--coral-soft),#fffaf8)}
+.slide--purple{background:linear-gradient(135deg,var(--purple-soft),#fcfafd)}
+.eyebrow{margin-bottom:.55rem;font-size:clamp(.78rem,.9vw,1rem);font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.slide--dark .eyebrow{color:var(--gold)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,4.9vw,5rem);line-height:1.03}
+h2{font-size:clamp(1.9rem,3.1vw,3.2rem);line-height:1.08;margin-bottom:.8rem;color:var(--navy)}
+.slide--dark h1,.slide--dark h2{color:#fff}
+h3{font-size:clamp(1.02rem,1.35vw,1.35rem);line-height:1.2;color:var(--navy)}
+.lede{font-size:clamp(1.02rem,1.43vw,1.47rem);line-height:1.42;color:var(--muted);max-width:67ch;margin-bottom:1rem}
+.slide--dark .lede{color:#dfe6ee}
+.bigline{font-family:var(--serif);font-size:clamp(2.1rem,3.9vw,4rem);line-height:1.12;color:var(--navy);max-width:27ch}
+.slide--dark .bigline{color:#fff}
+.grid{display:grid;gap:clamp(.7rem,1.15vw,1.15rem);flex:1;align-content:center;min-height:0}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:clamp(.8rem,1.15vw,1.15rem);box-shadow:0 4px 18px rgba(10,30,61,.055);min-width:0}
+.card h3{margin-bottom:.35rem}.card p,.card li{font-size:clamp(.88rem,1.06vw,1.07rem);line-height:1.38;color:var(--muted)}
+.card ul,.card ol{padding-left:1.15rem}.card li{margin:.24rem 0}
+.card--blue{background:var(--blue-soft);border-color:var(--blue)}.card--green{background:var(--green-soft);border-color:var(--green)}.card--gold{background:var(--gold-soft);border-color:var(--gold)}.card--teal{background:var(--teal-soft);border-color:var(--teal)}.card--coral{background:var(--coral-soft);border-color:var(--coral)}.card--purple{background:var(--purple-soft);border-color:var(--purple)}
+.tag{display:inline-block;font-size:.68rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .58rem;border-radius:999px;margin-bottom:.45rem;background:var(--navy);color:#fff}
+.lo{display:inline-flex;align-items:center;justify-content:center;min-width:2.9rem;border-radius:999px;padding:.23rem .58rem;background:var(--navy);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:.5rem}
+.band{margin-top:auto;background:var(--navy);color:#fff;border-radius:13px;padding:.82rem 1.15rem;font-size:clamp(.96rem,1.23vw,1.25rem);line-height:1.38}.band b{color:var(--gold)}.slide--dark .band{background:rgba(255,255,255,.12)}
+.prompt{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:.78rem 1rem;font-size:clamp(.96rem,1.18vw,1.2rem);line-height:1.4;margin-top:.65rem}
+.source{font-size:clamp(.68rem,.76vw,.8rem);line-height:1.3;color:var(--muted);margin-top:.45rem}.slide--dark .source{color:#d3dce6}
+.foot{position:absolute;left:0;right:9rem;bottom:0;display:flex;align-items:center;justify-content:flex-start;gap:1.7rem;padding:.65rem clamp(1.45rem,4.3vw,4.25rem);font-size:.71rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.slide--dark .foot{color:#c9d3de}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:.26rem .62rem;font-size:.78rem;font-weight:800;background:#fff;border:1px solid var(--line);color:var(--navy)}
+.timer{font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);line-height:1;color:var(--navy);text-align:center;margin:.55rem 0 .45rem;font-variant-numeric:tabular-nums}.slide--dark .timer{color:#fff}.tbtns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap}.tbtns button{border-radius:999px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;padding:.43rem .95rem;cursor:pointer}.tbtns button.primary{background:var(--navy);color:#fff}.slide--dark .tbtns button{border-color:#fff;background:transparent;color:#fff}.slide--dark .tbtns button.primary{background:#fff;color:var(--navy)}
+.timer--small{font-size:clamp(2rem,3.4vw,3.4rem);margin:.2rem 0}
+.reveal{margin-top:.55rem;background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:.38rem .9rem;font-weight:750;font-size:.88rem;cursor:pointer}
+.reveal.on{background:var(--blue);color:#fff}
+
+/* running order */
+.stats4{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}
+.statc{background:#fff;border:2px solid var(--line);border-radius:16px;padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.statc .big{font-family:var(--serif);font-size:clamp(2.4rem,4.4vw,4.6rem);line-height:1;color:var(--navy)}
+.statc .what{font-size:clamp(.95rem,1.15vw,1.15rem);line-height:1.35;color:var(--ink)}
+.statc .src{font-size:.72rem;color:var(--muted);margin-top:auto;padding-top:.4rem}
+.statc.hot{border-color:var(--coral);background:var(--coral-soft)}.statc.hot .big{color:var(--coral)}
+.statc.gold{border-color:var(--gold);background:var(--gold-soft)}
+/* david */
+.week{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.wk{border-radius:18px;padding:1.05rem 1.15rem;border:2px solid var(--line);background:#fff;display:flex;flex-direction:column;gap:.4rem}
+.wk h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.9vw,1.9rem)}
+.wk .row{display:grid;grid-template-columns:6.2rem 1fr;gap:.6rem;font-size:clamp(.88rem,1.05vw,1.05rem);line-height:1.35;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.wk .row b{color:var(--navy)}.wk .row:last-child{border-bottom:none}
+.wk.bad{border-color:var(--coral);background:var(--coral-soft)}.wk.good{border-color:var(--green);background:var(--green-soft)}
+.wk .out{margin-top:auto;font-family:var(--serif);font-size:clamp(1rem,1.25vw,1.25rem);color:var(--navy);padding-top:.5rem}
+/* myths */
+.myths{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;flex:1;align-content:center}
+.myth{background:#fff;border:2px solid var(--line);border-radius:16px;padding:1rem 1.1rem;cursor:pointer;min-height:8.5rem;display:flex;flex-direction:column;gap:.4rem}
+.myth .m{font-family:var(--serif);font-size:clamp(1.1rem,1.55vw,1.55rem);color:var(--navy);line-height:1.2}
+.myth .a{display:none;font-size:clamp(.9rem,1.05vw,1.05rem);line-height:1.38;color:var(--ink);border-top:1px dashed var(--line);padding-top:.5rem}
+.myth .v{margin-top:auto;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:800}
+.myth.open{border-color:var(--coral)}.myth.open .a{display:block}.myth.open .v{color:var(--coral)}
+/* spot */
+.spot{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem;flex:1;align-content:center}
+.sp{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.95rem 1rem;cursor:pointer;min-height:7.5rem;display:flex;flex-direction:column;gap:.35rem}
+.sp .t{font-size:clamp(1rem,1.2vw,1.2rem);line-height:1.3;color:var(--ink)}
+.sp .ans{display:none;margin-top:auto;font-family:var(--sans);font-weight:800;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--navy);border-radius:999px;padding:.3rem .7rem;align-self:flex-start}
+.sp.open .ans{display:inline-block}
+/* scotland */
+.areas{display:flex;flex-wrap:wrap;gap:.5rem}.area{border-radius:999px;background:#fff;border:2px solid var(--teal);color:var(--navy);font-weight:750;padding:.4rem .85rem;font-size:clamp(.85rem,1vw,1rem)}
+.runorder{display:grid;grid-template-columns:1fr 1fr;gap:.55rem 1.2rem;flex:1;align-content:center}
+.ro{display:grid;grid-template-columns:4.2rem 1fr auto;gap:.6rem;align-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:11px;padding:.5rem .75rem;font-size:clamp(.82rem,1vw,1.02rem)}
+.ro b{color:var(--gold);font-variant-numeric:tabular-nums}.ro em{font-style:normal;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:#c9d3de}
+.ro.do{background:rgba(212,168,67,.16);border-color:rgba(212,168,67,.4)}
+
+/* retrieval */
+.retrieval{display:grid;grid-template-columns:1.1fr .9fr;gap:1.2rem;flex:1;align-content:center}
+.qs{display:grid;gap:.6rem}.q{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem;font-family:var(--serif);font-size:clamp(1.05rem,1.5vw,1.5rem);color:var(--navy);line-height:1.25}
+.q small{display:block;font-family:var(--sans);font-size:.8rem;color:var(--muted);margin-top:.3rem}
+
+/* the hinge */
+.hinge{display:grid;grid-template-columns:1fr 1.25fr;gap:1.2rem;flex:1;min-height:0;align-items:center}
+.hinge .qs .q{cursor:default;transition:transform .35s,opacity .35s}
+.hinge .q[data-goes]{border-color:var(--teal)}
+.hinge .q .goes{display:none;font-family:var(--sans);font-size:.82rem;font-weight:800;color:var(--teal);margin-top:.35rem;letter-spacing:.05em;text-transform:uppercase}
+.hinge.placed .q .goes{display:block}
+
+/* house svg */
+.housewrap{display:grid;grid-template-columns:1.15fr .85fr;gap:1.1rem;flex:1;min-height:0;align-items:center}
+.house{width:100%;height:auto;max-height:62vh;display:block}
+.house .comp{cursor:pointer;transition:opacity .25s,filter .25s}
+.house .comp .shape{stroke:#fff;stroke-width:3;transition:fill .25s,stroke .25s,stroke-dasharray .25s}
+.house .comp text{font-family:var(--sans);font-weight:800;fill:#fff;pointer-events:none;text-anchor:middle}
+.house .comp .lab{font-size:15px}.house .comp .sub{font-size:11px;font-weight:600;opacity:.9}
+.house .comp:hover .shape{filter:brightness(1.08)}
+.house .comp.selected .shape{stroke:var(--gold);stroke-width:6}
+.house .comp.removed{opacity:.28}.house .comp.removed .shape{stroke-dasharray:8 6;stroke:var(--coral);fill:#d9d3cb!important}
+.house .comp.weak .shape{fill:#c98a76!important;stroke-dasharray:6 5;stroke:var(--coral)}
+.house .comp.fixed .shape{fill:var(--green)!important;stroke:#fff;stroke-dasharray:none}
+.house .crack{stroke:var(--coral);stroke-width:3;fill:none;stroke-linecap:round;opacity:0;transition:opacity .3s}
+.house.mode-remove .removed ~ .crack,.house .showcrack{opacity:1}
+.panel{background:#fff;border:2px solid var(--line);border-radius:18px;padding:1.05rem 1.15rem;min-height:0;display:flex;flex-direction:column;gap:.45rem;box-shadow:0 4px 18px rgba(10,30,61,.055)}
+.panel .eyebrow{margin-bottom:.15rem}
+.panel h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.9vw,1.9rem);line-height:1.15}
+.panel p{font-size:clamp(.9rem,1.08vw,1.08rem);line-height:1.4;color:var(--muted)}
+.panel .ric{background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.55rem .75rem}
+.panel .link{background:var(--teal-soft);border-left:5px solid var(--teal);border-radius:8px;padding:.55rem .75rem}
+.panel .fail{background:var(--coral-soft);border-left:5px solid var(--coral);border-radius:8px;padding:.55rem .75rem}
+.panel .fix{background:var(--green-soft);border-left:5px solid var(--green);border-radius:8px;padding:.55rem .75rem}
+.panel .hint{font-size:.82rem;color:var(--muted);margin-top:auto}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+.chip{border-radius:999px;border:1px solid var(--line);background:#fff;padding:.3rem .7rem;font-size:.8rem;font-weight:750;color:var(--navy);cursor:pointer}
+.chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* claims */
+.claims{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.claim{background:#fff;border:2px solid var(--line);border-radius:18px;padding:1.1rem;cursor:pointer;min-height:16rem;display:flex;flex-direction:column;transition:border-color .2s}
+.claim .num{font-family:var(--serif);font-size:clamp(2.4rem,4vw,4rem);line-height:1;color:var(--navy)}
+.claim .what{font-size:clamp(.95rem,1.15vw,1.15rem);color:var(--muted);margin-top:.35rem}
+.claim .n{font-size:.78rem;color:var(--muted);margin-top:.2rem}
+.claim .ask{display:none;margin-top:.7rem;border-top:1px dashed var(--line);padding-top:.6rem}
+.claim .ask li{font-size:clamp(.85rem,1vw,1rem);line-height:1.35;color:var(--navy);margin:.28rem 0 .28rem 1rem}
+.claim.open{border-color:var(--coral)}.claim.open .ask{display:block}
+.claim .tap{margin-top:auto;font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);font-weight:800}
+
+/* readability lab */
+.lab{display:grid;grid-template-columns:1.2fr .8fr;gap:1.1rem;flex:1;min-height:0}
+.lab textarea{width:100%;height:100%;min-height:11rem;resize:none;border:2px solid var(--navy);border-radius:14px;padding:.9rem 1rem;font-size:clamp(1rem,1.3vw,1.3rem);line-height:1.5;color:var(--ink);background:#fff}
+.labcol{display:flex;flex-direction:column;gap:.6rem;min-height:0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.stat{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.55rem .7rem}
+.stat b{display:block;font-family:var(--serif);font-size:clamp(1.5rem,2.3vw,2.3rem);line-height:1;color:var(--navy)}
+.stat span{font-size:.74rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.stat.ok{border-color:var(--green)}.stat.warn{border-color:var(--coral)}
+.preview{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.7rem .85rem;font-size:clamp(.9rem,1.05vw,1.05rem);line-height:1.5;overflow:auto;flex:1;min-height:5rem;color:var(--muted)}
+.preview mark{background:var(--coral-soft);color:var(--coral);border-bottom:2px solid var(--coral);padding:0 .15em;border-radius:3px}
+.preview .long{background:var(--gold-soft);border-radius:4px}
+.legend{font-size:.78rem;color:var(--muted)}
+
+/* module map */
+.units{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem;flex:1;align-content:center}
+.unit{background:#fff;border:2px solid var(--line);border-radius:13px;padding:.65rem .7rem;min-width:0}
+.unit b{display:block;color:var(--navy);font-size:clamp(.82rem,.98vw,.98rem);line-height:1.25}
+.unit small{display:block;color:var(--muted);font-size:.72rem;margin-top:.3rem}
+.unit.today{border-color:var(--gold);background:var(--gold-soft)}
+.unit.campus{border-left:6px solid var(--blue)}
+.unit.assess{background:var(--navy);color:#fff;border-color:var(--navy)}.unit.assess b,.unit.assess small{color:#fff}
+
+/* maria */
+.fixlist{display:grid;gap:.45rem}
+.fixbtn{text-align:left;border:2px solid var(--line);background:#fff;border-radius:11px;padding:.55rem .75rem;cursor:pointer;color:var(--navy);font-weight:700;font-size:clamp(.85rem,1vw,1rem)}
+.fixbtn.done{border-color:var(--green);background:var(--green-soft)}
+.fixbtn small{display:block;font-weight:500;color:var(--muted);font-size:.8rem;margin-top:.15rem}
+
+/* controls */
+.nav{position:fixed;right:1rem;bottom:.72rem;display:flex;gap:.45rem;align-items:center;z-index:20}.nav button{width:2.45rem;height:2.45rem;border-radius:50%;border:none;background:var(--navy);color:#fff;font-size:1.08rem;cursor:pointer}.nav button:disabled{opacity:.3}.nav span{font-size:.82rem;color:var(--muted);min-width:4.3rem;text-align:center}.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--gold);width:0;z-index:25;transition:width .18s}
+.menu-toggle{position:fixed;right:1rem;top:.75rem;width:2.45rem;height:2.45rem;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.93);color:var(--navy);font-size:1.15rem;font-weight:800;cursor:pointer;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tools{position:fixed;right:4rem;top:.78rem;display:none;gap:.4rem;z-index:29;flex-wrap:wrap;justify-content:flex-end}.tools.open{display:flex}.tools button{border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.96);padding:.32rem .72rem;font-size:.76rem;cursor:pointer;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sr{position:absolute;left:-9999px}.speaker-note{display:none}
+.notes-panel{position:fixed;left:1rem;bottom:3.6rem;width:min(43rem,80vw);max-height:44vh;overflow:auto;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:1rem 1.1rem;z-index:80;box-shadow:0 15px 50px rgba(0,0,0,.22);display:none}.notes-panel.open{display:block}.notes-panel h3{margin-bottom:.45rem}.notes-panel p,.notes-panel li{font-size:.9rem;line-height:1.42;color:var(--muted)}.notes-panel ul{padding-left:1.1rem}
+.overlay{position:fixed;inset:0;background:rgba(5,16,31,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:2rem}.overlay.open{display:flex}.modal{width:min(92vw,68rem);max-height:86vh;overflow:auto;background:var(--paper);border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 24px 80px rgba(0,0,0,.35)}.modal h2{font-size:2rem}.modal .close{float:right;border:none;background:var(--navy);color:#fff;border-radius:999px;padding:.42rem .8rem;cursor:pointer}.modal ol,.modal ul{padding-left:1.4rem}.modal li{margin:.5rem 0;line-height:1.45}.modal p{line-height:1.45;margin:.5rem 0}.modal a{overflow-wrap:anywhere}.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}.slide-list button{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55rem .7rem;cursor:pointer;color:var(--navy)}.slide-list button:hover{background:var(--blue-soft)}
+.verify{display:inline-block;background:var(--coral-soft);color:var(--coral);border:1px solid var(--coral);border-radius:999px;padding:.1rem .5rem;font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-left:.3rem}
+
+@media(max-width:820px){.g4,.g3,.claims,.units{grid-template-columns:1fr 1fr}.housewrap,.hinge,.retrieval,.lab,.runorder{grid-template-columns:1fr}.house{max-height:40vh}.tools button:nth-child(n+5){display:none}}
+@media(max-height:720px){.slide{padding-top:1rem;padding-bottom:3.8rem}h1{font-size:clamp(2.2rem,4vw,3.8rem)}h2{font-size:clamp(1.7rem,2.8vw,2.7rem)}.card{padding:.65rem .8rem}.lede{margin-bottom:.65rem}.foot{padding-bottom:.5rem}.timer{font-size:4.2rem}.house{max-height:52vh}}
+@media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex;opacity:1;page-break-after:always;width:13.333in;height:7.5in}.nav,.menu-toggle,.tools,.progress,.notes-panel,.overlay{display:none!important}.speaker-note{display:none!important}}
+@page{size:13.333in 7.5in;margin:0}
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuBtn" aria-label="Open presentation tools" aria-expanded="false">⋯</button>
+<div class="tools" id="tools"><button id="slidesBtn">Slides</button><button id="notesBtn">Notes</button><button id="sourcesBtn">Sources</button><button id="glossBtn">Glossary</button><button id="helpBtn">Help</button><button id="fsBtn">Full screen</button><button id="printBtn">Print</button></div>
+<div class="sr" aria-live="polite" id="ann"></div>
+<main class="deck">
+
+<section class="slide slide--dark" id="s1" tabindex="-1" aria-label="Welcome back: the afternoon">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Unit 2 · The House of Care</span></div>
+  <div class="eyebrow">Unit 2 · The House of Care · 13:30–16:30</div>
+  <h1>This morning was the problem.<br>This afternoon is the response.</h1>
+  <p class="lede" style="margin-top:.8rem">One big task, and a lot to look at. By 16:30 you will have rebuilt Richard's care as a house.</p>
+  <div class="runorder">
+    <div class="ro"><b>13:33</b><span>What stuck from this morning?</span><em>5 min · write</em></div>
+    <div class="ro"><b>13:40</b><span>A short film, then the one number the house is built on</span><em>10 min</em></div>
+    <div class="ro"><b>13:50</b><span>Your three questions find a home — the five parts of the house</span><em>28 min</em></div>
+    <div class="ro"><b>14:18</b><span>David's week, before and after — then take a wall away</span><em>14 min</em></div>
+    <div class="ro"><b>14:32</b><span>Break</span><em>15 min</em></div>
+    <div class="ro"><b>14:47</b><span>Four myths · the house in Scotland · Maria's house strengthened</span><em>21 min</em></div>
+    <div class="ro do"><b>15:08</b><span>Build Richard's house on this morning's map</span><em>30 min · the one big task</em></div>
+    <div class="ro"><b>15:38</b><span>Two houses at the front — what did we find?</span><em>8 min</em></div>
+    <div class="ro"><b>15:46</b><span>Spot the part · interrogate the evidence</span><em>11 min</em></div>
+    <div class="ro"><b>15:57</b><span>Writing for a family — the readability lab, live</span><em>10 min · watch</em></div>
+    <div class="ro"><b>16:07</b><span>Your leaflet, the road ahead, exit ticket</span><em>15 min</em></div>
+    <div class="ro"><b>16:22</b><span>Close</span><em>4 min</em></div>
+  </div>
+  <aside class="speaker-note"><p>Set the contract for the afternoon in one breath: this morning I did most of the talking; this afternoon you do most of the work. Roughly an hour of input, two hours of doing. Say why: after lunch, application beats new content. Then tell them to get this morning's Richard maps back on the tables — they are the foundation of the main activity.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s2" tabindex="-1" aria-label="Retrieval: what stuck">
+  <div class="foot"><span>Unit 2</span><span>Retrieval</span></div>
+  <div class="eyebrow">No notes · on your own · then compare with a neighbour</div>
+  <h2>Before we add anything: what stuck?</h2>
+  <div class="retrieval">
+    <div class="qs">
+      <div class="q">What were the three questions for testing whether care is joined up?<small>Plain words are fine. The labels are a bonus.</small></div>
+      <div class="q">Name one boundary Richard's care has to cross.<small>Between which two organisations, teams or systems?</small></div>
+      <div class="q">Finish the sentence: <i>Integration is a means, not…</i><small>And then: so what is the question we always ask?</small></div>
+    </div>
+    <div>
+      <div class="timer" data-secs="300">05:00</div>
+      <div class="tbtns"><button class="primary" data-act="start">Start 5 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+      <button class="reveal" data-toggle="retrieveAns" data-on="Hide answers" data-off="Show answers">Show answers</button>
+      <div id="retrieveAns" hidden style="margin-top:.6rem">
+        <div class="card card--teal"><p><b>Information · plan · relationships.</b> Does the information follow him? Does the plan join up? Does someone know him over time?</p><p style="margin-top:.4rem"><b>…not the outcome.</b> The question is always: what changed for the person?</p></div>
+      </div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Retrieval, not re-teaching. Three minutes writing in silence, two minutes comparing with a neighbour. Then reveal. The point is to get the morning's tools back into working memory before you attach the house to them — and to find out, cheaply, what did not land. If the three questions are shaky, spend ninety seconds re-stating them; the whole afternoon hangs on them.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s3" tabindex="-1" aria-label="Afternoon objectives">
+  <div class="foot"><span>Unit 2</span><span>Objectives</span></div>
+  <div class="eyebrow">By 16:30 you should be able to…</div>
+  <h2>Four things, and the one assessment they serve</h2>
+  <div class="grid g2" style="flex:none;margin-bottom:.8rem">
+    <div class="card"><span class="lo">L3</span><h3>Name the five parts of the House of Care</h3><p>And say what each one does for a person with a long-term condition — in words a family would understand.</p></div>
+    <div class="card"><span class="lo">L3 · L1</span><h3>Connect the house to this morning's three questions</h3><p>See the framework as the practical answer to informational, management and relational continuity — not a separate topic.</p></div>
+    <div class="card"><span class="lo">L3 · L2</span><h3>Diagnose a weak house and strengthen it</h3><p>Identify which component is failing for a real person and propose one realistic improvement.</p></div>
+    <div class="card"><span class="lo">L2</span><h3>Explain the house to Richard's daughter</h3><p>Plain English, short sentences, no jargon — which is exactly what the leaflet is marked on.</p></div>
+  </div>
+  <div class="band">The leaflet's biggest single block of marks — <b>30 of 100</b> — is the House of Care. This afternoon is that block.</div>
+  <aside class="speaker-note"><p>These map to L3 mainly, with L1 and L2 threaded through. Keep the last objective visible in your mind: the afternoon ends with students producing the explanation, not just hearing one. Everything before 15:50 is preparation for that.</p></aside>
+</section>
+
+<section class="slide" id="s4" tabindex="-1" aria-label="Film">
+  <div class="foot"><span>Unit 2</span><span>A short film · 6 minutes</span></div>
+  <div class="eyebrow">Change of mode · three minutes of film, then one minute to note</div>
+  <h2>What changes in the appointment</h2>
+  <div class="grid" style="grid-template-columns:1.45fr .8fr;flex:1;align-items:stretch;min-height:0">
+    <div class="card card--gold" style="display:flex;flex-direction:column;gap:.6rem;min-height:0">
+      <div style="position:relative;width:100%;aspect-ratio:16/9;min-height:14rem;max-height:52vh;border-radius:12px;overflow:hidden;background:#000">
+        <iframe src="https://www.youtube-nocookie.com/embed/q01ZBJHq4v4?rel=0" title="Collaborative Care and Support Planning — RCGP animation" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <p style="font-size:.9rem;color:var(--muted)"><b>Collaborative Care and Support Planning — an introduction.</b> Royal College of General Practitioners, 3 min. If the player won't load here, <a href="https://www.youtube.com/watch?v=q01ZBJHq4v4" target="_blank" rel="noopener">open it on YouTube</a>.</p>
+    </div>
+    <div class="card card--blue" style="display:flex;flex-direction:column;justify-content:center">
+      <h3>Watch for one thing</h3>
+      <p style="font-size:clamp(1.15rem,1.6vw,1.6rem);color:var(--navy);line-height:1.3">What happens <b>before</b> the conversation?</p>
+      <p style="margin-top:.8rem;font-size:.95rem;color:var(--muted)">An ordinary appointment with an older person who has several conditions — and then the same care, done differently.</p>
+    </div>
+  </div>
+  <div class="band">Afterwards: what happened before the conversation that <b>never happens for Richard</b>?</div>
+  <aside class="speaker-note"><p>One film, the how — three minutes of film, one minute of notes, two of answers. The BHF House of Care film is the fallback only: the next three slides explain why the house exists, with Richard in them, so a second "why" film is duplication. The RCGP animation is embedded on the slide and plays in place; the YouTube link underneath is the fallback if the venue blocks embedded video. Test sound before the day. The second question is the point: their answers — results sent out, a sheet asking what matters, time booked, a plan already written — are the left wall and the roof, which you teach next. Fallback if the RCGP film is unavailable: play BHF only and ask which of the morning's three questions it talked about.</p></aside>
+</section>
+
+
+<section class="slide slide--gold" id="s4b" tabindex="-1" aria-label="Three hours a year">
+  <div class="foot"><span>Unit 2</span><span>Why the house exists · 4 minutes</span></div>
+  <div class="eyebrow">One number the whole framework is built on</div>
+  <h2>Three hours a year</h2>
+  <div class="stats4">
+    <div class="statc"><div class="big">3 hrs</div><div class="what">That's roughly how long a person with a long-term condition spends with health professionals in a whole year.</div><div class="src">Year of Care; IPPR</div></div>
+    <div class="statc hot"><div class="big">8,757 hrs</div><div class="what">The rest of the year. They manage it themselves — 99.95% of the time.</div><div class="src">Year of Care; IPPR</div></div>
+    <div class="statc gold"><div class="big">One question</div><div class="what">So the House of Care changes the question — from <i>"what is the matter with you?"</i> to <i>"what matters to you?"</i></div><div class="src">Year of Care Partnerships</div></div>
+  </div>
+  <div class="band">If we only get three hours, the job isn't to fix people in the room. <b>It's to make the other 8,757 hours work.</b></div>
+  <aside class="speaker-note"><p>This is the House of Care's own founding fact and the reason it looks the way it does. Three hours is not enough time to manage anyone's condition for them — so the house is built to prepare the person for the other 8,757 hours: information before the appointment, a conversation about what matters, a plan they own, and support outside the clinic. Land the question shift hard; it comes back on the centre of the house in ten minutes.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s5" tabindex="-1" aria-label="The hinge: three questions become five components">
+  <div class="foot"><span>Unit 2</span><span>The hinge</span></div>
+  <div class="eyebrow">Your three questions from this morning have a home</div>
+  <h2>The house is the answer to the questions you already have</h2>
+  <div class="hinge" id="hinge">
+    <div class="qs">
+      <div class="q" data-goes="roof">Does the information follow him?<span class="goes">↳ the roof · organisational processes and shared records</span></div>
+      <div class="q" data-goes="centre">Does the plan join up?<span class="goes">↳ the centre · the care and support planning conversation</span></div>
+      <div class="q" data-goes="walls">Does someone know him over time?<span class="goes">↳ the two walls · an engaged person, a committed team</span></div>
+      <div class="q" style="border-color:var(--gold)">And one you have not asked yet: <i>what holds all of this up?</i><span class="goes" style="color:var(--gold)">↳ the foundation · more than medicine</span></div>
+      <button class="reveal" id="placeBtn">Place the questions in the house</button>
+    </div>
+    <div id="houseHinge"></div>
+  </div>
+  <aside class="speaker-note"><p>This is the single most important slide of the afternoon. Do not skip it or rush it. Read the three questions aloud, then click to place them. The framework arrives as a home for tools they already own, not as a new topic. Then the fourth question: this morning we talked about services and professionals; the house also insists that most of what keeps someone well is not medicine at all — the daughter, the housing officer, the community — and that is the foundation. That sets up why the morning's maps are the base of this afternoon's build.</p></aside>
+</section>
+
+<section class="slide" id="s6" tabindex="-1" aria-label="The House of Care, component by component">
+  <div class="foot"><span>Unit 2</span><span>The five parts of the house</span></div>
+  <div class="eyebrow">Teaching block · 25 minutes · one component at a time</div>
+  <h2>The House of Care</h2>
+  <div class="housewrap">
+    <div id="houseTeach"></div>
+    <div class="panel" id="panelTeach">
+      <div class="eyebrow">Five parts</div>
+      <h3>One house. Five parts. Each one does a job.</h3>
+      <p>For each part: what it is in plain words, which of this morning's questions it answers, what it looks like in real life, and what it would mean for Richard.</p>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Click each part and the panel fills. Teach the centre first — the care and support planning conversation is what the whole house exists to make possible. Then the two walls, because a conversation needs two prepared parties. Then the roof: the organisational arrangements that make the conversation possible at scale (records, templates, time, MDT working) — this is your own Unit 3 territory, so name it and park it. Foundation last: everything that is not medicine, sustained by resources being allocated to it. Five minutes per component, and for each one ask the room: what would this look like for Richard? Use the film notes they wrote.</p></aside>
+</section>
+
+
+<section class="slide" id="s6b" tabindex="-1" aria-label="David's week, before and after">
+  <div class="foot"><span>Unit 2</span><span>What the house changes</span></div>
+  <div class="eyebrow">One man, one week, two versions</div>
+  <h2>David's week</h2>
+  <p class="lede" style="margin-bottom:.4rem">David has diabetes, a heart condition and depression. Here is one week of his care — twice.</p>
+  <div class="week">
+    <div class="wk bad" id="wkBad">
+      <h3>Without the house</h3>
+      <div class="row"><b>Monday</b><span>GP appointment — diabetes review</span></div>
+      <div class="row"><b>Wednesday</b><span>Cardiology appointment — heart</span></div>
+      <div class="row"><b>Friday</b><span>Mental health appointment — depression</span></div>
+      <div class="row"><b>Result</b><span>Tells his history three times</span></div>
+      <div class="row"><b>The gap</b><span>His medicines interact — and nobody is looking at all of them together</span></div>
+      <div class="out">"Nobody asked what I actually wanted."</div>
+    </div>
+    <div class="wk good" id="wkGood">
+      <h3>With the house</h3>
+      <div class="row"><b>Before</b><span>His results and a "what matters to you?" sheet arrive in the post</span></div>
+      <div class="row"><b>Monday</b><span>One appointment. The team has read his plan already</span></div>
+      <div class="row"><b>Focus</b><span>His goals lead the conversation</span></div>
+      <div class="row"><b>Coordination</b><span>The team looks at his medicines together</span></div>
+      <div class="row"><b>Result</b><span>One plan, updated together, that everyone can see</span></div>
+      <div class="out">"They already knew me when I walked in."</div>
+    </div>
+  </div>
+  <div class="band">Same man. Same conditions. Same NHS. <b>Which week sounds like your placement?</b></div>
+  <aside class="speaker-note"><p>Reclaimed from the module's Week 2 deck, because it does something no other slide does: it shows the house working, in a week, for an ordinary person — not Richard. Read the left column first and let the room wince at "three times". Then the right: notice that nothing new was invented, the same people are involved, they just prepared, met once and wrote one plan. Ask which week sounds like their placement; most say the left. Then: the right-hand week is what you are about to build for Richard.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s7" tabindex="-1" aria-label="Interdependence: take a part away">
+  <div class="foot"><span>Unit 2</span><span>Why a house and not a list</span></div>
+  <div class="eyebrow">What happens when a part is missing?</div>
+  <h2>Take a wall away. What happens to Richard?</h2>
+  <div class="housewrap">
+    <div id="houseRemove"></div>
+    <div class="panel" id="panelRemove">
+      <div class="eyebrow">The point of a house</div>
+      <h3>Every part depends on the others</h3>
+      <p>You can have four parts out of five and still have no shelter.</p>
+      <div class="chips"><button class="chip" id="restoreBtn">Restore the house</button></div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>This is why the metaphor is a house rather than a checklist. Remove the roof and the best conversation in the world gets lost because nothing records it and nobody else knows it happened. Remove the left wall and you have a professional talking at someone who has not been prepared for the conversation. Remove the foundation and the plan is medically perfect and practically impossible — no housing officer, no daughter, no hub. Let students call out the consequence before you click; the panel is there to confirm, not to teach. Ask, at the end: which part of Richard's house was missing this morning? Most will say the roof or the foundation. Both are right.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s8" tabindex="-1" aria-label="Break">
+  <div class="foot"><span>Unit 2</span><span>Break</span></div>
+  <div class="eyebrow">Break</div>
+  <h2 style="color:#fff">Fifteen minutes</h2>
+  <div class="timer" data-secs="900">15:00</div>
+  <div class="tbtns"><button class="primary" data-act="start">Start break</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+  <p class="lede" style="margin-top:1.2rem">When we come back: I show you how to strengthen a weak house. Then you do it for Richard, on top of this morning's map.</p>
+  <aside class="speaker-note"><p>Use the break to get flipchart sheets and pens on every table and to put this morning's Richard maps back out. The build after the break needs those sheets physically present.</p></aside>
+</section>
+
+
+<section class="slide slide--blue" id="s8b" tabindex="-1" aria-label="Four myths">
+  <div class="foot"><span>Unit 2</span><span>True or false</span></div>
+  <div class="eyebrow">Hands up · then we check</div>
+  <h2>Four things people say about the house</h2>
+  <div class="myths">
+    <div class="myth" tabindex="0"><div class="m">"Person-centred care always takes longer."</div><div class="a"><b>False.</b> The first planning conversation is longer. The next twenty appointments are shorter, because the person arrives prepared and the plan already exists.</div><div class="v">True or false?</div></div>
+    <div class="myth" tabindex="0"><div class="m">"Shared care plans are only for GPs."</div><div class="a"><b>False.</b> The hospital, the community team, the social worker and the person all use the same plan. That is the point of the roof.</div><div class="v">True or false?</div></div>
+    <div class="myth" tabindex="0"><div class="m">"Patients don't want the responsibility."</div><div class="a"><b>False.</b> People don't want to be abandoned. But they don't want to be passive either. What they want is partnership — and offered a real say, most people take it.</div><div class="v">True or false?</div></div>
+    <div class="myth" tabindex="0"><div class="m">"It's too complex to do in real life."</div><div class="a"><b>False.</b> Nobody builds the whole house on a Monday. Start with one part: one team, one question — "what matters to you?" — at the start of every appointment.</div><div class="v">True or false?</div></div>
+  </div>
+  <aside class="speaker-note"><p>Energiser straight after the break — five minutes, hands up for each, then click to reveal. All four are false, which the room will start to guess by the third; that's fine, ask them why. The first one matters most because it is what professionals say when they resist care planning; the answer is that time moves rather than grows. Reclaimed from the module's Week 2 deck with explanations added.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s8c" tabindex="-1" aria-label="The house in Scotland">
+  <div class="foot"><span>Unit 2</span><span>Used here, not just taught here</span></div>
+  <div class="eyebrow">Two things Scotland did</div>
+  <h2>The house in Scotland</h2>
+  <div class="grid g2" style="flex:1">
+    <div class="card card--teal"><h3>Scotland's House of Care programme</h3><p>Run by the ALLIANCE with the Scottish Government and Year of Care, starting in three areas and growing to eight. By 2019 about <b>one in ten GP teams in Scotland</b> was working this way.</p><div class="areas" style="margin-top:.6rem"><span class="area">Lothian</span><span class="area">Greater Glasgow &amp; Clyde</span><span class="area">Tayside</span><span class="area">Lanarkshire</span><span class="area">Ayrshire &amp; Arran</span><span class="area">Grampian</span><span class="area">Highland</span><span class="area">Western Isles</span></div></div>
+    <div class="card card--gold"><h3>"What matters to you?" day started here</h3><p>Scotland held the first one on <b>6 June 2016</b>, led by Healthcare Improvement Scotland. Over 500 teams took part. A year later it was more than <b>2,000 teams in 30 countries</b>. The question at the centre of the house — the shift from <i>what's the matter with you?</i> to <i>what matters to you?</i> — is an idea Scotland took from Norway and sent round the world.</p></div>
+  </div>
+  <div class="band">You are learning a framework that is <b>in use in the practices around you</b> — and a question this country made international.</div>
+  <p class="source">ALLIANCE Scotland, House of Care programme reviews 2018–19 · Healthcare Improvement Scotland, "What matters to you?" day reports</p>
+  <aside class="speaker-note"><p>Four minutes. Students in a Scottish classroom should know both of these. The adopter areas include Lanarkshire and Greater Glasgow and Clyde — some of them will have been on placement in a practice that uses care and support planning without knowing the name. The "what matters to you?" fact is a nice piece of national pride and it lands the question shift from the three-hours slide again. Sources are in the panel; both verified.</p></aside>
+</section>
+
+<section class="slide slide--purple" id="s9" tabindex="-1" aria-label="Worked example: Maria">
+  <div class="foot"><span>Unit 2</span><span>Worked example</span></div>
+  <div class="eyebrow">Maria · a weak house, and one small fix for each part</div>
+  <h2>How you strengthen a house</h2>
+  <div class="housewrap">
+    <div id="houseMaria"></div>
+    <div class="panel" id="panelMaria">
+      <div class="eyebrow">Maria</div>
+      <h3>Every part is weak. One fix at a time.</h3>
+      <p>Maria, 52. COPD and type 2 diabetes. Three appointments a month at three places, eleven medicines from three doctors, and a plastic bag of paper because nobody has the whole picture. What matters to her — "I need to keep working, to support my daughter through university" — nobody has ever asked.</p>
+      <div class="fixlist" id="mariaList"></div>
+      <p class="hint">Each fix: three months, under £500. Root cause is not "poor communication". Success is not "feels better".</p>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>This is a demonstration, not an activity — students watch you reason. Take each weak component in turn, say out loud what the root cause is, what one small change could make a big difference, who would need to be involved and how you would know it worked. Then click the fix. The house heals visibly. Keep it to fifteen minutes and resist opening it up; they get their turn next, on Richard. The reasoning pattern you model here — root cause, small change, who, how would we know — is the pattern they follow on their own sheets.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s10" tabindex="-1" aria-label="Build Richard's house">
+  <div class="foot"><span>Unit 2</span><span>Build · 30 minutes · groups of 3–4</span></div>
+  <div class="eyebrow">Your turn · on top of this morning's map</div>
+  <h2>Build Richard's house</h2>
+  <div class="grid g2" style="flex:1;align-items:start">
+    <div class="card" style="height:100%">
+      <h3>On your flipchart, draw the house over your morning map</h3>
+      <ol>
+        <li><b>Centre.</b> What matters to Richard goes here — you already wrote it this morning. What would a real care and support planning conversation with him need to cover?</li>
+        <li><b>Left wall.</b> What would help Richard, and his daughter, arrive at that conversation informed and confident?</li>
+        <li><b>Right wall.</b> Which professionals from your map need to be working as one team — and who holds the plan?</li>
+        <li><b>Roof.</b> What has to be in place organisationally? Think shared records, a discharge process that includes housing, an MDT that meets.</li>
+        <li><b>Foundation.</b> Everything on your map that is not medicine: daughter, housing officer, wellbeing hub, community. This is what keeps him at home.</li>
+      </ol>
+      <p style="margin-top:.5rem"><b>Then:</b> mark the weakest part with a cross, and write one fix beside it — root cause, small change, who, how you'd know. <b>Three months. Under £500.</b> Be specific.</p>
+    </div>
+    <div>
+      <div class="timer" data-secs="1800">30:00</div>
+      <div class="tbtns"><button class="primary" data-act="start">Start 30 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button><button data-overlay="buildOverlay">Open debrief</button></div>
+      <div class="prompt" style="margin-top:.9rem">Use the pattern from Maria: <b>root cause → one small change → who is involved → how you'd know it worked.</b></div>
+      <p class="source" style="margin-top:.7rem">Keep the sheet. Your December case report is the written version of what you are drawing now.</p>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>This is the main event of the day and the only group task of the afternoon; give it the full thirty minutes. Circulate constantly. The most common failure is groups filling the walls and the roof with generic phrases ("good communication") — push them back to the map: which named person, which named service, which actual boundary. The daughter is a genuinely interesting problem: she belongs on the left wall as a carer to be informed and supported, and on the foundation as informal support. Groups that notice she is in two places have understood the framework. Ten minutes before the end, tell every group to stop building and pick their weakest component and its fix.</p></aside>
+</section>
+
+<section class="slide" id="s11" tabindex="-1" aria-label="Gallery walk and debrief">
+  <div class="foot"><span>Unit 2</span><span>Debrief · 8 minutes</span></div>
+  <div class="eyebrow">Two houses at the front</div>
+  <h2>Which part of Richard's house is weakest — and did we agree?</h2>
+  <div class="grid g2" style="flex:1">
+    <div class="card card--blue"><h3>Hands up</h3><ul><li>Which part did your group mark as weakest? Roof · left wall · centre · right wall · foundation.</li><li>Where did you put his daughter — left wall, foundation, or both?</li></ul></div>
+    <div class="card card--gold"><h3>Looking at these two</h3><ul><li>Is the weakest part something one professional can fix alone — or does it need the roof?</li><li>What changed for Richard in the fix? If nothing changed for him, was it a fix?</li></ul></div>
+  </div>
+  <div class="band">The last question is this morning's test, applied to your own work: <b>what changed for the person?</b></div>
+  <aside class="speaker-note"><p>No gallery walk — pick two sheets while they are finishing, bring them to the front, and run the whole debrief from those. Eight minutes. Do the show of hands — it makes the pattern visible. Most rooms land on the roof or the foundation, which tells them something true about Richard's case: the individual professionals in his story are doing their jobs; it is the organisational arrangements and the non-medical support that are missing. If a group's fix is "better communication", ask what changed for Richard. That question is the discipline of the whole module.</p></aside>
+</section>
+
+
+<section class="slide slide--gold" id="s11b" tabindex="-1" aria-label="Spot the part">
+  <div class="foot"><span>Unit 2</span><span>Quick check · 3 minutes</span></div>
+  <div class="eyebrow">Call it out · which part of the house is this?</div>
+  <h2>Spot the part</h2>
+  <div class="spot">
+    <div class="sp" tabindex="0"><div class="t">A peer support group for people with diabetes</div><div class="ans">Left wall</div></div>
+    <div class="sp" tabindex="0"><div class="t">One record that the GP, the hospital and the wellbeing hub can all see</div><div class="ans">Roof</div></div>
+    <div class="sp" tabindex="0"><div class="t">A conversation that starts with "what matters to you?"</div><div class="ans">Centre</div></div>
+    <div class="sp" tabindex="0"><div class="t">A named person who holds Richard's plan</div><div class="ans">Right wall</div></div>
+    <div class="sp" tabindex="0"><div class="t">A benefits check and a housing repair</div><div class="ans">Foundation</div></div>
+    <div class="sp" tabindex="0"><div class="t">A discharge meeting with the ward, the GP and the housing officer in the room</div><div class="ans">Right wall — made possible by the roof</div></div>
+  </div>
+  <aside class="speaker-note"><p>Three minutes of retrieval before the evidence slide. Read each one, take the shout, click to reveal. The last one is deliberately arguable — the meeting is professionals working as one team (right wall), but it only happens because the organisation booked it (roof). If a student says both, they have understood the house better than the slide.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s12" tabindex="-1" aria-label="Interrogate the evidence">
+  <div class="foot"><span>Unit 2</span><span>Evidence · 10 minutes</span></div>
+  <div class="eyebrow">This morning you learned three questions to ask of any claim. Ask them now.</div>
+  <h2>Three claims about the House of Care. Click each and interrogate it.</h2>
+  <div class="claims">
+    <div class="claim" tabindex="0"><div class="num">−0.7%</div><div class="what">HbA1c in people with type 2 diabetes</div><div class="n">n ≈ 3,200 · claim as presented in a teaching deck</div><div class="ask"><ul><li><b>Compared with what?</b> Before and after, or against people who did not get the approach?</li><li><b>Over how long?</b> Six months looks different from three years.</li><li><b>What else could explain it?</b> Who was selected? What else changed?</li></ul></div><div class="tap">Click to interrogate</div></div>
+    <div class="claim" tabindex="0"><div class="num">↓13%</div><div class="what">Unplanned hospital admissions</div><div class="n">n ≈ 5,100 · claim as presented in a teaching deck</div><div class="ask"><ul><li><b>Compared with what?</b> Was there a comparison group at all?</li><li><b>Over how long?</b> Did the evaluation run long enough for change to mature?</li><li><b>Who was chosen?</b> If recent high users were selected, some fall would happen anyway.</li></ul></div><div class="tap">Click to interrogate</div></div>
+    <div class="claim" tabindex="0"><div class="num">+0.5 SD</div><div class="what">Wellbeing score (patient-reported)</div><div class="n">n ≈ 2,450 · claim as presented in a teaching deck</div><div class="ask"><ul><li><b>Compared with what?</b> Is half a standard deviation a lot? For whom?</li><li><b>Measured how?</b> Which instrument, and who filled it in?</li><li><b>Is this the person's outcome or the system's?</b> This is the one closest to what Richard would notice.</li></ul></div><div class="tap">Click to interrogate</div></div>
+  </div>
+  <p class="source"><b>Be honest with the room:</b> these figures are reproduced from a draft teaching deck and have not been verified against a primary source. That is not a weakness of the slide — it is the exercise. A Level 8 student should not accept them, or reject them, without asking these questions.</p>
+  <aside class="speaker-note"><p>This is the best callback of the day: you taught evaluation in the abstract this morning; here it is applied to claims about the very framework you have just built. Put the numbers up, invite reactions ("great!"), then click each claim and let the room ask the questions. Do not present these as findings — say plainly they came from a draft deck and are unverified. If you have a verified source before the session, replace them and the exercise still works; if not, the unverified status is itself the teaching point. Close with: the evidence base for care and support planning is broadly positive on experience and engagement, and much thinner on hard outcomes — exactly the shape of the integration evidence this morning.</p></aside>
+</section>
+
+<section class="slide slide--green" id="s13" tabindex="-1" aria-label="Leaflet rehearsal: the readability lab">
+  <div class="foot"><span>Unit 2</span><span>Writing for a family · 10 minutes</span></div>
+  <div class="eyebrow">Let's write it together and watch what happens</div>
+  <h2>Explain the house to Richard's daughter — in five sentences</h2>
+  <div class="lab">
+    <div style="display:flex;flex-direction:column;gap:.5rem;min-height:0">
+      <textarea id="labText" placeholder="Our five sentences go here. Start: 'Your dad's care is planned around what matters to him…'" aria-label="Our leaflet sentences"></textarea>
+      <div class="legend"><mark>Highlighted</mark> = words a family may not know · <span class="long" style="padding:0 .3em">shaded</span> = a sentence over 20 words</div>
+    </div>
+    <div class="labcol">
+      <div class="stats">
+        <div class="stat" id="stWords"><b>0</b><span>words</span></div>
+        <div class="stat" id="stSent"><b>0</b><span>sentences</span></div>
+        <div class="stat" id="stAvg"><b>0</b><span>words / sentence</span></div>
+        <div class="stat" id="stJarg"><b>0</b><span>jargon words</span></div>
+        <div class="stat" id="stGrade"><b>–</b><span>rough reading age</span></div>
+        <div class="stat" id="stComp"><b>0/5</b><span>house parts mentioned</span></div>
+      </div>
+      <div class="preview" id="labPreview"><i>Your sentences appear here with jargon and long sentences marked.</i></div>
+      <div class="prompt" style="margin-top:.2rem">Short sentences. No jargon. All five parts of the house. <b>Would you hand it to your own mum?</b></div>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>A demonstration now, not a group task — the writing comes back on the campus day before the leaflet is due, when they have drafts. Ten minutes: you type, the room shouts sentences, the panel reacts. Start with a deliberately bad one full of jargon and watch it light up red; then fix it together. Originally: fifteen minutes for groups to write five sentences on paper — the audience is Richard's daughter, who is bright, busy and not a professional. Then ten minutes: type two or three groups' sentences into the box live and let the room watch the panel react. The reading-age figure is a rough Flesch-Kincaid estimate, not a verdict — use it to provoke, not to grade. The jargon list catches the words that lose fifteen marks for readability: integrated, holistic, multidisciplinary, statutory, commissioning, pathway, framework. The house-parts counter is a nudge, not a rule: the leaflet must present all five components, so a strong explanation touches each. Ask the room which group's version they would actually hand to a relative in a waiting room. That judgement is the marking criterion.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s14" tabindex="-1" aria-label="Your leaflet: what today gave you">
+  <div class="foot"><span>Unit 2</span><span>Assessment 1</span></div>
+  <div class="eyebrow">One-page A4 leaflet · patients and families · 30% of the module</div>
+  <h2>What you now have for the leaflet — and what is still to come</h2>
+  <div class="grid g3" style="flex:1">
+    <div class="card card--green"><span class="tag" style="background:var(--green)">This morning</span><h3>Integrated care · 15 marks</h3><p>What it is, from the system's side and the person's side, and what it can and cannot achieve. You have the content; you need it in family language.</p></div>
+    <div class="card card--gold"><span class="tag" style="background:var(--gold);color:var(--navy)">This afternoon</span><h3>The House of Care · 30 marks</h3><p>All five parts and how they work together. You have just built one for Richard. That is the content of your leaflet — the writing comes next time.</p></div>
+    <div class="card card--blue"><span class="tag">Unit 4 · and today's centre</span><h3>Person-centred care · 15 marks</h3><p>Taught properly in Unit 4. But you already have the seed: what matters to Richard sat at the centre of everything you did today.</p></div>
+  </div>
+  <div class="band">Design 15 · readability 15 · introduction 5 · references 5. <b>Deadline and submission details: confirmed on Brightspace, not from memory.</b></div>
+  <aside class="speaker-note"><p>Show them how the day maps onto the marking scheme — it is the reason both sessions happened in this order. Do not announce a deadline unless it has been confirmed for 2026–27; say it will be on Brightspace. Name the two failure modes verbally: a beautiful leaflet with no content, or an essay folded into three. Then point at the readability lab they just used: that is the readability criterion, and they have already practised it.</p></aside>
+</section>
+
+<section class="slide" id="s15" tabindex="-1" aria-label="What happens next in the module">
+  <div class="foot"><span>Unit 2</span><span>The road ahead</span></div>
+  <div class="eyebrow">Fortnightly campus days · online units in between · dates on Brightspace</div>
+  <h2>Where the module goes from here</h2>
+  <div class="units">
+    <div class="unit today"><b>Units 1 &amp; 2 · today</b><small>Integrated care · The House of Care</small></div>
+    <div class="unit campus"><b>Unit 3 · campus</b><small>The roof: organisational arrangements, shared records, the two-world problem</small></div>
+    <div class="unit"><b>Unit 4 · online</b><small>Person-centred care — the centre and the left wall, properly</small></div>
+    <div class="unit campus"><b>Unit 5 · campus</b><small>Professionalism in health and social care</small></div>
+    <div class="unit"><b>Unit 6 · online</b><small>Teams and team working — the right wall</small></div>
+    <div class="unit campus"><b>Unit 7 · campus</b><small>Ethical and legal issues</small></div>
+    <div class="unit"><b>Unit 8 · online</b><small>Anticipatory care planning — prevention, from this morning</small></div>
+    <div class="unit assess"><b>Leaflet due</b><small>9am, Monday — date on Brightspace</small></div>
+    <div class="unit campus"><b>Unit 9 · campus</b><small>Co-production and informed decision making</small></div>
+    <div class="unit"><b>Unit 10 · online</b><small>Non-statutory services — the foundation</small></div>
+    <div class="unit campus"><b>Revision · 3 Dec</b><small>Both tutors · assessment support</small></div>
+    <div class="unit assess"><b>Case report due</b><small>Richard · 2,100 words · date on Brightspace</small></div>
+  </div>
+  <p class="source">Every later unit is a part of the house you built today: Unit 3 is the roof, Unit 4 the centre and left wall, Unit 6 the right wall, Unit 10 the foundation. <b>Before next time:</b> notice one thing on placement or at work that gets in the way of care joining up. Bring it.</p>
+  <aside class="speaker-note"><p>The point of this slide is not the dates — those live on Brightspace and must be confirmed for 2026–27 before you say any aloud. The point is the last line: the rest of the module is the house, taken one component at a time. Say it, and the ten units stop looking like a list and start looking like a plan. Check the fortnightly pattern and the campus/online split against the live timetable before the session.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s16" tabindex="-1" aria-label="Exit ticket">
+  <div class="foot"><span>Unit 2</span><span>Exit ticket · 5 minutes</span></div>
+  <div class="eyebrow">On a post-it · anonymous · leave it by the door</div>
+  <h2>Two things before you go</h2>
+  <div class="retrieval">
+    <div class="qs">
+      <div class="q">One thing that surprised you today.</div>
+      <div class="q">One question you still have — about the house, about Richard, or about the leaflet.</div>
+    </div>
+    <div>
+      <div class="timer" data-secs="300">05:00</div>
+      <div class="tbtns"><button class="primary" data-act="start">Start 5 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+      <p class="lede" style="margin-top:1rem;font-size:1.05rem">Your questions shape what we do on the next campus day.</p>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>Collect them. Read them tonight. They tell you what to open Unit 3 with, and they are the kind of student-voice evidence the digital health work needs. If several ask about records or "who can see what", you have your Unit 3 hook handed to you.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s17" tabindex="-1" aria-label="Close">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Close</span></div>
+  <div class="eyebrow">The day in one line</div>
+  <p class="bigline">This morning: a person's life crosses boundaries that services don't.<br><br>This afternoon: a way of building care that holds together anyway.</p>
+  <p class="lede" style="margin-top:1rem">Every time you ask "what matters to you?", you are building it. Every time you pass information to a colleague, you are strengthening the roof. Every time you see the person, not the patient, you are holding up a wall.</p>
+  <div class="band" style="margin-top:1.4rem">The rest of the module is the house, one part at a time. Next campus day: <b>the roof</b> — what has to be true organisationally for any of this to happen.</div>
+  <aside class="speaker-note"><p>Go back to the morning's wall of words one last time if it is still up. Then this. Then stop — do not start Unit 3. Thank them for six hours; it was a long day and they did the work in the second half of it.</p></aside>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">←</button><span id="lbl">1 / 22</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress" id="bar"></div>
+<div class="notes-panel" id="notesPanel" role="dialog" aria-label="Presenter notes"><h3 id="notesTitle">Presenter notes</h3><div id="notesBody"></div></div>
+
+<div class="overlay" id="slidesOverlay" role="dialog" aria-modal="true" aria-label="Slide navigator"><div class="modal"><button class="close" data-close="slidesOverlay">Close</button><h2>Slide navigator</h2><div class="slide-list" id="slideList"></div></div></div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="Keyboard help"><div class="modal"><button class="close" data-close="helpOverlay">Close</button><h2>Controls</h2><ul><li><b>← / →</b> or Page Up / Page Down: move slides</li><li><b>Home / End</b>: first / last slide</li><li><b>N</b>: presenter notes</li><li><b>S</b>: slide navigator</li><li><b>R</b>: sources</li><li><b>G</b>: glossary</li><li><b>F</b>: full screen</li><li><b>Esc</b>: close overlays/notes</li></ul><p>The house diagrams are clickable. Timers run locally in the browser. The readability lab keeps nothing — refresh clears it. Print produces one slide per page.</p></div></div>
+<div class="overlay" id="buildOverlay" role="dialog" aria-modal="true" aria-label="Build debrief"><div class="modal"><button class="close" data-close="buildOverlay">Close</button><h2>Richard's house — debrief prompts</h2><div class="grid g2" style="display:grid;flex:none"><div class="card card--gold"><h3>The centre</h3><p>Did what matters to Richard stay in the middle — or did diagnoses creep back in?</p></div><div class="card card--blue"><h3>The daughter</h3><p>Where did you put her? Left wall as a carer to be informed and supported, foundation as informal support — or both?</p></div><div class="card card--teal"><h3>The roof</h3><p>Who can see the plan? Does the discharge process include housing? Does anyone meet as a team?</p></div><div class="card card--green"><h3>The fix</h3><p>Root cause, one small change, who, how you'd know. And the morning's test: what changed for Richard?</p></div></div></div></div>
+<div class="overlay" id="glossOverlay" role="dialog" aria-modal="true" aria-label="Glossary"><div class="modal"><button class="close" data-close="glossOverlay">Close</button><h2>Glossary — the words in Richard's story</h2><p>Plain-English, one line each. Nobody is expected to know these already.</p>
+<div class="grid g2" style="display:grid;flex:none;gap:.5rem 1.2rem">
+<div><h3>The organisations</h3><ul>
+<li><b>NHS Scotland</b> — the health service. Free at the point of use. Organised into area <b>health boards</b> that run hospitals, community health and mental health services.</li>
+<li><b>Local authority / council</b> — elected local government. Responsible for social work, social care, housing, benefits advice, schools.</li>
+<li><b>Social care</b> — help with daily living: washing, dressing, meals, support at home, care homes. Assessed by the council and can be charged for.</li>
+<li><b>Third sector</b> — charities, voluntary and community organisations. Advice, advocacy, peer support, activities.</li>
+<li><b>Integration authority / Integration Joint Board (IJB)</b> — the body set up in each area, under the 2014 Act, to plan health and social care together.</li>
+<li><b>Health and Social Care Partnership (HSCP)</b> — the local arrangement through which integrated services are delivered.</li>
+</ul></div>
+<div><h3>The people</h3><ul>
+<li><b>GP</b> — general practitioner, the family doctor. First point of contact; refers to specialists.</li>
+<li><b>Ward team</b> — the doctors, nurses and others looking after someone while they are in hospital.</li>
+<li><b>Community mental health team</b> — NHS team supporting people with mental illness at home rather than in hospital.</li>
+<li><b>Social worker</b> — council professional who assesses needs, arranges support and protects people at risk.</li>
+<li><b>Housing officer</b> — council or housing association staff who manage tenancies, rent arrears and repairs.</li>
+<li><b>Unpaid carer</b> — a family member or friend who provides care without being paid. Has rights to support of their own.</li>
+<li><b>Link worker</b> — connects people to non-medical support in the community (<b>social prescribing</b>).</li>
+</ul></div>
+<div><h3>Richard's situation</h3><ul>
+<li><b>Long-term condition</b> — a health condition that can be managed but not cured, lived with for years, shaping daily life.</li>
+<li><b>Schizophrenia</b> — a serious mental illness affecting thinking, perception and mood. Treatable; often long-term, with periods of being well and periods of <b>relapse</b>.</li>
+<li><b>Type 2 diabetes</b> — a long-term condition where the body cannot control blood sugar well; managed by diet, activity and often medication.</li>
+<li><b>Inpatient unit / admission / discharge</b> — a hospital ward where someone stays for treatment; being taken in; being sent home with a plan.</li>
+<li><b>Tenancy</b> — the legal agreement to rent a home. <b>Rent arrears</b> — unpaid rent that is owed. Both can put the home at risk.</li>
+<li><b>Wellbeing hub / community wellbeing service</b> — a local service bringing together help with housing, money, health and community activities in one place.</li>
+</ul></div>
+<div><h3>The ideas</h3><ul>
+<li><b>Integrated care</b> — health and social care planned and delivered so they work as one around the person.</li>
+<li><b>Fragmentation</b> — care that falls apart at the joins between services.</li>
+<li><b>Continuity</b> — whether information, the plan and relationships hold together over time.</li>
+<li><b>Care plan</b> — a written record of someone's needs, goals and the support agreed.</li>
+<li><b>Multidisciplinary team (MDT)</b> — professionals from different disciplines working together on one person's care.</li>
+<li><b>Person-centred care</b> — care organised around what matters to the person, with them as a partner. Unit 4.</li>
+<li><b>Anticipatory care planning</b> — planning ahead for what might happen, before it becomes a crisis. Unit 8.</li>
+<li><b>House of Care</b> — the framework for doing all of this. This afternoon.</li>
+</ul></div>
+</div></div></div>
+<div class="overlay" id="sourcesOverlay" role="dialog" aria-modal="true" aria-label="Sources"><div class="modal"><button class="close" data-close="sourcesOverlay">Close</button><h2>Sources behind this session</h2><ol>
+<li><b>Module handbook:</b> HLTH08010 Next Steps — assessment brief, Component 1 marking guide, Richard case.</li>
+<li><b>Year of Care Partnerships.</b> The House of Care model — origins in the Chronic Care Model (Wagner) and the UK adaptation. <a href="https://www.yearofcare.co.uk/" target="_blank" rel="noopener">yearofcare.co.uk</a>.</li>
+<li><b>IPPR / Year of Care.</b> People with long-term conditions have around three hours a year of contact with health professionals and self-manage 99.95% of the time. <a href="https://www.ippr.org/articles/patients-in-control-why-people-with-long-term-conditions-must-be-empowered" target="_blank" rel="noopener">IPPR</a></li>
+<li><b>Coulter A, Roberts S, Dixon A (2013).</b> Delivering better services for people with long-term conditions: building the House of Care. The King's Fund.</li>
+<li><b>Royal College of General Practitioners (2015).</b> Collaborative Care and Support Planning: an introduction — three-minute animation by Creative Connection. <a href="https://www.youtube.com/watch?v=q01ZBJHq4v4" target="_blank" rel="noopener">YouTube</a></li>
+<li><b>British Heart Foundation.</b> Person-centred care and the House of Care (film used in this session). <a href="https://www.bhf.org.uk/for-professionals/healthcare-professionals/innovation-in-care/person-centred-care-and-the-house-of-care" target="_blank" rel="noopener">BHF</a>.</li>
+<li><b>Haggerty JL et al. (2003).</b> Continuity of care: a multidisciplinary review. BMJ 327:1219 — the three questions carried over from the morning.</li>
+<li><b>Health and Social Care Alliance Scotland.</b> House of Care programme in Scotland. <a href="https://www.alliance-scotland.org.uk/" target="_blank" rel="noopener">alliance-scotland.org.uk</a> <span class="verify">verify current programme status</span></li>
+<li><b>Evidence claims on slide 12</b> (HbA1c −0.7%, admissions −13%, wellbeing +0.5 SD; "adapted from RCGP House of Care toolkit synthesis") are reproduced from the draft Week 2 deck and <b>have not been verified against a primary source</b>. They are used deliberately as claims to interrogate. <span class="verify">unverified</span></li>
+<li><b>Maria case, David's week, the four myths:</b> module teaching materials (Week 2 House of Care deck), with explanations added.</li>
+<li><b>ALLIANCE Scotland.</b> Scotland's House of Care programme — partners, adopter areas, and the 2018 and 2019 reviews ("practiced in 10% of General Practice teams in Scotland"). <a href="https://www.alliance-scotland.org.uk/blog/news/house-of-care-review-of-2019/" target="_blank" rel="noopener">alliance-scotland.org.uk</a></li>
+<li><b>Healthcare Improvement Scotland.</b> "What matters to you?" day — first held in Scotland on 6 June 2016; over 500 teams; 2,000+ teams in 30 countries in 2017. <a href="https://ihub.scot/news/scottish-led-initiative-that-focuses-on-what-matters-to-patients-goes-global" target="_blank" rel="noopener">ihub.scot</a></li>
+<li><b>Readability lab:</b> reading-age estimate is a Flesch-Kincaid grade approximation using a syllable heuristic; treat as indicative only. Plain English guidance commonly suggests short sentences and a reading age around 9–12 for public-facing health information.</li>
+</ol><p><b>Removed from the draft afternoon deck because the morning now covers it:</b> the integrated-care opener, why long-term conditions matter (including the 15M figure), economic burden, patient-voice quotes, David's story and think-pair-share, the Chronic Care Model comparison, the myth-busting quiz, and the weekly learning-journey slide (which did not match the fortnightly unit structure).</p></div></div>
+
+<script>
+(function(){
+/* ---------- deck shell ---------- */
+const slides=[...document.querySelectorAll('.slide')],total=slides.length;let cur=0;
+const bar=document.getElementById('bar'),lbl=document.getElementById('lbl'),prev=document.getElementById('prev'),next=document.getElementById('next'),ann=document.getElementById('ann');
+const notesPanel=document.getElementById('notesPanel'),notesBody=document.getElementById('notesBody'),notesTitle=document.getElementById('notesTitle');
+const menuBtn=document.getElementById('menuBtn'),tools=document.getElementById('tools');
+function updateNotes(){const n=slides[cur].querySelector('.speaker-note');notesTitle.textContent='Presenter notes · '+(cur+1)+' / '+total;notesBody.innerHTML=n?n.innerHTML:'<p>No presenter notes for this slide.</p>';}
+function show(n){slides[cur]?.classList.remove('active');cur=Math.max(0,Math.min(n,total-1));slides[cur].classList.add('active');bar.style.width=((cur+1)/total*100)+'%';lbl.textContent=(cur+1)+' / '+total;prev.disabled=cur===0;next.disabled=cur===total-1;ann.textContent=slides[cur].getAttribute('aria-label');slides[cur].focus({preventScroll:true});location.hash='slide-'+(cur+1);updateNotes();}
+function openOverlay(id){document.getElementById(id)?.classList.add('open');}
+function closeAll(){document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));notesPanel.classList.remove('open');tools.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+prev.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);
+menuBtn.onclick=()=>{const on=tools.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(on));};
+document.getElementById('notesBtn').onclick=()=>notesPanel.classList.toggle('open');
+document.getElementById('slidesBtn').onclick=()=>openOverlay('slidesOverlay');
+document.getElementById('sourcesBtn').onclick=()=>openOverlay('sourcesOverlay');document.getElementById('glossBtn').onclick=()=>openOverlay('glossOverlay');
+document.getElementById('helpBtn').onclick=()=>openOverlay('helpOverlay');
+document.getElementById('fsBtn').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('printBtn').onclick=()=>window.print();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+document.querySelectorAll('[data-overlay]').forEach(b=>b.addEventListener('click',()=>openOverlay(b.dataset.overlay)));
+document.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const x=document.getElementById(b.dataset.toggle);const willShow=x.hidden;x.hidden=!willShow;b.textContent=willShow?b.dataset.on:b.dataset.off;b.classList.toggle('on',willShow);}));
+const slideList=document.getElementById('slideList');slides.forEach((s,i)=>{const b=document.createElement('button');const h=s.querySelector('h1,h2,.bigline');b.textContent=(i+1)+'. '+(h?h.textContent.trim().slice(0,70):s.getAttribute('aria-label'));b.onclick=()=>{document.getElementById('slidesOverlay').classList.remove('open');show(i)};slideList.appendChild(b)});
+document.querySelectorAll('.timer').forEach(t=>{const secs=parseInt(t.dataset.secs,10);let left=secs,iv=null;const buttons=t.nextElementSibling?.querySelectorAll('button[data-act]')||[];const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');const draw=()=>{t.textContent=fmt(left);if(left===0)t.style.color='var(--coral)'};buttons.forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;if(a==='start'&&!iv){iv=setInterval(()=>{if(left>0){left--;draw()}else{clearInterval(iv);iv=null}},1000)}else if(a==='pause'){clearInterval(iv);iv=null}else if(a==='reset'){clearInterval(iv);iv=null;left=secs;t.style.color='';draw()}}));draw();});
+document.addEventListener('keydown',e=>{const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key==='Escape'){closeAll();return}if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();show(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(total-1)}else if(e.key.toLowerCase()==='n'){notesPanel.classList.toggle('open')}else if(e.key.toLowerCase()==='s'){openOverlay('slidesOverlay')}else if(e.key.toLowerCase()==='r'){openOverlay('sourcesOverlay')}else if(e.key.toLowerCase()==='g'){openOverlay('glossOverlay')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}});
+
+/* ---------- House of Care data ---------- */
+const HOUSE={
+ centre:{name:'The centre',full:'The care and support planning conversation',
+  plain:'One conversation, between a prepared person and a prepared professional, that starts from what matters and ends in a single agreed plan.',
+  q:'Does the plan join up? — management continuity',
+  real:'A 30-minute planning appointment, with results sent out two weeks before, that starts with \u201Cwhat matters to you?\u201D',
+  richard:'One conversation that covers his mental health, his diabetes, his housing and his money together — and produces one plan, not four.',
+  fail:'Four plans that do not know about each other. Mental health, diabetes, housing and money each handled competently, in isolation.',
+  weak:'No care planning conversation',fix:'A single 30-minute care and support planning appointment replaces two separate condition reviews.',
+  fixwho:'Practice nurse and GP; Maria invited to set the agenda',fixhow:'Maria can name her own goals at the next review'},
+ left:{name:'The left wall',full:'Engaged, informed, empowered individuals and carers',
+  plain:'The person — and the people who support them — arrive prepared: they know their results, they know what they want to raise, and they have been asked what matters.',
+  q:'Does someone know him over time? — relational continuity, the person\'s side',
+  real:'Results and a \u201Cwhat matters to you?\u201D sheet posted before the appointment. A peer support group. A course on living with your condition.',
+  richard:'Richard and his daughter get his results and an agenda before the meeting. His daughter is offered a carer support plan in her own right.',
+  fail:'A professional talks at someone who has not been prepared. Richard nods, leaves, and nothing he wanted was discussed.',
+  weak:'Maria feels unheard and passive',fix:'Results and a one-page "what matters to you?" prompt posted two weeks before each review; peer-support group offered.',
+  fixwho:'Practice admin; local COPD peer group',fixhow:'Maria arrives with written questions'},
+ right:{name:'The right wall',full:'Health and care professionals committed to partnership working',
+  plain:'Professionals who work as one team across organisations, who coach rather than instruct, and who know who holds the plan.',
+  q:'Does someone know him over time? — relational continuity, the professional side',
+  real:'A named care coordinator. A monthly team meeting that includes the community nurse and the social worker, not just the doctors.',
+  richard:'The ward team, the GP, the housing officer and the hub know each other and know who is coordinating. Someone is explicitly holding the plan.',
+  fail:'Everyone assumes someone else is coordinating. Nobody is. Richard bounces between them.',
+  weak:'Professionals work in silos',fix:'A named care coordinator, and a monthly MDT slot that includes the community team.',
+  fixwho:'Practice, community respiratory nurse, diabetes team',fixhow:'Maria can name who to call; one plan, not two'},
+ roof:{name:'The roof',full:'Organisational processes and arrangements',
+  plain:'Everything the organisation has to put in place so the conversation can happen: shared records, time, templates, teams that meet, results shared before appointments.',
+  q:'Does the information follow him? — informational continuity',
+  real:'One record everyone can see. A care-plan template everyone uses. Time booked for planning conversations. A discharge process that includes housing.',
+  richard:'A discharge process that includes housing. A record the ward, the GP and the hub can all see. A plan written somewhere that survives his next admission.',
+  fail:'The best conversation in the world is lost: nothing records it, nobody else knows it happened, and Richard starts again at the next appointment.',
+  weak:'Three record systems and a plastic bag of paper',fix:'A laminated card in her bag — \u201Cmy conditions and my medicines\u201D — that she updates and every professional signs. Two pounds. Start with paper if the computers won\u2019t talk.',
+  fixwho:'Maria; her GP; the chest nurse; the diabetes nurse',fixhow:'Every professional she sees has seen the card'},
+ foundation:{name:'The foundation',full:'"More than medicine" — informal and formal support, sustained by responsive resources',
+  plain:'Everything that keeps someone well that is not a clinic: family, housing, money advice, community groups, peer support — and the resources allocated so they exist.',
+  q:'What holds all of this up?',
+  real:'A link worker. A benefits check. A walking group. A housing repair. The daughter \u2014 and money set aside so these things exist.',
+  richard:'His daughter, supported rather than exhausted. The housing officer. The wellbeing hub. Money advice. Somewhere warm and dry to live.',
+  fail:'A medically perfect plan that is practically impossible: nowhere warm to live, nobody to help with shopping, no way to the appointment.',
+  weak:'Only medical focus, no community support',fix:'Social prescribing referral to a local breathe-easy group and a benefits check.',
+  fixwho:'Link worker; third-sector partner',fixhow:'Maria attends something outside the clinic each week'}
+};
+const ORDER=['centre','left','right','roof','foundation'];
+const FILL={roof:'#1a5276',left:'#287a80',right:'#a4791f',centre:'#b55436',foundation:'#6b4f83'};
+
+function houseSVG(id){
+ const t=(x,y,lines,cls)=>`<text x="${x}" y="${y}" class="${cls}">${lines.map((l,i)=>`<tspan x="${x}" dy="${i?15:0}">${l}</tspan>`).join('')}</text>`;
+ return `<svg class="house" viewBox="0 0 600 450" role="img" aria-label="House of Care diagram" id="${id}">
+ <g class="comp" data-c="roof"><polygon class="shape" points="50,200 300,45 550,200" fill="${FILL.roof}"/>
+  ${t(300,140,['ROOF'],'lab')}${t(300,160,['Organisational processes','and arrangements'],'sub')}
+  <text class="qlab" x="300" y="112" opacity="0">Does the information follow?</text></g>
+ <g class="comp" data-c="left"><rect class="shape" x="70" y="200" width="130" height="170" rx="6" fill="${FILL.left}"/>
+  ${t(135,255,['LEFT WALL'],'lab')}${t(135,278,['Engaged, informed,','empowered person','and carers'],'sub')}
+  <text class="qlab" x="135" y="345" opacity="0">Known over time</text></g>
+ <g class="comp" data-c="right"><rect class="shape" x="400" y="200" width="130" height="170" rx="6" fill="${FILL.right}"/>
+  ${t(465,255,['RIGHT WALL'],'lab')}${t(465,278,['Professionals','committed to','partnership'],'sub')}
+  <text class="qlab" x="465" y="345" opacity="0">Known over time</text></g>
+ <g class="comp" data-c="centre"><circle class="shape" cx="300" cy="285" r="82" fill="${FILL.centre}"/>
+  ${t(300,278,['CENTRE'],'lab')}${t(300,298,['Care and support','planning conversation'],'sub')}
+  <text class="qlab" x="300" y="335" opacity="0">Does the plan join up?</text></g>
+ <g class="comp" data-c="foundation"><rect class="shape" x="30" y="378" width="540" height="58" rx="8" fill="${FILL.foundation}"/>
+  ${t(300,401,['FOUNDATION · "More than medicine"'],'lab')}${t(300,419,['Informal and formal support, sustained by resources'],'sub')}
+  <text class="qlab" x="300" y="440" opacity="0"></text></g>
+ </svg>`;
+}
+const qlabCSS=document.createElement('style');qlabCSS.textContent='.house .qlab{font-family:var(--sans);font-size:11px;font-weight:800;fill:#fff;text-anchor:middle;transition:opacity .5s;paint-order:stroke;stroke:rgba(10,30,61,.55);stroke-width:3px}';document.head.appendChild(qlabCSS);
+
+function mount(containerId,svgId){const c=document.getElementById(containerId);if(!c)return null;c.innerHTML=houseSVG(svgId);return c.querySelector('svg');}
+
+/* ---------- Slide 5: hinge ---------- */
+const hingeSVG=mount('houseHinge','svgHinge');
+document.getElementById('placeBtn')?.addEventListener('click',function(){
+ const h=document.getElementById('hinge');const on=!h.classList.contains('placed');h.classList.toggle('placed',on);
+ hingeSVG.querySelectorAll('.qlab').forEach(q=>q.setAttribute('opacity',on?'1':'0'));
+ this.textContent=on?'Clear the placements':'Place the questions in the house';this.classList.toggle('on',on);
+});
+
+/* ---------- Slide 6: teach ---------- */
+const teachSVG=mount('houseTeach','svgTeach');const panelTeach=document.getElementById('panelTeach');
+teachSVG?.querySelectorAll('.comp').forEach(g=>g.addEventListener('click',()=>{
+ teachSVG.querySelectorAll('.comp').forEach(x=>x.classList.remove('selected'));g.classList.add('selected');
+ const d=HOUSE[g.dataset.c];
+ panelTeach.innerHTML=`<div class="eyebrow">${d.name}</div><h3>${d.full}</h3><p>${d.plain}</p><div class="link"><b>This morning's question:</b> ${d.q}</div><div class="fix"><b>In real life:</b> ${d.real}</div><div class="ric"><b>For Richard:</b> ${d.richard}</div>`;
+}));
+
+/* ---------- Slide 7: remove ---------- */
+const remSVG=mount('houseRemove','svgRemove');const panelRemove=document.getElementById('panelRemove');
+function removeInfo(){const gone=[...remSVG.querySelectorAll('.comp.removed')].map(g=>g.dataset.c);
+ if(!gone.length){panelRemove.innerHTML=`<div class="eyebrow">The point of a house</div><h3>Every part depends on the others</h3><p>You can have four parts out of five and still have no shelter.</p><div class="chips"><button class="chip" id="restoreBtn">Restore the house</button></div>`;}
+ else{const last=gone[gone.length-1];const d=HOUSE[last];
+  panelRemove.innerHTML=`<div class="eyebrow">${gone.length===1?'Without':'Without '+gone.length+' parts — latest:'} ${d.name.toLowerCase()}</div><h3>${d.full}</h3><div class="fail"><b>What fails for Richard:</b> ${d.fail}</div>${gone.length>1?`<p>Also missing: ${gone.slice(0,-1).map(c=>HOUSE[c].name.toLowerCase()).join(', ')}. ${gone.length>=3?'This is roughly Richard\'s house this morning.':''}</p>`:''}<div class="chips"><button class="chip" id="restoreBtn">Restore the house</button></div><p class="hint">Which part was missing for Richard this morning?</p>`;}
+ document.getElementById('restoreBtn').onclick=()=>{remSVG.querySelectorAll('.comp').forEach(x=>x.classList.remove('removed'));removeInfo();};
+}
+remSVG?.querySelectorAll('.comp').forEach(g=>g.addEventListener('click',()=>{g.classList.toggle('removed');removeInfo();}));
+document.getElementById('restoreBtn')?.addEventListener('click',()=>{remSVG.querySelectorAll('.comp').forEach(x=>x.classList.remove('removed'));removeInfo();});
+
+/* ---------- Slide 9: Maria ---------- */
+const marSVG=mount('houseMaria','svgMaria');const list=document.getElementById('mariaList');const panelMaria=document.getElementById('panelMaria');
+if(marSVG){marSVG.querySelectorAll('.comp').forEach(g=>g.classList.add('weak'));
+ ORDER.forEach(c=>{const d=HOUSE[c];const b=document.createElement('button');b.className='fixbtn';b.dataset.c=c;b.innerHTML=`<span>✗ ${d.name}: ${d.weak}</span><small>What would you change?</small>`;list.appendChild(b);});
+ function applyFix(c){const g=marSVG.querySelector(`.comp[data-c="${c}"]`);const b=list.querySelector(`.fixbtn[data-c="${c}"]`);const d=HOUSE[c];const fixed=g.classList.toggle('fixed');g.classList.toggle('weak',!fixed);
+  b.classList.toggle('done',fixed);b.innerHTML=fixed?`<span>✓ ${d.name}: ${d.fix}</span><small>Who: ${d.fixwho} · How we'd know: ${d.fixhow}</small>`:`<span>✗ ${d.name}: ${d.weak}</span><small>What would you change?</small>`;
+  const done=marSVG.querySelectorAll('.comp.fixed').length;const head=panelMaria.querySelector('h3');if(head)head.textContent=done===5?'All five strengthened. Now it\'s your turn — on Richard.':done?`${done} of 5 strengthened.`:'Every part is weak. One fix at a time.';}
+ marSVG.querySelectorAll('.comp').forEach(g=>g.addEventListener('click',()=>applyFix(g.dataset.c)));
+ list.addEventListener('click',e=>{const b=e.target.closest('.fixbtn');if(b)applyFix(b.dataset.c);});}
+
+/* ---------- myths & spot ---------- */
+document.querySelectorAll('.myth').forEach(c=>{const tog=()=>{c.classList.toggle('open');c.querySelector('.v').textContent=c.classList.contains('open')?'Click to hide':'True or false?';};c.addEventListener('click',tog);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});});
+document.querySelectorAll('.sp').forEach(c=>{const tog=()=>c.classList.toggle('open');c.addEventListener('click',tog);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});});
+/* ---------- Slide 12: claims ---------- */
+document.querySelectorAll('.claim').forEach(c=>{const tog=()=>{c.classList.toggle('open');c.querySelector('.tap').textContent=c.classList.contains('open')?'Click to close':'Click to interrogate';};c.addEventListener('click',tog);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}});});
+
+/* ---------- Slide 13: readability lab ---------- */
+const JARGON=['integrated','integration','holistic','multidisciplinary','multi-disciplinary','interdisciplinary','stakeholder','stakeholders','commissioning','commissioned','statutory','non-statutory','pathway','pathways','framework','co-production','coproduction','self-management','anticipatory','empowered','empowerment','optimise','optimize','utilise','utilize','facilitate','facilitated','provision','delivery','outcomes','outcome','service user','service users','clinician','clinicians','mdt','ijb','hscp','implementation','intervention','interventions','collaborative','coordination','person-centred','person-centered','long-term condition','ltc','ltcs','practitioner','practitioners','holistically','synergy','leverage','signposting','signpost','triage','engagement','enablement','robust'];
+const PARTS={centre:/\b(plan|planning|conversation|meeting|appointment|talk|discuss|agree)\w*/i,left:/\b(prepared|information|results|questions|ready|know|you|your dad|carer|help you)\b/i,right:/\b(team|professionals?|nurse|doctor|gp|social worker|together|coordinat|one person|same person)/i,roof:/\b(record|records|system|systems|notes|share|shared|everyone can see|written down|organis)/i,foundation:/\b(community|housing|family|friends|group|groups|money|home|neighbour|charity|volunteer|daughter|advice|warm)/i};
+const ta=document.getElementById('labText'),pv=document.getElementById('labPreview');
+function syll(w){w=w.toLowerCase().replace(/[^a-z]/g,'');if(!w)return 0;if(w.length<=3)return 1;w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,'');const m=w.match(/[aeiouy]{1,2}/g);return m?m.length:1;}
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function analyse(){const text=ta.value;const words=text.trim()?text.trim().split(/\s+/):[];const sents=text.trim()?text.split(/(?<=[.!?])\s+|\n+/).filter(s=>s.trim()):[];
+ const nW=words.length,nS=sents.length,avg=nS?nW/nS:0;const sy=words.reduce((a,w)=>a+syll(w),0);
+ const grade=nW&&nS?0.39*avg+11.8*(sy/nW)-15.59:null;const age=grade!==null?Math.max(5,Math.round(grade+5)):null;
+ const lower=text.toLowerCase();let jarg=0;JARGON.forEach(j=>{const re=new RegExp('\\b'+j.replace(/[-]/g,'\\-')+'\\b','g');const m=lower.match(re);if(m)jarg+=m.length;});
+ const parts=Object.values(PARTS).filter(re=>re.test(text)).length;
+ const set=(id,val,cls)=>{const el=document.getElementById(id);el.querySelector('b').textContent=val;el.classList.remove('ok','warn');if(cls)el.classList.add(cls);};
+ set('stWords',nW,nW>0&&nW<=90?'ok':nW>90?'warn':'');set('stSent',nS,nS>=5?'ok':'');set('stAvg',nS?avg.toFixed(0):0,nS?(avg<=18?'ok':'warn'):'');set('stJarg',jarg,nW?(jarg===0?'ok':'warn'):'');set('stGrade',age!==null?'~'+age:'–',age!==null?(age<=12?'ok':'warn'):'');set('stComp',parts+'/5',parts===5?'ok':'');
+ if(!text.trim()){pv.innerHTML='<i>Your sentences appear here with jargon and long sentences marked.</i>';return;}
+ pv.innerHTML=sents.map(s=>{const wc=s.trim().split(/\s+/).length;let h=esc(s);JARGON.sort((a,b)=>b.length-a.length).forEach(j=>{h=h.replace(new RegExp('\\b('+j.replace(/[-]/g,'\\-')+')\\b','gi'),'<mark>$1</mark>');});return wc>20?`<span class="long">${h}</span>`:h;}).join(' ');}
+ta?.addEventListener('input',analyse);
+
+const m=location.hash.match(/slide-(\d+)/);show(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>
