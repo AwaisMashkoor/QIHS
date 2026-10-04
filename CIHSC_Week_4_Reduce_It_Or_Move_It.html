@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reduce it or move it? | HLTH09002 Week 4</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a1e3d;--blue:#1a5276;--blue-soft:#e5f0f6;--green:#1a7a5a;--green-soft:#e7f4ee;--gold:#d4a843;--gold-soft:#fdf6e3;--purple:#6b4f83;--purple-soft:#f2edf6;--teal:#287a80;--teal-soft:#e5f3f3;--coral:#b55436;--coral-soft:#f9ece6;--ochre:#a5651e;--ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--focus:#005ea8}
+body{font-family:Aptos,'Segoe UI',Arial,sans-serif;background:linear-gradient(160deg,#0a1e3d,#17375e 64%,#214b76);color:var(--ink);min-height:100vh;padding:20px}
+.wrap{max-width:1180px;margin:0 auto;background:#fffefb;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:26px 30px 30px}
+.eyebrow{text-align:center;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);color:var(--navy);text-align:center;margin-bottom:12px}
+.task{background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:.95rem;line-height:1.45}
+.quote{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-family:Georgia,serif;font-size:1rem;line-height:1.5;color:var(--navy)}
+.board{display:grid;grid-template-columns:270px 1fr;gap:16px}
+.pool{background:#f3f4f6;border-radius:12px;padding:14px;max-height:640px;overflow:auto}
+.pool h3{font-size:1rem;color:var(--navy);margin-bottom:10px}
+.support{background:#fff;border-left:5px solid var(--blue);border-radius:6px;padding:9px 11px;margin-bottom:8px;font-size:.86rem;line-height:1.35;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.08);user-select:none}
+.support.selected{outline:3px solid var(--gold)}
+.support.dragging{opacity:.5}
+.support.placed{cursor:pointer}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.zone{background:#fff;border:2px dashed var(--line);border-radius:12px;padding:12px;min-height:330px;display:flex;flex-direction:column;transition:background .15s,border-color .15s}
+.zone.over{background:var(--gold-soft);border-color:var(--gold)}
+.zone h4{font-size:.9rem;color:var(--navy);margin-bottom:4px}
+.zone p.hint{font-size:.76rem;color:var(--muted);margin-bottom:8px;line-height:1.3}
+.zone .drop{flex:1;display:flex;flex-direction:column;gap:6px}
+.zone .support{margin-bottom:0;font-size:.8rem}
+.z1{border-color:var(--green)}.z2{border-color:var(--coral)}.z3{border-color:var(--gold)}
+.controls{display:flex;gap:10px;justify-content:flex-end;margin:12px 0}
+.btn{border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:.9rem}
+.btn-go{background:var(--green);color:#fff}.btn-reset{background:#8a96a3;color:#fff}
+.btn:focus-visible,.support:focus-visible,.zone:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.results{display:none;margin-top:16px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px}
+.results.show{display:block}
+.results h3{font-family:Georgia,serif;font-weight:400;font-size:1.35rem;color:var(--navy);margin-bottom:10px}
+.res{border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:.88rem;line-height:1.45;background:#f7f7f5}
+.res b{color:var(--navy)}
+.res .verdict{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.v1{background:var(--green-soft);color:var(--green)}.v2{background:var(--coral-soft);color:var(--coral)}.v3{background:var(--gold-soft);color:var(--ochre)}
+.res .cond{display:block;margin-top:5px;color:var(--muted)}
+.agree{background:var(--green-soft)}.differ{background:var(--gold-soft)}
+.close{margin-top:12px;background:var(--navy);color:#fff;border-radius:10px;padding:14px 16px;font-size:.92rem;line-height:1.55}
+.close b{color:var(--gold)}
+.foot{margin-top:14px;font-size:.74rem;color:var(--muted);text-align:center;line-height:1.45}
+.sr{position:absolute;left:-9999px}
+@media(max-width:860px){.board{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.pool{max-height:none}}
+</style></head><body><div class="wrap">
+<div class="eyebrow">Contemporary Issues in Health and Social Care | Week 4 | Interactive</div>
+<h1>Reduce it, or move it?</h1>
+<div class="quote">&ldquo;I want my breathing settled enough to get out and do ordinary things again &mdash; see my sister, get to the shops without planning it like an expedition. I need the damp sorted and I need to know what money I&rsquo;ve got coming in. And I can&rsquo;t keep spending so much of my week getting to appointments.&rdquo; &mdash; Mr H</div>
+<div class="task"><b>Your task:</b> Each card is a real response somebody might propose for Mr H. Sort each one by what it does to the work in his life. Then press <b>Compare</b> to see how we would sort it and, more importantly, <b>the condition each one depends on</b>. There are no scores here and no right totals: most of these can go either way, and saying <i>what it depends on</i> is the whole skill. On a touchscreen, tap a card then tap a column.</div>
+<div class="board">
+ <aside class="pool" aria-label="Responses to sort"><h3>Responses</h3><div id="pool"></div></aside>
+ <main>
+  <div class="cols" id="cols"></div>
+  <div class="controls"><button class="btn btn-go" id="go">Compare</button><button class="btn btn-reset" id="reset">Reset</button></div>
+ </main>
+</div>
+<section class="results" id="results" aria-live="polite"><h3 id="rTitle">How we would sort these &mdash; and what each depends on</h3><div id="list"></div><div class="close" id="close"></div></section>
+<div class="foot">A teaching activity for HLTH09002. Mr H is fictional. These verdicts are teaching judgements, not measurements: nothing here scores a person&rsquo;s capacity or assigns a value to their burden. Nothing you do here is stored or sent anywhere.</div>
+</div><div class="sr" aria-live="polite" id="ann"></div>
+<script>
+(function(){
+const ZONES=[{id:'red',n:'Likely reduces the work',h:'Less for Mr H to do, carry, travel to or remember.'},{id:'mov',n:'Likely moves the work',h:'The task still exists; it has been handed to him, or to his sister.'},{id:'dep',n:'Could do either, depending on…',h:'It turns on something we have not been told.'}];
+const S=[
+ {t:'Combine his diabetes and COPD reviews into one appointment',ok:'red',why:'One journey instead of two, one conversation that can see both conditions.',cond:'Depends on whether the services are organised to allow it, and whether the clinicians involved can cover both. If it just means a longer single appointment he still has to travel to, the gain is real but smaller than it looks.'},
+ {t:'Give him a symptom-tracking app',ok:'dep',why:'A classic case of a response that can go either way.',cond:'Reduces work if it replaces something he already does on paper and he has a phone, data, and confidence with it. Moves work if it is added on top, if he has to remember to use it, or if nobody ever looks at what he enters.'},
+ {t:'A named coordinator who holds the whole picture',ok:'red',why:'Takes the coordination task off him, which was the work nobody had counted.',cond:'Depends entirely on whether the role has time and authority. A coordinator who can only signpost has moved the work to a phone call.'},
+ {t:'A leaflet on managing breathlessness',ok:'mov',why:'Information handed over is not support delivered.',cond:'It can still be useful alongside other support, and it costs the service almost nothing. But on its own it converts a service problem into a reading task.'},
+ {t:'Offer the medication review by telephone instead of in person',ok:'dep',why:'The travel goes; something else might.',cond:'Reduces work if he can hear well enough, has privacy, and the pharmacist can see his records. Moves work if he has to chase the call, repeat information, or follow up in person anyway.'},
+ {t:'Refer him to a welfare rights service about the benefits claim',ok:'red',why:'He named money as one of the things that matters. This is somebody else doing a task he is currently carrying.',cond:'Depends on waiting times and whether he has to attend in person, and on whether the referral is made for him or he is given a number to ring.'},
+ {t:'Report the damp to the housing team on his behalf',ok:'red',why:'Also named by him, and it acts on the cause of some of his breathlessness.',cond:'Depends on whether anyone follows it up. An unactioned referral moves work back to him, with added waiting.'},
+ {t:'Ask him to keep a daily mood and activity diary',ok:'mov',why:'A new, daily, unpaid task.',cond:'It can genuinely help if it is part of an agreed therapy and somebody uses it with him. It moves work if it is requested and never discussed again.'},
+ {t:'A supervised exercise programme twice a week at the leisure centre',ok:'dep',why:'Strong evidence for the intervention; substantial cost in his week.',cond:'Reduces work over time if it improves his breathing enough to change what a day can hold. Moves work now: four bus journeys a week, fares, and energy he may not have.'},
+ {t:'Tell him he needs to take ownership of his health',ok:'mov',why:'The purest example of relocating responsibility without changing anything.',cond:'There is no condition under which this reduces his workload. It only changes who is held responsible when the month fails.'},
+ {t:'Do the annual diabetes review at home',ok:'dep',why:'Removes the ninety-minute round trip.',cond:'Reduces work if the service can actually do it and the equipment travels. Depends on service capacity, and on whether he wants people in a flat he is embarrassed about.'},
+ {t:'Agree his HbA1c target with him, using the NICE decision aid',ok:'dep',why:'Not primarily about workload at all: it changes who decides.',cond:'It can reduce work if a relaxed target means fewer medicines and fewer checks, and it can add work if a tighter one means more. Either way, the decision becomes his \u2014 which is a different kind of gain.'}
+];
+const $=id=>document.getElementById(id);let sel=null;const pool=$('pool'),cols=$('cols'),ann=$('ann');
+S.forEach((s,i)=>{s.placed=null;s.i=i;});
+function mk(s){const el=document.createElement('div');el.className='support'+(s.placed?' placed':'');el.textContent=s.t;el.draggable=!s.placed;el.dataset.i=s.i;el.tabIndex=0;el.setAttribute('role','button');
+ el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(s.i));el.classList.add('dragging')});el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+ el.addEventListener('click',e=>{e.stopPropagation();if(s.placed){s.placed=null;render();ann.textContent=s.t+' returned to the list';}else{sel=(sel===s.i)?null:s.i;render();ann.textContent=sel===null?'Selection cleared':s.t+' selected. Now choose a column.';}});
+ el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+ if(sel===s.i)el.classList.add('selected');return el;}
+function render(){pool.innerHTML='';S.filter(s=>!s.placed).forEach(s=>pool.appendChild(mk(s)));
+ ZONES.forEach(z=>{const d=document.querySelector('[data-zone="'+z.id+'"] .drop');if(d){d.innerHTML='';S.filter(s=>s.placed===z.id).forEach(s=>d.appendChild(mk(s)));}});}
+ZONES.forEach((z,zi)=>{const d=document.createElement('div');d.className='zone z'+(zi+1);d.dataset.zone=z.id;d.tabIndex=0;d.setAttribute('role','group');d.setAttribute('aria-label',z.n);
+ d.innerHTML='<h4>'+z.n+'</h4><p class="hint">'+z.h+'</p><div class="drop"></div>';
+ d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});d.addEventListener('dragleave',()=>d.classList.remove('over'));
+ d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('over');place(parseInt(e.dataTransfer.getData('text/plain')),z.id)});
+ d.addEventListener('click',()=>{if(sel!==null){place(sel,z.id);sel=null;}});
+ d.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&sel!==null){e.preventDefault();place(sel,z.id);sel=null;}});
+ cols.appendChild(d);});
+function place(i,z){const s=S[i];if(!s)return;s.placed=z;render();ann.textContent=s.t+' placed in '+ZONES.find(x=>x.id===z).n;}
+function compare(){const list=$('list');list.innerHTML='';let placed=0,agree=0;
+ S.forEach(s=>{const zn=id=>ZONES.find(z=>z.id===id).n;const cls=s.ok==='red'?'v1':(s.ok==='mov'?'v2':'v3');
+  const el=document.createElement('div');el.className='res'+(s.placed?(s.placed===s.ok?' agree':' differ'):'');
+  if(s.placed){placed++;if(s.placed===s.ok)agree++;}
+  el.innerHTML='<b>'+s.t+'</b><span class="verdict '+cls+'">'+zn(s.ok)+'</span>'+(s.placed&&s.placed!==s.ok?' <i>(you put it in: '+zn(s.placed)+')</i>':'')+'<span class="cond">'+s.why+' <b>What it depends on:</b> '+s.cond+'</span>';
+  list.appendChild(el);});
+ $('close').innerHTML='<b>Three things to take from this.</b> First, almost nothing on that board is simply good or simply bad \u2014 most of it turns on a condition, and naming the condition is the skill this week is teaching. Second, the responses that most reliably reduce work are the ones where <b>somebody else does a task Mr H was carrying</b>, not the ones that give him a better tool for doing it himself. Third, notice the last card: agreeing his HbA1c target may not reduce his workload at all, but it changes who decides \u2014 and that is a real gain of a different kind. <b>Reduce the work, move the work, or change who decides: say which, and say what it depends on.</b>'+(placed?'<br><br>You sorted '+placed+' of '+S.length+'; we would have put '+agree+' of those in the same column. Where we differ is worth arguing about in class \u2014 bring one.':'');
+ $('results').classList.add('show');$('results').scrollIntoView({behavior:'smooth',block:'start'});ann.textContent='Comparison shown';}
+$('go').addEventListener('click',compare);
+$('reset').addEventListener('click',()=>{S.forEach(s=>s.placed=null);sel=null;$('results').classList.remove('show');render();ann.textContent='Reset';});
+document.addEventListener('click',()=>{if(sel!==null){sel=null;render();}});
+render();
+})();
+</script></body></html>
