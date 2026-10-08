@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Whose risk is it? | HLTH09002 Week 5</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a1e3d;--blue:#1a5276;--blue-soft:#e5f0f6;--green:#1a7a5a;--green-soft:#e7f4ee;--gold:#d4a843;--gold-soft:#fdf6e3;--purple:#6b4f83;--purple-soft:#f2edf6;--teal:#287a80;--teal-soft:#e5f3f3;--coral:#b55436;--coral-soft:#f9ece6;--ochre:#a5651e;--ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--focus:#005ea8}
+body{font-family:Aptos,'Segoe UI',Arial,sans-serif;background:linear-gradient(160deg,#0a1e3d,#17375e 64%,#214b76);color:var(--ink);min-height:100vh;padding:20px}
+.wrap{max-width:1180px;margin:0 auto;background:#fffefb;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.3);padding:26px 30px 30px}
+.eyebrow{text-align:center;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);color:var(--navy);text-align:center;margin-bottom:12px}
+.task{background:var(--blue-soft);border-left:6px solid var(--blue);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-size:.95rem;line-height:1.45}
+.quote{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:12px 16px;margin-bottom:14px;font-family:Georgia,serif;font-size:1rem;line-height:1.5;color:var(--navy)}
+.board{display:grid;grid-template-columns:270px 1fr;gap:16px}
+.pool{background:#f3f4f6;border-radius:12px;padding:14px;max-height:640px;overflow:auto}
+.pool h3{font-size:1rem;color:var(--navy);margin-bottom:10px}
+.support{background:#fff;border-left:5px solid var(--blue);border-radius:6px;padding:9px 11px;margin-bottom:8px;font-size:.86rem;line-height:1.35;cursor:grab;box-shadow:0 2px 6px rgba(0,0,0,.08);user-select:none}
+.support.selected{outline:3px solid var(--gold)}
+.support.dragging{opacity:.5}
+.support.placed{cursor:pointer}
+.cols{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.zone{background:#fff;border:2px dashed var(--line);border-radius:12px;padding:12px;min-height:330px;display:flex;flex-direction:column;transition:background .15s,border-color .15s}
+.zone.over{background:var(--gold-soft);border-color:var(--gold)}
+.zone h4{font-size:.9rem;color:var(--navy);margin-bottom:4px}
+.zone p.hint{font-size:.76rem;color:var(--muted);margin-bottom:8px;line-height:1.3}
+.zone .drop{flex:1;display:flex;flex-direction:column;gap:6px}
+.zone .support{margin-bottom:0;font-size:.8rem}
+.z1{border-color:var(--gold)}.z2{border-color:var(--coral)}.z3{border-color:var(--blue)}.z4{border-color:var(--purple)}
+.controls{display:flex;gap:10px;justify-content:flex-end;margin:12px 0}
+.btn{border:none;border-radius:8px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:.9rem}
+.btn-go{background:var(--green);color:#fff}.btn-reset{background:#8a96a3;color:#fff}
+.btn:focus-visible,.support:focus-visible,.zone:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+.results{display:none;margin-top:16px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:18px}
+.results.show{display:block}
+.results h3{font-family:Georgia,serif;font-weight:400;font-size:1.35rem;color:var(--navy);margin-bottom:10px}
+.res{border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:.88rem;line-height:1.45;background:#f7f7f5}
+.res b{color:var(--navy)}
+.res .verdict{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.v1{background:var(--gold-soft);color:var(--ochre)}.v2{background:var(--coral-soft);color:var(--coral)}.v3{background:var(--purple-soft);color:var(--purple)}.v4{background:var(--blue-soft);color:var(--blue)}
+.res .cond{display:block;margin-top:5px;color:var(--muted)}
+.agree{background:var(--green-soft)}.differ{background:var(--gold-soft)}
+.close{margin-top:12px;background:var(--navy);color:#fff;border-radius:10px;padding:14px 16px;font-size:.92rem;line-height:1.55}
+.close b{color:var(--gold)}
+.foot{margin-top:14px;font-size:.74rem;color:var(--muted);text-align:center;line-height:1.45}
+.sr{position:absolute;left:-9999px}
+@media(max-width:860px){.board{grid-template-columns:1fr}.cols{grid-template-columns:1fr}.pool{max-height:none}}
+</style></head><body><div class="wrap">
+<div class="eyebrow">Contemporary Issues in Health and Social Care | Week 5 | Interactive</div>
+<h1>Whose risk is it?</h1>
+<div class="quote">&ldquo;I want to go home. I have been in that house since 1975 and I know where everything is. I want to manage my own stairs and get out to the lunch club on a Tuesday, and I want to see Jean. I know I might fall again. I fell last time and I am still here. What I do not want is Anne organising her whole life round me, because she has her own life and I have seen what that does to people.&rdquo; &mdash; Margaret, 84</div>
+<div class="task"><b>Margaret has capacity for this decision.</b> She is not delirious, she understands the options and the foreseeable risks, and she has said what she wants. Nothing about being 84, having fallen, or being identified as living with frailty changes who makes this decision.<br><br><b>Your task:</b> these are ten things actually said in and around a discharge meeting. Sort each one. <b>Start by asking whether it is a risk at all</b>, because several of them are not: some are gaps in the service, some are assumptions about somebody else&rsquo;s work, and one is a score being used as a decision. Then press <b>Compare</b> to see how we would sort it, who has authority, and what would have to be true. On a touchscreen, tap a card then tap a column.</div>
+<div class="board">
+ <aside class="pool" aria-label="Responses to sort"><h3>Responses</h3><div id="pool"></div></aside>
+ <main>
+  <div class="cols" id="cols"></div>
+  <div class="controls"><button class="btn btn-go" id="go">Compare</button><button class="btn btn-reset" id="reset">Reset</button></div>
+ </main>
+</div>
+<section class="results" id="results" aria-live="polite"><h3 id="rTitle">How we would sort these &mdash; and what each depends on</h3><div id="list"></div><div class="close" id="close"></div></section>
+<div class="foot">A teaching activity for HLTH09002. Margaret is fictional. These are teaching judgements, not measurements: nothing here scores Margaret, her capacity or her burden. Nothing you do here is stored or sent anywhere.</div>
+</div><div class="sr" aria-live="polite" id="ann"></div>
+<script>
+(function(){
+const ZONES=[
+ {id:'person',n:'Margaret\u2019s own risk',h:'A consequence she would bear, about her own life. Hers to weigh.'},
+ {id:'carer',n:'Anne\u2019s risk or work',h:'A cost falling on the unpaid carer. Hers to decide, and she must be asked.'},
+ {id:'service',n:'Professional or service risk',h:'Accountability, duty, and whether planning was reasonable.'},
+ {id:'notrisk',n:'Not a risk at all',h:'A support gap, an unverified assumption, or a score being used as a decision.'}];
+const S=[
+ {t:'\u201cShe might fall again.\u201d',ok:'person',lab:'Personal risk',who:'Margaret has authority. She has capacity, and she has already named this risk herself.',cond:'True, and not a reason on its own. Most falls are not predicted by anybody: NICE (2025) says do not use falls risk prediction tools, because a fall cannot be predicted with any accuracy. What would have to be true: a multifactorial assessment of what is actually modifiable, and a plan she agrees to.'},
+ {t:'\u201cAnne will pop in twice a day.\u201d',ok:'notrisk',lab:'Unverified assumption',who:'Nobody, yet. This is an allocation of somebody else\u2019s time made in her absence.',cond:'This is not a risk. It is the largest component of the plan, unfunded and unasked. The statutory guidance to the Carers (Scotland) Act warns that a carer may say yes in order to get their relative home while being unable to sustain it. What would have to be true: section 28 requires the health board to inform Anne, invite her views and take account of them.'},
+ {t:'\u201cIf she goes home and falls, it will be on me.\u201d',ok:'service',lab:'Professional and organisational',who:'The service, and it is a legitimate concern rather than a reason to override her.',cond:'The fear is real and worth naming out loud, because it drives a great deal of defensive practice. What would have to be true for it to be managed properly: reasonable, recorded planning; the risks discussed with Margaret; and the reasoning documented. A supported decision that she makes is not the same as a service failing to plan.'},
+ {t:'\u201cThere is no reablement capacity until the 14th.\u201d',ok:'notrisk',lab:'Support gap',who:'The system. Nobody in the room can decide this away.',cond:'Not a risk and not her problem, though it will become her problem. It is a capacity gap that will be silently converted into a longer hospital stay or into Anne\u2019s unpaid time. Name it as a gap in the plan, not as a reason she cannot go home.'},
+ {t:'\u201cShe scored severe on the frailty scale, so she needs residential care.\u201d',ok:'notrisk',lab:'A score being used as a decision',who:'Nobody. A score has no authority over a person\u2019s living arrangements.',cond:'This is the error the whole week is about. A frailty score describes vulnerability for a defined purpose; the British Geriatrics Society says plainly that frailty tools should guide, not dictate, care decisions. A judgement-based scale also describes baseline, not how somebody looks on day three of an infection in an unfamiliar ward.'},
+ {t:'\u201cIf I take this on I will have to cut my hours.\u201d',ok:'carer',lab:'Carer risk',who:'Anne has authority over this. Nobody can require her to provide unpaid care.',cond:'An Adult Carer Support Plan must record the extent to which a carer is able and willing to provide care, and must consider the impact of caring on work and on the rest of her life. What would have to be true: she is asked directly, and given a real option to say no without that ending Margaret\u2019s chance of going home.'},
+ {t:'\u201cShe will be socially isolated at home on her own.\u201d',ok:'person',lab:'Personal risk, and worth testing',who:'Margaret, and she has already answered it.',cond:'Check this one against what she actually said: the lunch club on a Tuesday, and Jean most weeks. She has a social life at home that she does not have on the ward. Whose assumption is isolation, and on what evidence?'},
+ {t:'\u201cThe bathroom is upstairs, so she cannot manage.\u201d',ok:'notrisk',lab:'Unverified assumption, and an assessable question',who:'Not yet anybody\u2019s. It has not been assessed.',cond:'This is a question, not a finding. What would have to be true: somebody assesses her actually managing stairs, and considers equipment, adaptation or a change of use downstairs. \u201cCannot manage\u201d asserted without assessment is how ordinary housing becomes a reason to move somebody out of their home.'},
+ {t:'\u201cThe distress if she is on the floor for an hour again.\u201d',ok:'person',lab:'Primarily Margaret\u2019s, with consequences for Anne',who:'Margaret weighs it. Anne will also live with it.',cond:'A good example of a risk with a primary holder and shared consequences: Margaret bears the physical consequence, Anne the distress, the service the accountability. What would have to be true: a way of calling for help she will actually use, agreed with her rather than issued to her.'},
+ {t:'\u201cShe is medically fit, so this is a social work problem now.\u201d',ok:'notrisk',lab:'A handover dressed as a fact',who:'Nobody. It describes a boundary between services, not a decision about Margaret.',cond:'Medically fit is a statement about acute treatment being complete. It is not a statement about what support exists, who will provide it, or whether anybody has asked her daughter. The sentence moves the problem without solving any part of it.'}
+];
+const $=id=>document.getElementById(id);let sel=null;const pool=$('pool'),cols=$('cols'),ann=$('ann');
+S.forEach((s,i)=>{s.placed=null;s.i=i;});
+function mk(s){const el=document.createElement('div');el.className='support'+(s.placed?' placed':'');el.textContent=s.t;el.draggable=!s.placed;el.dataset.i=s.i;el.tabIndex=0;el.setAttribute('role','button');
+ el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',String(s.i));el.classList.add('dragging')});el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+ el.addEventListener('click',e=>{e.stopPropagation();if(s.placed){s.placed=null;render();ann.textContent=s.t+' returned to the list';}else{sel=(sel===s.i)?null:s.i;render();ann.textContent=sel===null?'Selection cleared':s.t+' selected. Now choose a column.';}});
+ el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+ if(sel===s.i)el.classList.add('selected');return el;}
+function render(){pool.innerHTML='';S.filter(s=>!s.placed).forEach(s=>pool.appendChild(mk(s)));
+ ZONES.forEach(z=>{const d=document.querySelector('[data-zone="'+z.id+'"] .drop');if(d){d.innerHTML='';S.filter(s=>s.placed===z.id).forEach(s=>d.appendChild(mk(s)));}});}
+ZONES.forEach((z,zi)=>{const d=document.createElement('div');d.className='zone z'+(zi+1);d.dataset.zone=z.id;d.tabIndex=0;d.setAttribute('role','group');d.setAttribute('aria-label',z.n);
+ d.innerHTML='<h4>'+z.n+'</h4><p class="hint">'+z.h+'</p><div class="drop"></div>';
+ d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('over')});d.addEventListener('dragleave',()=>d.classList.remove('over'));
+ d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('over');place(parseInt(e.dataTransfer.getData('text/plain')),z.id)});
+ d.addEventListener('click',()=>{if(sel!==null){place(sel,z.id);sel=null;}});
+ d.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&sel!==null){e.preventDefault();place(sel,z.id);sel=null;}});
+ cols.appendChild(d);});
+function place(i,z){const s=S[i];if(!s)return;s.placed=z;render();ann.textContent=s.t+' placed in '+ZONES.find(x=>x.id===z).n;}
+function compare(){const list=$('list');list.innerHTML='';let placed=0,agree=0;
+ S.forEach(s=>{const zn=id=>ZONES.find(z=>z.id===id).n;const cls=s.ok==='person'?'v1':(s.ok==='carer'?'v2':(s.ok==='service'?'v4':'v3'));
+  const el=document.createElement('div');el.className='res'+(s.placed?(s.placed===s.ok?' agree':' differ'):'');
+  if(s.placed){placed++;if(s.placed===s.ok)agree++;}
+  el.innerHTML='<b>'+s.t+'</b><span class="verdict '+cls+'">'+s.lab+'</span>'+(s.placed&&s.placed!==s.ok?' <i>(you put it in: '+zn(s.placed)+')</i>':'')+'<span class="cond"><b>Who has authority:</b> '+s.who+'<br><b>What would have to be true:</b> '+s.cond+'</span>';
+  list.appendChild(el);});
+ $('close').innerHTML='<b>Three things to take from this.</b> First, <b>four of the ten are not risks at all</b>: a gap in the service, two assumptions nobody has checked, and a score being used as a decision. Discharge meetings are full of sentences that sound like risk and are actually something else, and mistaking them is how a person loses a choice. Second, <b>a risk can have a primary holder and still have consequences for other people</b>: Margaret bears the fall, Anne the distress and the hours, the service the accountability. We do not need to force each one into a single box. Third, and this is the sentence the week turns on: <b>one person\u2019s autonomy does not automatically create another person\u2019s obligation to provide unpaid care.</b> Margaret decides what she accepts. Anne decides what she gives. The plan must not silently convert one into the other.'+(placed?'<br><br>You sorted '+placed+' of '+S.length+'; we would have put '+agree+' of those in the same column. Bring one you disagree with to class.':'');
+ $('results').classList.add('show');$('results').scrollIntoView({behavior:'smooth',block:'start'});ann.textContent='Comparison shown';}
+$('go').addEventListener('click',compare);
+$('reset').addEventListener('click',()=>{S.forEach(s=>s.placed=null);sel=null;$('results').classList.remove('show');render();ann.textContent='Reset';});
+document.addEventListener('click',()=>{if(sel!==null){sel=null;render();}});
+render();
+})();
+</script></body></html>
