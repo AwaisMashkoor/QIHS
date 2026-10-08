@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Steps Unit 3 | The Roof — morning session</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1e3d;--navy2:#17375e;--blue:#1a5276;--blue-soft:#e7f1f7;
+  --teal:#287a80;--teal-soft:#e6f4f3;--green:#1a7a5a;--green-soft:#e8f5ee;
+  --gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;
+  --purple:#6b4f83;--purple-soft:#f2edf6;--grey:#667482;--grey-soft:#eef1f3;
+  --ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--paper:#fffefb;--cream:#faf8f5;
+  --focus:#005ea8;--serif:Georgia,'Times New Roman',serif;--sans:Aptos,'Segoe UI',Arial,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,a,textarea{font:inherit}a{color:var(--blue)}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(1.25rem,2.7vw,2.6rem) clamp(1.45rem,4.3vw,4.25rem) clamp(4.4rem,7vh,5.2rem);opacity:0;overflow:hidden;background:var(--paper);transition:opacity .18s}
+.slide.active{display:flex;opacity:1}
+.slide--dark{background:linear-gradient(155deg,var(--navy),var(--navy2) 66%,#214b76);color:#f7f9fb}
+.slide--blue{background:linear-gradient(135deg,var(--blue-soft),#fbfdfe)}
+.slide--green{background:linear-gradient(135deg,var(--green-soft),#fbfdfc)}
+.slide--gold{background:linear-gradient(135deg,var(--gold-soft),#fffdf8)}
+.slide--teal{background:linear-gradient(135deg,var(--teal-soft),#f9fdfd)}
+.slide--coral{background:linear-gradient(135deg,var(--coral-soft),#fffaf8)}
+.slide--purple{background:linear-gradient(135deg,var(--purple-soft),#fcfafd)}
+.eyebrow{margin-bottom:.55rem;font-size:clamp(.78rem,.9vw,1rem);font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.slide--dark .eyebrow{color:var(--gold)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,4.9vw,5rem);line-height:1.03}
+h2{font-size:clamp(1.9rem,3.1vw,3.2rem);line-height:1.08;margin-bottom:.8rem;color:var(--navy)}
+.slide--dark h1,.slide--dark h2{color:#fff}
+h3{font-size:clamp(1.02rem,1.35vw,1.35rem);line-height:1.2;color:var(--navy)}
+.lede{font-size:clamp(1.02rem,1.43vw,1.47rem);line-height:1.42;color:var(--muted);max-width:67ch;margin-bottom:1rem}
+.slide--dark .lede{color:#dfe6ee}
+.bigline{font-family:var(--serif);font-size:clamp(2.1rem,3.9vw,4rem);line-height:1.12;color:var(--navy);max-width:27ch}
+.slide--dark .bigline{color:#fff}
+.grid{display:grid;gap:clamp(.7rem,1.15vw,1.15rem);flex:1;align-content:center;min-height:0}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:clamp(.8rem,1.15vw,1.15rem);box-shadow:0 4px 18px rgba(10,30,61,.055);min-width:0}
+.card h3{margin-bottom:.35rem}.card p,.card li{font-size:clamp(.88rem,1.06vw,1.07rem);line-height:1.38;color:var(--muted)}
+.card ul,.card ol{padding-left:1.15rem}.card li{margin:.24rem 0}
+.card--blue{background:var(--blue-soft);border-color:var(--blue)}.card--green{background:var(--green-soft);border-color:var(--green)}.card--gold{background:var(--gold-soft);border-color:var(--gold)}.card--teal{background:var(--teal-soft);border-color:var(--teal)}.card--coral{background:var(--coral-soft);border-color:var(--coral)}.card--purple{background:var(--purple-soft);border-color:var(--purple)}
+.tag{display:inline-block;font-size:.68rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .58rem;border-radius:999px;margin-bottom:.45rem;background:var(--navy);color:#fff}
+.lo{display:inline-flex;align-items:center;justify-content:center;min-width:2.9rem;border-radius:999px;padding:.23rem .58rem;background:var(--navy);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:.5rem}
+.band{margin-top:auto;background:var(--navy);color:#fff;border-radius:13px;padding:.82rem 1.15rem;font-size:clamp(.96rem,1.23vw,1.25rem);line-height:1.38}.band b{color:var(--gold)}.slide--dark .band{background:rgba(255,255,255,.12)}
+.prompt{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:.78rem 1rem;font-size:clamp(.96rem,1.18vw,1.2rem);line-height:1.4;margin-top:.65rem}
+.source{font-size:clamp(.68rem,.76vw,.8rem);line-height:1.3;color:var(--muted);margin-top:.45rem}.slide--dark .source{color:#d3dce6}
+.foot{position:absolute;left:0;right:9rem;bottom:0;display:flex;align-items:center;justify-content:flex-start;gap:1.7rem;padding:.65rem clamp(1.45rem,4.3vw,4.25rem);font-size:.71rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.slide--dark .foot{color:#c9d3de}
+.timer{font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);line-height:1;color:var(--navy);text-align:center;margin:.55rem 0 .45rem;font-variant-numeric:tabular-nums}.slide--dark .timer{color:#fff}.tbtns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap}.tbtns button{border-radius:999px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;padding:.43rem .95rem;cursor:pointer}.tbtns button.primary{background:var(--navy);color:#fff}.slide--dark .tbtns button{border-color:#fff;background:transparent;color:#fff}.slide--dark .tbtns button.primary{background:#fff;color:var(--navy)}
+.timer--small{font-size:clamp(2rem,3.4vw,3.4rem);margin:.2rem 0}
+.reveal{margin-top:.55rem;background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:.38rem .9rem;font-weight:750;font-size:.88rem;cursor:pointer}
+.reveal.on{background:var(--blue);color:#fff}
+.qs{display:grid;gap:.6rem}.q{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem;font-family:var(--serif);font-size:clamp(1.05rem,1.5vw,1.5rem);color:var(--navy);line-height:1.25}
+.q small{display:block;font-family:var(--sans);font-size:.8rem;color:var(--muted);margin-top:.3rem}
+
+/* controls */
+.nav{position:fixed;right:1rem;bottom:.72rem;display:flex;gap:.45rem;align-items:center;z-index:20}.nav button{width:2.45rem;height:2.45rem;border-radius:50%;border:none;background:var(--navy);color:#fff;font-size:1.08rem;cursor:pointer}.nav button:disabled{opacity:.3}.nav span{font-size:.82rem;color:var(--muted);min-width:4.3rem;text-align:center}.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--gold);width:0;z-index:25;transition:width .18s}
+.menu-toggle{position:fixed;right:1rem;top:.75rem;width:2.45rem;height:2.45rem;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.93);color:var(--navy);font-size:1.15rem;font-weight:800;cursor:pointer;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tools{position:fixed;right:4rem;top:.78rem;display:none;gap:.4rem;z-index:29;flex-wrap:wrap;justify-content:flex-end}.tools.open{display:flex}.tools button{border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.96);padding:.32rem .72rem;font-size:.76rem;cursor:pointer;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sr{position:absolute;left:-9999px}.speaker-note{display:none}
+.notes-panel{position:fixed;left:1rem;bottom:3.6rem;width:min(43rem,80vw);max-height:44vh;overflow:auto;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:1rem 1.1rem;z-index:80;box-shadow:0 15px 50px rgba(0,0,0,.22);display:none}.notes-panel.open{display:block}.notes-panel h3{margin-bottom:.45rem}.notes-panel p,.notes-panel li{font-size:.9rem;line-height:1.42;color:var(--muted)}.notes-panel ul{padding-left:1.1rem}
+.overlay{position:fixed;inset:0;background:rgba(5,16,31,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:2rem}.overlay.open{display:flex}.modal{width:min(92vw,68rem);max-height:86vh;overflow:auto;background:var(--paper);border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 24px 80px rgba(0,0,0,.35)}.modal h2{font-size:2rem}.modal .close{float:right;border:none;background:var(--navy);color:#fff;border-radius:999px;padding:.42rem .8rem;cursor:pointer}.modal ol,.modal ul{padding-left:1.4rem}.modal li{margin:.5rem 0;line-height:1.45}.modal p{line-height:1.45;margin:.5rem 0}.modal a{overflow-wrap:anywhere}.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}.slide-list button{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55rem .7rem;cursor:pointer;color:var(--navy)}.slide-list button:hover{background:var(--blue-soft)}
+
+@media(max-width:820px){.g4,.g3{grid-template-columns:1fr 1fr}.tools button:nth-child(n+5){display:none}}
+@media(max-height:720px){.slide{padding-top:1rem;padding-bottom:3.8rem}h1{font-size:clamp(2.2rem,4vw,3.8rem)}h2{font-size:clamp(1.7rem,2.8vw,2.7rem)}.card{padding:.65rem .8rem}.lede{margin-bottom:.65rem}.foot{padding-bottom:.5rem}.timer{font-size:4.2rem}}
+@media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex;opacity:1;page-break-after:always;width:13.333in;height:7.5in}.nav,.menu-toggle,.tools,.progress,.notes-panel,.overlay{display:none!important}.speaker-note{display:none!important}}
+@page{size:13.333in 7.5in;margin:0}
+
+/* ---- unit 3 ---- */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.7rem}.tln{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.55rem .7rem}.tln b{display:block;font-family:var(--serif);font-size:clamp(1.1rem,1.5vw,1.5rem);font-weight:400;color:var(--navy)}.tln span{font-size:clamp(.8rem,.95vw,.95rem);color:var(--muted);line-height:1.3;display:block}.tln.bridge{border-color:var(--gold);background:var(--gold-soft)}
+.right4{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:center;margin:.3rem 0 .9rem}.right4 span{font-family:var(--serif);font-size:clamp(1.2rem,1.8vw,1.8rem);color:var(--navy);background:#fff;border:2px solid var(--teal);border-radius:999px;padding:.35rem 1rem}.right4 i{font-style:normal;color:var(--gold);font-size:1.5rem;font-weight:800}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.legend2{display:flex;gap:.5rem;flex-wrap:wrap;margin:.4rem 0}.legend2 span{border-radius:999px;padding:.2rem .6rem;font-size:.8rem;font-weight:800;border:1px solid}
+.places{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;flex:1;align-content:center}
+.place{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.75rem .85rem;cursor:pointer;min-height:5.2rem;transition:background .25s,border-color .25s}
+.place b{display:block;color:var(--navy);font-size:clamp(.92rem,1.1vw,1.1rem)}.place .who{display:none;font-size:clamp(.8rem,.95vw,.95rem);color:var(--muted);margin-top:.3rem;line-height:1.3}.place.open .who{display:block}
+.place.me{background:var(--gold-soft);border:3px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:default}.place.me strong{font-family:var(--serif);font-size:clamp(1.5rem,2.3vw,2.3rem);font-weight:400;color:var(--navy)}.place.me span{font-size:.9rem;color:var(--muted)}
+.places.worlds .place[data-w="nhs"]{border-color:var(--blue);background:var(--blue-soft)}.places.worlds .place[data-w="council"]{border-color:var(--purple);background:var(--purple-soft)}.places.worlds .place[data-w="third"]{border-color:var(--green);background:var(--green-soft)}.places.worlds .place[data-w="home"]{border-color:var(--gold);background:var(--gold-soft)}
+.worlds2{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;flex:1;align-items:stretch;align-content:center}
+.worldp{border-radius:18px;padding:1.1rem 1.2rem;border:2px solid var(--line);background:#fff}.worldp h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.4rem,2vw,2rem);margin-bottom:.5rem}.worldp p,.worldp li{font-size:clamp(.92rem,1.1vw,1.1rem);line-height:1.4;color:var(--muted)}.worldp ul{padding-left:1.1rem}.worldp li{margin:.25rem 0}.worldp small{display:block;margin-top:.6rem;font-size:.8rem;color:var(--muted)}
+.worldp.nhs{border-color:var(--blue);background:var(--blue-soft)}.worldp.council{border-color:var(--purple);background:var(--purple-soft)}
+.theline{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--coral);font-weight:800;text-align:center;width:9rem;font-size:.95rem}.theline .bar{width:4px;flex:1;background:repeating-linear-gradient(var(--coral) 0 10px,transparent 10px 18px);min-height:4rem}
+.story{display:grid;gap:.6rem;flex:1;align-content:center}.step{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1.05rem;display:grid;grid-template-columns:7.5rem 1fr;gap:.8rem;opacity:.15;transition:opacity .35s}.step.on{opacity:1}.step b{color:var(--coral);font-family:var(--serif);font-size:clamp(1.05rem,1.4vw,1.4rem);font-weight:400}.step span{font-size:clamp(.95rem,1.18vw,1.18rem);line-height:1.4;color:var(--ink)}.step.end{background:var(--navy);border-color:var(--navy)}.step.end span,.step.end b{color:#fff}
+.ideas{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;flex:1;align-content:center}.idea{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:1rem 1.1rem;cursor:pointer}.idea .n{font-family:var(--serif);font-size:clamp(1.25rem,1.8vw,1.8rem);line-height:1.15;color:var(--navy)}.idea .m{font-size:clamp(.9rem,1.05vw,1.05rem);color:var(--muted);margin-top:.35rem;line-height:1.35}.idea .ric{display:none;margin-top:.55rem;background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.5rem .7rem;font-size:clamp(.88rem,1.02vw,1.02rem);line-height:1.38}.idea.open .ric{display:block}
+.notepad{background:#fffdf4;border:2px solid var(--line);border-radius:14px;padding:1rem 1.2rem;font-family:'Courier New',monospace;font-size:clamp(1rem,1.35vw,1.35rem);line-height:1.5;color:#2b2b2b;min-height:9rem}
+.pieces{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem}.piece{border-radius:12px;padding:.6rem .7rem;background:var(--gold-soft);border:2px solid var(--gold);font-size:clamp(.86rem,1.02vw,1.02rem);color:var(--navy);font-weight:700;line-height:1.3}.piece i{display:block;font-style:normal;font-size:.74rem;color:var(--muted);margin-bottom:.15rem;font-weight:800}
+.circles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;flex:1;align-content:center;justify-items:center}.circ{width:min(100%,19rem);aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.6rem;color:#fff;position:relative}.circ h3{color:#fff;font-size:clamp(1.15rem,1.6vw,1.6rem);margin-bottom:.5rem}.circ p{font-size:clamp(.84rem,1.02vw,1.02rem);line-height:1.35;opacity:.95;margin:.12rem 0}.circ.gov{background:#1a5276}.circ.int{background:#b55436}.circ.qa{background:#1a7a5a}.circ .here{position:absolute;top:-.6rem;background:var(--gold);color:var(--navy);font-weight:800;font-size:.78rem;padding:.25rem .65rem;border-radius:999px}
+.vote{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem}.opt{background:#fff;border:2px solid var(--line);border-radius:16px;padding:.9rem 1rem;display:flex;flex-direction:column;gap:.35rem}.opt h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.15rem,1.6vw,1.6rem)}.opt .tag{align-self:flex-start}.opt ul{padding-left:1.05rem}.opt li{font-size:clamp(.86rem,1rem,1rem);line-height:1.3;color:var(--muted);margin:.12rem 0}.opt .tally{display:flex;align-items:center;gap:.5rem;margin-top:auto;padding-top:.4rem}.opt .tally button{width:2rem;height:2rem;border-radius:50%;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:800;cursor:pointer}.opt .tally .cnt{font-family:var(--serif);font-size:1.8rem;min-width:2.2rem;text-align:center;color:var(--navy)}.opt .meter{height:.55rem;border-radius:999px;background:var(--grey-soft);overflow:hidden;flex:1}.opt .meter i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
+.col3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}.rcol{background:#fff;border:2px solid var(--line);border-radius:16px;padding:.95rem 1rem;display:flex;flex-direction:column;gap:.5rem}.rcol h3{font-size:clamp(1.05rem,1.35vw,1.35rem)}.rcol .bad,.rcol .good{border-radius:10px;padding:.55rem .7rem;font-size:clamp(.88rem,1.04vw,1.04rem);line-height:1.35}.rcol .bad{background:var(--coral-soft)}.rcol .good{background:var(--green-soft)}.rcol .bad b{color:var(--coral)}.rcol .good b{color:var(--green)}
+@media(max-width:820px){.places,.col3,.vote,.circles,.pieces,.ideas{grid-template-columns:1fr 1fr}.worlds2{grid-template-columns:1fr}.theline{width:auto;flex-direction:row}.theline .bar{height:4px;width:auto;flex:1;min-height:0}}
+
+
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.phase{border-radius:18px;padding:1.3rem 1.3rem 1.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:.5rem}
+.phase em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.phase b{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,2.8vw,2.8rem);color:#fff;line-height:1.05}
+.phase span{font-size:clamp(.98rem,1.2vw,1.2rem);line-height:1.42;color:#dfe6ee}
+.place .k{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:.1rem .45rem;border-radius:999px;margin-bottom:.3rem}
+.k.case{background:var(--green-soft);color:var(--green);border:1px solid var(--green)}
+.k.assume{background:var(--gold-soft);color:#7a5a12;border:1px solid var(--gold)}
+.fiveq{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem}
+.fq{background:#fff;border:2px solid var(--line);border-radius:12px;padding:.7rem .75rem;display:flex;flex-direction:column;gap:.2rem}
+.fq b{font-family:var(--serif);font-weight:400;font-size:1.5rem;line-height:1;color:var(--gold)}
+.fq span{font-size:clamp(.9rem,1.05vw,1.05rem);color:var(--navy);font-weight:700;line-height:1.3}
+.fq.no{border-color:var(--coral);background:var(--coral-soft)}.fq.no b{color:var(--coral)}
+.feeds{margin-top:auto;padding-top:.5rem;font-size:.78rem;font-weight:800;letter-spacing:.03em;color:var(--teal)}
+@media(max-width:820px){.phases{grid-template-columns:1fr}.fiveq{grid-template-columns:1fr 1fr}}
+
+
+/* ---- unit 3 additions: the roof, and when it leaks ---- */
+.roofwrap{display:grid;grid-template-columns:1.02fr .98fr;gap:1.2rem;flex:1;min-height:0;align-items:center}
+.house3{width:100%;height:auto;max-height:50vh;display:block}
+.house3 .dim rect,.house3 .dim circle{fill:#ece7df;stroke:#fff;stroke-width:3}
+.house3 .dim text{font-family:var(--sans);font-size:16px;font-weight:700;fill:#8a96a3;text-anchor:middle}
+.house3 .lit polygon{fill:#1a5276;stroke:var(--gold);stroke-width:6;stroke-linejoin:round}
+.house3 .lit text{font-family:var(--sans);fill:#fff;text-anchor:middle}
+.house3 .lit .big{font-size:30px;font-weight:800;letter-spacing:.08em}
+.house3 .lit .small{font-size:15px;font-weight:600}
+.house3 .today{font-family:var(--sans);font-size:15px;font-weight:800;fill:var(--navy);text-anchor:middle}
+.roofcards{display:flex;flex-direction:column;gap:.6rem}
+.roofcards .card ul{padding-left:1.1rem}
+.leakroof{width:100%;height:clamp(1.4rem,3.6vh,2.4rem);display:block;margin-top:.1rem}
+.leakroof polygon{fill:rgba(255,255,255,.12);stroke:var(--gold);stroke-width:2}
+.leakmid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.drips{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.1rem}
+.drip{position:relative;border-radius:16px;padding:1.4rem 1.1rem 1.1rem;min-height:clamp(12rem,36vh,19rem);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:.5rem;opacity:.13;transition:opacity .4s}
+.drip.on{opacity:1}
+.drip i{position:absolute;top:-1.55rem;left:50%;width:1.2rem;height:1.2rem;margin-left:-.6rem;background:var(--gold);border-radius:0 50% 50% 50%;transform:rotate(45deg)}
+.drip>b{font-family:var(--serif);font-weight:400;font-size:clamp(2.5rem,4.4vw,4.6rem);line-height:1;color:var(--gold)}
+.drip span{font-size:clamp(.98rem,1.25vw,1.3rem);line-height:1.38;color:#eef2f6}
+.drip small{margin-top:auto;padding-top:.3rem;font-size:clamp(.68rem,.78vw,.8rem);color:#c9d3de;line-height:1.3}
+.bigstat{border-radius:18px;padding:1.2rem 1.35rem;display:flex;flex-direction:column;gap:.55rem;justify-content:center;min-width:0}
+.bigstat>b{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.6vw,6.8rem);line-height:1}
+.bigstat span{font-size:clamp(1.05rem,1.5vw,1.55rem);line-height:1.4}
+.bigstat ul{padding-left:1.15rem}.bigstat li{font-size:clamp(.98rem,1.25vw,1.28rem);line-height:1.35;margin:.22rem 0}
+.bigstat small{font-size:clamp(.68rem,.78vw,.8rem);line-height:1.3;opacity:.88}
+.bigstat--coral{background:var(--coral);color:#fff}.bigstat--coral>b{color:#fff}
+.bigstat--navy{background:var(--navy);color:#fff}.bigstat--navy>b{color:var(--gold)}.bigstat--navy span,.bigstat--navy li{color:#eef2f6}
+.side{display:flex;flex-direction:column;gap:.8rem;justify-content:center;min-width:0}
+.card.quote .qt{font-family:var(--serif);font-size:clamp(1.08rem,1.5vw,1.5rem);line-height:1.35;color:var(--navy)}
+.stats2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1;align-content:center}
+.stat{background:#fff;border:2px solid var(--teal);border-radius:18px;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.55rem}
+.stat>b{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.6vw,6.8rem);line-height:1;color:var(--navy)}
+.stat p b{font-weight:800;color:var(--navy)}
+.stat p{font-size:clamp(1.05rem,1.45vw,1.5rem);line-height:1.4;color:var(--ink)}
+.stat .so{font-weight:800;color:var(--coral)}
+.meterbar{height:.85rem;border-radius:999px;background:var(--grey-soft);overflow:hidden}.meterbar i{display:block;height:100%;background:var(--teal)}
+.lg .card h3{font-size:clamp(1.12rem,1.55vw,1.6rem)}.lg .card p{font-size:clamp(1rem,1.32vw,1.38rem);line-height:1.42}.lg .prompt{font-size:clamp(1.02rem,1.38vw,1.42rem)}.lg .card.quote .qt{font-size:clamp(1.2rem,1.75vw,1.8rem)}.lg .card p.source{font-size:clamp(.7rem,.8vw,.84rem);line-height:1.3}
+@media(max-width:820px){.roofwrap,.stats2{grid-template-columns:1fr}.drips{grid-template-columns:1fr 1fr}}
+@media print{.drip{opacity:1!important}}
+
+/* ---- unit 3 v3: homes in the house, the rest of the roof, four columns, roof tracker ---- */
+.homes{display:grid;gap:.6rem;margin:.3rem 0 .9rem}
+.home{display:grid;grid-template-columns:1fr auto minmax(15rem,.6fr);gap:1rem;align-items:center;background:#fff;border:2px solid var(--line);border-radius:14px;padding:.75rem 1.05rem;opacity:.6}
+.home.now{opacity:1;border-color:var(--gold);background:#fff}
+.home .hq{font-family:var(--serif);font-size:clamp(1.05rem,1.5vw,1.5rem);color:var(--navy);line-height:1.25}
+.home .arrow{font-size:1.5rem;font-weight:800;color:var(--gold)}
+.home .hh{font-size:clamp(.86rem,1vw,1rem);color:var(--muted);line-height:1.3}
+.home .hh b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.1rem,1.5vw,1.5rem);color:var(--navy)}
+.home.now .hh b{color:var(--blue)}
+.roofcap{width:100%;height:clamp(2.6rem,10vh,5.6rem);display:block}
+.roofcap polygon{fill:var(--blue);stroke:var(--gold);stroke-width:3;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.r4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-top:.55rem}
+.r4c{background:#fff;border:2px solid var(--blue);border-radius:14px;padding:.85rem .95rem;display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.r4c h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.35rem,2vw,2.05rem)}
+.r4c .pm{font-weight:800;color:var(--blue)}
+.r4c p{font-size:clamp(.95rem,1.2vw,1.25rem);line-height:1.38;color:var(--muted)}
+.r4c p b{color:var(--navy)}
+.r4c .nx{margin-top:auto;background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.4rem .55rem;color:var(--ink)}
+.col4{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;flex:1;align-content:center}
+.col4 .rcol{padding:.85rem .85rem}
+.col4 .rcol h3{font-size:clamp(1.15rem,1.55vw,1.6rem)}.col4 .rcol .bad,.col4 .rcol .good{font-size:clamp(.9rem,1.12vw,1.16rem)}
+.trk{margin-left:auto;display:inline-flex;align-items:center;gap:.4rem;letter-spacing:.05em}
+.trk b{font-weight:850;color:var(--navy)}
+.trkc{display:inline-flex;gap:.28rem}
+.trkc i{font-style:normal;font-weight:800;font-size:.62rem;padding:.17rem .52rem;border-radius:999px;border:1px solid #cfc8bc;color:#7d8a97;background:rgba(255,255,255,.75)}
+.trkc i.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.pw4 li b{color:var(--navy)}
+@media(max-width:820px){.trk b{display:none}.trkc i{font-size:.52rem;padding:.12rem .3rem}.home{grid-template-columns:1fr}.home .arrow{display:none}.r4,.col4{grid-template-columns:1fr 1fr}}
+@media print{.trkc i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuBtn" aria-label="Open presentation tools" aria-expanded="false">⋯</button>
+<div class="tools" id="tools"><button id="slidesBtn">Slides</button><button id="notesBtn">Notes</button><button id="sourcesBtn">Sources</button><button id="glossBtn">Glossary</button><button id="helpBtn">Help</button><button id="fsBtn">Full screen</button><button id="printBtn">Print</button></div>
+<div class="sr" aria-live="polite" id="ann"></div>
+<main class="deck">
+
+<section class="slide slide--dark" id="s1" tabindex="-1" aria-label="The roof">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Unit 3 · The roof</span></div>
+  <div class="eyebrow">Unit 3 · The roof · 09:30–12:30</div>
+  <h1>What has to be in place for Richard’s care to hold together?</h1>
+  <p class="lede" style="margin-top:1rem">Last time we left one question open: where does Richard’s information live? This morning, how to think about it — and everything else the roof has to hold up.</p>
+  <aside class="speaker-note"><p>Welcome them back and name the open question: on the first day we deliberately left one question unanswered — where does Richard’s information live? Before the break we find where it sits, and why it gets lost. After the break: how it should travel, and the rest of the roof. To finish, they fix one leak themselves. Unit 4, the centre of the house, is this afternoon.</p></aside>
+</section>
+
+<section class="slide" id="sR" tabindex="-1" aria-label="The roof: the part of the house you can't see">
+  <div class="foot"><span>Unit 3</span><span>What the roof is</span></div>
+  <div class="eyebrow">Last time you built the house · today we lift the roof</div>
+  <h2>The roof: the part of the house you can’t see</h2>
+  <div class="roofwrap">
+    <svg class="house3" viewBox="0 0 600 450" role="img" aria-label="The House of Care, with the roof highlighted and lifted">
+      <g class="dim"><rect x="70" y="200" width="130" height="170" rx="6"/><text x="135" y="290">Left wall</text></g>
+      <g class="dim"><rect x="400" y="200" width="130" height="170" rx="6"/><text x="465" y="290">Right wall</text></g>
+      <g class="dim"><circle cx="300" cy="285" r="82"/><text x="300" y="290">Centre</text></g>
+      <g class="dim"><rect x="30" y="378" width="540" height="58" rx="8"/><text x="300" y="412">Foundation</text></g>
+      <g class="lit"><polygon points="50,184 300,30 550,184"/><text class="big" x="300" y="122">ROOF</text><text class="small" x="300" y="148">Organisational processes,</text><text class="small" x="300" y="167">policies, systems and arrangements</text></g>
+      <text class="today" x="300" y="20">TODAY</text>
+    </svg>
+    <div class="roofcards">
+      <div class="card card--blue"><h3>What the House of Care calls it</h3><p>“Organisational processes, policies, systems and arrangements.”</p></div>
+      <div class="card"><h3>The four parts, in plain words</h3><ul class="pw4"><li><b>Processes</b> — how things get done: test results sent out before your appointment</li><li><b>Policies</b> — the rules: who can see your information</li><li><b>Systems</b> — the tools: records that can be shared</li><li><b>Arrangements</b> — how it’s organised: appointments coordinated, teams with time to plan</li></ul></div>
+      <div class="card card--gold"><h3>An everyday example</h3><p>The wiring and the pipes in your home. You never see them — until the lights go out, or water comes through the ceiling.</p></div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:.7rem">You never see the roof from the waiting room. <b>You only notice it when it leaks.</b></div>
+  <p class="source">ALLIANCE Scotland, The House of Care model · British Heart Foundation, The House of Care framework: “IT systems for sharing data and effective administration for sending out test results and coordinating appointments”. The plain-English meanings are ours.</p>
+  <aside class="speaker-note"><p>Last time you built Richard’s house. Today we lift the roof off and look inside. Read the House of Care’s own words for the roof — organisational processes, policies, systems and arrangements. Then put each word into plain English with the card on the right: processes are how things get done; policies are the rules; systems are the tools, like records; arrangements are how it is all organised — who’s in charge, the money, whether teams have time to plan. The plain meanings are our teaching words, not the model’s; the examples come from the British Heart Foundation’s description. None of it is visible from the waiting room. The everyday example does the work: ask when anyone last thought about the pipes in their house — only when something leaks. For the leaflet: this is the official description of the roof, the one to put into family words (the House of Care is 30 marks). These four words come back all morning: from slide 6, a small tracker at the bottom of each slide lights up the parts of the roof we are in. Four minutes.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="sLeaks" tabindex="-1" aria-label="When the roof leaks">
+  <div class="foot"><span>Unit 3</span><span>Why it matters</span></div>
+  <div class="eyebrow">Why the roof matters · Scotland, now</div>
+  <h2 style="color:#fff">When the roof leaks</h2>
+  <div class="leakmid">
+  <svg class="leakroof" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,58 110,6 1090,6 1200,58"/></svg>
+  <div class="drips" id="drips">
+    <div class="drip"><i></i><b>1,934</b><span>hospital beds a day, on average, held by people ready to leave — waiting for the next step to be arranged</span><small>Public Health Scotland, 2025/26 · day one’s number</small></div>
+    <div class="drip"><i></i><b>25–80%</b><span>of patients, in studies reviewed by the WHO, left hospital with at least one medicine mismatch — or a change nobody passed on</span><small>World Health Organization, 2019</small></div>
+    <div class="drip"><i></i><b>£449m</b><span>the funding gap Scotland’s integration joint boards expected for 2025/26</span><small>Accounts Commission, February 2026</small></div>
+    <div class="drip"><i></i><b>2 in 3</b><span>people getting help or care at home agreed their services seemed well co-ordinated — so about 1 in 3 did not say so</span><small>Health and Care Experience Survey 2025/26</small></div>
+  </div>
+  </div>
+  <div class="tbtns" style="justify-content:flex-start;margin:.9rem 0 .7rem"><button class="primary" id="leakNext">Next leak</button><button id="leakReset">Start again</button></div>
+  <div class="band">None of these is about one person doing a bad job. <b>They are what happens when the roof leaks.</b></div>
+  <aside class="speaker-note"><p>Four numbers, one at a time — press Next leak and let each one land before the next. Ask the room which one surprises them most; don’t teach them all now. One sentence each. 1,934 is day one’s number: on average, beds held by people clinically ready for discharge, still in hospital because the next step isn’t arranged — care at home, a care-home place, an assessment, sometimes a legal decision about capacity. It is the edge between the two worlds. 25–80%: studies reviewed by the WHO found between a quarter and four-fifths of patients leave hospital with at least one medicine mismatch, or a change made in hospital that wasn’t passed on — the range depends on how studies count, and we come back to it just before the break. £449m: the funding gap Scotland’s integration joint boards expected for 2025/26 — the difference between what they expected to need and what they expected to have; we open it after the break. 2 in 3: the national survey — about one in three people getting help or care at home did not agree their services seemed well co-ordinated; it comes back after the break. Then the band, which sets up the whole morning: none of these is one person doing a bad job — they are leaks in the roof, and that is how we treat them, starting with Agnes.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s2" tabindex="-1" aria-label="This morning">
+  <div class="foot"><span>Unit 3</span><span>This morning</span></div>
+  <div class="eyebrow">This morning, in three parts</div>
+  <h2 style="color:#fff">This morning</h2>
+  <div class="phases">
+    <div class="phase"><em>1 · Before the break</em><b>Why care leaks</b><span>Where Richard’s information sits, why it gets lost when he moves between services — and what happened to Agnes.</span></div>
+    <div class="phase"><em>2 · After the break</em><b>What holds the roof up</b><span>How information should travel, and when it shouldn’t. Who’s in charge, the money, how we’d know it works — and what the law promises.</span></div>
+    <div class="phase"><em>3 · To finish</em><b>Your turn</b><span>Fix one leak in Richard’s roof. Then your report, and the bridge to this afternoon.</span></div>
+  </div>
+  <aside class="speaker-note"><p>Say the three parts in one breath and move on. The shape is a story: find the leaks, see what holds the roof up, then fix one yourselves. Exact running order, for you: 09:30 title (2) · 09:32 the roof (4) · 09:36 when the roof leaks (10) · 09:46 three parts and objectives (3) · 09:49 day one’s three questions and their homes in the house (5) · 09:54 where Richard’s information might sit (8) · 10:02 two worlds (7) · 10:09 Agnes (7) · 10:16 her story isn’t rare (5) · 10:21 break (15) · 10:36 four ideas (12 — let this breathe) · 10:48 sharing information well (8) · 10:56 the two notes (6) · 11:02 the rest of the roof (3) · 11:05 who’s in charge (6) · 11:11 the £5 million vote (8) · 11:19 the real picture (6) · 11:25 how we’d know (6) · 11:31 what people told us (4) · 11:35 the law and the record (6) · 11:41 what’s written down and what actually happens (10) · 11:51 follow the information and fix the leak (25: 20 working, 5 debrief) · 12:16 Richard’s roof (7) · 12:23 thinking prompts (3) · 12:26 bridge (3) · 12:29 finish. The full words are in the delivery script.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s3" tabindex="-1" aria-label="This morning's objectives">
+  <div class="foot"><span>Unit 3</span><span>Objectives</span></div>
+  <div class="eyebrow">By 12:30 you should be able to…</div>
+  <h2>Four things</h2>
+  <div class="grid g2" style="flex:none;margin-bottom:.8rem">
+    <div class="card"><span class="lo">L1 · L3</span><h3>Explain why information is part of care</h3><p>And how it can get lost when a person moves between the NHS and the council.</p></div>
+    <div class="card"><span class="lo">L2</span><h3>Judge what should be shared, with whom, and why</h3><p>The right information — not all information. Confidentiality, respect and the person’s choices are part of the judgement.</p></div>
+    <div class="card"><span class="lo">L3</span><h3>Use the roof’s four parts to find where care breaks</h3><p>Processes, policies, systems and arrangements — and suggest a realistic fix.</p></div>
+    <div class="card"><span class="lo">L1 · L3</span><h3>Explain the gap between policy and experience</h3><p>What a law or plan promises, and what Richard actually experiences.</p></div>
+  </div>
+  <div class="band">The roof is the part of the house you can’t see from the waiting room — <b>and the part that decides whether the rest of the house stands up.</b></div>
+  <aside class="speaker-note"><p>L2 now sits on the sharing objective deliberately: deciding what to share, with whom and why is a values judgement — confidentiality, respect, the person’s choices — which is exactly the concept and value base in LO2. The policy-and-experience objective is principally L1 and L3; you make it person-centred at 11:35 by asking what the gap means for Richard.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s4" tabindex="-1" aria-label="Day one's three questions, and where each one lives">
+  <div class="foot"><span>Unit 3</span><span>From day one</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Day one’s three questions — and where each one lives in the house</div>
+  <h2>Three questions for testing whether care joins up</h2>
+  <div class="mid">
+  <div class="homes">
+    <div class="home now"><span class="hq">Does the information follow him?</span><span class="arrow" aria-hidden="true">→</span><span class="hh"><b>The roof</b>This morning — today we open it up</span></div>
+    <div class="home"><span class="hq">Does the plan join up?</span><span class="arrow" aria-hidden="true">→</span><span class="hh"><b>The centre</b>This afternoon</span></div>
+    <div class="home"><span class="hq">Does someone know him over time?</span><span class="arrow" aria-hidden="true">→</span><span class="hh"><b>The two walls</b>This afternoon and next time</span></div>
+  </div>
+  <div class="prompt" style="margin-top:0">Where have you seen information <b>fail to follow somebody</b>? At work, on placement, or with someone you know. Write it on a post-it and keep it — we use it after the break.</div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Last time, each question found a home in the house. <b>Today we open the first one — the roof.</b></div>
+  <aside class="speaker-note"><p>Ask for the three questions from memory before this slide goes up. Then show where each one lives — this is day one’s hinge slide coming back: the information question lives in the roof, the plan in the centre, and someone who knows him over time in the two walls. Say it plainly: today we open the first one, the roof; this afternoon, the centre and the left wall; next time, the right wall. From this slide on, a small tracker at the bottom of each slide lights up the parts of the roof we are in — processes, policies, systems or arrangements. Take two or three examples of information failing to follow someone — a result that never arrived, a letter that came after the appointment, telling the same story three times. Everyone has one. Ask them to write theirs on a post-it and keep it: after the break those post-its go onto four flipchart sheets — processes, policies, systems, arrangements — not on screen.</p></aside>
+</section>
+
+<section class="slide" id="s5" tabindex="-1" aria-label="Where might Richard's information sit?">
+  <div class="foot"><span>Unit 3</span><span>The question from day one</span><span class="trk"><span class="sr">Roof: systems.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i>Policies</i><i class="on">Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">Question one: does the information follow him? First — where is it?</div>
+  <h2>Where might Richard’s information sit?</h2>
+  <p class="source" style="margin:-.3rem 0 .5rem">An illustration. The case names some of these places; others are realistic assumptions — and who can see what varies from area to area.</p>
+  <div class="places" id="places">
+    <div class="place" data-w="nhs" tabindex="0"><span class="k case">In the case</span><b>The hospital ward’s notes</b><span class="who">The ward team, and some other NHS staff in the same health board.</span></div>
+    <div class="place" data-w="nhs" tabindex="0"><span class="k assume">Assumed</span><b>His GP’s record</b><span class="who">His GP practice. Some of it can be seen by hospital teams.</span></div>
+    <div class="place" data-w="nhs" tabindex="0"><span class="k assume">Assumed</span><b>A mental health team’s notes</b><span class="who">A community mental health team, if one is involved after discharge.</span></div>
+    <div class="place" data-w="council" tabindex="0"><span class="k case">In the case</span><b>The council’s housing file</b><span class="who">The housing office. Not the ward. Not the GP.</span></div>
+    <div class="place me"><strong>Richard</strong><span>“I want to live at home.”</span></div>
+    <div class="place" data-w="council" tabindex="0"><span class="k case">In the case</span><b>Social work records</b><span class="who">Council social work — the ward social worker is in the case.</span></div>
+    <div class="place" data-w="third" tabindex="0"><span class="k case">In the case</span><b>The wellbeing hub</b><span class="who">Its own notes, if the suggested referral goes ahead — often a charity or community organisation.</span></div>
+    <div class="place" data-w="home" tabindex="0"><span class="k case">In the case</span><b>His daughter</b><span class="who">In her head, on her phone, in a kitchen drawer.</span></div>
+    <div class="place" data-w="home" tabindex="0"><span class="k case">In the case</span><b>Richard himself</b><span class="who">What he knows about his own life.</span></div>
+  </div>
+  <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;margin:.6rem 0 .9rem">
+    <button class="reveal" id="worldsBtn">Show who owns each one</button>
+    <div class="legend2" id="worldsLegend" hidden><span style="background:var(--blue-soft);border-color:var(--blue)">NHS</span><span style="background:var(--purple-soft);border-color:var(--purple)">Council</span><span style="background:var(--green-soft);border-color:var(--green)">Community</span><span style="background:var(--gold-soft);border-color:var(--gold)">Family</span></div>
+    <span class="source" style="margin:0">A habit for today: <b>what do we know — and what are we assuming?</b></span>
+  </div>
+  <div class="band">Eight places. <b>No single place holds all of it.</b></div>
+  <aside class="speaker-note"><p>Open with the reconnection: our first continuity question from day one was “does the information follow the person?” — today we open it up. Ask the room to name places before you click. The tags matter: the case mentions the ward, housing, the ward social worker, the suggested hub referral and his daughter. His GP and a community mental health team are realistic assumptions — the case never names them. Say so, and name the habit you want all day: what do we know, and what are we assuming? It comes back on the two notes, and it drives this afternoon. Then press the button to colour by owner: blue NHS, purple council, green community, gold family. Keep the “who can see” lines soft — access varies by area and by system, and that variation is itself part of the problem.</p></aside>
+</section>
+
+<section class="slide" id="s6" tabindex="-1" aria-label="Two institutional worlds">
+  <div class="foot"><span>Unit 3</span><span>Two worlds</span><span class="trk"><span class="sr">Roof: systems and arrangements.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i>Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Eight places. So why don’t they add up to one picture?</div>
+  <h2>Two institutional worlds, many systems</h2>
+  <div class="worlds2">
+    <div class="worldp nhs"><h3>The NHS world</h3><ul><li>GP records</li><li>Hospital records</li><li>Systems for prescribing in hospital</li><li>Portals that let staff see some records from elsewhere</li><li>Everyone known by their <b>CHI number</b></li></ul></div>
+    <div class="theline"><span>the line</span><div class="bar"></div><span>Richard crosses it every time he moves</span></div>
+    <div class="worldp council"><h3>The council world</h3><ul><li>Social work records</li><li>Housing records</li><li>Care-at-home and care-provider systems</li><li>Not always using the same number for the same person</li></ul></div>
+  </div>
+  <div class="tl">
+    <div class="tln"><b>1948</b><span>The NHS begins — a national health service, free at the point of use.</span></div>
+    <div class="tln"><b>1968</b><span>Local-authority social work responsibilities consolidated in Scotland.</span></div>
+    <div class="tln"><b>Decades apart</b><span>Different histories, responsibilities, funding and rules — then computer systems built inside each.</span></div>
+    <div class="tln bridge"><b>2014 · 2025</b><span>Integration, then the digital record: attempts to bridge the “fault line”.</span></div>
+  </div>
+  <div class="band" style="margin-top:.7rem">The computers are a symptom. <b>The split is older than the computers.</b></div>
+  <aside class="speaker-note"><p>The most important explanation of the morning. Without it, students leave thinking the computers are simply bad. The point: this split did not begin with computers. The NHS developed as a national health service from 1948; social work responsibilities developed through local government and were consolidated in Scotland by the Social Work (Scotland) Act 1968. The two grew with different accountabilities, funding, eligibility rules and professional traditions — so when digital systems arrived, they were built inside organisations that were already separate. And there are many systems inside each world, not one each. When Scotland proposed integration, its own papers called the divide a “fault line”. Now the 2014 Act, the IJBs and the 2025 digital-record duty make sense as bridges across one old divide. If you came through First Steps: this is Beveridge and the welfare state, landing where it explains something. Product names, only if students recognise them from placement: TrakCare, Clinical Portal and HEPMA on the NHS side; Liquidlogic, CareSys and CM2000 on the council side. The CHI number is worth one sentence: the NHS in Scotland identifies each person by it; council systems grew up separately and don’t always use it. For London: many English areas have local shared care records, and the same boundary problem still appears at the edges.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s7" tabindex="-1" aria-label="A story about one word">
+  <div class="foot"><span>Unit 3</span><span>Why it matters</span><span class="trk"><span class="sr">Roof: processes and systems and arrangements.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i>Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">What happens when information has to cross the line?</div>
+  <h2>A story about one word</h2>
+  <div class="story" id="story">
+    <div class="step on"><b>Monday</b><span>Agnes, 74, is admitted to a medical ward. She tells the nurse she once had a bad reaction to penicillin. It is written in her ward notes.</span></div>
+    <div class="step"><b>Friday</b><span>She goes home. The discharge letter is written in a hurry from a template. The allergy box is left empty.</span></div>
+    <div class="step"><b>Next week</b><span>Her GP sees her for a chest infection. The GP’s record has no allergy on it — she had never mentioned it at the practice. The GP prescribes an antibiotic from the penicillin family.</span></div>
+    <div class="step"><b>Two days later</b><span>Agnes has a reaction and is back in hospital.</span></div>
+    <div class="step end"><b>So…</b><span>The allergy was known in one setting — and did not survive the transition.</span></div>
+  </div>
+  <div class="tbtns" style="justify-content:flex-start;margin-top:.6rem"><button class="primary" id="storyNext">Next</button><button id="storyReset">Start again</button></div>
+  <p class="source">A made-up story, built from the kind of thing patient-safety reviews describe.</p>
+  <aside class="speaker-note"><p>Tell it slowly, one step at a time. Pause before the last line. Ask: where did it break? (The discharge letter — the handover.) Then the move that matters: do not stop at individual blame. Ask what process allowed critical information to be lost — a rushed template, a box that could be left empty, no check before the letter went. That is how safety reviews think, and it is how students should think in their reports. The story is invented and the slide says so. Keep the point: information failure is not an IT inconvenience, it is a safety issue, and it happens at transitions. The next slide turns the story into evidence. You come back to allergies at 11:35 — medicines and allergies are among the first things people can now see on MyCare.scot.</p></aside>
+</section>
+
+<section class="slide lg" id="sRare" tabindex="-1" aria-label="Her story isn't rare">
+  <div class="foot"><span>Unit 3</span><span>Why it matters</span><span class="trk"><span class="sr">Roof: processes and systems.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i>Policies</i><i class="on">Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">Agnes is made up</div>
+  <h2>Her story isn’t rare</h2>
+  <div class="grid g2" style="grid-template-columns:1fr 1.12fr">
+    <div class="bigstat bigstat--coral"><b>25–80%</b><span>of patients, in the studies the WHO reviewed, left hospital with at least one medicine mismatch — or a change made in hospital that nobody passed on.</span><small>World Health Organization (2019) Medication safety in transitions of care</small></div>
+    <div class="side">
+      <div class="card card--blue"><h3>A global priority</h3><p>When the World Health Organization launched its challenge <b>Medication Without Harm</b> in 2017, it named three priorities. One was <b>transitions of care</b> — for example, being admitted to hospital, or discharged from it.</p></div>
+      <div class="prompt" style="margin:0"><b>Why such a wide range — a quarter, or four-fifths?</b> Use day one’s questions: compared with what? Over how long? What else could explain it?</div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Information is most likely to get lost <b>at the handover</b> — exactly where the roof has to hold.</div>
+  <aside class="speaker-note"><p>Turn the invented story into evidence in one move: Agnes is made up; her story isn’t rare. The World Health Organization’s technical report on medication safety in transitions of care (2019) cites a review of studies: at discharge, between 25% and 80% of patients had at least one medication discrepancy, or a failure to pass on medication changes made in hospital. Then the Level 8 move — ask why the range is so wide. Draw out: studies count different things (any mismatch, or only ones that matter?), check in different ways (a pharmacist going through every medicine finds more than a quick audit), in different countries, hospitals and patient groups (older people on many medicines have more). So a careful student does not write “80% of discharges have errors”; they write “studies report between a quarter and four-fifths, depending on how mismatches are defined and measured” — and the handover is the risk point either way. A mismatch is not always harm — many are caught or don’t matter — but each one is information that didn’t travel. WHO’s Medication Without Harm challenge, launched on 29 March 2017, named three priorities: high-risk situations, polypharmacy and transitions of care. Then stop on the question for the break: what would stop the next Agnes? Don’t answer it — it is the first thing after the break, and the fourth of the four ideas, good handovers are safe care, is this slide.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s11" tabindex="-1" aria-label="Break">
+  <div class="foot"><span>Unit 3</span><span>Break</span></div>
+  <div class="eyebrow">Break</div>
+  <h2 style="color:#fff">Fifteen minutes</h2>
+  <div class="timer" data-secs="900">15:00</div>
+  <div class="tbtns"><button class="primary" data-act="start">Start break</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+  <p class="lede" style="margin:1.4rem 0 .4rem">When we come back:</p>
+  <p class="bigline">What would stop the next Agnes?</p>
+  <aside class="speaker-note"><p>Leave the question hanging — it is the first thing after the break. During the break, put up four flipchart sheets headed processes, policies, systems and arrangements: the post-its from the start of the morning go on them later. Keep the handouts back until the activity at the end of the morning.</p></aside>
+</section>
+
+<section class="slide" id="s8" tabindex="-1" aria-label="Four ideas about information">
+  <div class="foot"><span>Unit 3</span><span>Four ideas</span><span class="trk"><span class="sr">Roof: processes and systems.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i>Policies</i><i class="on">Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">What would stop the next Agnes? Four ideas</div>
+  <h2>Four ideas about information</h2>
+  <div class="ideas">
+    <div class="idea" tabindex="0"><div class="n">Information must follow the person</div><div class="m">Relevant information has to reach each person who needs it — not stay behind in the building they have just left.</div><div class="ric"><b>For Richard:</b> his medication changes need to reach the people prescribing and monitoring them; the housing problem needs to reach the people who can act on it — before they need to act.</div></div>
+    <div class="idea" tabindex="0"><div class="n">Systems need to connect</div><div class="m">The technical word is <i>interoperability</i>: systems that can share information and understand it.</div><div class="ric"><b>For Richard:</b> NHS and council systems often don’t share information directly. Until they do, people have to make the connection — a phone call, a meeting, a shared plan.</div></div>
+    <div class="idea" tabindex="0"><div class="n">What you record matters</div><div class="m">What you write is part of the care. The next person can only act on what’s there.</div><div class="ric"><b>For Richard:</b> “non-compliant with meds” tells the next person nothing. “Finding the changes to his diet and routine hard; the ward is supporting him with his medication” tells them where to start.</div></div>
+    <div class="idea" tabindex="0"><div class="n">Good handovers are safe care</div><div class="m">Discharge is a high-risk transition. Care, and the information about it, has to pass across in one go.</div><div class="ric"><b>For Richard:</b> what each person needs has to pass across when he leaves the ward — and arrive before anyone needs to act on it.</div></div>
+  </div>
+  <div class="band" style="margin-top:.8rem">A shared record makes information visible. <b>It doesn’t decide who acts on it.</b> Information needs to travel — and responsibility needs to travel with it.</div>
+  <aside class="speaker-note"><p>Start with the break question: what would stop the next Agnes? Take two or three answers, then show that each one is one of these four ideas. Give this block room — about 12 minutes. It is the intellectual core of the morning: why information fragments, why that matters, how it should travel, and how professionals themselves shape information quality. Teach each idea in two or three minutes: say it, ask for an example from placement or their own lives, then click for the Richard line. Name interoperability once, in plain words, and don’t test it. Note the first idea says relevant information to each person who needs it — not everything to everyone; the next slide makes that explicit. Slow down on the third idea: it is the only one every student controls personally, from their first shift. The band stops this becoming a technology lecture — a record can show the damp; it can’t decide who phones housing. These four ideas compress the EHR Working Group’s eight principles for this cohort.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s8b" tabindex="-1" aria-label="Sharing information well">
+  <div class="foot"><span>Unit 3</span><span>Sharing well</span><span class="trk"><span class="sr">Roof: policies.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i class="on">Policies</i><i>Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">Idea one said relevant information. So should everyone see everything?</div>
+  <h2>Sharing information well</h2>
+  <div class="mid">
+  <div class="right4"><span>The right information</span><i>→</i><span>to the right person</span><i>→</i><span>for the right reason</span><i>→</i><span>at the right time</span></div>
+  <div class="grid g3" style="flex:none">
+    <div class="card"><h3>The housing officer</h3><p><b>Needs to know</b> the housing problem is urgent, and what has to be fixed for Richard to come home safely.</p><p style="margin-top:.35rem"><b>Probably doesn’t need</b> the details of his diagnosis.</p></div>
+    <div class="card"><h3>Those treating him after discharge</h3><p><b>Need to know</b> what changed in hospital — his medicines, his follow-up, and what happened during his admission.</p></div>
+    <div class="card"><h3>His daughter</h3><p><b>Being family doesn’t mean seeing everything.</b> What she’s told should be Richard’s choice — and she needs enough to support him.</p></div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Good integration is not maximum sharing. <b>It is appropriate sharing.</b></div>
+  <p class="source">The Caldicott principles, which guide how health and care services handle confidential information, say the duty to share information for someone’s care is as important as the duty to protect their confidentiality — and to use only what is necessary.</p>
+  </div>
+  <aside class="speaker-note"><p>Everything so far this morning leans towards sharing. Without this slide a student could fairly conclude that integrated care means everyone sees everything — which is wrong. The judgement is: share what is relevant and necessary, not everything with everybody. Schizophrenia carries stigma, so this is not abstract for Richard. Ask about the housing officer — do they need his diagnosis, or that he has been unwell, is due to go home, and needs the heating fixed first? One spoken caveat, no more: the person’s preference is central, but information can sometimes be shared without consent where the law allows — for example, to protect someone from serious harm. No information-law lecture; one line in small print is enough, and every NHS board in Scotland has a Caldicott Guardian whose job is exactly this balance. End with the bridge: where do Richard’s own choice and control sit in all this? That is this afternoon.</p></aside>
+</section>
+
+<section class="slide slide--green" id="s9" tabindex="-1" aria-label="What you write is care">
+  <div class="foot"><span>Unit 3</span><span>What you write is care</span><span class="trk"><span class="sr">Roof: processes.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i>Policies</i><i>Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">Idea three in real life · same man, same day, two notes</div>
+  <h2>Which note would you want written about your own dad?</h2>
+  <div class="grid g2" style="flex:1;align-items:start">
+    <div>
+      <p class="source" style="margin-bottom:.3rem">Note 1</p>
+      <div class="notepad">Pt known to MH services. Non-compliant with meds. Housing issues. For d/c when stable.</div>
+    </div>
+    <div>
+      <p class="source" style="margin-bottom:.3rem">Note 2</p>
+      <div class="notepad" id="note2" style="visibility:hidden;font-size:clamp(.88rem,1.08vw,1.08rem);line-height:1.45">Richard wants to return home and live independently. He has recently been diagnosed with type 2 diabetes and is finding the changes to his diet and way of life difficult. The ward team is supporting him to take his mental health and diabetes medication. He has rent arrears, and damp and heating problems at home that he could not fix. Housing input has been requested to support his tenancy and arrange repairs. A referral to the local health and wellbeing hub has been suggested before discharge. His daughter helps him shop for alternatives to carry-out food and sugary drinks, and finds his mood hard to manage when his symptoms are bad; support for her has been suggested.</div>
+      <button class="reveal" id="note2Btn" style="margin-top:.6rem">Show note 2</button>
+    </div>
+  </div>
+  <div class="band">Note 1 labels. <b>Note 2 describes.</b></div>
+  <aside class="speaker-note"><p>Show note 1 alone first and ask what the next person — a GP, the housing officer — could actually do with it. “Non-compliant” is a label: it judges, it is vague, and it hides why medication is hard for him. The abbreviations (pt, MH, d/c) are a second risk: shorthand one team understands can mislead the next. Then reveal note 2 and ask which one they would want written about their own dad. Every detail in note 2 comes from the case study — and that is itself the lesson: a good note records what is known, not what we assume. It is our known-versus-assumed habit again. Note 2 also carries Richard’s own wish, in plain words — which is where records meet person-centred care. The word “non-compliant” comes back this afternoon, when we look at the labels services put on people.</p></aside>
+</section>
+
+<section class="slide" id="s12" tabindex="-1" aria-label="The rest of the roof">
+  <div class="foot"><span>Unit 3</span><span>The rest of the roof</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Information is one part of the roof. What else holds it up?</div>
+  <h2>The rest of the roof</h2>
+  <div class="mid">
+  <svg class="roofcap" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true"><polygon points="6,76 600,6 1194,76"/></svg>
+  <div class="r4">
+    <div class="r4c"><h3>Processes</h3><p class="pm">How things get done</p><p><b>So far:</b> Agnes’s discharge letter, handovers, the two notes</p><p class="nx"><b>Next:</b> how we check care is safe</p></div>
+    <div class="r4c"><h3>Policies</h3><p class="pm">The rules</p><p><b>So far:</b> who should see what — appropriate sharing</p><p class="nx"><b>Next:</b> the standards, and the law</p></div>
+    <div class="r4c"><h3>Systems</h3><p class="pm">The tools</p><p><b>So far:</b> eight places, two worlds, many systems</p><p class="nx"><b>Next:</b> Scotland’s new digital record</p></div>
+    <div class="r4c"><h3>Arrangements</h3><p class="pm">How it’s organised</p><p><b>So far:</b> two worlds, with different histories, funding and rules</p><p class="nx"><b>Next:</b> who’s in charge, and the money</p></div>
+  </div>
+  </div>
+  <div class="band" style="margin-top:.8rem">So far we followed the information. <b>Now: who’s in charge, the money, and how we’d know it’s working.</b></div>
+  <p class="source">Two words you will meet in policy documents: <b>governance</b> — who’s in charge — and <b>quality</b> — how good and safe care is. We use the plain words.</p>
+  <aside class="speaker-note"><p>Three minutes. This slide holds the morning together. Point at each part of the roof in turn and say what we have already seen and what comes next. Processes — Agnes’s discharge letter, handovers, the two notes; next, how we check care is safe. Policies — who should see what; next, the standards and the law. Systems — the eight places and the two worlds; next, Scotland’s new digital record. Arrangements — two worlds with different histories, funding and rules; next, who’s in charge and the money. Then name two words once, as vocabulary, not as a framework: in policy documents, who’s in charge is called governance, and how good and safe care is — and how we know — is called quality. Students will meet both words in their reading; they don’t need them as report headings. If anyone remembers the House of Care’s words for the roof from the start of the morning, these are the same four — nothing new to learn.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="s13" tabindex="-1" aria-label="Who’s in charge">
+  <div class="foot"><span>Unit 3</span><span>Arrangements · who’s in charge</span><span class="trk"><span class="sr">Roof: arrangements.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i>Policies</i><i>Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Arrangements, part one · who’s in charge?</div>
+  <h2>Who’s in charge of the whole thing?</h2>
+  <p class="lede" style="margin-bottom:.4rem">In policy documents this is called <b>governance</b>: who’s in charge, what the rules are, and how decisions get made.</p>
+  <div class="mid">
+  <div class="grid g3" style="flex:none;margin:.4rem 0 .8rem">
+    <div class="card"><h3>At university</h3><p>Committees and boards decide how courses run and what support there is.</p></div>
+    <div class="card"><h3>In football</h3><p>The football association sets the rules, referees enforce them, managers pick the team.</p></div>
+    <div class="card"><h3>In your town</h3><p>The council decides on bins, parks and services, in meetings, with a budget.</p></div>
+  </div>
+  <div class="card card--gold" style="flex:none"><h3>Shared responsibility can become nobody’s responsibility</h3><p>Several organisations may all be involved in Richard’s care. That doesn’t mean anyone is responsible for making sure the whole thing happens. <b>When everyone is partly responsible — who is accountable for the gap?</b></p></div>
+  <p class="source">In most Scottish areas, an integration joint board plans how delegated NHS and council resources are used for integrated functions, and directs the partners who deliver them. In England, integrated care boards plan and pay for local NHS services.</p>
+  </div>
+  <aside class="speaker-note"><p>Say the word governance once — it is what policy documents call who’s in charge — then use the plain words. Keep the three examples brisk — they make a dry idea concrete, and one more from the room is plenty. The gold card is what stops this being a management idea. Agnes: whose job was the allergy box — the ward’s, the doctor who wrote the letter, the GP’s? When everyone is partly responsible, the gap can belong to nobody. That is why named responsibility, escalation routes and accountability matter to Richard. The IJB line is worded carefully: IJBs plan how delegated resources are used and issue directions to the partners who deliver services — they do not simply “spend the budget”, and Highland uses a different model. The England line is for London.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s14" tabindex="-1" aria-label="The £5 million question">
+  <div class="foot"><span>Unit 3</span><span>Whole-room vote</span><span class="trk"><span class="sr">Roof: arrangements.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i>Policies</i><i>Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Arrangements, part two · the money · an illustrative scenario — not real costings</div>
+  <h2>Your area has £5 million extra. Where does it go?</h2>
+  <div class="vote" id="vote">
+    <div class="opt"><span class="tag" style="background:var(--coral)">Option A</span><h3>Expand acute hospital staffing</h3><ul><li>Shorter waits, quickly</li><li>Everyone can see the difference</li><li>Doesn’t stop people needing hospital</li></ul><div class="tally"><button data-d="-1" aria-label="Remove a vote for A">−</button><span class="cnt">0</span><button data-d="1" aria-label="Add a vote for A">+</button><div class="meter"><i></i></div></div></div>
+    <div class="opt"><span class="tag" style="background:var(--blue)">Option B</span><h3>Invest in primary care in the most deprived areas</h3><ul><li>Tackles health inequality</li><li>May reduce A&amp;E demand later</li><li>Takes longer to show results</li></ul><div class="tally"><button data-d="-1" aria-label="Remove a vote for B">−</button><span class="cnt">0</span><button data-d="1" aria-label="Add a vote for B">+</button><div class="meter"><i></i></div></div></div>
+    <div class="opt"><span class="tag" style="background:var(--green)">Option C</span><h3>Fund care coordination across health and social care</h3><ul><li>Joins up care for people like Richard</li><li>Hard to measure</li><li>Needs teams to work differently</li></ul><div class="tally"><button data-d="-1" aria-label="Remove a vote for C">−</button><span class="cnt">0</span><button data-d="1" aria-label="Add a vote for C">+</button><div class="meter"><i></i></div></div></div>
+  </div>
+  <button class="reveal" data-toggle="voteQs" data-on="Hide the questions" data-off="Now the hard questions" style="margin-top:.7rem;align-self:flex-start">Now the hard questions</button>
+  <div id="voteQs" hidden><div class="grid g4" style="flex:none;margin-top:.6rem">
+    <div class="card"><h3>Who should decide?</h3><p>Managers? Clinicians? The public? People like Richard?</p></div>
+    <div class="card"><h3>What would you need to know?</h3><p>Compared with what? Over how long? What else could explain it?</p></div>
+    <div class="card"><h3>Which is most “integrated”?</h3><p>And is that the same as the one that helps most people?</p></div>
+    <div class="card"><h3>Which would Richard vote for?</h3><p>And his daughter?</p></div>
+  </div></div>
+  <aside class="speaker-note"><p>The options are deliberately simplified and carry no headcounts — the slide says it is illustrative, so nobody mistakes it for real costings. Hands up for A, B, C; click the plus for each hand. Most rooms split, which is the point: being in charge means choosing between good things with not enough money. Reveal the questions; the second card is the three evidence questions from day one — say so. If they came through First Steps, this is the funding week coming back: every pound spent here is a pound not spent elsewhere. There is no right answer; the Level 8 move is saying why you chose, what you would need to know, and who loses out. Skip the re-vote: the next slide is the real picture — not £5 million extra, but a £449 million gap.</p></aside>
+</section>
+
+<section class="slide lg" id="sReal" tabindex="-1" aria-label="The real picture">
+  <div class="foot"><span>Unit 3</span><span>Arrangements in real life</span><span class="trk"><span class="sr">Roof: policies and arrangements.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i class="on">Policies</i><i>Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">That was £5 million extra · here’s the real picture</div>
+  <h2>In real life, the question is what to stop</h2>
+  <div class="grid g2" style="grid-template-columns:1fr 1.15fr">
+    <div class="bigstat bigstat--navy"><b>£449m</b><span>the funding gap Scotland’s 30 integration joint boards expected for 2025/26.</span>
+      <ul><li>22 of the 30 reported a deficit in 2024/25</li><li>Almost half have no contingency reserves left</li><li>Over half had a change in senior leadership</li></ul>
+      <small>Accounts Commission, Integration Joint Boards: finance bulletin 2024/25 (February 2026)</small></div>
+    <div class="side">
+      <div class="card card--gold quote"><p class="qt">“Integration Joint Boards (IJBs), together with their NHS and council partners, must urgently take decisions on where to <b>redesign, reduce or discontinue services</b>.”</p><p class="source" style="margin-top:.4rem">Accounts Commission, February 2026</p></div>
+      <div class="card card--green"><span class="tag" style="background:var(--green)">New · 1 September 2026</span><h3>Who decides?</h3><p>The service-user, unpaid-carer and third-sector members of integration joint boards can now <b>vote</b>.</p><p class="source" style="margin-top:.3rem">Public Bodies (Joint Working) (Integration Joint Boards) (Scotland) Amendment Order 2025</p></div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Being in charge means choosing between good things with not enough money — <b>and people who use services, and unpaid carers, now have a vote at the table.</b></div>
+  <aside class="speaker-note"><p>Straight after the vote — the illustrative £5 million against the real picture. Read the number, then the quote, slowly. For 2025/26, Scotland’s 30 integration joint boards expected a funding gap of £449 million (Accounts Commission, finance bulletin on the 2024/25 accounts, February 2026). Twenty-two reported a deficit on the cost of services in 2024/25; almost half no longer hold contingency reserves; more than half had a change in senior leadership. Ask: if your board had to reduce or stop something, which of the three options would go first — and who loses out? Would Richard notice? Then the question from the hard-questions card — who should decide? — has a new answer: since 1 September 2026 the service-user, unpaid-carer and third-sector members of integration joint boards can vote (SSI 2025/405). One sentence on leaders: when the people at the top keep changing, shared responsibility can become nobody’s responsibility at board level too. For London: don’t add England figures; integrated care boards face their own pressures.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="s15" tabindex="-1" aria-label="How would we know?">
+  <div class="foot"><span>Unit 3</span><span>How we’d know</span><span class="trk"><span class="sr">Roof: processes and policies.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i>Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">Money is tight. So how would we know the roof is working?</div>
+  <h2>How would we know Richard’s care is safe and good?</h2>
+  <p class="lede" style="margin-bottom:.3rem">In policy documents this is called <b>quality</b>: how good and safe care is — and how we know.</p>
+  <div class="mid">
+  <div class="grid g3" style="flex:none;margin:.3rem 0 .8rem">
+    <div class="card"><h3>Scrutiny and improvement</h3><p><b>Healthcare Improvement Scotland</b> supports improvement and provides scrutiny and assurance of healthcare. The <b>Care Inspectorate</b> inspects and regulates care services and social work.</p></div>
+    <div class="card"><h3>There are standards</h3><p>The <b>Health and Social Care Standards</b> set out what people in Scotland should expect — written from the person’s point of view: “My support, my life.” They rest on five principles: dignity and respect; compassion; be included; responsive care and support; wellbeing.</p></div>
+    <div class="card"><h3>When things go wrong</h3><p>Incidents are reported, reviewed and learned from. When an unintended or unexpected incident results in death or harm, as the law defines it, the organisation must be open with the person — the <b>duty of candour</b>.</p></div>
+  </div>
+  <div class="card card--gold" style="flex:none"><h3>The catch</h3><p>Each service can meet its own targets while nobody looks at whether <b>Richard</b> is doing better overall. Knowing his care is good means measuring what matters to him: living at home, tenancy kept, fewer avoidable crises and admissions, his daughter supported.</p></div>
+  <p class="source">In England: the Care Quality Commission regulates services and NICE sets guidelines.</p>
+  </div>
+  <aside class="speaker-note"><p>Say the word quality once — it is what policy documents call how good and safe care is, and how we know — then use the plain question. Keep this light — one sentence per box. Healthcare Improvement Scotland’s role is wider than inspection: improvement support, scrutiny and assurance. The duty of candour is precise: it applies to unintended or unexpected incidents that result in death or harm as defined in the legislation — not to everything that goes wrong. The five principles of the Standards are worth reading aloud: they come back this afternoon as the values of person-centred care. The catch is the Level 8 point and links back to day one’s person outcomes versus system outcomes. For Agnes: her incident would be reported and reviewed, and she would be told. The England line is for London. Then straight into the next slide: one way we would know is to ask people — and Scotland does.</p></aside>
+</section>
+
+<section class="slide slide--teal lg" id="sAsk" tabindex="-1" aria-label="What people told us">
+  <div class="foot"><span>Unit 3</span><span>How we’d know</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">One way to know: ask the people getting the care</div>
+  <h2>We asked people in Scotland. Here’s what they said.</h2>
+  <div class="stats2">
+    <div class="stat"><b>65%</b><div class="meterbar"><i style="width:65%"></i></div><p>of people getting help or care at home agreed their health and social care services <b>seemed well co-ordinated</b>.</p><p class="so">So about 1 in 3 did not say so.</p></div>
+    <div class="stat"><b>32%</b><div class="meterbar"><i style="width:32%"></i></div><p>of unpaid carers said they <b>feel supported to continue caring</b>.</p><p class="so">So about 2 in 3 did not say so.</p></div>
+  </div>
+  <div class="prompt">Which number would you most want to change for Richard — and which for his daughter?</div>
+  <div class="band" style="margin-top:.7rem">Each service can hit its own targets. <b>These numbers ask the person.</b></div>
+  <p class="source">Health and Care Experience Survey 2025/26 — Public Health Scotland, Core suite of integration indicators (July 2026), indicator 4 · Scottish Government, National Report (May 2026), carers.</p>
+  <aside class="speaker-note"><p>This is the catch from the last slide, answered with data. Scotland asks people directly, every two years, in the Health and Care Experience Survey; these two results are national integration indicators. In 2025/26, 65% of adults supported at home agreed their health and social care services seemed well co-ordinated — so about one in three did not. And 32% of unpaid carers said they feel supported to continue caring. Be careful with the wording: most of the rest were neutral rather than disagreeing, so say “did not say they feel supported”, not “feel unsupported”. Ask the question in the gold box and take two answers. Hold the carers’ figure for this afternoon — that is Richard’s daughter. One sentence of Level 8 caution: these are the views of the people who replied, and “seemed well co-ordinated” is a perception — but for person-centred care, the person’s perception is the point. Results vary from area to area; don’t name areas.</p></aside>
+</section>
+
+<section class="slide slide--purple" id="s16" tabindex="-1" aria-label="The law and the record">
+  <div class="foot"><span>Unit 3</span><span>Policy and practice</span><span class="trk"><span class="sr">Roof: policies and systems.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i>Processes</i><i class="on">Policies</i><i class="on">Systems</i><i>Arrangements</i></span></span></div>
+  <div class="eyebrow">People want joined-up care. What has the law promised?</div>
+  <h2>The legal duty now exists. Scotland is still building the record.</h2>
+  <div class="grid g2" style="flex:1">
+    <div class="card card--purple"><span class="tag" style="background:var(--purple)">Policies · the law · 2025</span><h3>Care Reform (Scotland) Act 2025</h3><p>Ministers must use their powers so that <b>people who receive health care or social care in Scotland can have a digital integrated care record</b> — so information is shared securely and care is as safe and seamless as possible.</p></div>
+    <div class="card card--teal"><span class="tag" style="background:var(--teal)">Systems · the reality · 2026</span><h3>MyCare.scot — a first step</h3><p>The web service rolled out nationally from <b>April 2026</b>; the smartphone app followed in <b>June</b>. Adults signing in securely can see things like their <b>medicines and allergies</b>, their vaccination history and a service finder.</p><p style="margin-top:.4rem">It is a “digital front door” — a step towards the integrated record, not the finished record. Over time, the Scottish Government says, it should reduce the need for patients to <i>retell their story</i>.</p><p style="margin-top:.4rem"><i>NHS Lanarkshire went first.</i></p></div>
+  </div>
+  <div class="band"><b>Implementation gap:</b> the space between what policy says should happen and what routinely happens in practice.</div>
+  <p class="source">A useful phrase beyond digital records — almost every policy you study has an implementation gap.</p>
+  <aside class="speaker-note"><p>Give them the phrase and say why it matters: implementation gap is Level 8 vocabulary that earns marks, and it applies to almost every policy in the module — the 2014 Act, the national outcomes, the Carers Act. Get the dates right: the web service began in NHS Lanarkshire in December 2025 and rolled out nationally from April 2026; the app became available nationally in June 2026. Be clear that MyCare.scot is a front door and a step, not the completed integrated record. Two callbacks: allergies — Agnes — are among the first things people can see; and “retell their story” is day one’s patient voice, now in a government announcement. Then make it person-centred: what does the gap mean for Richard? And park one question for this afternoon: MyCare.scot is for adults signing in with a ScotAccount, on the web or a smartphone — could Richard use it?</p></aside>
+</section>
+
+<section class="slide" id="s17" tabindex="-1" aria-label="What's written down, and what actually happens">
+  <div class="foot"><span>Unit 3</span><span>Your post-its</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">A law is written down. What actually happens?</div>
+  <h2>What’s written down, and what actually happens</h2>
+  <div class="mid">
+  <div class="prompt" style="margin:0 0 .8rem"><b>Your post-its from the start of the morning:</b> which part of the roof failed — processes, policies, systems or arrangements? Stick each one on that sheet.</div>
+  <div class="twocol" style="flex:none">
+    <div class="card card--blue"><h3>What’s written down</h3><p>Laws · budgets · records · pathways · protocols · boards</p></div>
+    <div class="card card--coral"><h3>What actually happens</h3><p>Trust · whether professionals talk · whether people understand each other’s roles · whether somebody takes responsibility · whether teams actually work together</p></div>
+  </div>
+  <p class="lede" style="margin:.6rem 0 .5rem">You need both.</p>
+  <div class="card card--green" style="flex:none"><h3>What the research found</h3><p>A 2024 review of UK evidence identified six themes. <b>Prominent enablers included</b> collaboration and partnership, relationships between professionals, access to care, and a person-centred ethos. <b>Prominent barriers included</b> questions of cost-effectiveness, and weak evidence and evaluation.</p><p style="margin-top:.35rem;font-size:.85rem">Sorting these into the two columns above is our reading, not the review’s.</p></div>
+  <div class="band" style="margin-top:.7rem">Which of your post-its could we fix by buying a better system — <b>and which need people to work differently?</b></div>
+  <p class="source">Thomson &amp; Chatterjee (2024), a rapid review of UK evidence on integrated care, 2018–2022.</p>
+  </div>
+  <aside class="speaker-note"><p>Four flipchart sheets up — processes, policies, systems, arrangements. Students stick their post-its from the start of the morning onto the part of the roof that failed; most land on processes or systems. Then the two columns — the structural-versus-relational idea parked on day one, in plain words; don’t name it as a framework. Describe the research carefully: the review found six themes; say “prominent enablers included” and “prominent barriers included”, and say plainly that the two-column sorting is our interpretation. Finish with the question in the band across three or four post-its. They usually conclude most need people to work differently, not a new computer. Note one enabler — a person-centred ethos. That is this afternoon. Then hand out the activity sheets: now they fix one leak.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s10" tabindex="-1" aria-label="Your turn: follow the information and fix the leak">
+  <div class="foot"><span>Unit 3</span><span>Groups of 3–4 · 25 minutes</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">You’ve found the leaks. Now fix one · use the handout</div>
+  <h2>Follow the information — and fix the leak</h2>
+  <p class="lede" style="margin-bottom:.5rem">Your group gets one piece of information about Richard. Follow it, find where it could leak — and fix the leak.</p>
+  <div class="mid">
+  <div class="pieces">
+    <div class="piece"><i>A</i>His new diabetes medication — and the changes to his diet</div>
+    <div class="piece"><i>B</i>His housing problem — rent arrears, damp and heating problems</div>
+    <div class="piece"><i>C</i>What matters to him — living at home independently</div>
+    <div class="piece"><i>D</i>His daughter is finding things hard</div>
+  </div>
+  <div class="fiveq" style="margin:.8rem 0">
+    <div class="fq"><b>1</b><span>Who needs this information?</span></div>
+    <div class="fq"><b>2</b><span>What exactly do they need — and what don’t they?</span></div>
+    <div class="fq"><b>3</b><span>How should it reach them — and when?</span></div>
+    <div class="fq"><b>4</b><span>Where could it break?</span></div>
+    <div class="fq no"><b>5</b><span>Who doesn’t need it at all?</span></div>
+  </div>
+  <div class="grid g2" style="flex:none;align-items:center">
+    <div class="prompt" style="margin:0"><b>Then fix it:</b> one realistic change for the place it could break — something that could change within three months. <b>Which part of the roof does it repair?</b> Processes · policies · systems · arrangements. <b>How would you know it worked?</b></div>
+    <div><div class="timer timer--small" data-secs="1200">20:00</div><div class="tbtns"><button class="primary" data-act="start">Start 20 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button><button data-overlay="followOverlay">Open debrief</button></div></div>
+  </div>
+  </div>
+  <aside class="speaker-note"><p>Give each group one piece — A, B, C or D — so all four are covered across the room. Twenty minutes with the handout, then five minutes of debrief (open the overlay). This is the whole morning put to work: they follow one piece of information through the eight places, across the line between the two worlds and through the handover, decide who should see it and who shouldn’t — and then fix one leak. The fifth question is the point: the activity practises appropriate sharing instead of assuming every piece of information should travel everywhere. His diet does not need to reach housing; his arrears do not need to reach the diabetes clinic. Push on the specific: which person, what exactly, by what route, before or after they need it? D has an extra twist worth drawing out: information about his daughter is partly hers — what she agrees to share matters too. If a group is stuck on the fix, model one with Agnes: make the allergy box on the discharge letter one that can’t be left empty — that repairs systems and processes — and check the next set of discharge letters to know it worked. The fixes go straight onto Richard’s roof on the next slide.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="s18" tabindex="-1" aria-label="Richard's roof">
+  <div class="foot"><span>Unit 3</span><span>Richard’s roof</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">Your fixes, on Richard’s roof — what the case tells us, and what it doesn’t</div>
+  <h2>Richard’s roof</h2>
+  <div class="col4">
+    <div class="rcol"><h3>Processes</h3><div class="bad"><b>Now:</b> the ward has identified his housing problems and requested housing input; a referral to the wellbeing hub has been suggested.</div><div class="good"><b>Strong roof:</b> his discharge planned with housing involved, and information reaching each person before they need to act on it.</div></div>
+    <div class="rcol"><h3>Policies</h3><div class="bad"><b>Now:</b> the case doesn’t tell us what has been agreed about sharing his information, or what his daughter can be told.</div><div class="good"><b>Strong roof:</b> appropriate sharing — the right information to each person, and Richard’s choice about what his daughter is told.</div></div>
+    <div class="rcol"><h3>Systems</h3><div class="bad"><b>Now:</b> his information sits in several places, across two worlds — some named in the case, others (his GP, a mental health team) assumed.</div><div class="good"><b>Strong roof:</b> records that connect — and, until they do, a phone call, a meeting, a shared plan.</div></div>
+    <div class="rcol"><h3>Arrangements</h3><div class="bad"><b>Now:</b> the case does not identify a named person coordinating across all the services involved.</div><div class="good"><b>Strong roof:</b> a named lead, clear accountability, and agreed resources across the relevant partners.</div></div>
+  </div>
+  <div class="band" style="margin-top:.8rem">How would we know it’s working? <b>Measures that matter to him: living at home, tenancy kept, fewer avoidable crises, his daughter supported.</b></div>
+  <aside class="speaker-note"><p>Straight after the activity: each group reads out its fix, and you place it on a column — which part of the roof does it repair? Most fixes repair more than one part; let them argue it, because that argument is the learning. Each “Now” is worded to separate fact from inference — the known-versus-assumed habit again. The case doesn’t say nobody is in charge; it doesn’t identify a named coordinator. It doesn’t say his information isn’t shared; it doesn’t tell us what has been agreed. His GP and a mental health team are our assumptions, not the case’s. Note the arrangements column says agreed resources across the relevant partners — not a joint budget for housing, because which housing functions are delegated varies locally, as we taught on day one. Finish on the band: how would we know it’s working? Measures that matter to him — the same question each group answered for its own fix.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="s19" tabindex="-1" aria-label="Thinking prompts for your report">
+  <div class="foot"><span>Unit 3</span><span>Your case report</span><span class="trk"><span class="sr">Roof: all four parts.</span><b aria-hidden="true">Roof</b><span aria-hidden="true" class="trkc"><i class="on">Processes</i><i class="on">Policies</i><i class="on">Systems</i><i class="on">Arrangements</i></span></span></div>
+  <div class="eyebrow">From Richard’s roof to your report · thinking prompts, not extra report headings</div>
+  <h2>Four questions to take into your report on Richard</h2>
+  <div class="grid g2" style="flex:1">
+    <div class="card" style="display:flex;flex-direction:column"><h3>Who should be responsible for coordinating Richard’s care?</h3><p>And how would that help the people around him work together?</p><p class="feeds">Feeds: interdisciplinary working</p></div>
+    <div class="card" style="display:flex;flex-direction:column"><h3>What would stop Richard bouncing between services?</h3><p>Think records, handovers, meetings — and who carries the information.</p><p class="feeds">Feeds: interdisciplinary working · anticipatory planning</p></div>
+    <div class="card" style="display:flex;flex-direction:column"><h3>How would we know his daughter is being supported?</h3><p>Who would check, and what would they look for?</p><p class="feeds">Feeds: non-statutory support · person-centred values</p></div>
+    <div class="card" style="display:flex;flex-direction:column"><h3>Which part of Richard’s roof is weakest — and why?</h3><p>There’s no single right answer. The marks are in the why.</p><p class="feeds">Feeds: interdisciplinary working</p></div>
+  </div>
+  <aside class="speaker-note"><p>Say it and it is on the slide: these are thinking prompts, not extra report headings. The report is organised around person-centred values, anticipatory planning, interdisciplinary working and non-statutory support; the small tags show where each prompt’s thinking lands. A report that names a part of the roof and says what would change for Richard will score better than one that describes structures.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="s20" tabindex="-1" aria-label="Bridge to this afternoon">
+  <div class="foot"><span>Unit 3</span><span>Bridge</span></div>
+  <div class="eyebrow">This morning in one line</div>
+  <p class="lede" style="margin-bottom:1rem">On day one you learned to ask: does the information follow him? This morning you saw what has to be in place for the answer to be yes.</p>
+  <p class="bigline">A strong roof can still sit over care that isn't organised around what matters to the person.</p>
+  <div class="band" style="margin-top:1.4rem">This morning: can the system work together? <b>This afternoon: is it working around what matters to Richard?</b> Unit 4 — the centre of the house.</div>
+  <aside class="speaker-note"><p>Say the line and stop. Then the question to carry into lunch: we have just talked about a national app, shared records, a joint board and a care coordinator — would any of it help if nobody ever asked Richard what he wants, or if he can't use the app? That is the afternoon.</p></aside>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">←</button><span id="lbl">1 / 26</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress" id="bar"></div>
+<div class="notes-panel" id="notesPanel" role="dialog" aria-label="Presenter notes"><h3 id="notesTitle">Presenter notes</h3><div id="notesBody"></div></div>
+
+<div class="overlay" id="slidesOverlay" role="dialog" aria-modal="true" aria-label="Slide navigator"><div class="modal"><button class="close" data-close="slidesOverlay">Close</button><h2>Slide navigator</h2><div class="slide-list" id="slideList"></div></div></div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="Controls"><div class="modal"><button class="close" data-close="helpOverlay">Close</button><h2>Controls</h2><ul><li><b>← / →</b> or Page Up / Page Down: move slides</li><li><b>Home / End</b>: first / last slide</li><li><b>N</b>: presenter notes</li><li><b>S</b>: slide navigator</li><li><b>R</b>: sources</li><li><b>G</b>: glossary</li><li><b>F</b>: full screen</li><li><b>Esc</b>: close</li></ul><p>Students write their examples on post-its at the start and sort them onto four flipchart sheets after the break — nothing is typed into the deck. From slide 6, the tracker at the bottom of each slide shows which parts of the roof — processes, policies, systems, arrangements — the slide is about. Timers run locally. Print produces one slide per page.</p></div></div>
+<div class="overlay" id="followOverlay" role="dialog" aria-modal="true" aria-label="Follow the information debrief"><div class="modal"><button class="close" data-close="followOverlay">Close</button><h2>Follow the information and fix the leak — debrief</h2><div class="grid g2" style="display:grid;flex:none"><div class="card card--blue"><h3>A · His medication and diet</h3><p>Needed by the people prescribing and monitoring it, and by Richard himself. Not by housing. Where could it break? Often timing — the discharge information arriving after someone needs to act.</p></div><div class="card card--purple"><h3>B · His housing</h3><p>Needed by housing and social work. Health teams need to know it is being handled — not the details of his arrears. It breaks at the line between organisations.</p></div><div class="card card--gold"><h3>C · What matters to him</h3><p>Needed by everyone planning with him. But where is it written? Often there is no obvious field for it — so it is easy to lose.</p></div><div class="card card--coral"><h3>D · His daughter</h3><p>Partly her information, not just his — what she agrees to share matters. Her own support is a separate conversation from his care.</p></div></div><div class="prompt" style="margin-top:1rem"><b>The point to land:</b> some information has obvious fields and pathways — medicines especially. What matters to a person, and how a carer is coping, often has no box, so it is easier to lose. Whether or not your group found that, it is where this afternoon begins.</div><div class="prompt" style="margin-top:.6rem"><b>Then the fixes:</b> one per group — which part of the roof does it repair, and how would you know it worked? They go straight onto Richard’s roof.</div></div></div>
+<div class="overlay" id="glossOverlay" role="dialog" aria-modal="true" aria-label="Glossary"><div class="modal"><button class="close" data-close="glossOverlay">Close</button><h2>Glossary — the roof</h2><p>Plain English, one line each.</p>
+<div class="grid g2" style="display:grid;flex:none;gap:.5rem 1.2rem">
+<div><h3>Records and information</h3><ul>
+<li><b>Record / notes</b> — what a service writes down about a person. Every service keeps its own.</li>
+<li><b>CHI number</b> — the number the NHS in Scotland uses to identify each person.</li>
+<li><b>Discharge letter</b> — the letter from the hospital to the GP when someone goes home: what happened, and what changed.</li>
+<li><b>Handover</b> — the moment care, and the information about it, passes from one team to another.</li>
+<li><b>Transition of care</b> — when a person moves between settings, such as being admitted to hospital or going home.</li>
+<li><b>Interoperability</b> — computer systems that can share information and understand it.</li>
+<li><b>Digital integrated care record</b> — digital records that draw together a person’s health and social care information so it can be shared securely. Scotland now has a legal duty to make this possible.</li>
+<li><b>MyCare.scot</b> — Scotland's new app for people to see some of their own health and care information.</li>
+</ul></div>
+<div><h3>The rest of the roof</h3><ul>
+<li><b>The roof’s four parts</b> — processes (how things get done), policies (the rules), systems (the tools, such as records) and arrangements (how it’s organised: who’s in charge, the money). The House of Care’s words; the plain meanings are ours.</li>
+<li><b>Governance</b> — who's in charge, what the rules are, and how decisions get made. The word policy documents use.</li>
+<li><b>Quality</b> — how good and safe care is, and how we know. The word policy documents use.</li>
+<li><b>Accountability</b> — who has to answer for a decision, or for what went wrong.</li>
+<li><b>Funding gap</b> — the difference between the money a body expects to need and the money it expects to have.</li>
+<li><b>Integration joint board (IJB)</b> — in most Scottish areas, the body that plans how delegated NHS and council resources are used for integrated functions, and directs the partners who deliver them.</li>
+<li><b>Integrated care board (ICB)</b> — in England, the body that plans and pays for local NHS services.</li>
+<li><b>Healthcare Improvement Scotland</b> — inspects and improves NHS care in Scotland.</li>
+<li><b>Care Inspectorate</b> — inspects care services and social work in Scotland.</li>
+<li><b>Health and Social Care Standards</b> — what people in Scotland should expect from care, written from their point of view.</li>
+<li><b>Appropriate sharing</b> — the right information, to the right person, for the right reason, at the right time.</li>
+<li><b>Caldicott Guardian</b> — the senior person in each NHS board responsible for protecting confidentiality and enabling appropriate sharing.</li>
+<li><b>Implementation gap</b> — the space between what policy says should happen and what routinely happens in practice.</li>
+<li><b>Duty of candour</b> — the legal duty for organisations to be open with people when care has caused harm.</li>
+</ul></div>
+</div></div></div>
+<div class="overlay" id="sourcesOverlay" role="dialog" aria-modal="true" aria-label="Sources"><div class="modal"><button class="close" data-close="sourcesOverlay">Close</button><h2>Sources behind this session</h2><ol>
+<li><b>Module handbook:</b> HLTH08010 Next Steps — Richard case study; case report guidance.</li>
+<li><b>Care Reform (Scotland) Act 2025</b>, Part 1, Chapter 1 — digital care record duty. <a href="https://www.legislation.gov.uk/asp/2025/9/enacted" target="_blank" rel="noopener">legislation.gov.uk</a></li>
+<li><b>MyCare.scot</b> — web service rolled out nationally from April 2026; smartphone app available nationally from June 2026; medicines and allergies, vaccination history and a service finder; planned expansion to social work and social care. <a href="https://www.gov.scot/news/mycare-scot-available-on-app-store/" target="_blank" rel="noopener">Scottish Government, June 2026</a> · <a href="https://www.digihealthcare.scot/our-work/digital-front-door/" target="_blank" rel="noopener">Digital Health and Care Scotland</a> · <a href="https://www.nhslanarkshire.scot.nhs.uk/dfd-mycare/" target="_blank" rel="noopener">NHS Lanarkshire</a></li>
+<li><b>Scottish Government.</b> Care in the Digital Age: delivery plan 2025 to 2026 — digital health and care record work folded into the personalised digital service. <a href="https://www.gov.scot/publications/care-digital-age-delivery-plan-2025-2026/pages/4/" target="_blank" rel="noopener">gov.scot</a></li>
+<li><b>Scottish Government.</b> Health and Care Improving Flow Plan 2026–2031 — digital health and care record to be delivered incrementally.</li>
+<li><b>Thomson LJM &amp; Chatterjee HJ (2024).</b> Six themes identified; the two-column sorting on the post-its slide is the module’s interpretation. Barriers and enablers of integrated care in the UK: a rapid evidence review of review articles and grey literature 2018–2022. Frontiers in Public Health 11:1286479. <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2023.1286479/full" target="_blank" rel="noopener">Frontiers</a></li>
+<li><b>Healthcare Improvement Scotland; Care Inspectorate; Health and Social Care Standards (2017); organisational duty of candour</b> (Health (Tobacco, Nicotine etc. and Care) (Scotland) Act 2016).</li>
+<li><b>Scottish Government.</b> Integration of Adult Health and Social Care in Scotland — consultation response, describing the divide between health and social care as a “fault line”. <a href="https://www.gov.scot/publications/integration-adult-health-social-care-scotland-consultation-scottish-government-response/pages/4/" target="_blank" rel="noopener">gov.scot</a> · Social Work (Scotland) Act 1968.</li>
+<li><b>Caldicott principles</b> (revised 2020) — principle 7: the duty to share information for individual care is as important as the duty to protect patient confidentiality; principle 8: inform people how their information is used. In Scotland, Caldicott Guardians are required in the NHS; all four UK nations are bound by the Data Protection Act and UK GDPR. <a href="https://www.ukcgc.uk/origins-of-the-role" target="_blank" rel="noopener">UK Caldicott Guardian Council</a></li>
+<li><b>EHR Working Group</b> (Digital Health Interest Group, UWS) — eight principles for e-health records education, compressed here to four ideas. Drawing on Pontefract &amp; Wilson (2019).</li>
+<li><b>ALLIANCE Scotland.</b> The House of Care model — the roof as “organisational processes, policies, systems and arrangements”. <a href="https://www.alliance-scotland.org.uk/health-and-social-care-integration/house-of-care/house-of-care-model/" target="_blank" rel="noopener">alliance-scotland.org.uk</a></li>
+<li><b>British Heart Foundation.</b> The House of Care framework — the roof as “the infrastructure that needs to be in place, such as IT systems for sharing data and effective administration for sending out test results and coordinating appointments”. <a href="https://www.bhf.org.uk/for-professionals/healthcare-professionals/innovation-in-care/person-centred-care-and-the-house-of-care/the-bhf-house-of-care-programme/the-house-of-care-framework" target="_blank" rel="noopener">BHF</a></li>
+<li><b>Public Health Scotland.</b> Delayed discharges in NHS Scotland, annual summary, data to March 2026 — an average of 1,934 beds a day occupied by people whose discharge was delayed in 2025/26 (people clinically ready for discharge); main reasons include care arrangements, complex cases (including adults with incapacity), place availability and assessment. <a href="https://www.publichealthscotland.scot/publications/delayed-discharges-in-nhs-scotland-annual/delayed-discharges-in-nhs-scotland-annual-summary-of-occupied-bed-days-and-census-figures-data-to-march-2026/" target="_blank" rel="noopener">PHS</a></li>
+<li><b>World Health Organization (2019).</b> Medication safety in transitions of care. WHO/UHC/SDS/2019.9 — at discharge, 25–80% of patients had at least one medication discrepancy or failure to communicate in-hospital medication changes (section 2.1, p.16; a range taken from a review the report cites). <a href="https://www.who.int/publications/i/item/WHO-UHC-SDS-2019.9" target="_blank" rel="noopener">WHO</a></li>
+<li><b>World Health Organization.</b> Medication Without Harm — Global Patient Safety Challenge, launched 29 March 2017; three key action areas: polypharmacy, high-risk situations and transitions of care. <a href="https://www.who.int/initiatives/medication-without-harm" target="_blank" rel="noopener">WHO</a></li>
+<li><b>Accounts Commission (February 2026).</b> Integration Joint Boards: finance bulletin 2024/25 — 30 IJBs; funding gap of £449 million for 2025/26; 22 IJBs reported a deficit on the cost of services; almost half hold no contingency reserves; over half had a change in senior leadership; “must urgently take decisions on where to redesign, reduce or discontinue services”. <a href="https://audit.scot/publications/integration-joint-boards-finance-bulletin-202425" target="_blank" rel="noopener">audit.scot</a></li>
+<li><b>The Public Bodies (Joint Working) (Integration Joint Boards) (Scotland) Amendment Order 2025</b> (SSI 2025/405) — voting rights for service-user, unpaid-carer and third-sector members of integration joint boards from 1 September 2026. <a href="https://www.alliance-scotland.org.uk/health-and-social-care-integration/ijb-lived-experience-voting-rights-key-information/" target="_blank" rel="noopener">ALLIANCE guidance</a> · <a href="https://www.parliament.scot/~/media/committ/12382/The-Public-Bodies-(Joint-Working)-(Integration-Joint-Boards)-(Scotland)-Amendment-Order-2025--Note-by-the-Clerk" target="_blank" rel="noopener">Scottish Parliament note</a></li>
+<li><b>Health and Care Experience Survey 2025/26.</b> Public Health Scotland (July 2026), Core suite of integration indicators — indicator 4: 65% of adults supported at home agreed their health and social care services seemed well co-ordinated. <a href="https://www.publichealthscotland.scot/publications/core-suite-of-integration-indicators/core-suite-of-integration-indicators-7-july-2026/" target="_blank" rel="noopener">PHS</a> · Scottish Government (May 2026), National Report — 32% of carers felt supported to continue caring. <a href="https://www.gov.scot/publications/health-and-care-experience-survey-national-report/pages/key-points/" target="_blank" rel="noopener">gov.scot</a></li>
+<li><b>Roof of Care lecture (Next Steps, 2025–26)</b> — the who’s-in-charge examples, the budget scenario, Richard’s roof and the thinking prompts, adapted. This version organises the morning around the House of Care’s own four parts of the roof (processes, policies, systems, arrangements) instead of the lecture’s three questions; the plain-English meanings of the four parts are the module’s.</li>
+<li><b>The Agnes story</b> is invented for teaching, based on the kind of handover failure described in patient-safety reviews.</li>
+</ol></div></div>
+
+<script>
+(function(){
+/* ---------- deck shell ---------- */
+const slides=[...document.querySelectorAll('.slide')],total=slides.length;let cur=0;
+const bar=document.getElementById('bar'),lbl=document.getElementById('lbl'),prev=document.getElementById('prev'),next=document.getElementById('next'),ann=document.getElementById('ann');
+const notesPanel=document.getElementById('notesPanel'),notesBody=document.getElementById('notesBody'),notesTitle=document.getElementById('notesTitle');
+const menuBtn=document.getElementById('menuBtn'),tools=document.getElementById('tools');
+function updateNotes(){const n=slides[cur].querySelector('.speaker-note');notesTitle.textContent='Presenter notes · '+(cur+1)+' / '+total;notesBody.innerHTML=n?n.innerHTML:'<p>No presenter notes for this slide.</p>';}
+function show(n){slides[cur]?.classList.remove('active');cur=Math.max(0,Math.min(n,total-1));slides[cur].classList.add('active');bar.style.width=((cur+1)/total*100)+'%';lbl.textContent=(cur+1)+' / '+total;prev.disabled=cur===0;next.disabled=cur===total-1;ann.textContent=slides[cur].getAttribute('aria-label');slides[cur].focus({preventScroll:true});location.hash='slide-'+(cur+1);updateNotes();}
+function openOverlay(id){document.getElementById(id)?.classList.add('open');}
+function closeAll(){document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));notesPanel.classList.remove('open');tools.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+prev.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);
+menuBtn.onclick=()=>{const on=tools.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(on));};
+document.getElementById('notesBtn').onclick=()=>notesPanel.classList.toggle('open');
+document.getElementById('slidesBtn').onclick=()=>openOverlay('slidesOverlay');
+document.getElementById('sourcesBtn').onclick=()=>openOverlay('sourcesOverlay');document.getElementById('glossBtn').onclick=()=>openOverlay('glossOverlay');
+document.getElementById('helpBtn').onclick=()=>openOverlay('helpOverlay');
+document.getElementById('fsBtn').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('printBtn').onclick=()=>window.print();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+document.querySelectorAll('[data-overlay]').forEach(b=>b.addEventListener('click',()=>openOverlay(b.dataset.overlay)));
+document.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const x=document.getElementById(b.dataset.toggle);const willShow=x.hidden;x.hidden=!willShow;b.textContent=willShow?b.dataset.on:b.dataset.off;b.classList.toggle('on',willShow);}));
+const slideList=document.getElementById('slideList');slides.forEach((s,i)=>{const b=document.createElement('button');const h=s.querySelector('h1,h2,.bigline');b.textContent=(i+1)+'. '+(h?h.textContent.trim().slice(0,70):s.getAttribute('aria-label'));b.onclick=()=>{document.getElementById('slidesOverlay').classList.remove('open');show(i)};slideList.appendChild(b)});
+document.querySelectorAll('.timer').forEach(t=>{const secs=parseInt(t.dataset.secs,10);let left=secs,iv=null;const buttons=t.nextElementSibling?.querySelectorAll('button[data-act]')||[];const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');const draw=()=>{t.textContent=fmt(left);if(left===0)t.style.color='var(--coral)'};buttons.forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;if(a==='start'&&!iv){iv=setInterval(()=>{if(left>0){left--;draw()}else{clearInterval(iv);iv=null}},1000)}else if(a==='pause'){clearInterval(iv);iv=null}else if(a==='reset'){clearInterval(iv);iv=null;left=secs;t.style.color='';draw()}}));draw();});
+document.addEventListener('keydown',e=>{const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key==='Escape'){closeAll();return}if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();show(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(total-1)}else if(e.key.toLowerCase()==='n'){notesPanel.classList.toggle('open')}else if(e.key.toLowerCase()==='s'){openOverlay('slidesOverlay')}else if(e.key.toLowerCase()==='r'){openOverlay('sourcesOverlay')}else if(e.key.toLowerCase()==='g'){openOverlay('glossOverlay')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}});
+
+
+/* ---------- places (slide 7) ---------- */
+document.querySelectorAll('.place[data-w]').forEach(p=>{const t=()=>p.classList.toggle('open');p.addEventListener('click',t);p.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});});
+document.getElementById('worldsBtn')?.addEventListener('click',function(){const pl=document.getElementById('places');const on=pl.classList.toggle('worlds');document.getElementById('worldsLegend').hidden=!on;this.textContent=on?'Hide the owners':'Show who owns each one';this.classList.toggle('on',on);});
+
+/* ---------- story (slide 9) ---------- */
+const steps=[...document.querySelectorAll('#story .step')];let si=0;
+document.getElementById('storyNext')?.addEventListener('click',()=>{if(si<steps.length-1){si++;steps[si].classList.add('on');}});
+document.getElementById('storyReset')?.addEventListener('click',()=>{si=0;steps.forEach((s,i)=>s.classList.toggle('on',i===0));});
+
+/* ---------- ideas (slide 12) ---------- */
+document.querySelectorAll('.idea').forEach(c=>{const t=()=>c.classList.toggle('open');c.addEventListener('click',t);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});});
+
+/* ---------- note 2 (slide 14) ---------- */
+document.getElementById('note2Btn')?.addEventListener('click',function(){const n=document.getElementById('note2');const on=n.style.visibility==='hidden';n.style.visibility=on?'visible':'hidden';this.textContent=on?'Hide note 2':'Show note 2';this.classList.toggle('on',on);});
+
+/* ---------- vote (slide 17) ---------- */
+const opts=[...document.querySelectorAll('#vote .opt')];
+function drawVote(){const counts=opts.map(o=>+o.querySelector('.cnt').textContent);const tot=counts.reduce((a,b)=>a+b,0)||1;opts.forEach((o,i)=>{o.querySelector('.meter i').style.width=(counts[i]/tot*100)+'%';});}
+opts.forEach(o=>o.querySelectorAll('.tally button').forEach(b=>b.addEventListener('click',()=>{const c=o.querySelector('.cnt');c.textContent=Math.max(0,+c.textContent+ +b.dataset.d);drawVote();})));
+
+/* ---------- leaks (slide 3) ---------- */
+const drips=[...document.querySelectorAll('#drips .drip')];let di=0;
+document.getElementById('leakNext')?.addEventListener('click',()=>{if(di<drips.length){drips[di].classList.add('on');di++;}});
+document.getElementById('leakReset')?.addEventListener('click',()=>{di=0;drips.forEach(d=>d.classList.remove('on'));});
+
+const m=location.hash.match(/slide-(\d+)/);show(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>
