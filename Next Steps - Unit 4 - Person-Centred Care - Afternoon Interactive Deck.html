@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Steps Unit 4 | The centre — afternoon session</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1e3d;--navy2:#17375e;--blue:#1a5276;--blue-soft:#e7f1f7;
+  --teal:#287a80;--teal-soft:#e6f4f3;--green:#1a7a5a;--green-soft:#e8f5ee;
+  --gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;
+  --purple:#6b4f83;--purple-soft:#f2edf6;--grey:#667482;--grey-soft:#eef1f3;
+  --ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--paper:#fffefb;--cream:#faf8f5;
+  --focus:#005ea8;--serif:Georgia,'Times New Roman',serif;--sans:Aptos,'Segoe UI',Arial,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,a,textarea{font:inherit}a{color:var(--blue)}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(1.25rem,2.7vw,2.6rem) clamp(1.45rem,4.3vw,4.25rem) clamp(4.4rem,7vh,5.2rem);opacity:0;overflow:hidden;background:var(--paper);transition:opacity .18s}
+.slide.active{display:flex;opacity:1}
+.slide--dark{background:linear-gradient(155deg,var(--navy),var(--navy2) 66%,#214b76);color:#f7f9fb}
+.slide--blue{background:linear-gradient(135deg,var(--blue-soft),#fbfdfe)}
+.slide--green{background:linear-gradient(135deg,var(--green-soft),#fbfdfc)}
+.slide--gold{background:linear-gradient(135deg,var(--gold-soft),#fffdf8)}
+.slide--teal{background:linear-gradient(135deg,var(--teal-soft),#f9fdfd)}
+.slide--purple{background:linear-gradient(135deg,var(--purple-soft),#fcfafd)}
+.eyebrow{margin-bottom:.55rem;font-size:clamp(.78rem,.9vw,1rem);font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.slide--dark .eyebrow{color:var(--gold)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,4.9vw,5rem);line-height:1.03}
+h2{font-size:clamp(1.9rem,3.1vw,3.2rem);line-height:1.08;margin-bottom:.8rem;color:var(--navy)}
+.slide--dark h1,.slide--dark h2{color:#fff}
+h3{font-size:clamp(1.02rem,1.35vw,1.35rem);line-height:1.2;color:var(--navy)}
+.lede{font-size:clamp(1.02rem,1.43vw,1.47rem);line-height:1.42;color:var(--muted);max-width:67ch;margin-bottom:1rem}
+.slide--dark .lede{color:#dfe6ee}
+.bigline{font-family:var(--serif);font-size:clamp(2.1rem,3.9vw,4rem);line-height:1.12;color:var(--navy);max-width:27ch}
+.slide--dark .bigline{color:#fff}
+.grid{display:grid;gap:clamp(.7rem,1.15vw,1.15rem);flex:1;align-content:center;min-height:0}.g2{grid-template-columns:1fr 1fr}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:clamp(.8rem,1.15vw,1.15rem);box-shadow:0 4px 18px rgba(10,30,61,.055);min-width:0}
+.card h3{margin-bottom:.35rem}.card p,.card li{font-size:clamp(.88rem,1.06vw,1.07rem);line-height:1.38;color:var(--muted)}
+.card ul,.card ol{padding-left:1.15rem}.card li{margin:.24rem 0}
+.card--blue{background:var(--blue-soft);border-color:var(--blue)}.card--green{background:var(--green-soft);border-color:var(--green)}.card--gold{background:var(--gold-soft);border-color:var(--gold)}.card--teal{background:var(--teal-soft);border-color:var(--teal)}.card--coral{background:var(--coral-soft);border-color:var(--coral)}
+.tag{display:inline-block;font-size:.68rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .58rem;border-radius:999px;margin-bottom:.45rem;background:var(--navy);color:#fff}
+.lo{display:inline-flex;align-items:center;justify-content:center;min-width:2.9rem;border-radius:999px;padding:.23rem .58rem;background:var(--navy);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:.5rem}
+.band{margin-top:auto;background:var(--navy);color:#fff;border-radius:13px;padding:.82rem 1.15rem;font-size:clamp(.96rem,1.23vw,1.25rem);line-height:1.38}.band b{color:var(--gold)}.slide--dark .band{background:rgba(255,255,255,.12)}
+.prompt{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:.78rem 1rem;font-size:clamp(.96rem,1.18vw,1.2rem);line-height:1.4;margin-top:.65rem}
+.source{font-size:clamp(.68rem,.76vw,.8rem);line-height:1.3;color:var(--muted);margin-top:.45rem}.slide--dark .source{color:#d3dce6}
+.foot{position:absolute;left:0;right:9rem;bottom:0;display:flex;align-items:center;justify-content:flex-start;gap:1.7rem;padding:.65rem clamp(1.45rem,4.3vw,4.25rem);font-size:.71rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.slide--dark .foot{color:#c9d3de}
+.timer{font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);line-height:1;color:var(--navy);text-align:center;margin:.55rem 0 .45rem;font-variant-numeric:tabular-nums}.slide--dark .timer{color:#fff}.tbtns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap}.tbtns button{border-radius:999px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;padding:.43rem .95rem;cursor:pointer}.tbtns button.primary{background:var(--navy);color:#fff}.slide--dark .tbtns button{border-color:#fff;background:transparent;color:#fff}.slide--dark .tbtns button.primary{background:#fff;color:var(--navy)}
+.timer--small{font-size:clamp(2rem,3.4vw,3.4rem);margin:.2rem 0}
+.reveal{margin-top:.55rem;background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:.38rem .9rem;font-weight:750;font-size:.88rem;cursor:pointer}
+.reveal.on{background:var(--blue);color:#fff}
+
+/* controls */
+.nav{position:fixed;right:1rem;bottom:.72rem;display:flex;gap:.45rem;align-items:center;z-index:20}.nav button{width:2.45rem;height:2.45rem;border-radius:50%;border:none;background:var(--navy);color:#fff;font-size:1.08rem;cursor:pointer}.nav button:disabled{opacity:.3}.nav span{font-size:.82rem;color:var(--muted);min-width:4.3rem;text-align:center}.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--gold);width:0;z-index:25;transition:width .18s}
+.menu-toggle{position:fixed;right:1rem;top:.75rem;width:2.45rem;height:2.45rem;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.93);color:var(--navy);font-size:1.15rem;font-weight:800;cursor:pointer;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tools{position:fixed;right:4rem;top:.78rem;display:none;gap:.4rem;z-index:29;flex-wrap:wrap;justify-content:flex-end}.tools.open{display:flex}.tools button{border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.96);padding:.32rem .72rem;font-size:.76rem;cursor:pointer;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sr{position:absolute;left:-9999px}.speaker-note{display:none}
+.notes-panel{position:fixed;left:1rem;bottom:3.6rem;width:min(43rem,80vw);max-height:44vh;overflow:auto;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:1rem 1.1rem;z-index:80;box-shadow:0 15px 50px rgba(0,0,0,.22);display:none}.notes-panel.open{display:block}.notes-panel h3{margin-bottom:.45rem}.notes-panel p,.notes-panel li{font-size:.9rem;line-height:1.42;color:var(--muted)}.notes-panel ul{padding-left:1.1rem}
+.overlay{position:fixed;inset:0;background:rgba(5,16,31,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:2rem}.overlay.open{display:flex}.modal{width:min(92vw,68rem);max-height:86vh;overflow:auto;background:var(--paper);border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 24px 80px rgba(0,0,0,.35)}.modal h2{font-size:2rem}.modal .close{float:right;border:none;background:var(--navy);color:#fff;border-radius:999px;padding:.42rem .8rem;cursor:pointer}.modal ol,.modal ul{padding-left:1.4rem}.modal li{margin:.5rem 0;line-height:1.45}.modal p{line-height:1.45;margin:.5rem 0}.modal a{overflow-wrap:anywhere}.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}.slide-list button{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55rem .7rem;cursor:pointer;color:var(--navy)}.slide-list button:hover{background:var(--blue-soft)}
+
+@media(max-width:820px){.tools button:nth-child(n+5){display:none}}
+@media(max-height:720px){.slide{padding-top:1rem;padding-bottom:3.8rem}h1{font-size:clamp(2.2rem,4vw,3.8rem)}h2{font-size:clamp(1.7rem,2.8vw,2.7rem)}.card{padding:.65rem .8rem}.lede{margin-bottom:.65rem}.foot{padding-bottom:.5rem}.timer{font-size:4.2rem}}
+@media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex;opacity:1;page-break-after:always;width:13.333in;height:7.5in}.nav,.menu-toggle,.tools,.progress,.notes-panel,.overlay{display:none!important}.speaker-note{display:none!important}}
+@page{size:13.333in 7.5in;margin:0}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.phase{border-radius:18px;padding:1.3rem 1.3rem 1.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:.5rem}
+.phase em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.phase b{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,2.8vw,2.8rem);color:#fff;line-height:1.05}
+.phase span{font-size:clamp(.98rem,1.2vw,1.2rem);line-height:1.42;color:#dfe6ee}
+@media(max-width:820px){.phases{grid-template-columns:1fr}}
+
+
+/* ---- unit 4 ---- */
+.labs{display:flex;flex-wrap:wrap;gap:.6rem;margin:.3rem 0}
+.lab{border-radius:999px;padding:.45rem 1.1rem;font-family:var(--serif);font-size:clamp(1.1rem,1.6vw,1.6rem);background:#fff;border:2px solid var(--blue);color:var(--navy)}
+.lab.bad{border-color:var(--coral);background:var(--coral-soft);color:#7a2f1c}
+.experts{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch}
+.expert{border-radius:18px;padding:1.1rem 1.2rem;background:#fff;border:2px solid var(--line)}
+.expert h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.9vw,1.9rem);margin-bottom:.35rem}
+.expert.pro{border-color:var(--blue)}.expert.per{border-color:var(--gold);background:var(--gold-soft)}
+.amp{display:flex;align-items:center;font-family:var(--serif);font-size:clamp(2.2rem,3.4vw,3.4rem);color:var(--gold)}
+.principles{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem}
+.pr{background:var(--teal-soft);border:2px solid var(--teal);border-radius:12px;padding:.75rem .6rem;text-align:center;font-weight:800;color:var(--navy);font-size:clamp(.92rem,1.1vw,1.1rem);display:flex;align-items:center;justify-content:center;min-height:3.6rem}
+.tofor{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;flex:1;align-content:center}
+.tf{border-radius:16px;padding:1rem 1.05rem;border:2px solid var(--line);background:#fff}
+.tf h3{font-size:clamp(1.02rem,1.3vw,1.3rem);margin-bottom:.15rem}.tf .sub{font-size:.85rem;color:var(--muted);margin-bottom:.5rem}
+.tf ul{padding-left:1.1rem}.tf li{font-size:clamp(.94rem,1.12vw,1.12rem);line-height:1.38;margin:.28rem 0;color:var(--ink)}
+.tf.to{border-color:var(--gold);background:var(--gold-soft)}.tf.for{border-color:var(--blue);background:var(--blue-soft)}.tf.ask{border-style:dashed;border-color:#8a96a3;background:#fafbfc}
+.voice3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}
+.bran{display:grid;grid-template-columns:auto 1fr;gap:.2rem .6rem;margin-top:.4rem}.bran b{font-family:var(--serif);font-size:1.35rem;color:var(--gold);line-height:1}.bran span{font-size:clamp(.9rem,1.05vw,1.05rem)}
+.carer2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.tommy{border-radius:18px;padding:1.1rem 1.2rem;background:var(--navy);color:#fff}.tommy h3{color:#fff;font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.8vw,1.8rem);margin-bottom:.4rem}.tommy p{color:#dfe6ee;font-size:clamp(.95rem,1.12vw,1.12rem);line-height:1.45;margin:.35rem 0}.tommy .pull{font-family:var(--serif);font-size:clamp(1.15rem,1.6vw,1.6rem);color:var(--gold);line-height:1.3}
+.profile{background:#fff;border:2px solid var(--navy);border-radius:18px;padding:1rem 1.2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;flex:1;align-content:start}
+.profile .ph{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--line);padding-bottom:.45rem}
+.profile .ph strong{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.4vw,2.4rem);color:var(--navy)}.profile .ph span{font-size:.9rem;color:var(--muted);font-style:italic}
+.profile h3{font-size:clamp(.92rem,1.08vw,1.08rem);color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.profile p{font-family:var(--serif);font-size:clamp(1.08rem,1.42vw,1.42rem);line-height:1.38;color:var(--navy);margin:.35rem 0}
+.twocards{display:grid;grid-template-columns:1.55fr 1fr;gap:1rem;flex:1;align-content:center}
+.pcard,.ccard{border-radius:16px;padding:1rem 1.1rem;border:2px solid}
+.pcard{border-color:var(--blue);background:var(--blue-soft)}.ccard{border-color:var(--coral);background:var(--coral-soft)}
+.pcard h3,.ccard h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,1.7vw,1.7rem);margin-bottom:.4rem}
+.pgrid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:.4rem;font-size:clamp(.95rem,1.15vw,1.15rem)}
+.pgrid div{background:#fff;border-radius:8px;padding:.55rem .65rem;min-height:2.8rem}.pgrid .hd{background:transparent;font-weight:800;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;padding:.1rem .3rem}.pgrid .rh{font-weight:800;color:var(--navy)}
+.check{display:grid;gap:.45rem}
+.ck{display:flex;gap:.7rem;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:12px;padding:.6rem .8rem;cursor:pointer;font-size:clamp(.95rem,1.12vw,1.12rem);line-height:1.35}
+.ck i{width:1.35rem;height:1.35rem;border:2px solid var(--navy);border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;color:#fff;font-size:.9rem;margin-top:.1rem}
+.ck.done{border-color:var(--green);background:var(--green-soft)}.ck.done i{background:var(--green);border-color:var(--green)}.ck.done i::after{content:"✓"}
+.marks3{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:.8rem}
+.mk{border-radius:14px;padding:.75rem .9rem;background:#fff;border:2px solid var(--line)}.mk b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.3vw,2.3rem);color:var(--navy);line-height:1}.mk span{font-size:.92rem;color:var(--muted)}.mk.now{border-color:var(--coral);background:var(--coral-soft)}
+.mini{display:grid;grid-template-columns:1.05fr 1fr;gap:1.4rem;align-items:center;flex:1}
+.mini svg{width:100%;max-height:58vh}
+.key3{display:grid;gap:.55rem}.key3 div{border-radius:12px;padding:.65rem .85rem;border:2px solid var(--line);background:#fff;font-size:clamp(.95rem,1.12vw,1.12rem)}.key3 .done{border-color:var(--green);background:var(--green-soft)}.key3 .next{border-color:var(--gold);background:var(--gold-soft)}
+@media(max-width:820px){.principles{grid-template-columns:1fr 1fr}.tofor,.voice3,.carer2,.twocards,.marks3,.mini,.profile{grid-template-columns:1fr}.experts{grid-template-columns:1fr}.amp{justify-content:center}}
+
+.card.big p,.card.big li{font-size:clamp(1.05rem,1.38vw,1.38rem);line-height:1.45}.card.big h3{font-size:clamp(1.2rem,1.65vw,1.65rem);margin-bottom:.45rem}.card.big ul{padding-left:1.2rem}.card.big li{margin:.3rem 0}
+.mid2{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+/* ---- unit 4 v2 ---- */
+.slide--coral{background:linear-gradient(135deg,var(--coral-soft),#fffaf8)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.stats2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1;align-content:center}
+.stat{background:#fff;border:2px solid var(--teal);border-radius:18px;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.55rem}
+.stat>b{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.6vw,6.8rem);line-height:1;color:var(--navy)}
+.stat p{font-size:clamp(1.05rem,1.45vw,1.5rem);line-height:1.4;color:var(--ink)}
+.stat p b{font-weight:800;color:var(--navy)}
+.stat .so{font-weight:800;color:var(--coral)}
+.stat small{font-size:clamp(.68rem,.78vw,.8rem);color:var(--muted);line-height:1.3}
+.meterbar{height:.85rem;border-radius:999px;background:var(--grey-soft);overflow:hidden}.meterbar i{display:block;height:100%;background:var(--teal)}
+.phase .can{margin-top:auto;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.22);font-size:clamp(.9rem,1.05vw,1.05rem);color:#fff;line-height:1.4}
+.phase .can i{font-style:normal;display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;font-size:.72rem;border-radius:999px;padding:.1rem .5rem;margin-right:.35rem;vertical-align:.1em}
+.tfw{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.tw{border-radius:14px;padding:.85rem 1rem;border:2px solid var(--line);background:#fff}
+.tw em{display:block;font-style:normal;font-weight:850;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+.tw p{font-family:var(--serif);font-size:clamp(1.02rem,1.35vw,1.38rem);line-height:1.35;color:var(--navy)}
+.tw.to em,.tw.for em{color:var(--muted)}.tw.with{border-color:var(--green);background:var(--green-soft)}.tw.with em{color:var(--green)}
+.vals5{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;flex:1;align-content:center}
+.val{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:.9rem .85rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.val h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,1.75vw,1.8rem);line-height:1.15}
+.val .vm{font-weight:800;color:var(--teal);font-size:clamp(.98rem,1.28vw,1.32rem);line-height:1.3}
+.val .vr{margin-top:auto;background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.55rem .65rem;font-size:clamp(.95rem,1.2vw,1.24rem);line-height:1.38;color:var(--ink)}
+.carer2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.cstats{display:flex;flex-direction:column;gap:.8rem;justify-content:center}
+.cst{background:#fff;border:2px solid var(--purple);border-radius:16px;padding:.9rem 1.1rem}
+.cst b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,4.6vw,4.6rem);line-height:1;color:var(--purple)}
+.cst p{font-size:clamp(.98rem,1.25vw,1.28rem);line-height:1.38;color:var(--ink);margin-top:.35rem}
+.cst small{display:block;font-size:clamp(.68rem,.78vw,.8rem);color:var(--muted);margin-top:.35rem}
+.centrewrap{display:grid;grid-template-columns:.78fr 1.22fr;gap:1.3rem;flex:1;align-items:center;min-height:0}
+.house4{width:100%;height:auto;max-height:52vh;display:block}
+.titlewrap{flex:1;display:grid;grid-template-columns:1.35fr .65fr;gap:2.4rem;align-items:center;min-height:0}
+.house4.ondark .dim polygon,.house4.ondark .dim rect{fill:rgba(255,255,255,.1);stroke:rgba(255,255,255,.35);stroke-width:2}
+.house4.ondark .dim text{fill:#c9d3de}
+.house4 .dim polygon,.house4 .dim rect{fill:#ece7df;stroke:#fff;stroke-width:3}
+.house4 .dim text{font-family:var(--sans);font-size:16px;font-weight:700;fill:#8a96a3;text-anchor:middle}
+.house4 .lit circle{fill:var(--coral);stroke:var(--gold);stroke-width:6}
+.house4 .lit text{font-family:var(--sans);fill:#fff;text-anchor:middle}
+.house4 .lit .big{font-size:24px;font-weight:800;letter-spacing:.06em}.house4 .lit .small{font-size:14px;font-weight:600}
+.bda{display:flex;flex-direction:column;gap:.7rem}
+.bstep{display:grid;grid-template-columns:7.2rem 1fr;gap:.9rem;align-items:start;background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem}
+.bstep em{font-style:normal;font-family:var(--serif);font-size:clamp(1.2rem,1.65vw,1.7rem);color:var(--coral);line-height:1.1}
+.bstep h3{margin-bottom:.25rem}.bstep p{font-size:clamp(.95rem,1.18vw,1.2rem);line-height:1.4;color:var(--muted)}
+.twoways{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.way{border-radius:18px;padding:1.05rem 1.2rem;border:2px solid;display:flex;flex-direction:column;gap:.55rem}
+.way em{font-style:normal;font-family:var(--serif);font-size:clamp(1.3rem,1.9vw,1.95rem);line-height:1.15}
+.way p{font-size:clamp(.98rem,1.22vw,1.25rem);line-height:1.42;color:var(--ink)}
+.way .end{margin-top:auto;font-weight:800}
+.way.bad{border-color:var(--coral);background:var(--coral-soft)}.way.bad em{color:#8c3a22}
+.way.good{border-color:var(--green);background:var(--green-soft)}.way.good em{color:var(--green)}
+.voice3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}
+.qhead,.qr{display:grid;grid-template-columns:1fr 2.6rem 1.25fr;gap:.6rem;align-items:center}
+.qhead{font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem}
+.qr{margin:.45rem 0}
+.qr .qc{background:#fff;border:2px dashed #b9b2a6;border-radius:12px;padding:.65rem .85rem;font-family:var(--serif);font-size:clamp(1.02rem,1.38vw,1.42rem);color:var(--muted)}
+.qr .qa{font-size:1.5rem;font-weight:800;color:var(--gold);text-align:center}
+.qr .qo{background:var(--green-soft);border:2px solid var(--green);border-radius:12px;padding:.65rem .85rem;font-family:var(--serif);font-size:clamp(1.02rem,1.38vw,1.42rem);color:var(--navy)}
+.prep4{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;flex:1;align-content:center}
+.pb{background:#fff;border:2px solid var(--gold);border-radius:16px;padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.45rem;min-height:clamp(10rem,30vh,17rem)}
+.pb h3{font-size:clamp(1.12rem,1.5vw,1.55rem)}
+.pb em{font-style:normal;font-family:var(--serif);font-size:clamp(1.7rem,2.6vw,2.6rem);line-height:1;color:var(--gold)}
+.pb p{font-size:clamp(1rem,1.3vw,1.35rem);line-height:1.4;color:var(--muted)}
+.pb.her{border-color:var(--coral);background:var(--coral-soft)}.pb.her em{color:var(--coral)}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.s3{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem}
+.s3 em{display:block;font-style:normal;font-family:var(--serif);font-size:clamp(1.25rem,1.7vw,1.75rem);color:var(--navy);margin-bottom:.2rem}
+.s3 p{font-size:clamp(.92rem,1.1vw,1.12rem);line-height:1.38;color:var(--muted)}
+.s3 .eg{margin-top:.45rem;font-size:clamp(.86rem,1vw,1.02rem);color:var(--ink);background:var(--gold-soft);border-radius:8px;padding:.4rem .55rem}
+.stp{margin-left:auto;display:inline-flex;align-items:center;gap:.3rem;letter-spacing:.05em}
+.stp i{font-style:normal;font-weight:800;font-size:.62rem;padding:.17rem .55rem;border-radius:999px;border:1px solid #cfc8bc;color:#7d8a97;background:rgba(255,255,255,.75)}
+.stp i.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.card.big p,.card.big li{font-size:clamp(1.02rem,1.32vw,1.36rem);line-height:1.45}
+#leaflet .ck{font-size:clamp(1.05rem,1.4vw,1.45rem);padding:.75rem .95rem}#leaflet .mk span{font-size:clamp(.92rem,1.15vw,1.15rem)}#leaflet .prompt{font-size:clamp(1.05rem,1.35vw,1.4rem)}
+#report .s3 p{font-size:clamp(1rem,1.28vw,1.32rem)}#report .s3 .eg{font-size:clamp(.95rem,1.18vw,1.22rem)}#report .card p{font-size:clamp(1.02rem,1.3vw,1.35rem)}
+@media(max-width:820px){.titlewrap{grid-template-columns:1fr}.stats2,.tfw,.vals5,.carer2,.centrewrap,.twoways,.voice3,.prep4,.steps3{grid-template-columns:1fr 1fr}.qhead,.qr{grid-template-columns:1fr}.qr .qa{display:none}.stp i{font-size:.52rem;padding:.12rem .3rem}}
+@media print{.stp i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuBtn" aria-label="Open presentation tools" aria-expanded="false">⋯</button>
+<div class="tools" id="tools"><button id="slidesBtn">Slides</button><button id="notesBtn">Notes</button><button id="sourcesBtn">Sources</button><button id="glossBtn">Glossary</button><button id="helpBtn">Help</button><button id="fsBtn">Full screen</button><button id="printBtn">Print</button></div>
+<div class="sr" aria-live="polite" id="ann"></div>
+<main class="deck">
+
+<section class="slide slide--dark" id="title" tabindex="-1" aria-label="What matters to Richard — and who asks him?">
+  <div class="foot"><span>HLTH08010 · Next Steps</span><span>Unit 4 · The centre</span></div>
+  <div class="eyebrow">Unit 4 · The centre · 13:30–16:30</div>
+  <div class="titlewrap">
+    <div><h1>What matters to Richard — and who asks him?</h1>
+    <p class="lede" style="margin-top:1rem">This morning we fixed leaks in the roof. This afternoon we go inside the house, to the centre: the conversation where someone asks Richard what matters to him.</p></div>
+    <svg class="house4 ondark" viewBox="0 0 600 450" role="img" aria-label="The House of Care, with the centre highlighted">
+      <g class="dim"><polygon points="50,184 300,30 550,184"/><text x="300" y="140">Roof ✓</text></g>
+      <g class="dim"><rect x="70" y="200" width="130" height="170" rx="6"/><text x="135" y="290">Left wall</text></g>
+      <g class="dim"><rect x="400" y="200" width="130" height="170" rx="6"/><text x="465" y="290">Right wall</text></g>
+      <g class="dim"><rect x="30" y="378" width="540" height="58" rx="8"/><text x="300" y="412">Foundation</text></g>
+      <g class="lit"><circle cx="300" cy="285" r="88"/><text class="big" x="300" y="280">CENTRE</text><text class="small" x="300" y="304">this afternoon</text></g>
+    </svg>
+  </div>
+  <aside class="speaker-note"><p>Welcome them back and name the afternoon’s one question: what matters to Richard — and who asks him? This morning was the roof: the information, and the processes, policies, systems and arrangements that carry it. This afternoon is the centre of the house: the person, and the conversation where someone asks him what matters. Three steps all afternoon — see the person, ask the person, make it last — and a small marker at the bottom right of each slide shows which step we are in. Unit 4 covers the centre, and much of the left wall.</p></aside>
+</section>
+
+<section class="slide" id="hinge" tabindex="-1" aria-label="Easy to carry, easy to lose">
+  <div class="foot"><span>Unit 4</span><span>Where this morning left us</span></div>
+  <div class="eyebrow">This morning’s last point: some information has no box</div>
+  <h2>Easy to carry. Easy to lose.</h2>
+  <div class="grid g2" style="flex:1;align-content:center">
+    <div class="card card--blue big"><h3>Easy to carry</h3><p>Medicines, results, allergies. They have fields, codes and pathways. Systems are built to move them.</p></div>
+    <div class="card card--coral big"><h3>Easy to lose</h3><p>What matters to Richard. How his daughter is coping. They often have no obvious box — so they are the first things to fall off at a handover.</p></div>
+  </div>
+  <div class="band">The roof carries the information. <b>This afternoon is the centre — where the person lives in the house.</b></div>
+  <aside class="speaker-note"><p>The hinge from this morning, worded so it holds whatever the groups found in the last activity. Some information is easy to carry: medicines, results and allergies have fields, codes and pathways, and systems are built to move them — even MyCare.scot starts with medicines and allergies. Some is easy to lose: what matters to Richard, and how his daughter is coping, often have no box. Picture a discharge letter: there is a box for his medicines and his follow-up appointment. Where is the box for “he really wants to manage at home”? Usually there isn’t one, so it lives in someone’s head and leaves when they go off shift. Then the band: the roof carries the information; the centre is where the person lives in the house.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="ask" tabindex="-1" aria-label="Does anyone ask?">
+  <div class="foot"><span>Unit 4</span><span>Why it matters</span></div>
+  <div class="eyebrow">So does anyone ask people what matters? Scotland, now</div>
+  <h2 style="color:#fff">Does anyone ask?</h2>
+  <div class="stats2">
+    <div class="stat"><b>64%</b><div class="meterbar"><i style="width:64%"></i></div><p>of people getting help or care at home agreed they <b>had a say</b> in how it was given.</p><p class="so">So about 1 in 3 did not say so.</p><small>Health and Care Experience Survey 2025/26 · national indicator 3</small></div>
+    <div class="stat"><b>74%</b><div class="meterbar"><i style="width:74%"></i></div><p>agreed they are supported to <b>live as independently as possible</b> — Richard’s one wish.</p><p class="so">So about 1 in 4 did not say so.</p><small>Health and Care Experience Survey 2025/26 · national indicator 2</small></div>
+  </div>
+  <div class="band" style="margin-top:1rem">Most people feel asked. Not everyone. <b>This afternoon is about making sure Richard — and his daughter — are.</b></div>
+  <p class="source">Scotland figures, 2025/26 — Public Health Scotland, core suite of integration indicators (July 2026), as published in partnership reports such as Dundee’s and Aberdeen City’s for 2025/26.</p>
+  <aside class="speaker-note"><p>Same survey as this morning’s 65% for “well co-ordinated” — the Health and Care Experience Survey 2025/26 — two more of Scotland’s national integration indicators. Indicator 3: 64% of adults supported at home agreed they had a say in how their help, care or support was provided — so about one in three did not say so. Indicator 2: 74% agreed they are supported to live as independently as possible — so about one in four did not; that is Richard’s own wish, in the case in his words. Word it carefully: “did not say so” includes people who were unsure, so don’t say “one in three had no say”. Ask which number matters more for Richard, and why. Be fair to services: most people do feel asked. The afternoon is about making sure Richard, and his daughter, are among them. Hold this morning’s carers’ number (32%) — it comes back just before the break.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="intro" tabindex="-1" aria-label="This afternoon">
+  <div class="foot"><span>Unit 4</span><span>This afternoon</span></div>
+  <div class="eyebrow">This afternoon, in three steps</div>
+  <h2 style="color:#fff">This afternoon</h2>
+  <div class="phases">
+    <div class="phase"><em>1 · Before the break</em><b>See the person</b><span>What we call people. What person-centred care means, and the values under it. What matters to Richard — and what matters for him. His daughter.</span><span class="can"><i>L2</i>Explain what person-centred care means, and the values it rests on.</span></div>
+    <div class="phase"><em>2 · After the break</em><b>Ask the person</b><span>The centre of the house: a conversation. Maria’s, done well. Helping Richard have his say. Then you prepare his conversation.</span><span class="can"><i>L2 · L3</i>Plan a conversation that puts Richard — and his daughter — at the centre.</span></div>
+    <div class="phase"><em>3 · To finish</em><b>Make it last</b><span>Does it work? Could Richard use the app? Then your leaflet, your report, and the house so far.</span><span class="can"><i>L1 · L3</i>Say what person-centred care can achieve — for your leaflet and your report.</span></div>
+  </div>
+  <div class="band" style="margin-top:1rem">Person-centred care is 15 marks of your leaflet — <b>and Section 1 of your case report.</b></div>
+  <aside class="speaker-note"><p>Say the three steps in one breath — see the person, ask the person, make it last — and point at the “you can” line under each. Then the band: person-centred care is fifteen marks of the leaflet and the whole of Section 1 of the report. Exact running order, for you: 13:30 title (2) · 13:32 easy to carry, easy to lose (5) · 13:37 does anyone ask? (8) · 13:45 this afternoon (3) · 13:48 what do we call people? (8) · 13:56 two experts (7) · 14:03 the five values (8) · 14:11 important to, important for (13) · 14:24 carers (6) · 14:30 his daughter (6) · 14:36 break (15) · 14:51 the centre is a conversation (8) · 14:59 Maria, two ways (6) · 15:05 Maria’s one-page profile (5) · 15:10 helping Richard have his say (7) · 15:17 good questions (5) · 15:22 your turn (30: 22 working, 8 debrief) · 15:52 does it work? (6) · 15:58 could Richard use the app? (5) · 16:03 your leaflet (7) · 16:10 your report (7) · 16:17 the house so far (4) · 16:21 exit ticket (4) · 16:25 finish.</p></aside>
+</section>
+
+<section class="slide" id="labels" tabindex="-1" aria-label="What do we call people?">
+  <div class="foot"><span>Unit 4</span><span>The words we use</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Step 1: see the person. It starts with the words we use</div>
+  <h2>What do we call people?</h2>
+  <div class="mid">
+  <p class="lede" style="margin-bottom:.4rem">The words services use:</p>
+  <div class="labs"><span class="lab">patient</span><span class="lab">client</span><span class="lab">service user</span><span class="lab">resident</span><span class="lab">person</span></div>
+  <p class="source" style="margin:.3rem 0 1rem">Each one says something about the relationship.</p>
+  <button class="reveal" data-toggle="badLabels" data-on="Hide them" data-off="And the words that slip into notes and corridors" style="align-self:flex-start">And the words that slip into notes and corridors</button>
+  <div id="badLabels" hidden>
+    <div class="labs" style="margin-top:.8rem"><span class="lab bad">revolving door</span><span class="lab bad">non-compliant</span><span class="lab bad">demanding</span><span class="lab bad">bed blocker</span><span class="lab bad">“dear” · “grandad”</span></div>
+    <p class="source" style="margin-top:.5rem">Examples of reductive and stigmatising labels — shown so we can recognise them, not as acceptable terms.</p>
+  </div>
+  <div class="band" style="margin-top:1rem">A label replaces a person with a problem. <b>Richard is not a revolving door.</b></div>
+  </div>
+  <aside class="speaker-note"><p>Step one starts with words, because values show up first in language. Ask what each word in the first row says about the relationship — patient (someone who waits, who has things done to them), client (a customer), service user (defined by the service), person. None is banned; each tells you how the service sees the person in front of it. Then reveal the second row and slow down. Three of these are callbacks. “Non-compliant” was note 1 this morning. “Bed blocker” is what the 1,934 people a day from day one get called — people waiting for care to be arranged, not blockers. “Revolving door” is Richard: in and out of hospital. Ask: what does each label make it easier to do? (Stop listening. Stop asking why.) Make explicit that these are examples of reductive and stigmatising labels, not terms anyone should use.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="experts" tabindex="-1" aria-label="Two experts in every conversation">
+  <div class="foot"><span>Unit 4</span><span>What it means</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">So what is person-centred care? The simplest definition</div>
+  <h2>Two experts in every conversation</h2>
+  <div class="mid">
+  <div class="experts">
+    <div class="expert pro"><h3>The professional</h3><p>Technical knowledge and skill.</p></div>
+    <div class="amp">+</div>
+    <div class="expert per"><h3>The person</h3><p>The expert in their own life — and in what matters to them.</p></div>
+  </div>
+  <p class="source" style="margin:.4rem 0 .9rem">Scotland’s Chief Medical Officer, Realistic Medicine</p>
+  <div class="tfw">
+    <div class="tw to"><em>Done to him</em><p>“We’ve booked you into a diabetes class on Tuesday.”</p></div>
+    <div class="tw for"><em>Done for him</em><p>“Your daughter will do your shopping from now on.”</p></div>
+    <div class="tw with"><em>Done with him</em><p>“There are a few things that could help. Which would you like to try?”</p></div>
+  </div>
+  <p class="source" style="margin:.4rem 0 0">Three illustrations of how a professional might speak — not things the case says happened.</p>
+  <div class="band" style="margin-top:.9rem">Person-centred care means doing things <b>with</b> people — not <b>to</b> them, and not just <b>for</b> them.</div>
+  </div>
+  <aside class="speaker-note"><p>The one definition. Scotland’s Chief Medical Officer describes every health and care conversation as having two experts: the professional, with technical knowledge and skill, and the person, the expert in their own life and what matters to them. Two experts — not one expert and one patient. Then make it concrete with the three cards: done to him, done for him, done with him. All three are well meant; only one is person-centred. Say plainly that these are illustrations of how a professional might speak, not things the case says happened. The values underneath it come next.</p></aside>
+</section>
+
+<section class="slide slide--green" id="values" tabindex="-1" aria-label="The five values, for Richard">
+  <div class="foot"><span>Unit 4</span><span>The values</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Underneath it: five values. You met them this morning</div>
+  <h2>The five values — what they look like for Richard</h2>
+  <div class="vals5">
+    <div class="val"><h3>Dignity and respect</h3><p class="vm">Treated as a person, with respect.</p><p class="vr"><b>For Richard:</b> he’s Richard — not “a revolving door”.</p></div>
+    <div class="val"><h3>Compassion</h3><p class="vm">Warm care from people who understand you.</p><p class="vr"><b>For Richard:</b> someone notices that the changes to his food are hard for him.</p></div>
+    <div class="val"><h3>Be included</h3><p class="vm">The right information, and a real say in your care.</p><p class="vr"><b>For Richard:</b> he understands the options, and has a say about going home.</p></div>
+    <div class="val"><h3>Responsive care and support</h3><p class="vm">Care that changes when your needs change.</p><p class="vr"><b>For Richard:</b> more support on the days when his symptoms are bad.</p></div>
+    <div class="val"><h3>Wellbeing</h3><p class="vm">Support to live the life you want — and to be safe.</p><p class="vr"><b>For Richard:</b> help to live at home, independently — his own wish.</p></div>
+  </div>
+  <div class="band" style="margin-top:.9rem">These five are what <b>“values-based”</b> means in Section 1 of your report.</div>
+  <p class="source">Health and Social Care Standards: my support, my life (Scottish Government, 2017) — the five principles. The plain meanings are ours.</p>
+  <aside class="speaker-note"><p>The value base for Section 1 of the report: the five principles of the Health and Social Care Standards (2017). They met them this morning, when we asked how we would know care is safe and good. Take each one in plain words, then its Richard line. The plain meanings are ours, written from the Standards’ own statements — dignity and respect: “I am respected and treated with dignity as an individual”; compassion: care from “people who understand and are sensitive to my needs and my wishes”; be included: “I receive the right information, at the right time and in a way that I can understand” and “I am supported to make informed choices”; responsive care: “My care and support adapts when my needs, choices and decisions change”; wellbeing: “I am asked about my lifestyle preferences and aspirations and I am supported to achieve these” and “I feel safe”. Each Richard line stays inside the case: the changes to his food are hard, his symptoms are sometimes bad, he wants to live at home. These five are what “values-based” means in Section 1 — don’t add other frameworks.</p></aside>
+</section>
+
+<section class="slide" id="tofor" tabindex="-1" aria-label="Important to Richard, important for Richard">
+  <div class="foot"><span>Unit 4</span><span>To and for</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Values in practice: what matters to Richard — and what matters for him</div>
+  <h2>Important to Richard. Important for Richard.</h2>
+  <div class="tofor">
+    <div class="tf to"><h3>Important <u>to</u> him</h3><p class="sub">What he says or shows matters to him</p><ul><li><b>Living at home, independently.</b> His own wish — it’s in the case.</li></ul></div>
+    <div class="tf for"><h3>Important <u>for</u> him</h3><p class="sub">What others see he needs to be healthy and safe</p><ul><li>Taking his mental health and diabetes medication</li><li>Managing his blood sugar</li><li>A warm, dry home</li><li>Keeping his tenancy</li></ul></div>
+    <div class="tf ask"><h3>What we’d need to ask him</h3><p class="sub">Not in the case — so not ours to write in</p><ul><li>Everything else about what matters to him.</li><li><b>After the break, you write the questions.</b></li></ul></div>
+  </div>
+  <div class="band">Person-centred care finds the balance between the two — <b>with him, not for him.</b></div>
+  <p class="source">The case tells us he is finding the changes to his diet hard. It does not tell us what food means to him — so we don’t write it in.</p>
+  <aside class="speaker-note"><p>The most useful thinking tool in person-centred care: separate what is important to someone from what is important for them, and find the balance. Important to is what the person says, or shows, matters to them. Important for is what others see they need to be healthy and safe. For a long time services focused almost entirely on important for. Point at how short the first column is: the case gives us one thing Richard wants, in his own words. Everything else about what matters to him would be invented — our habit again, and the handbook says not to add issues to the case. Then the balance: living at home (to) and a warm, dry home (for) pull the same way — that is where support starts. Medication (for) is harder: how do we make it fit a life he wants? That can only be answered with him — which is where the afternoon is going. Don’t list the questions here: after the break the groups write their own (examples are in the debrief panel).</p></aside>
+</section>
+
+<section class="slide slide--purple" id="carers" tabindex="-1" aria-label="Carers: the care you don't see">
+  <div class="foot"><span>Unit 4</span><span>Carers</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Someone else matters too. Carers in Scotland</div>
+  <h2>Carers: the care you don’t see</h2>
+  <div class="carer2">
+    <div class="cstats">
+      <div class="cst"><b>£15.9bn</b><p>a year: the value of the care Scotland’s unpaid carers give — almost the whole NHS Scotland budget (£17.8bn).</p><small>Carers Scotland and Centre for Care, Valuing Carers 2022: Scotland · day one’s number</small></div>
+      <div class="cst"><b>32%</b><p>of unpaid carers said they feel supported to keep caring.</p><small>Health and Care Experience Survey 2025/26 · this morning’s number</small></div>
+    </div>
+    <div class="tommy"><h3>Tommy Whitelaw</h3><p>Cared full-time for five years for his mum, Joan, who had vascular dementia.</p><p class="pull">At crisis point he asked for help — and was handed a post-it note with a phone number.</p><p>In 2011 he walked around Scotland collecting hundreds of carers’ letters, and took them to the Scottish Parliament. He now works with the Health and Social Care Alliance Scotland.</p></div>
+  </div>
+  <div class="band">A carer is a person, <b>not a resource.</b></div>
+  <aside class="speaker-note"><p>Before Richard’s daughter, the bigger picture — and two callbacks. Day one: Scotland’s unpaid carers do work worth £15.9 billion a year (Carers Scotland and the Centre for Care, Valuing Carers 2022: Scotland, published November 2024) — against an NHS Scotland budget of £17.8 billion in 2022/23, and about four times what was spent on adult social care. This morning: only 32% of unpaid carers said they feel supported to keep caring (Health and Care Experience Survey 2025/26); most of the rest were unsure rather than negative, so say “did not say they feel supported”. Then Tommy, briefly — one story, not a lecture: five years caring full-time for his mum Joan, who had vascular dementia; at crisis point he asked for help and was handed a post-it note with a phone number; in 2011 he walked around Scotland collecting hundreds of carers’ letters and took them to the Scottish Parliament; he now works with the ALLIANCE. Nobody in his story was cruel — they gave him a number. The band is the point: a carer is a person, not a resource.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="daughter" tabindex="-1" aria-label="His daughter: a person, not a resource">
+  <div class="foot"><span>Unit 4</span><span>His daughter</span><span class="stp"><span class="sr">Step 1: see the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i class="on">See the person</i><i>Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">In Richard’s story, the carer is his daughter</div>
+  <h2>His daughter: a person, not a resource</h2>
+  <div class="grid g2" style="flex:1;align-content:center">
+    <div class="card big"><h3>What the case tells us</h3><ul><li>She lives locally.</li><li>She helps him shop for alternatives to carry-out food and sugary drinks.</li><li>She finds his mood harder and harder to manage, especially when his symptoms are bad.</li><li>Support for her has been suggested — it may help her to help her dad.</li></ul></div>
+    <div class="card card--gold big"><h3>Her own support</h3><p>If she is identified as an unpaid carer, the council must offer her an <b>adult carer support plan</b> — about her own needs and outcomes, not his.</p><p style="margin-top:.5rem">Her information is hers too: what she shares is her choice.</p></div>
+  </div>
+  <div class="band">Your report asks about outcomes for Richard <b>and for those caring for and supporting him.</b> That’s her.</div>
+  <aside class="speaker-note"><p>Stay with what the case says: she lives locally, helps him shop for alternatives to carry-out food and sugary drinks, and increasingly finds his mood difficult to manage, especially when his symptoms are bad; the case suggests some support for her may help, because it may allow her to help her dad better. Under the Carers (Scotland) Act 2016, an identified adult carer must be offered an adult carer support plan, and one must be prepared if she asks — about her own needs and outcomes, not his. Her information is hers too. The band is the handbook’s own wording for Section 1: outcomes for Richard and for those caring for and supporting him. That is why, after the break, she gets her own card.</p></aside>
+</section>
+
+<section class="slide slide--dark" id="break" tabindex="-1" aria-label="Break">
+  <div class="foot"><span>Unit 4</span><span>Break</span></div>
+  <div class="eyebrow">Break</div>
+  <h2 style="color:#fff">Fifteen minutes</h2>
+  <div class="timer" data-secs="900">15:00</div>
+  <div class="tbtns"><button class="primary" data-act="start">Start break</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+  <p class="lede" style="margin:1.4rem 0 .4rem">When we come back:</p>
+  <p class="bigline">The conversation where someone finally asks him.</p>
+  <aside class="speaker-note"><p>During the break put one white task sheet and one coloured carer card on each table. Leave the line on screen: the conversation where someone finally asks him.</p></aside>
+</section>
+
+<section class="slide" id="centre" tabindex="-1" aria-label="The centre of the house is a conversation">
+  <div class="foot"><span>Unit 4</span><span>The centre</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Step 2: ask the person. Remember the centre of the house?</div>
+  <h2>The centre of the house is a conversation</h2>
+  <div class="centrewrap">
+    <svg class="house4" viewBox="0 0 600 450" role="img" aria-label="The House of Care, with the centre highlighted">
+      <g class="dim"><polygon points="50,184 300,30 550,184"/><text x="300" y="140">Roof</text></g>
+      <g class="dim"><rect x="70" y="200" width="130" height="170" rx="6"/><text x="135" y="290">Left wall</text></g>
+      <g class="dim"><rect x="400" y="200" width="130" height="170" rx="6"/><text x="465" y="290">Right wall</text></g>
+      <g class="dim"><rect x="30" y="378" width="540" height="58" rx="8"/><text x="300" y="412">Foundation</text></g>
+      <g class="lit"><circle cx="300" cy="285" r="88"/><text class="big" x="300" y="280">CENTRE</text><text class="small" x="300" y="304">the conversation</text></g>
+    </svg>
+    <div class="bda">
+      <div class="bstep"><em>Before</em><div><h3>Get ready</h3><p>Tests are done first. The results are sent to the person a week or two before — with space to write what they want to talk about.</p></div></div>
+      <div class="bstep"><em>During</em><div><h3>Talk about what matters</h3><p>Two experts. The talk starts from “what matters to you?” — not only “what’s the matter with you?”</p></div></div>
+      <div class="bstep"><em>After</em><div><h3>Agree a plan together</h3><p>One or two priorities, agreed together, and a plan to match. Then it carries on — it isn’t a one-off.</p></div></div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Unit 2’s film and David’s week showed this working. <b>The centre of the house is this conversation.</b></div>
+  <p class="source">Year of Care Partnerships, care and support planning · ALLIANCE, Scotland’s House of Care.</p>
+  <aside class="speaker-note"><p>Step two. Unit 2 said the centre of the house is the care and support planning conversation; this is where we teach it properly. Three parts. Before: tests are done first, and the results are sent to the person a week or two before, with prompts and space to write what they want to talk about (Year of Care). During: two experts — the conversation starts from what matters to the person, not only from the results. After: they agree one or two priorities and work out a plan together; Year of Care calls it “a continuous process, not a one off event”. Callbacks by name: Unit 2’s film (“what happens before the conversation?”), David’s week (his results and a “what matters to you?” sheet arrive in the post), and the three hours a year with professionals against the 8,757 hours people manage on their own — the plan is for those hours.</p></aside>
+</section>
+
+<section class="slide" id="twoways" tabindex="-1" aria-label="Maria's review, two ways">
+  <div class="foot"><span>Unit 4</span><span>Maria, two ways</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">What that sounds like: one appointment, two ways</div>
+  <h2>Maria’s review, two ways</h2>
+  <div class="twoways">
+    <div class="way bad"><em>“What’s the matter with you?”</em><p>The nurse looks at the screen: “Your breathing test is worse. You need to do more exercise. Here’s a leaflet.”</p><p>Maria nods. Nobody asks why she doesn’t exercise.</p><p class="end">She goes home with one more leaflet for the bag.</p></div>
+    <div class="way good"><em>“What matters to you?”</em><p><b>Before:</b> her results come in the post, with a sheet: what would you like to talk about? She writes: “Getting breathless at work frightens me.”</p><p><b>During:</b> “What matters most to you right now?” — “Keeping my job.” They talk about why exercise helps her chest, and what fits round her shifts.</p><p class="end"><b>After:</b> one goal, agreed together — a short walk after each shift — and one list of all her medicines.</p></div>
+  </div>
+  <div class="band" style="margin-top:.8rem">Same nurse. Same Maria. <b>A different question.</b></div>
+  <p class="source">Maria is the illustrative character from Unit 2. The steps follow Year of Care’s care and support planning.</p>
+  <aside class="speaker-note"><p>A worked example with someone they already know: Maria from Unit 2 — an illustrative character, 52, COPD and type 2 diabetes, working shifts to support her daughter through university, eleven medicines and a plastic bag of paper, exercise advice from two teams but nobody asking why she doesn’t do it. Read the left column: nothing cruel, nothing clinically wrong — and nothing changes; one more leaflet for the bag. Then the right: before, during, after — the same three parts as the last slide. Ask where the goal came from: her fear of being breathless at work, and her shifts — things only she could tell them. Don’t claim the right-hand version is quicker; Unit 2’s myth slide said the first planning conversation takes longer, and later ones are shorter.</p></aside>
+</section>
+
+<section class="slide slide--green" id="profile" tabindex="-1" aria-label="Maria's one-page profile">
+  <div class="foot"><span>Unit 4</span><span>What it produces</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">What that conversation produces: a page in her own words</div>
+  <h2>Maria’s one-page profile</h2>
+  <div class="mid2"><div class="profile" style="flex:none">
+    <div class="ph"><strong>Maria</strong><span>Written with Maria, in her own words</span></div>
+    <div><h3>What people like and admire about me</h3><p>“I work hard and I don’t give up.”</p><p>“My daughter is the first in our family at university. I’m proud of that.”</p><p>“I’m organised — I carry everything in my bag.”</p></div>
+    <div><h3>What’s important to me</h3><p>“Keeping my job, so I can support my daughter through university.”</p><p>“Not getting breathless in front of people at work.”</p><p>“Understanding my own medicines.”</p></div>
+    <div><h3>How best to support me</h3><p>“Appointments that fit round my shifts.”</p><p>“Explain why exercise helps my chest — getting breathless frightens me.”</p><p>“One list of my conditions and medicines, so I can stop carrying the bag.”</p></div>
+  </div></div>
+  <div class="band" style="margin-top:.8rem">Three headings. <b>Her words.</b> One page.</div>
+  <p class="source">One-page profile headings from person-centred thinking (Helen Sanderson Associates). Maria is the same woman from Unit 2.</p>
+  <aside class="speaker-note"><p>This is what the conversation on the last slide produces. Point out three things. It is in her words — “I”, not “she”. It was written with her: nobody could write “getting breathless frightens me” from her notes; she had to say it. And the important-to items are things she has told us. Ask: which line is important to her and also important for her? (Understanding her medicines — both.) Then turn to Richard: his conversation hasn’t happened yet. Before we plan it — how do we help him take part?</p></aside>
+</section>
+
+<section class="slide slide--gold" id="say" tabindex="-1" aria-label="Helping Richard have his say">
+  <div class="foot"><span>Unit 4</span><span>His say</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Richard’s conversation hasn’t happened yet. How do we help him take part?</div>
+  <h2>Helping Richard have his say</h2>
+  <div class="voice3">
+    <div class="card big"><h3>Ask on a good day</h3><p>Having schizophrenia doesn’t mean Richard can’t decide things for himself. Ability is judged decision by decision, at the time — so choose the time well, and support him to take part.</p></div>
+    <div class="card big"><h3>Someone on his side</h3><p>Scotland’s mental health law gives him a right to <b>independent advocacy</b> — help to have his say, from someone independent of the NHS and the council. The wellbeing hub in his case helps with advocacy.</p></div>
+    <div class="card big"><h3>It’s OK to ask</h3><p>Questions anyone can use in a decision:</p><div class="bran"><b>B</b><span>What are the Benefits?</span><b>R</b><span>What are the Risks?</span><b>A</b><span>What are the Alternatives?</span><b>N</b><span>What if I do Nothing?</span></div></div>
+  </div>
+  <div class="band">His views are sought and his choices respected — <b>even when things are hard.</b></div>
+  <aside class="speaker-note"><p>Three practical things, no legal lecture. Ask on a good day: diagnosis is not incapacity — decision-making ability is considered for the particular decision and circumstances, and support should maximise the person’s involvement; the Standards say people’s views should still be sought and choices respected. Someone on his side: section 259 of the Mental Health (Care and Treatment) (Scotland) Act 2003 gives every person with a mental disorder — the Act’s term — a right of access to independent advocacy, and councils and health boards must secure it; the case says the wellbeing hub helps with advocacy. It’s OK to ask: BRAN, the Realistic Medicine questions, shown even in the Near Me video waiting room. Richard can ask them; so can his daughter. This also answers the question parked this morning on the sharing slide: where do Richard’s own choice and control sit in all this?</p></aside>
+</section>
+
+<section class="slide slide--blue" id="questions" tabindex="-1" aria-label="Good questions open the door">
+  <div class="foot"><span>Unit 4</span><span>Good questions</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">To plan his conversation, you need good questions</div>
+  <h2>Good questions open the door</h2>
+  <div class="mid">
+  <div class="qhead"><span>Closed: gets yes or no</span><span></span><span>Open: lets him tell you</span></div>
+  <div class="qr"><span class="qc">“Are you taking your tablets?”</span><span class="qa" aria-hidden="true">→</span><span class="qo">“How are you getting on with your tablets?”</span></div>
+  <div class="qr"><span class="qc">“Do you understand your new diet?”</span><span class="qa" aria-hidden="true">→</span><span class="qo">“What has been hardest about the changes to your food?”</span></div>
+  <div class="qr"><span class="qc">“Will you be all right at home?”</span><span class="qa" aria-hidden="true">→</span><span class="qo">“What would help you feel ready to go home?”</span></div>
+  <div class="grid g3" style="flex:none;margin-top:.9rem">
+    <div class="card"><h3>Open the door</h3><p>Start with <b>what</b>, <b>how</b> or <b>tell me</b>. Yes-or-no questions close it.</p></div>
+    <div class="card"><h3>Ask about his life</h3><p>Not just his illness: his home, his days, the people who matter to him.</p></div>
+    <div class="card"><h3>Write it in his words</h3><p>“I want…” — not “Richard prefers…”. That is what made Maria’s page work.</p></div>
+  </div>
+  </div>
+  <div class="band" style="margin-top:.8rem">A good question gives Richard room to tell you <b>what matters.</b></div>
+  <aside class="speaker-note"><p>A small skill that makes the task work. Closed questions get yes or no; open questions start with what, how or tell me, and give the person room to say what matters. Read each pair. All three open questions stay inside the case: the changes to his food are hard; the ward is supporting him with his medication; he wants to go home. Then the three tips: open the door; ask about his life, not just his illness; and write the answers down in his words — which is what made Maria’s page work, and what note 2 did this morning.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="task" tabindex="-1" aria-label="Your turn: prepare Richard's conversation">
+  <div class="foot"><span>Unit 4</span><span>Groups of 3–4 · 30 minutes</span><span class="stp"><span class="sr">Step 2: ask the person.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i class="on">Ask the person</i><i>Make it last</i></span></span></div>
+  <div class="eyebrow">Your turn · groups of 3–4 · use the two sheets</div>
+  <h2>Prepare Richard’s conversation</h2>
+  <div class="prep4">
+    <div class="pb"><em>1</em><h3>What do we know?</h3><p>Only from the case. What matters <b>to</b> him, in his own words — and what matters <b>for</b> him.</p></div>
+    <div class="pb"><em>2</em><h3>What will we ask him?</h3><p>Five open questions. Start with what, how or tell me.</p></div>
+    <div class="pb"><em>3</em><h3>How will we help him take part?</h3><p>When, where, and who is there. Someone on his side. It’s OK to ask.</p></div>
+    <div class="pb her"><em>4</em><h3>His daughter — her own card</h3><p>What the case tells us about her. What we’d ask her. What support she might need.</p></div>
+  </div>
+  <div class="grid g2" style="flex:none;align-items:center;margin-top:.8rem">
+    <div class="prompt" style="margin:0">Use only what the case tells you. <b>Everything else becomes a question</b> — for Richard, or for his daughter.</div>
+    <div><div class="timer timer--small" data-secs="1320">22:00</div><div class="tbtns"><button class="primary" data-act="start">Start 22 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button><button data-overlay="debriefOverlay">Open debrief</button></div></div>
+  </div>
+  <aside class="speaker-note"><p>The one group task of the afternoon: twenty-two minutes, then eight of debrief (open the overlay). Four boxes, and every box can be filled. One: what do we know — only from the case; sort it into what matters to him (in his own words: living at home, independently) and what matters for him (his medication, his blood sugar, a warm dry home, his tenancy). Two: five open questions they would ask him. Three: how they would help him take part — when, where, who is there, someone on his side, it’s OK to ask. Four: his daughter’s own card, on the coloured paper — what the case tells us about her, what they would ask her, what support she might need. Circulate and catch invention early: where does it say that in the case? If a group starts writing his profile for him, ask: who could tell you that? The one-page profile headings are printed at the bottom of the sheet, marked “written with Richard, after the conversation” — that is the point.</p></aside>
+</section>
+
+<section class="slide" id="works" tabindex="-1" aria-label="Does planning with people work?">
+  <div class="foot"><span>Unit 4</span><span>Does it work?</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">Step 3: make it last. First — does planning with people work?</div>
+  <h2>Does planning with people work?</h2>
+  <div class="grid g2" style="flex:1;align-content:center">
+    <div class="card card--green big"><h3>What the evidence says</h3><p>A review of 19 trials, with 10,856 people, found personalised care planning probably led to small improvements in some physical measures, probably reduced symptoms of depression, and improved people’s confidence and skills to manage their health. No harms were found.</p><p style="margin-top:.45rem"><b>It worked best when it included preparation, record-sharing, care coordination and review</b> — and was built into routine care.</p><p style="margin-top:.35rem;font-size:.85rem">The effects were small, and the evidence of moderate quality.</p></div>
+    <div class="card card--blue big"><h3>Will Richard’s answers last?</h3><ul><li>Where would they be written?</li><li>Who should see them — and who shouldn’t?</li><li>Who keeps them up to date?</li><li>What happens to them when he leaves the ward?</li></ul></div>
+  </div>
+  <div class="band">A plan in a drawer changes nothing. <b>The centre needs the roof.</b></div>
+  <p class="source">Coulter A et al. (2015) Personalised care planning for adults with chronic or long-term health conditions. Cochrane Review.</p>
+  <aside class="speaker-note"><p>Step three: make it last. The evidence, described carefully. It is a 2015 Cochrane review, not new, and the effects are small: 19 trials, 10,856 people; personalised care planning probably gave small improvements in some physical measures (such as blood sugar and blood pressure in diabetes), probably reduced symptoms of depression, and improved people’s confidence and skills to manage their own health — the 8,757 hours from Unit 2. No harms were found. The reason to use it is the last finding: it worked best when it included preparation, record-sharing, care coordination and review, and was built into routine care. Then the right card — this morning’s questions pointed at his answers: where would they live, who should see them (appropriate sharing — should the housing officer see what he finds hard about his food?), who keeps them up to date, what happens when he leaves the ward? A plan in a drawer changes nothing; the centre needs the roof. For the leaflet: this is what person-centred care can achieve, in plain words.</p></aside>
+</section>
+
+<section class="slide slide--purple" id="app" tabindex="-1" aria-label="Could Richard use the app?">
+  <div class="foot"><span>Unit 4</span><span>Who it reaches</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">This morning we left one question open</div>
+  <h2>Could Richard use the app?</h2>
+  <div class="grid g2" style="flex:1;align-content:center">
+    <div class="card big"><span class="tag" style="background:var(--teal)">MyCare.scot</span><h3>What it is</h3><p>A website from April 2026, and a smartphone app from June. Adults sign in with a ScotAccount and can see things like their medicines and allergies, their vaccinations and a service finder.</p><p style="margin-top:.45rem">A first step towards one joined-up record — not the finished record.</p></div>
+    <div class="card card--purple big"><span class="tag" style="background:var(--purple)">Richard</span><h3>Could he use it?</h3><p>He would need a phone or a computer. Data. A ScotAccount. The confidence to set it up.</p><p style="margin-top:.45rem"><b>And on a bad day, when his symptoms are worse?</b></p></div>
+  </div>
+  <div class="band">Care designed for the average person <b>can fail the people at the edges.</b></div>
+  <aside class="speaker-note"><p>Pay off the question parked this morning on the law-and-record slide. MyCare.scot: the web service began in NHS Lanarkshire in December 2025 and rolled out nationally from April 2026; the smartphone app followed in June 2026; adults sign in with a ScotAccount; medicines and allergies, vaccination history and a service finder; a “digital front door”, not the finished record. Ask what Richard would need to use it, and on which days he couldn’t. Digital by default can widen inequality — the First Steps inequalities week coming back: undo, prevent, mitigate. If students raise language, one line: good practice in Scotland is to offer a professional interpreter rather than rely on family, which frees family to support the person instead of translating (NHSScotland interpreting policy, 2020). The band is the principle; don’t add statistics.</p></aside>
+</section>
+
+<section class="slide slide--blue" id="leaflet" tabindex="-1" aria-label="Your leaflet">
+  <div class="foot"><span>Unit 4</span><span>Your leaflet</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">Taking it with you: your leaflet</div>
+  <h2>Your leaflet: person-centred care, for a family</h2>
+  <div class="mid">
+  <div class="marks3">
+    <div class="mk"><b>15</b><span>Integrated care — Unit 1</span></div>
+    <div class="mk"><b>30</b><span>The House of Care — Unit 2</span></div>
+    <div class="mk now"><b>15</b><span>Person-centred care — today</span></div>
+  </div>
+  <div class="check" id="leafCheck">
+    <div class="ck" tabindex="0"><i></i><span>It says what person-centred care is, in plain words.</span></div>
+    <div class="ck" tabindex="0"><i></i><span>It says what it means for someone with a long-term condition.</span></div>
+    <div class="ck" tabindex="0"><i></i><span>It says what it can achieve — for the person, and for the people who care for them.</span></div>
+  </div>
+  <div class="prompt" style="margin-top:.8rem"><b>The tone to aim for:</b> “Person-centred care means your care is planned with you, around what matters to you — not just your illness.” <span style="color:var(--muted)">Write your own.</span></div>
+  <p class="source">Deadline and submission details: Brightspace.</p>
+  </div>
+  <aside class="speaker-note"><p>The marks are from the handbook’s marking guide: integrated care 15, the House of Care 30, person-centred care 15 — plus design 15, readability 15, introduction 5 and references 5. The handbook asks the leaflet to define person-centred care and what it means for someone with a long-term condition; the marking guide adds what it can achieve. Click each line as the room answers “yes, mine does that”. The example sentence shows the tone — short, talking to “you”, no jargon. They write their own; don’t let a whole room copy it. Deadline and submission details are on Brightspace.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="report" tabindex="-1" aria-label="Your report — Section 1">
+  <div class="foot"><span>Unit 4</span><span>Your case report</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">And your report: Section 1</div>
+  <h2>Section 1: a values-based approach to person-centred care</h2>
+  <div class="mid">
+  <div class="card" style="flex:none;margin-bottom:.8rem"><p>What is a values-based approach to person-centred care — and how can it improve outcomes for <b>Richard and those caring for and supporting him?</b> <span style="color:var(--muted)">(315 words · 15%)</span></p></div>
+  <div class="steps3">
+    <div class="s3"><em>1 · Say it</em><p>Name the value or the idea.</p><p class="eg">“Be included” is one of the five values.</p></div>
+    <div class="s3"><em>2 · Explain it</em><p>What it means — with a source.</p><p class="eg">What the Standards say about having a say.</p></div>
+    <div class="s3"><em>3 · Apply it</em><p>What it would change for Richard — and for his daughter.</p><p class="eg">Richard has a say about going home; his daughter has her own support plan.</p></div>
+  </div>
+  <div class="card card--coral" style="flex:none;margin-top:.8rem"><p><b>The handbook says: do not add extra issues to the case.</b> Our habit — what do we know, and what are we assuming? — is a marking rule.</p></div>
+  </div>
+  <aside class="speaker-note"><p>Section 1, in the handbook’s own words: what is a values-based approach to person-centred care, and how can it improve outcomes for both Richard and those who are caring for and supporting him? 315 words, 15%, with a range of current evidence. Show the three steps for every point they make: say it, explain it with a source, then say what it would change for Richard — and for his daughter. A report that only describes gets some marks; one that applies it to Richard gets more. The handbook’s case-outline instruction — do not add any extra issues to the case — is our habit made into a marking rule. For the London cohort: NICE’s quality standard QS14 (service user experience in adult mental health services) is the relevant English standard — not QS15, which excludes mental health services and carers.</p></aside>
+</section>
+
+<section class="slide" id="house" tabindex="-1" aria-label="The house so far">
+  <div class="foot"><span>Unit 4</span><span>Where we are</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">Where we are</div>
+  <h2>The house so far</h2>
+  <div class="mini">
+    <svg viewBox="0 0 420 330" role="img" aria-label="The House of Care with the roof, centre and left wall completed">
+      <polygon points="210,14 20,118 400,118" fill="#287A80" stroke="#0A1E3D" stroke-width="3"/>
+      <text x="210" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#fff">Roof ✓</text>
+      <rect x="40" y="124" width="92" height="150" fill="#E8F5EE" stroke="#1A7A5A" stroke-width="3"/>
+      <text x="86" y="195" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#0A1E3D">Left</text><text x="86" y="215" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#0A1E3D">wall ✓</text>
+      <rect x="288" y="124" width="92" height="150" fill="#FDF6E3" stroke="#D4A843" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="334" y="195" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#0A1E3D">Right</text><text x="334" y="215" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#0A1E3D">wall — next</text>
+      <circle cx="210" cy="199" r="62" fill="#B55436" stroke="#0A1E3D" stroke-width="3"/>
+      <text x="210" y="205" text-anchor="middle" font-family="Georgia,serif" font-size="19" fill="#fff">Centre ✓</text>
+      <rect x="20" y="280" width="380" height="40" fill="#F4F6F8" stroke="#8A96A3" stroke-width="3" stroke-dasharray="8 6"/>
+      <text x="210" y="306" text-anchor="middle" font-family="Georgia,serif" font-size="15" fill="#0A1E3D">Foundation — later</text>
+    </svg>
+    <div class="key3">
+      <div class="done"><b>Roof</b> — this morning: processes, policies, systems and arrangements.</div>
+      <div class="done"><b>Centre and left wall</b> — this afternoon: the person, the conversation, their carer.</div>
+      <div class="next"><b>Right wall — next time:</b> the professionals, and how they work as one team.</div>
+      <div><b>Foundation — later:</b> more than medicine — the community around Richard.</div>
+    </div>
+  </div>
+  <div class="band" style="margin-top:.7rem">The roof carries the information. The centre carries the person. <b>Next time: who acts on what matters to Richard — and do they work as one team?</b></div>
+  <aside class="speaker-note"><p>Show the module as one house being built part by part. The roof was this morning. This afternoon covered the centre — the conversation — and much of the left wall: engaged, informed individuals and carers. Next campus day is the right wall (professionalism and team working); the foundation comes later. Say the line — the roof carries the information; the centre carries the person — then plant the question for next time and don’t answer it.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="exit" tabindex="-1" aria-label="Exit ticket">
+  <div class="foot"><span>Unit 4</span><span>Exit ticket</span><span class="stp"><span class="sr">Step 3: make it last.</span><span aria-hidden="true" style="display:inline-flex;gap:.3rem"><i>See the person</i><i>Ask the person</i><i class="on">Make it last</i></span></span></div>
+  <div class="eyebrow">Before you go · on a post-it</div>
+  <h2>Two things</h2>
+  <div class="grid g2" style="flex:1;align-content:center">
+    <div class="card"><h3>1</h3><p style="font-family:var(--serif);font-size:clamp(1.3rem,1.9vw,1.9rem);color:var(--navy)">One thing that changed how you think about Richard today.</p></div>
+    <div class="card"><h3>2</h3><p style="font-family:var(--serif);font-size:clamp(1.3rem,1.9vw,1.9rem);color:var(--navy)">One question you still have.</p></div>
+  </div>
+  <div class="timer timer--small" data-secs="240">4:00</div>
+  <div class="tbtns"><button class="primary" data-act="start">Start 4 minutes</button><button data-act="pause">Pause</button><button data-act="reset">Reset</button></div>
+  <aside class="speaker-note"><p>Anonymous post-its by the door. The answers open the next campus day, as last time’s did. Thank them — six hours, and they did the work in both halves.</p></aside>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">←</button><span id="lbl">1 / 23</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress" id="bar"></div>
+<div class="notes-panel" id="notesPanel" role="dialog" aria-label="Presenter notes"><h3 id="notesTitle">Presenter notes</h3><div id="notesBody"></div></div>
+
+<div class="overlay" id="slidesOverlay" role="dialog" aria-modal="true" aria-label="Slide navigator"><div class="modal"><button class="close" data-close="slidesOverlay">Close</button><h2>Slide navigator</h2><div class="slide-list" id="slideList"></div></div></div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="Controls"><div class="modal"><button class="close" data-close="helpOverlay">Close</button><h2>Controls</h2><ul><li><b>← / →</b> or Page Up / Page Down: move slides</li><li><b>Home / End</b>: first / last slide</li><li><b>N</b>: presenter notes</li><li><b>S</b>: slide navigator</li><li><b>R</b>: sources</li><li><b>G</b>: glossary</li><li><b>F</b>: full screen</li><li><b>Esc</b>: close</li></ul><p>Print the task sheet (Prepare Richard’s conversation) on white paper and his daughter’s card on coloured paper — one of each per group. The marker at the bottom of each slide shows the step: see the person, ask the person, make it last. Timers run locally. Print produces one slide per page.</p></div></div>
+<div class="overlay" id="debriefOverlay" role="dialog" aria-modal="true" aria-label="Debrief: Richard's conversation"><div class="modal"><button class="close" data-close="debriefOverlay">Close</button><h2>Richard’s conversation — debrief</h2><div class="grid g2" style="display:grid;flex:none"><div class="card card--blue"><h3>1 · What did you know?</h3><p>Mostly what matters <b>for</b> him: his medication, his blood sugar, a warm dry home, his tenancy. In his own words, one thing: he wants to live at home, independently.</p></div><div class="card card--gold"><h3>2 · Your best question</h3><p>Each group reads out one. Is it open? Is it about his life, not just his illness? Questions groups often write: What does a good day look like? What do you enjoy? What is hard about the changes to your food? How would you like your daughter involved? What worries you about going home?</p></div><div class="card card--green"><h3>3 · Helping him take part</h3><p>A good day and a good time. Somewhere he’s comfortable. Someone on his side — the hub helps with advocacy. It’s OK to ask: benefits, risks, alternatives, nothing.</p></div><div class="card card--coral"><h3>4 · His daughter’s card</h3><p>Her own conversation, not a box on his plan. What would you ask her? What support might she need — and has anyone offered her a carer support plan?</p></div></div><div class="prompt" style="margin-top:1rem"><b>The point to land:</b> the case can’t tell you what matters to Richard. Only Richard can. Your questions are the start of the centre of the house — and his answers, in his words, become his one-page profile.</div></div></div>
+<div class="overlay" id="glossOverlay" role="dialog" aria-modal="true" aria-label="Glossary"><div class="modal"><button class="close" data-close="glossOverlay">Close</button><h2>Glossary — the centre</h2><p>Plain English, one line each.</p>
+<div class="grid g2" style="display:grid;flex:none;gap:.5rem 1.2rem">
+<div><h3>See the person</h3><ul>
+<li><b>Person-centred care</b> — doing things with people, not to them or just for them, built around what matters to them.</li>
+<li><b>Two experts</b> — the professional, with knowledge and skill, and the person, the expert in their own life.</li>
+<li><b>Values-based approach</b> — care guided by values: dignity and respect, compassion, being included, responsive care and support, wellbeing.</li>
+<li><b>Important to / important for</b> — what the person says or shows matters to them, and what others see they need to be healthy and safe.</li>
+<li><b>Unpaid carer</b> — a family member or friend who provides care without being paid.</li>
+<li><b>Adult carer support plan</b> — a plan about a carer’s own needs and outcomes, which the council must offer to an identified adult carer.</li>
+</ul></div>
+<div><h3>Ask the person · make it last</h3><ul>
+<li><b>Care and support planning</b> — the centre of the house: get ready, talk about what matters, agree a plan together.</li>
+<li><b>One-page profile</b> — a single page, in the person’s words: what people like about them, what’s important to them, how best to support them.</li>
+<li><b>Open question</b> — a question that starts with what, how or tell me, and can’t be answered yes or no.</li>
+<li><b>Capacity</b> — the ability to make a particular decision at a particular time. A diagnosis doesn’t decide it.</li>
+<li><b>Independent advocacy</b> — support from someone independent of services, to help a person have their say.</li>
+<li><b>BRAN</b> — Benefits, Risks, Alternatives, what if I do Nothing: questions for making a decision together.</li>
+<li><b>Personalised care planning</b> — the research name for planning care with people: agreeing goals and actions together.</li>
+<li><b>Digital exclusion</b> — not being able to use online services because of cost, access, skills or confidence.</li>
+</ul></div>
+</div></div></div>
+<div class="overlay" id="sourcesOverlay" role="dialog" aria-modal="true" aria-label="Sources"><div class="modal"><button class="close" data-close="sourcesOverlay">Close</button><h2>Sources behind this session</h2><ol>
+<li><b>Module handbook:</b> HLTH08010 Next Steps — Richard case study; leaflet task and marking guide; case report Section 1 and the instruction not to add extra issues to the case.</li>
+<li><b>Health and Care Experience Survey 2025/26 — national integration indicators (Scotland).</b> Indicator 2: 74% of adults supported at home agreed they are supported to live as independently as possible; indicator 3: 64% agreed they had a say in how their help, care or support was provided; indicator 8: 32% of carers feel supported to continue in their caring role. Public Health Scotland, core suite of integration indicators (July 2026); Scotland figures as printed in <a href="https://www.dundeehscp.com/sites/default/files/2026-07/IJB%20Annual%20Performance%20Report%202025-26.pdf" target="_blank" rel="noopener">Dundee HSCP Annual Performance Report 2025-26</a> and <a href="https://aberdeen.moderngov.co.uk/documents/s183565/ACHSCP%20Annual%20Report%202026.pdf" target="_blank" rel="noopener">Aberdeen City HSCP Annual Report 2026</a>. Carers: Scottish Government (May 2026), <a href="https://www.gov.scot/publications/health-and-care-experience-survey-national-report/pages/key-points/" target="_blank" rel="noopener">National Report, key points</a>.</li>
+<li><b>Realistic Medicine</b> — the Chief Medical Officer’s “two experts”; the BRAN questions (“It’s OK to ask”). <a href="https://www.nhsinform.scot/care-support-and-rights/nhs-services/using-the-nhs/realistic-medicine" target="_blank" rel="noopener">NHS inform</a></li>
+<li><b>Health and Social Care Standards: my support, my life (2017)</b> — the five principles and their statements. <a href="https://www.gov.scot/publications/health-social-care-standards-support-life/pages/3/" target="_blank" rel="noopener">gov.scot</a></li>
+<li><b>Person-centred thinking</b> — important to / important for and the balance between them (the Learning Community for Person Centered Practices); one-page profile headings (Helen Sanderson Associates).</li>
+<li><b>Carers Scotland and the Centre for Care (November 2024).</b> Valuing Carers 2022: Scotland — unpaid care worth £15.9 billion a year; NHS Scotland budget £17.8 billion (2022/23); about four times adult social care spending. <a href="https://www.carersuk.org/press-releases/new-figures-show-the-staggering-value-of-unpaid-carers-in-scotland/" target="_blank" rel="noopener">Carers UK</a></li>
+<li><b>Tommy Whitelaw</b> — his account of caring for his mother Joan; the 2011 walk collecting carers’ letters; Health and Social Care Alliance Scotland. <a href="https://www.alliance-scotland.org.uk/?p=7511" target="_blank" rel="noopener">ALLIANCE / Iriss podcast transcript</a></li>
+<li><b>Carers (Scotland) Act 2016</b> — adult carer support plans.</li>
+<li><b>Year of Care Partnerships</b> — care and support planning: preparation materials and results sent one to two weeks before; a conversation that acknowledges the person’s experience and expertise; their own goals and action plans; “a continuous process, not a one off event”. <a href="https://www.yearofcare.co.uk/do-you-live-with-a-long-term-condition/" target="_blank" rel="noopener">Year of Care</a> · <b>ALLIANCE</b>, <a href="https://www.alliance-scotland.org.uk/past-work-and-projects/scotlands-house-of-care/" target="_blank" rel="noopener">Scotland’s House of Care</a></li>
+<li><b>Mental Health (Care and Treatment) (Scotland) Act 2003, section 259</b> — right of access to independent advocacy. <a href="https://www.legislation.gov.uk/asp/2003/13/section/259" target="_blank" rel="noopener">legislation.gov.uk</a></li>
+<li><b>Coulter A, Entwistle VA, Eccles A, Ryan S, Shepperd S, Perera R (2015).</b> Personalised care planning for adults with chronic or long-term health conditions. Cochrane Database of Systematic Reviews, CD010523. <a href="https://www.cochrane.org/CD010523" target="_blank" rel="noopener">Cochrane</a></li>
+<li><b>Scottish Government (June 2026).</b> MyCare.scot available on app store — adults, ScotAccount sign-in. <a href="https://www.gov.scot/news/mycare-scot-available-on-app-store/" target="_blank" rel="noopener">gov.scot</a></li>
+<li><b>Public Health Scotland (2020).</b> NHSScotland Interpreting, Communication Support and Translation National Policy (notes only).</li>
+<li><b>Person-centred care lecture (Next Steps, 2025–26)</b> — the labels, Tommy Whitelaw and the one-page profile, adapted. Maria is the character from Unit 2; “Maria’s review, two ways” was written for this session.</li>
+<li><b>NICE QS14</b> — service user experience in adult mental health services (England), for the London cohort.</li>
+</ol></div></div>
+
+<script>
+(function(){
+/* ---------- deck shell ---------- */
+const slides=[...document.querySelectorAll('.slide')],total=slides.length;let cur=0;
+const bar=document.getElementById('bar'),lbl=document.getElementById('lbl'),prev=document.getElementById('prev'),next=document.getElementById('next'),ann=document.getElementById('ann');
+const notesPanel=document.getElementById('notesPanel'),notesBody=document.getElementById('notesBody'),notesTitle=document.getElementById('notesTitle');
+const menuBtn=document.getElementById('menuBtn'),tools=document.getElementById('tools');
+function updateNotes(){const n=slides[cur].querySelector('.speaker-note');notesTitle.textContent='Presenter notes · '+(cur+1)+' / '+total;notesBody.innerHTML=n?n.innerHTML:'<p>No presenter notes for this slide.</p>';}
+function show(n){slides[cur]?.classList.remove('active');cur=Math.max(0,Math.min(n,total-1));slides[cur].classList.add('active');bar.style.width=((cur+1)/total*100)+'%';lbl.textContent=(cur+1)+' / '+total;prev.disabled=cur===0;next.disabled=cur===total-1;ann.textContent=slides[cur].getAttribute('aria-label');slides[cur].focus({preventScroll:true});location.hash='slide-'+(cur+1);updateNotes();}
+function openOverlay(id){document.getElementById(id)?.classList.add('open');}
+function closeAll(){document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));notesPanel.classList.remove('open');tools.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+prev.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);
+menuBtn.onclick=()=>{const on=tools.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(on));};
+document.getElementById('notesBtn').onclick=()=>notesPanel.classList.toggle('open');
+document.getElementById('slidesBtn').onclick=()=>openOverlay('slidesOverlay');
+document.getElementById('sourcesBtn').onclick=()=>openOverlay('sourcesOverlay');document.getElementById('glossBtn').onclick=()=>openOverlay('glossOverlay');
+document.getElementById('helpBtn').onclick=()=>openOverlay('helpOverlay');
+document.getElementById('fsBtn').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('printBtn').onclick=()=>window.print();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+document.querySelectorAll('[data-overlay]').forEach(b=>b.addEventListener('click',()=>openOverlay(b.dataset.overlay)));
+document.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const x=document.getElementById(b.dataset.toggle);const willShow=x.hidden;x.hidden=!willShow;b.textContent=willShow?b.dataset.on:b.dataset.off;b.classList.toggle('on',willShow);}));
+const slideList=document.getElementById('slideList');slides.forEach((s,i)=>{const b=document.createElement('button');const h=s.querySelector('h1,h2,.bigline');b.textContent=(i+1)+'. '+(h?h.textContent.trim().slice(0,70):s.getAttribute('aria-label'));b.onclick=()=>{document.getElementById('slidesOverlay').classList.remove('open');show(i)};slideList.appendChild(b)});
+document.querySelectorAll('.timer').forEach(t=>{const secs=parseInt(t.dataset.secs,10);let left=secs,iv=null;const buttons=t.nextElementSibling?.querySelectorAll('button[data-act]')||[];const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');const draw=()=>{t.textContent=fmt(left);if(left===0)t.style.color='var(--coral)'};buttons.forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;if(a==='start'&&!iv){iv=setInterval(()=>{if(left>0){left--;draw()}else{clearInterval(iv);iv=null}},1000)}else if(a==='pause'){clearInterval(iv);iv=null}else if(a==='reset'){clearInterval(iv);iv=null;left=secs;t.style.color='';draw()}}));draw();});
+document.addEventListener('keydown',e=>{const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key==='Escape'){closeAll();return}if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();show(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(total-1)}else if(e.key.toLowerCase()==='n'){notesPanel.classList.toggle('open')}else if(e.key.toLowerCase()==='s'){openOverlay('slidesOverlay')}else if(e.key.toLowerCase()==='r'){openOverlay('sourcesOverlay')}else if(e.key.toLowerCase()==='g'){openOverlay('glossOverlay')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}});
+
+
+/* ---------- leaflet checklist ---------- */
+document.querySelectorAll('.ck').forEach(c=>{const t=()=>c.classList.toggle('done');c.addEventListener('click',t);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});});
+const m=location.hash.match(/slide-(\d+)/);show(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>
