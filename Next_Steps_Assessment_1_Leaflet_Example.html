@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Next Steps: Assessment 1 — The Leaflet</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a1e3d;--navy2:#17375e;--blue:#1a5276;--blue-soft:#e7f1f7;
+  --teal:#287a80;--teal-soft:#e6f4f3;--green:#1a7a5a;--green-soft:#e8f5ee;
+  --gold:#d4a843;--gold-soft:#fdf6e3;--coral:#b55436;--coral-soft:#f9ece6;
+  --purple:#6b4f83;--purple-soft:#f2edf6;--grey:#667482;--grey-soft:#eef1f3;
+  --ink:#1c2833;--muted:#4b5b6c;--line:#ddd5ca;--paper:#fffefb;--cream:#faf8f5;
+  --focus:#005ea8;--serif:Georgia,'Times New Roman',serif;--sans:Aptos,'Segoe UI',Arial,sans-serif;
+}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased}
+button,a,textarea{font:inherit}a{color:var(--blue)}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:4px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.deck{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:clamp(1.25rem,2.7vw,2.6rem) clamp(1.45rem,4.3vw,4.25rem) clamp(4.4rem,7vh,5.2rem);opacity:0;overflow:hidden;background:var(--paper);transition:opacity .18s}
+.slide.active{display:flex;opacity:1}
+.slide--dark{background:linear-gradient(155deg,var(--navy),var(--navy2) 66%,#214b76);color:#f7f9fb}
+.slide--blue{background:linear-gradient(135deg,var(--blue-soft),#fbfdfe)}
+.slide--green{background:linear-gradient(135deg,var(--green-soft),#fbfdfc)}
+.slide--gold{background:linear-gradient(135deg,var(--gold-soft),#fffdf8)}
+.slide--teal{background:linear-gradient(135deg,var(--teal-soft),#f9fdfd)}
+.slide--purple{background:linear-gradient(135deg,var(--purple-soft),#fcfafd)}
+.eyebrow{margin-bottom:.55rem;font-size:clamp(.78rem,.9vw,1rem);font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:var(--blue)}
+.slide--dark .eyebrow{color:var(--gold)}
+h1,h2{font-family:var(--serif);font-weight:400;letter-spacing:-.015em}
+h1{font-size:clamp(2.7rem,4.9vw,5rem);line-height:1.03}
+h2{font-size:clamp(1.9rem,3.1vw,3.2rem);line-height:1.08;margin-bottom:.8rem;color:var(--navy)}
+.slide--dark h1,.slide--dark h2{color:#fff}
+h3{font-size:clamp(1.02rem,1.35vw,1.35rem);line-height:1.2;color:var(--navy)}
+.lede{font-size:clamp(1.02rem,1.43vw,1.47rem);line-height:1.42;color:var(--muted);max-width:67ch;margin-bottom:1rem}
+.slide--dark .lede{color:#dfe6ee}
+.bigline{font-family:var(--serif);font-size:clamp(2.1rem,3.9vw,4rem);line-height:1.12;color:var(--navy);max-width:27ch}
+.slide--dark .bigline{color:#fff}
+.grid{display:grid;gap:clamp(.7rem,1.15vw,1.15rem);flex:1;align-content:center;min-height:0}.g2{grid-template-columns:1fr 1fr}
+.card{background:#fff;border:2px solid var(--line);border-radius:16px;padding:clamp(.8rem,1.15vw,1.15rem);box-shadow:0 4px 18px rgba(10,30,61,.055);min-width:0}
+.card h3{margin-bottom:.35rem}.card p,.card li{font-size:clamp(.88rem,1.06vw,1.07rem);line-height:1.38;color:var(--muted)}
+.card ul,.card ol{padding-left:1.15rem}.card li{margin:.24rem 0}
+.card--blue{background:var(--blue-soft);border-color:var(--blue)}.card--green{background:var(--green-soft);border-color:var(--green)}.card--gold{background:var(--gold-soft);border-color:var(--gold)}.card--teal{background:var(--teal-soft);border-color:var(--teal)}.card--coral{background:var(--coral-soft);border-color:var(--coral)}
+.tag{display:inline-block;font-size:.68rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;padding:.25rem .58rem;border-radius:999px;margin-bottom:.45rem;background:var(--navy);color:#fff}
+.lo{display:inline-flex;align-items:center;justify-content:center;min-width:2.9rem;border-radius:999px;padding:.23rem .58rem;background:var(--navy);color:#fff;font-weight:800;font-size:.8rem;margin-bottom:.5rem}
+.band{margin-top:auto;background:var(--navy);color:#fff;border-radius:13px;padding:.82rem 1.15rem;font-size:clamp(.96rem,1.23vw,1.25rem);line-height:1.38}.band b{color:var(--gold)}.slide--dark .band{background:rgba(255,255,255,.12)}
+.prompt{background:var(--gold-soft);border-left:6px solid var(--gold);border-radius:10px;padding:.78rem 1rem;font-size:clamp(.96rem,1.18vw,1.2rem);line-height:1.4;margin-top:.65rem}
+.source{font-size:clamp(.68rem,.76vw,.8rem);line-height:1.3;color:var(--muted);margin-top:.45rem}.slide--dark .source{color:#d3dce6}
+.foot{position:absolute;left:0;right:9rem;bottom:0;display:flex;align-items:center;justify-content:flex-start;gap:1.7rem;padding:.65rem clamp(1.45rem,4.3vw,4.25rem);font-size:.71rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}.slide--dark .foot{color:#c9d3de}
+.timer{font-family:var(--serif);font-size:clamp(3.2rem,6vw,6rem);line-height:1;color:var(--navy);text-align:center;margin:.55rem 0 .45rem;font-variant-numeric:tabular-nums}.slide--dark .timer{color:#fff}.tbtns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap}.tbtns button{border-radius:999px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-weight:700;padding:.43rem .95rem;cursor:pointer}.tbtns button.primary{background:var(--navy);color:#fff}.slide--dark .tbtns button{border-color:#fff;background:transparent;color:#fff}.slide--dark .tbtns button.primary{background:#fff;color:var(--navy)}
+.timer--small{font-size:clamp(2rem,3.4vw,3.4rem);margin:.2rem 0}
+.reveal{margin-top:.55rem;background:transparent;border:2px solid var(--blue);color:var(--blue);border-radius:999px;padding:.38rem .9rem;font-weight:750;font-size:.88rem;cursor:pointer}
+.reveal.on{background:var(--blue);color:#fff}
+
+/* controls */
+.nav{position:fixed;right:1rem;bottom:.72rem;display:flex;gap:.45rem;align-items:center;z-index:20}.nav button{width:2.45rem;height:2.45rem;border-radius:50%;border:none;background:var(--navy);color:#fff;font-size:1.08rem;cursor:pointer}.nav button:disabled{opacity:.3}.nav span{font-size:.82rem;color:var(--muted);min-width:4.3rem;text-align:center}.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--gold);width:0;z-index:25;transition:width .18s}
+.menu-toggle{position:fixed;right:1rem;top:.75rem;width:2.45rem;height:2.45rem;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.93);color:var(--navy);font-size:1.15rem;font-weight:800;cursor:pointer;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.tools{position:fixed;right:4rem;top:.78rem;display:none;gap:.4rem;z-index:29;flex-wrap:wrap;justify-content:flex-end}.tools.open{display:flex}.tools button{border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.96);padding:.32rem .72rem;font-size:.76rem;cursor:pointer;color:var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.sr{position:absolute;left:-9999px}.speaker-note{display:none}
+.notes-panel{position:fixed;left:1rem;bottom:3.6rem;width:min(43rem,80vw);max-height:44vh;overflow:auto;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:1rem 1.1rem;z-index:80;box-shadow:0 15px 50px rgba(0,0,0,.22);display:none}.notes-panel.open{display:block}.notes-panel h3{margin-bottom:.45rem}.notes-panel p,.notes-panel li{font-size:.9rem;line-height:1.42;color:var(--muted)}.notes-panel ul{padding-left:1.1rem}
+.overlay{position:fixed;inset:0;background:rgba(5,16,31,.72);display:none;align-items:center;justify-content:center;z-index:100;padding:2rem}.overlay.open{display:flex}.modal{width:min(92vw,68rem);max-height:86vh;overflow:auto;background:var(--paper);border-radius:18px;padding:1.4rem 1.5rem;box-shadow:0 24px 80px rgba(0,0,0,.35)}.modal h2{font-size:2rem}.modal .close{float:right;border:none;background:var(--navy);color:#fff;border-radius:999px;padding:.42rem .8rem;cursor:pointer}.modal ol,.modal ul{padding-left:1.4rem}.modal li{margin:.5rem 0;line-height:1.45}.modal p{line-height:1.45;margin:.5rem 0}.modal a{overflow-wrap:anywhere}.slide-list{display:grid;grid-template-columns:repeat(2,1fr);gap:.45rem}.slide-list button{text-align:left;border:1px solid var(--line);background:#fff;border-radius:10px;padding:.55rem .7rem;cursor:pointer;color:var(--navy)}.slide-list button:hover{background:var(--blue-soft)}
+
+@media(max-width:820px){.tools button:nth-child(n+5){display:none}}
+@media(max-height:720px){.slide{padding-top:1rem;padding-bottom:3.8rem}h1{font-size:clamp(2.2rem,4vw,3.8rem)}h2{font-size:clamp(1.7rem,2.8vw,2.7rem)}.card{padding:.65rem .8rem}.lede{margin-bottom:.65rem}.foot{padding-bottom:.5rem}.timer{font-size:4.2rem}}
+@media print{body{overflow:visible}.deck{height:auto}.slide{position:relative;display:flex;opacity:1;page-break-after:always;width:13.333in;height:7.5in}.nav,.menu-toggle,.tools,.progress,.notes-panel,.overlay{display:none!important}.speaker-note{display:none!important}}
+@page{size:13.333in 7.5in;margin:0}
+.mid{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.phase{border-radius:18px;padding:1.3rem 1.3rem 1.4rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);display:flex;flex-direction:column;gap:.5rem}
+.phase em{font-style:normal;font-size:.8rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.phase b{font-family:var(--serif);font-weight:400;font-size:clamp(1.8rem,2.8vw,2.8rem);color:#fff;line-height:1.05}
+.phase span{font-size:clamp(.98rem,1.2vw,1.2rem);line-height:1.42;color:#dfe6ee}
+@media(max-width:820px){.phases{grid-template-columns:1fr}}
+
+
+/* ---- unit 4 ---- */
+.labs{display:flex;flex-wrap:wrap;gap:.6rem;margin:.3rem 0}
+.lab{border-radius:999px;padding:.45rem 1.1rem;font-family:var(--serif);font-size:clamp(1.1rem,1.6vw,1.6rem);background:#fff;border:2px solid var(--blue);color:var(--navy)}
+.lab.bad{border-color:var(--coral);background:var(--coral-soft);color:#7a2f1c}
+.experts{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:stretch}
+.expert{border-radius:18px;padding:1.1rem 1.2rem;background:#fff;border:2px solid var(--line)}
+.expert h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.9vw,1.9rem);margin-bottom:.35rem}
+.expert.pro{border-color:var(--blue)}.expert.per{border-color:var(--gold);background:var(--gold-soft)}
+.amp{display:flex;align-items:center;font-family:var(--serif);font-size:clamp(2.2rem,3.4vw,3.4rem);color:var(--gold)}
+.principles{display:grid;grid-template-columns:repeat(5,1fr);gap:.55rem}
+.pr{background:var(--teal-soft);border:2px solid var(--teal);border-radius:12px;padding:.75rem .6rem;text-align:center;font-weight:800;color:var(--navy);font-size:clamp(.92rem,1.1vw,1.1rem);display:flex;align-items:center;justify-content:center;min-height:3.6rem}
+.tofor{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem;flex:1;align-content:center}
+.tf{border-radius:16px;padding:1rem 1.05rem;border:2px solid var(--line);background:#fff}
+.tf h3{font-size:clamp(1.02rem,1.3vw,1.3rem);margin-bottom:.15rem}.tf .sub{font-size:.85rem;color:var(--muted);margin-bottom:.5rem}
+.tf ul{padding-left:1.1rem}.tf li{font-size:clamp(.94rem,1.12vw,1.12rem);line-height:1.38;margin:.28rem 0;color:var(--ink)}
+.tf.to{border-color:var(--gold);background:var(--gold-soft)}.tf.for{border-color:var(--blue);background:var(--blue-soft)}.tf.ask{border-style:dashed;border-color:#8a96a3;background:#fafbfc}
+.voice3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}
+.bran{display:grid;grid-template-columns:auto 1fr;gap:.2rem .6rem;margin-top:.4rem}.bran b{font-family:var(--serif);font-size:1.35rem;color:var(--gold);line-height:1}.bran span{font-size:clamp(.9rem,1.05vw,1.05rem)}
+.carer2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.tommy{border-radius:18px;padding:1.1rem 1.2rem;background:var(--navy);color:#fff}.tommy h3{color:#fff;font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.8vw,1.8rem);margin-bottom:.4rem}.tommy p{color:#dfe6ee;font-size:clamp(.95rem,1.12vw,1.12rem);line-height:1.45;margin:.35rem 0}.tommy .pull{font-family:var(--serif);font-size:clamp(1.15rem,1.6vw,1.6rem);color:var(--gold);line-height:1.3}
+.profile{background:#fff;border:2px solid var(--navy);border-radius:18px;padding:1rem 1.2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;flex:1;align-content:start}
+.profile .ph{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--line);padding-bottom:.45rem}
+.profile .ph strong{font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.4vw,2.4rem);color:var(--navy)}.profile .ph span{font-size:.9rem;color:var(--muted);font-style:italic}
+.profile h3{font-size:clamp(.92rem,1.08vw,1.08rem);color:var(--teal);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
+.profile p{font-family:var(--serif);font-size:clamp(1.08rem,1.42vw,1.42rem);line-height:1.38;color:var(--navy);margin:.35rem 0}
+.twocards{display:grid;grid-template-columns:1.55fr 1fr;gap:1rem;flex:1;align-content:center}
+.pcard,.ccard{border-radius:16px;padding:1rem 1.1rem;border:2px solid}
+.pcard{border-color:var(--blue);background:var(--blue-soft)}.ccard{border-color:var(--coral);background:var(--coral-soft)}
+.pcard h3,.ccard h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.25rem,1.7vw,1.7rem);margin-bottom:.4rem}
+.pgrid{display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:.4rem;font-size:clamp(.95rem,1.15vw,1.15rem)}
+.pgrid div{background:#fff;border-radius:8px;padding:.55rem .65rem;min-height:2.8rem}.pgrid .hd{background:transparent;font-weight:800;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;padding:.1rem .3rem}.pgrid .rh{font-weight:800;color:var(--navy)}
+.check{display:grid;gap:.45rem}
+.ck{display:flex;gap:.7rem;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:12px;padding:.6rem .8rem;cursor:pointer;font-size:clamp(.95rem,1.12vw,1.12rem);line-height:1.35}
+.ck i{width:1.35rem;height:1.35rem;border:2px solid var(--navy);border-radius:6px;flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;color:#fff;font-size:.9rem;margin-top:.1rem}
+.ck.done{border-color:var(--green);background:var(--green-soft)}.ck.done i{background:var(--green);border-color:var(--green)}.ck.done i::after{content:"✓"}
+.marks3{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-bottom:.8rem}
+.mk{border-radius:14px;padding:.75rem .9rem;background:#fff;border:2px solid var(--line)}.mk b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(1.6rem,2.3vw,2.3rem);color:var(--navy);line-height:1}.mk span{font-size:.92rem;color:var(--muted)}.mk.now{border-color:var(--coral);background:var(--coral-soft)}
+.mini{display:grid;grid-template-columns:1.05fr 1fr;gap:1.4rem;align-items:center;flex:1}
+.mini svg{width:100%;max-height:58vh}
+.key3{display:grid;gap:.55rem}.key3 div{border-radius:12px;padding:.65rem .85rem;border:2px solid var(--line);background:#fff;font-size:clamp(.95rem,1.12vw,1.12rem)}.key3 .done{border-color:var(--green);background:var(--green-soft)}.key3 .next{border-color:var(--gold);background:var(--gold-soft)}
+@media(max-width:820px){.principles{grid-template-columns:1fr 1fr}.tofor,.voice3,.carer2,.twocards,.marks3,.mini,.profile{grid-template-columns:1fr}.experts{grid-template-columns:1fr}.amp{justify-content:center}}
+
+.card.big p,.card.big li{font-size:clamp(1.05rem,1.38vw,1.38rem);line-height:1.45}.card.big h3{font-size:clamp(1.2rem,1.65vw,1.65rem);margin-bottom:.45rem}.card.big ul{padding-left:1.2rem}.card.big li{margin:.3rem 0}
+.mid2{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+
+/* ---- unit 4 v2 ---- */
+.slide--coral{background:linear-gradient(135deg,var(--coral-soft),#fffaf8)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.stats2{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;flex:1;align-content:center}
+.stat{background:#fff;border:2px solid var(--teal);border-radius:18px;padding:1.1rem 1.3rem;display:flex;flex-direction:column;gap:.55rem}
+.stat>b{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,6.6vw,6.8rem);line-height:1;color:var(--navy)}
+.stat p{font-size:clamp(1.05rem,1.45vw,1.5rem);line-height:1.4;color:var(--ink)}
+.stat p b{font-weight:800;color:var(--navy)}
+.stat .so{font-weight:800;color:var(--coral)}
+.stat small{font-size:clamp(.68rem,.78vw,.8rem);color:var(--muted);line-height:1.3}
+.meterbar{height:.85rem;border-radius:999px;background:var(--grey-soft);overflow:hidden}.meterbar i{display:block;height:100%;background:var(--teal)}
+.phase .can{margin-top:auto;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.22);font-size:clamp(.9rem,1.05vw,1.05rem);color:#fff;line-height:1.4}
+.phase .can i{font-style:normal;display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;font-size:.72rem;border-radius:999px;padding:.1rem .5rem;margin-right:.35rem;vertical-align:.1em}
+.tfw{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.tw{border-radius:14px;padding:.85rem 1rem;border:2px solid var(--line);background:#fff}
+.tw em{display:block;font-style:normal;font-weight:850;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem}
+.tw p{font-family:var(--serif);font-size:clamp(1.02rem,1.35vw,1.38rem);line-height:1.35;color:var(--navy)}
+.tw.to em,.tw.for em{color:var(--muted)}.tw.with{border-color:var(--green);background:var(--green-soft)}.tw.with em{color:var(--green)}
+.vals5{display:grid;grid-template-columns:repeat(5,1fr);gap:.7rem;flex:1;align-content:center}
+.val{background:#fff;border:2px solid var(--teal);border-radius:16px;padding:.9rem .85rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+.val h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,1.75vw,1.8rem);line-height:1.15}
+.val .vm{font-weight:800;color:var(--teal);font-size:clamp(.98rem,1.28vw,1.32rem);line-height:1.3}
+.val .vr{margin-top:auto;background:var(--gold-soft);border-left:5px solid var(--gold);border-radius:8px;padding:.55rem .65rem;font-size:clamp(.95rem,1.2vw,1.24rem);line-height:1.38;color:var(--ink)}
+.carer2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.cstats{display:flex;flex-direction:column;gap:.8rem;justify-content:center}
+.cst{background:#fff;border:2px solid var(--purple);border-radius:16px;padding:.9rem 1.1rem}
+.cst b{display:block;font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,4.6vw,4.6rem);line-height:1;color:var(--purple)}
+.cst p{font-size:clamp(.98rem,1.25vw,1.28rem);line-height:1.38;color:var(--ink);margin-top:.35rem}
+.cst small{display:block;font-size:clamp(.68rem,.78vw,.8rem);color:var(--muted);margin-top:.35rem}
+.centrewrap{display:grid;grid-template-columns:.78fr 1.22fr;gap:1.3rem;flex:1;align-items:center;min-height:0}
+.house4{width:100%;height:auto;max-height:52vh;display:block}
+.titlewrap{flex:1;display:grid;grid-template-columns:1.35fr .65fr;gap:2.4rem;align-items:center;min-height:0}
+.house4.ondark .dim polygon,.house4.ondark .dim rect{fill:rgba(255,255,255,.1);stroke:rgba(255,255,255,.35);stroke-width:2}
+.house4.ondark .dim text{fill:#c9d3de}
+.house4 .dim polygon,.house4 .dim rect{fill:#ece7df;stroke:#fff;stroke-width:3}
+.house4 .dim text{font-family:var(--sans);font-size:16px;font-weight:700;fill:#8a96a3;text-anchor:middle}
+.house4 .lit circle{fill:var(--coral);stroke:var(--gold);stroke-width:6}
+.house4 .lit text{font-family:var(--sans);fill:#fff;text-anchor:middle}
+.house4 .lit .big{font-size:24px;font-weight:800;letter-spacing:.06em}.house4 .lit .small{font-size:14px;font-weight:600}
+.bda{display:flex;flex-direction:column;gap:.7rem}
+.bstep{display:grid;grid-template-columns:7.2rem 1fr;gap:.9rem;align-items:start;background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem}
+.bstep em{font-style:normal;font-family:var(--serif);font-size:clamp(1.2rem,1.65vw,1.7rem);color:var(--coral);line-height:1.1}
+.bstep h3{margin-bottom:.25rem}.bstep p{font-size:clamp(.95rem,1.18vw,1.2rem);line-height:1.4;color:var(--muted)}
+.twoways{display:grid;grid-template-columns:1fr 1fr;gap:1rem;flex:1;align-content:center}
+.way{border-radius:18px;padding:1.05rem 1.2rem;border:2px solid;display:flex;flex-direction:column;gap:.55rem}
+.way em{font-style:normal;font-family:var(--serif);font-size:clamp(1.3rem,1.9vw,1.95rem);line-height:1.15}
+.way p{font-size:clamp(.98rem,1.22vw,1.25rem);line-height:1.42;color:var(--ink)}
+.way .end{margin-top:auto;font-weight:800}
+.way.bad{border-color:var(--coral);background:var(--coral-soft)}.way.bad em{color:#8c3a22}
+.way.good{border-color:var(--green);background:var(--green-soft)}.way.good em{color:var(--green)}
+.voice3{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;flex:1;align-content:center}
+.qhead,.qr{display:grid;grid-template-columns:1fr 2.6rem 1.25fr;gap:.6rem;align-items:center}
+.qhead{font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.15rem}
+.qr{margin:.45rem 0}
+.qr .qc{background:#fff;border:2px dashed #b9b2a6;border-radius:12px;padding:.65rem .85rem;font-family:var(--serif);font-size:clamp(1.02rem,1.38vw,1.42rem);color:var(--muted)}
+.qr .qa{font-size:1.5rem;font-weight:800;color:var(--gold);text-align:center}
+.qr .qo{background:var(--green-soft);border:2px solid var(--green);border-radius:12px;padding:.65rem .85rem;font-family:var(--serif);font-size:clamp(1.02rem,1.38vw,1.42rem);color:var(--navy)}
+.prep4{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem;flex:1;align-content:center}
+.pb{background:#fff;border:2px solid var(--gold);border-radius:16px;padding:1rem 1.05rem;display:flex;flex-direction:column;gap:.45rem;min-height:clamp(10rem,30vh,17rem)}
+.pb h3{font-size:clamp(1.12rem,1.5vw,1.55rem)}
+.pb em{font-style:normal;font-family:var(--serif);font-size:clamp(1.7rem,2.6vw,2.6rem);line-height:1;color:var(--gold)}
+.pb p{font-size:clamp(1rem,1.3vw,1.35rem);line-height:1.4;color:var(--muted)}
+.pb.her{border-color:var(--coral);background:var(--coral-soft)}.pb.her em{color:var(--coral)}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.s3{background:#fff;border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem}
+.s3 em{display:block;font-style:normal;font-family:var(--serif);font-size:clamp(1.25rem,1.7vw,1.75rem);color:var(--navy);margin-bottom:.2rem}
+.s3 p{font-size:clamp(.92rem,1.1vw,1.12rem);line-height:1.38;color:var(--muted)}
+.s3 .eg{margin-top:.45rem;font-size:clamp(.86rem,1vw,1.02rem);color:var(--ink);background:var(--gold-soft);border-radius:8px;padding:.4rem .55rem}
+.stp{margin-left:auto;display:inline-flex;align-items:center;gap:.3rem;letter-spacing:.05em}
+.stp i{font-style:normal;font-weight:800;font-size:.62rem;padding:.17rem .55rem;border-radius:999px;border:1px solid #cfc8bc;color:#7d8a97;background:rgba(255,255,255,.75)}
+.stp i.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.card.big p,.card.big li{font-size:clamp(1.02rem,1.32vw,1.36rem);line-height:1.45}
+#leaflet .ck{font-size:clamp(1.05rem,1.4vw,1.45rem);padding:.75rem .95rem}#leaflet .mk span{font-size:clamp(.92rem,1.15vw,1.15rem)}#leaflet .prompt{font-size:clamp(1.05rem,1.35vw,1.4rem)}
+#report .s3 p{font-size:clamp(1rem,1.28vw,1.32rem)}#report .s3 .eg{font-size:clamp(.95rem,1.18vw,1.22rem)}#report .card p{font-size:clamp(1.02rem,1.3vw,1.35rem)}
+@media(max-width:820px){.titlewrap{grid-template-columns:1fr}.stats2,.tfw,.vals5,.carer2,.centrewrap,.twoways,.voice3,.prep4,.steps3{grid-template-columns:1fr 1fr}.qhead,.qr{grid-template-columns:1fr}.qr .qa{display:none}.stp i{font-size:.52rem;padding:.12rem .3rem}}
+@media print{.stp i{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* ---- assessment 1 ---- */
+.slide--dark .card.dk{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.35)}.slide--dark .card.dk h3{color:#fff}.slide--dark .card.dk p{color:#eef2f6!important}
+.slide--dark .lead{color:#e3e9f0}
+.mk{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 18px rgba(10,30,61,.055)}
+.mk th,.mk td{padding:.55rem .9rem;text-align:left;border-bottom:1px solid var(--line);font-size:clamp(.95rem,1.2vw,1.24rem);line-height:1.35;vertical-align:top}
+.mk th{background:var(--navy);color:#fff;font-size:clamp(.78rem,.95vw,1rem);letter-spacing:.08em;text-transform:uppercase}
+.mk td:last-child,.mk th:last-child{text-align:right;white-space:nowrap;font-family:var(--serif);font-size:clamp(1.2rem,1.6vw,1.65rem)}
+.mk tr.acc td{background:var(--gold-soft)}.mk td b{color:var(--navy)}
+.mk tr.tot td{background:var(--navy);color:#fff;font-weight:700;border:0}
+.lf-wrap{position:relative;flex:none}
+.lfrow{--lfs:.5}@media(min-height:900px){.lfrow{--lfs:.72}}
+.lf{transform:scale(var(--lfs));width:794px;height:1123px;box-sizing:border-box;background:#fff;font-family:'Nunito','Segoe UI',Arial,sans-serif;color:#1c2833;display:flex;flex-direction:column;overflow:hidden;transform-origin:top left;box-shadow:0 10px 30px rgba(10,30,61,.25);border:1px solid #c9d6dc}
+.lf h1,.lf h2{font-family:inherit;letter-spacing:0}
+.lf .hd{background:#005a73;color:#fff;padding:30px 44px 24px;display:flex;flex-direction:column;gap:6px}
+.lf .hd small{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#cfe9ee}
+.lf .hd h1{margin:0;font-size:36px;line-height:1.1;font-weight:800;color:#fff}
+.lf .hd div{font-size:17px;line-height:1.4;font-weight:600;color:#e6f4f6}
+.lf .bd{padding:16px 44px 0;display:flex;flex-direction:column;gap:12px;flex:1;min-height:0}
+.lf .intro{background:#fff6df;border:2px solid #e8c25c;border-radius:12px;padding:10px 16px;font-size:14.5px;line-height:1.4}
+.lf .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lf .box{background:#e9f3f5;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.lf .box h2{margin:0;font-size:19px;font-weight:800;color:#005a73}
+.lf .box p{margin:0;font-size:13.5px;line-height:1.38}
+.lf .hs{display:grid;grid-template-columns:290px 1fr;gap:18px;align-items:start}
+.lf .house{display:flex;flex-direction:column;gap:4px;padding-top:6px}
+.lf .house h2{margin:0 0 4px;font-size:19px;font-weight:800;color:#005a73}
+.lf .roof{width:0;height:0;margin:0 auto;border-left:135px solid transparent;border-right:135px solid transparent;border-bottom:62px solid #005a73}
+.lf .rooflab{margin:-58px auto 0;width:270px;text-align:center;color:#fff;font-size:12.5px;font-weight:700;line-height:1.2;padding-top:24px;position:relative}
+.lf .walls{display:grid;grid-template-columns:78px 1fr 78px;gap:4px;height:128px}
+.lf .wl,.lf .wr{color:#fff;padding:8px 6px;font-size:12.5px;font-weight:700;line-height:1.2;display:flex;align-items:center;text-align:center}
+.lf .wl{background:#3b8f62;border-radius:6px 0 0 6px}.lf .wr{background:#d98a2b;border-radius:0 6px 6px 0}
+.lf .mid{background:#fff;border:2px solid #c9d6dc;display:flex;align-items:center;justify-content:center;padding:6px}
+.lf .circ{background:#d9534f;color:#fff;border-radius:999px;width:100px;height:100px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12.5px;font-weight:700;line-height:1.2;padding:8px;box-sizing:border-box}
+.lf .found{background:#6b4f83;color:#fff;border-radius:0 0 8px 8px;padding:9px 10px;font-size:12.5px;font-weight:700;line-height:1.2;text-align:center}
+.lf .parts{display:flex;flex-direction:column;gap:5px}
+.lf .parts>div:first-child{font-size:14px;line-height:1.35;margin-bottom:0}
+.lf .pt{display:flex;gap:10px;align-items:flex-start}
+.lf .pt i{flex:none;width:24px;height:24px;border-radius:999px;color:#fff;font-size:13px;font-weight:800;font-style:normal;display:flex;align-items:center;justify-content:center}
+.lf .pt div{font-size:13px;line-height:1.33}
+.lf .ft{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:auto;padding-bottom:14px}
+.lf .prep{border:2px solid #005a73;border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.lf .prep h2{margin:0;font-size:17px;font-weight:800;color:#005a73}
+.lf .prep ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.4}
+.lf .cont{background:#005a73;color:#fff;border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.lf .cont h2{margin:0;font-size:17px;font-weight:800;color:#fff}
+.lf .cont div{font-size:13.5px;line-height:1.45}
+.lfrow{display:grid;grid-template-columns:auto 1fr;gap:1.4rem;align-items:start;flex:1;min-height:0}
+.tag{position:absolute;z-index:3;background:var(--coral);color:#fff;font-weight:850;font-size:clamp(.85rem,1.05vw,1.1rem);width:1.8em;height:1.8em;border-radius:999px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.calls{display:flex;flex-direction:column;gap:.5rem}
+.call{display:flex;gap:.6rem;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:12px;padding:.5rem .75rem}
+.call i{flex:none;background:var(--coral);color:#fff;font-weight:850;font-style:normal;width:1.7em;height:1.7em;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:clamp(.85rem,1.05vw,1.1rem)}
+.call div{font-size:clamp(.92rem,1.15vw,1.18rem);line-height:1.36}.call div b{color:var(--navy)}.call div em{color:var(--muted);font-style:normal;font-weight:700}
+.pit{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;flex:1;align-content:center}
+.pit .card h3{font-size:clamp(1.05rem,1.35vw,1.4rem)}.pit .card p{font-size:clamp(.95rem,1.18vw,1.22rem);line-height:1.4}
+.pit .card p b{color:var(--green)}
+.chk{columns:2;column-gap:2rem;flex:1}
+.chk li{break-inside:avoid;font-size:clamp(1rem,1.28vw,1.32rem);line-height:1.4;margin:0 0 .55rem 0;padding-left:.2rem}
+.chk li b{color:var(--navy)}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;flex:1;align-content:center}
+.big3 .card{display:flex;flex-direction:column;gap:.4rem}.big3 .card em{font-style:normal;font-size:.76rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.big3 .card h3{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,1.8vw,1.85rem);line-height:1.1}
+.big3 .card p{font-size:clamp(.98rem,1.24vw,1.28rem);line-height:1.42}
+.big3 .card ul{padding-left:1.1rem}.big3 .card li{font-size:clamp(.95rem,1.2vw,1.24rem);line-height:1.4;margin:.25rem 0}
+@media(max-width:820px){.two,.hs,.ft,.lfrow,.pit,.big3{grid-template-columns:1fr}.chk{columns:1}}
+
+/* Refinements for the assessment briefing and readable leaflet view. */
+.mk b{display:inline;font-family:var(--sans);font-weight:700;font-size:inherit;line-height:inherit}.mk tr.tot b{color:#fff}
+.mk th:last-child{font-family:var(--sans);font-size:clamp(.78rem,.95vw,1rem)}
+.example-status,.review-status{font-size:clamp(.95rem,1.2vw,1.2rem);line-height:1.35;color:var(--muted);margin:0 0 .7rem}
+.review-table{table-layout:fixed;width:100%;border-collapse:collapse}
+.review-table th:nth-child(1){width:19%}.review-table th:nth-child(2){width:37%}.review-table th:nth-child(3){width:44%}
+.review-table td,.review-table td:last-child{font-family:var(--sans);font-size:clamp(.9rem,1.13vw,1.12rem);text-align:left;white-space:normal;line-height:1.32;padding:.5rem .8rem}
+.review-table th:last-child{font-family:var(--sans);font-size:clamp(.78rem,.95vw,1rem);text-align:left;white-space:normal}
+.review-table td:first-child{font-size:clamp(.85rem,1.06vw,1.05rem)}
+.lfrow{grid-template-columns:auto minmax(0,1fr);align-items:start;gap:1.2rem}
+.calls{gap:.43rem}.call{padding:.47rem .7rem}.call div{font-size:clamp(.9rem,1.12vw,1.15rem)}
+.leaflet-open{align-self:flex-start;border:2px solid var(--teal);border-radius:999px;background:var(--teal);color:#fff;padding:.6rem 1rem;font-weight:750;font-size:clamp(.94rem,1.15vw,1.15rem);cursor:pointer;margin-top:.15rem}
+.lf{font-family:var(--sans)}
+.lf .hd{padding:24px 28px 21px}.lf .hd small{font-size:14px;letter-spacing:.07em}.lf .hd h1{font-size:35px}.lf .hd div{font-size:17px}
+.lf .bd{padding:15px 28px 0;gap:12px}.lf .intro{font-size:16px;line-height:1.35;padding:10px 13px}
+.lf .two{gap:12px;grid-template-columns:1fr 1fr}.lf .box{padding:12px 13px;gap:7px}.lf .box h2{font-size:19px;line-height:1.2}.lf .box p{font-size:16px;line-height:1.35}
+.lf .hs{grid-template-columns:260px 1fr;gap:16px}.lf .house h2{font-size:20px}.lf .roof{border-left-width:125px;border-right-width:125px;border-bottom-width:66px}.lf .rooflab{width:250px;margin-top:-62px;padding-top:24px;font-size:14px}
+.lf .walls{grid-template-columns:70px 1fr 70px;height:146px}.lf .wl,.lf .wr{font-size:14px;flex-direction:column;justify-content:center;padding:6px 4px}.lf .mid{padding:3px}.lf .circ{font-size:13px;width:108px;height:108px;padding:8px}.lf .found{font-size:14px;padding:8px}
+.lf .parts{gap:7px}.lf .parts>div:first-child{font-size:16px;line-height:1.35;margin-bottom:2px}.lf .pt{gap:9px}.lf .pt i{width:24px;height:24px;font-size:14px}.lf .pt div{font-size:16px;line-height:1.35}
+.lf .ft{gap:12px;grid-template-columns:1fr 1fr;padding-bottom:16px}.lf .prep,.lf .cont{padding:11px 13px;gap:5px}.lf .prep h2,.lf .cont h2{font-size:18px}.lf .prep ul,.lf .cont div{font-size:16px;line-height:1.35}.lf .prep li{margin:0;line-height:1.35}
+.leaflet-modal{width:min(94vw,860px);padding:0 20px 20px}.leaflet-modal-head{position:sticky;top:0;z-index:2;background:var(--paper);padding:16px 0 10px}.leaflet-modal-head h2{font-size:1.6rem;margin-bottom:.2rem}.leaflet-modal-head p{font-size:.95rem;margin:.3rem 0}.leaflet-full-view{width:794px;margin:0 auto}.leaflet-full-view .lf{transform:none;box-shadow:none}
+@media(max-width:820px){.slide{overflow-y:auto;padding:1.2rem 1.25rem 4.4rem}.phases,.big3,.lfrow,.pit{grid-template-columns:1fr;flex:none}.phases{gap:.7rem;margin:1rem 0}.phase{padding:1rem}.big3{margin:.5rem 0}.lfrow{align-content:start}.lf-wrap{margin:0 auto}.calls{margin:.7rem 0}.chk{columns:1;flex:none;padding-left:1.2rem}.band{margin-top:1rem}.review-table td,.review-table td:last-child{font-size:.88rem;padding:.45rem}.review-table th{font-size:.72rem;padding:.45rem}.review-table th:last-child{font-size:.72rem}.foot{position:static;padding:.2rem 0 .8rem;order:-1;gap:.8rem}.lf .two,.lf .ft{grid-template-columns:1fr 1fr}.lf .hs{grid-template-columns:260px 1fr}.leaflet-modal{padding:0 12px 12px}.leaflet-full-view{margin:0}.leaflet-modal-head{min-width:350px}.lfrow{min-height:auto}.leaflet-open{align-self:stretch}}
+@media(max-height:640px) and (min-width:821px){.slide{overflow-y:auto}.lfrow{flex:none;min-height:440px}.band{margin-top:1rem}.foot{position:static;margin-top:1rem}}
+@media print{.slide{overflow:hidden!important}.lfrow{--lfs:.46!important}.leaflet-open{display:none}.example-status,.review-status{font-size:12pt}.slide .foot{position:absolute;bottom:0}.slide .band{margin-top:auto}.leaflet-modal{display:none}}
+
+</style>
+</head>
+<body>
+<button class="menu-toggle" id="menuBtn" aria-label="Open presentation tools" aria-expanded="false">⋯</button>
+<div class="tools" id="tools"><button id="slidesBtn">Slides</button><button id="notesBtn">Notes</button><button id="sourcesBtn">Sources</button><button id="glossBtn">Glossary</button><button id="helpBtn">Help</button><button id="fsBtn">Full screen</button><button id="printBtn">Print</button></div>
+<div class="sr" aria-live="polite" id="ann"></div>
+<main class="deck">
+
+<section class="slide slide--dark" id="title" tabindex="-1" aria-label="Assessment 1: the leaflet">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>The leaflet</span></div>
+  <div class="eyebrow">Next Steps: Collaborative Health and Social Care</div>
+  <h1>Assessment 1<br>The leaflet</h1>
+  <p class="lede" style="margin-top:1rem">One A4 page for patients and families. <b>30% of the module mark.</b><br>Check the submission date and time on your current Brightspace assessment page.</p>
+  <div class="phases">
+    <div class="phase"><em>The task</em><b>A patient leaflet</b><span>Explain how a long-term conditions clinic can support people through integrated, person-centred care.</span></div>
+    <div class="phase"><em>The learning outcome</em><b>Collaborative care</b><span>Show knowledge of the key elements of effective collaborative, person-centred health and social care.</span></div>
+    <div class="phase"><em>This short session</em><b>The brief in practice</b><span>The marking guide, an illustrative leaflet, points to check and a submission checklist.</span></div>
+  </div>
+  <div class="band">The requirements follow the <b>module handbook</b>. The example and layout suggestions show how you could apply them.</div>
+  <aside class="speaker-note"><p>Component 1 is a one-page A4 patient/family leaflet worth 30% of the module mark. The handbook maps it to learning outcome 3: knowledge of the essential elements required for effective collaborative, person-centred health and social care.</p><p>The example illustrates one possible approach. Use the current Brightspace assessment page for submission arrangements.</p><p>Source: UWS, <i>Module Handbook: Next Steps 2025–26</i>, Assessment Component 1 and marking guide.</p></aside>
+</section>
+
+<section class="slide " id="task" tabindex="-1" aria-label="The task in plain words">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>The task</span></div>
+  <div class="eyebrow">The assessment brief</div>
+  <h2>The task in plain words</h2>
+  
+  <div class="big3">
+    <div class="card card--blue"><em>The audience</em><h3>Patients and families</h3><p>People offered a place at the long-term condition management clinic at their local health centre.</p><p>The leaflet also needs to make sense to someone picking it up in the waiting room.</p></div>
+    <div class="card card--gold"><em>The content</em><h3>Three requirements</h3><ul><li><b>Define integrated care</b> and what it can achieve for people with long-term conditions.</li><li><b>Define person-centred care</b> and what it means for someone with a long-term condition.</li><li><b>Present the House of Care</b> and explain how each part supports collaborative, person-centred care.</li></ul></div>
+    <div class="card card--teal"><em>The submission</em><h3>One page and references</h3><ul><li><b>One A4 leaflet page.</b> The handbook does not specify a leaflet word count.</li><li>A separate list of <b>3 or 4 up-to-date, peer-reviewed sources</b> from course texts or equivalent sources.</li><li>In-text citations are not required on the leaflet.</li><li>Your own wording. The handbook prohibits AI-generated assessment content. Complete the required declaration.</li></ul></div>
+  </div>
+  <div class="band">Would the reader understand <b>what the clinic offers</b> and how it could support them?</div>
+  <aside class="speaker-note"><p>The audience determines how the information is presented. Explain the concepts accurately using language patients and families can understand. Include both a definition and its relevance to living with a long-term condition.</p><p>The handbook specifies one A4 leaflet page, with no leaflet word count. Do not treat the example as a minimum, maximum or recommended length. The content needs enough explanation to meet the brief, with a readable layout.</p><p>The separate reference page sits outside the one-page leaflet. The handbook does not require in-text citations on the leaflet. It does require a short source list and prohibits AI from generating assessment content.</p><p>Source: UWS module handbook, Assessment Component 1.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="marks" tabindex="-1" aria-label="Marks available for each criterion">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>Marking criteria</span></div>
+  <div class="eyebrow">The marking guide</div>
+  <h2>Marks available for each criterion</h2>
+  
+  <table class="mk" aria-label="Assessment 1 marking criteria">
+    <thead><tr><th scope="col">Criterion</th><th scope="col">Marks available</th></tr></thead>
+    <tbody>
+    <tr><td><b>Quality and design.</b> Readable font and size, clear contrast, relevant images and a layout appropriate for patients and families.</td><td>15</td></tr>
+    <tr><td><b>Introduction.</b> Clearly explains what the leaflet aims to tell the reader.</td><td>5</td></tr>
+    <tr><td><b>Readability.</b> Understandable language, clear sentences and an accessible presentation of information.</td><td>15</td></tr>
+    <tr class="acc"><td><b>House of Care.</b> Accurate explanation of its components and how they can support health and wellbeing.</td><td>30</td></tr>
+    <tr class="acc"><td><b>Integrated care.</b> Accurate explanation of the concept and what it can achieve for people with long-term conditions.</td><td>15</td></tr>
+    <tr class="acc"><td><b>Person-centred care.</b> Accurate explanation of the concept and its benefits for people with long-term conditions.</td><td>15</td></tr>
+    <tr><td><b>References.</b> A separate list of 3 or 4 up-to-date, peer-reviewed sources from course texts or equivalent sources.</td><td>5</td></tr>
+    <tr class="tot"><td><b>Total</b></td><td>100</td></tr>
+    </tbody>
+  </table>
+  <p class="source">Content accuracy: 60 marks. Design, introduction and readability: 35 marks. References: 5 marks.</p>
+  <aside class="speaker-note"><p>The three content criteria carry 60 marks, including 30 for the House of Care. Design and readability also matter, alongside a clear introduction and appropriate references.</p><p>These are the maximum marks available. The quality of the work determines the actual award. The rubric does not specify a separate numerical split between a definition and its benefits.</p><p>Source: UWS module handbook, Component 1 Marking Guide. Wording is summarised here; use the handbook for the full descriptors.</p></aside>
+</section>
+
+<section class="slide " id="tests" tabindex="-1" aria-label="What the leaflet needs to explain">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>The content</span></div>
+  <div class="eyebrow">Applying the content criteria</div>
+  <h2>What the leaflet needs to explain</h2>
+  
+  <div class="big3">
+    <div class="card card--blue"><em>Integrated care / 15 marks available</em><h3>Services working together</h3><p>Explain how health, social care and community services coordinate care and support around the person.</p><p>Then explain the possible benefit: less repetition, better coordinated support and help before problems become more serious.</p></div>
+    <div class="card card--teal"><em>Person-centred care / 15 marks available</em><h3>What matters to the person</h3><p>Explain how care responds to someone’s needs, preferences and everyday life.</p><p>Show what this means in practice: being listened to, understanding options and making decisions together.</p></div>
+    <div class="card card--gold"><em>House of Care / 30 marks available</em><h3>Each part has a purpose</h3><p>Include the roof, both walls, the foundation and the care and support planning conversation at the centre.</p><p>Explain how each part helps the clinic support the reader. Connect the diagram to practical examples.</p></div>
+  </div>
+  <div class="prompt"><b>Readability:</b> use everyday words, explain unfamiliar terms and keep sentences manageable. Addressing the reader as “you” is one useful approach.</div>
+  <aside class="speaker-note"><p>Each concept needs an explanation and a clear link to the reader’s experience. The House of Care includes four supporting parts around the central conversation, so this deck refers to five visible parts.</p><p>The Scottish model places organisational systems in the roof, informed and involved people in one wall, professional partnership in the other and support beyond medicine in the foundation. The foundation also involves organising and sustaining that support through appropriate resources.</p><p>Plain language is a communication choice, not a fixed list of banned words or a compulsory sentence length.</p><p>Sources: UWS module handbook; <a href="https://www.alliance-scotland.org.uk/past-work-and-projects/scotlands-house-of-care/the-house-of-care-model/" target="_blank" rel="noopener">ALLIANCE, The House of Care Model</a>; <a href="https://www.health.org.uk/resources-and-toolkits/quick-guides/person-centred-care-made-simple" target="_blank" rel="noopener">The Health Foundation (2014)</a>.</p></aside>
+</section>
+
+<section class="slide slide--gold" id="example" tabindex="-1" aria-label="An illustrative leaflet">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>Illustrative example</span></div>
+  <div class="eyebrow">One possible approach</div>
+  <h2>An illustrative leaflet</h2>
+  
+  <p class="example-status">A fictional clinic example. <b>Its length is not a word target.</b> Explain the required content clearly and keep your A4 page easy to read.</p>
+  <div class="lfrow">
+    <div class="lf-wrap" style="width:calc(794px * var(--lfs));height:calc(1123px * var(--lfs))">
+<div class="lf" aria-label="Illustrative patient and family leaflet">
+  <div class="hd">
+    <small>[Your Health Centre] / Long-term conditions clinic</small>
+    <h1>Your care, planned with you</h1>
+    <div>Support to help you live well with a long-term condition</div>
+  </div>
+  <div class="bd">
+    <div class="intro"><b>For people with long-term conditions and their families.</b> Find out how integrated care, person-centred care and the House of Care help our clinic support you.</div>
+    <div class="two">
+      <div class="box"><h2>What is integrated care?</h2><p>Integrated care means health, social care and community services <b>work together to coordinate your care</b>.</p><p><b>How it can help:</b> less repetition, joined-up support and help before problems become more serious.</p></div>
+      <div class="box"><h2>What is person-centred care?</h2><p>Person-centred care starts with <b>what matters to you</b>. We combine your knowledge of your life with professional advice to choose support that fits your needs and preferences.</p><p><b>What it means for you:</b> being listened to, understanding your options and making decisions together.</p></div>
+    </div>
+    <div class="hs">
+      <div class="house"><h2>The House of Care</h2><div class="roof"></div><div class="rooflab">1 / The roof<br>Our systems</div>
+        <div class="walls"><div class="wl">2<br>You and your family</div><div class="mid"><div class="circ">3<br>Care planning<br>conversation</div></div><div class="wr">4<br>Your care team</div></div>
+        <div class="found">5 / The foundation<br>More than medicine</div>
+      </div>
+      <div class="parts"><div>Every part supports the conversation about your care.</div>
+        <div class="pt"><i style="background:#005a73">1</i><div><b>Our systems.</b> We send useful information before your visit. Our systems support safe record sharing and allow time to talk.</div></div>
+        <div class="pt"><i style="background:#3b8f62">2</i><div><b>You, informed and involved.</b> We help you understand your condition and prepare questions.</div></div>
+        <div class="pt"><i style="background:#d9534f">3</i><div><b>The planning conversation.</b> You share what matters most. We agree goals, support and a written plan together, then review how things are going.</div></div>
+        <div class="pt"><i style="background:#d98a2b">4</i><div><b>A team working with you.</b> Health and care staff listen, share decisions with you and coordinate their work around your agreed goals.</div></div>
+        <div class="pt"><i style="background:#6b4f83">5</i><div><b>More than medicine.</b> Health also involves money, housing, company and activity. Our clinic works with local services to organise support that fits your needs.</div></div>
+      </div>
+    </div>
+    <div class="ft">
+      <div class="prep"><h2>Before your appointment</h2><ul><li>Read your information and note what matters to you.</li><li>Bring your questions, medicines list and a supporter if you wish.</li></ul></div>
+      <div class="cont"><h2>Contact the clinic</h2><div>[Health Centre address]<br>[Clinic phone number and opening times]</div><div>Tell us if you need an interpreter, large print or other support.</div></div>
+    </div>
+  </div>
+</div></div>
+    <div class="calls">
+      <div class="call"><i>1</i><div><b>Purpose and audience.</b> The title and opening explain who the leaflet is for and what it covers.</div></div>
+      <div class="call"><i>2</i><div><b>Definitions and relevance.</b> Each care concept connects to the reader’s experience. Benefits use careful wording.</div></div>
+      <div class="call"><i>3</i><div><b>The whole House of Care.</b> The diagram and numbered explanations connect each part to support at the clinic.</div></div>
+      <div class="call"><i>4</i><div><b>Practical details.</b> Preparation and contact boxes are optional design choices. Brackets identify the fictional clinic details.</div></div>
+      <div class="call"><i>5</i><div><b>Check the final A4 version.</b> Keep the text readable and allow space between sections. You do not need to fill every space.</div></div>
+      <div class="call"><i>6</i><div><b>The reference page is additional.</b> A complete submission needs 3 or 4 appropriate sources. In-text citations are not required here.</div></div>
+      <button class="leaflet-open" id="leafletOpenBtn" type="button">Read the leaflet at full size</button>
+    </div>
+  </div>
+  <aside class="speaker-note"><p>This is a teaching illustration of one possible layout for a fictional clinic. It has not been assigned a grade. Students should develop their own wording and design while meeting the same brief.</p><p>The example's amount of text is not a required length. The brief specifies one A4 leaflet page, with no leaflet word count. Students may use different amounts of text: assess whether the required concepts are accurately and sufficiently explained for the audience, with readable language and design. More words do not automatically earn more marks. Do not add repeated text, fill every space or reduce font size to imitate this example.</p><p>The clinic arrangements illustrate how a service could use the framework. They are not verified promises about a particular health centre. Bracketed contact details indicate the fictional setting, and a contact box is optional.</p><p>The leaflet page is shown here. A complete assessment also needs its separate reference list and required submission documents. The Sources menu contains teaching resources and further reading; students should select sources that support the content of their own leaflet.</p><p>Sources: UWS module handbook; ALLIANCE, <i>The House of Care Model</i>; The Health Foundation (2014); Year of Care Partnerships (2021). See Sources for full details.</p></aside>
+</section>
+
+<section class="slide " id="marked" tabindex="-1" aria-label="Reviewing the example">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>Review against the criteria</span></div>
+  <div class="eyebrow">Using the marking guide</div>
+  <h2>Reviewing the example</h2>
+  
+  <p class="review-status">The numbers below are marks available for each criterion. This example has not been graded.</p>
+  <table class="mk review-table" aria-label="Review of the illustrative leaflet">
+    <thead><tr><th scope="col">Criterion</th><th scope="col">Features to notice</th><th scope="col">What to check in your own work</th></tr></thead>
+    <tbody>
+    <tr><td><b>Design</b><br>15 available</td><td>Clear headings, grouped information and matching colours and numbers.</td><td>Check text size, contrast and spacing in the final A4 version.</td></tr>
+    <tr><td><b>Introduction</b><br>5 available</td><td>The opening names the audience and explains the leaflet’s purpose.</td><td>Can the reader immediately tell what the leaflet will explain?</td></tr>
+    <tr><td><b>Readability</b><br>15 available</td><td>Direct language, explanations and practical examples.</td><td>Check unfamiliar terms, long sentences and how easily the information flows.</td></tr>
+    <tr class="acc"><td><b>House of Care</b><br>30 available</td><td>The roof, walls, foundation and central conversation each have an explanation.</td><td>Explain how every part supports collaborative, person-centred care.</td></tr>
+    <tr class="acc"><td><b>Integrated care</b><br>15 available</td><td>Services coordinate care. Possible benefits are linked to the reader.</td><td>Support the claims with evidence and avoid guaranteed outcomes.</td></tr>
+    <tr class="acc"><td><b>Person-centred care</b><br>15 available</td><td>Needs, preferences and shared decisions shape the plan.</td><td>Explain how the approach can support someone with a long-term condition.</td></tr>
+    <tr><td><b>References</b><br>5 available</td><td>This illustration shows the leaflet page.</td><td>Add the separate list of 3 or 4 appropriate sources in Cite Them Right Harvard.</td></tr>
+    </tbody>
+  </table>
+  <aside class="speaker-note"><p>The table connects the illustration to the assessment criteria without awarding marks. A feature appearing on the page does not automatically earn the maximum available score. Its accuracy, quality and suitability for the audience matter.</p><p>The leaflet illustration alone cannot demonstrate the separate reference-page requirement. Students should check that their sources support their actual content and meet the handbook’s requirements.</p><p>Source: UWS module handbook, Component 1 Marking Guide.</p></aside>
+</section>
+
+<section class="slide slide--coral" id="pitfalls" tabindex="-1" aria-label="Common issues and useful improvements">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>Common issues</span></div>
+  <div class="eyebrow">Points to check</div>
+  <h2>Common issues and useful improvements</h2>
+  
+  <div class="pit">
+    <div class="card"><h3>Dense academic wording</h3><p>Long paragraphs and unexplained terms can be difficult to follow. <b>Improve it:</b> use everyday words, clear headings and shorter sentences where helpful.</p></div>
+    <div class="card"><h3>A diagram without explanation</h3><p>Labels alone do not show how the framework helps. <b>Improve it:</b> connect each part to what it means for the patient or family.</p></div>
+    <div class="card"><h3>Benefits presented as guarantees</h3><p>“You will never repeat your story” promises too much. <b>Improve it:</b> explain what coordinated care can help achieve and support the claim.</p></div>
+    <div class="card"><h3>An unclear introduction</h3><p>The reader may not know what the leaflet covers. <b>Improve it:</b> state the purpose near the beginning. Choose a layout that makes it easy to find.</p></div>
+    <div class="card"><h3>Hard-to-read design</h3><p>Small text, weak contrast and blurred images obscure the message. <b>Improve it:</b> check the finished page at normal A4 reading size.</p></div>
+    <div class="card"><h3>Contact details without the content</h3><p>An address and phone number do not explain the required concepts. <b>Improve it:</b> check that the three content requirements on slide 2 are covered.</p></div>
+  </div>
+  <aside class="speaker-note"><p>These are illustrative issues to check against the rubric. They are not accounts of particular students or claims about previous marking results.</p><p>The assessment requires accurate content as well as suitable presentation. Practical design suggestions help communicate that content; the handbook’s marking criteria remain the basis of assessment.</p><p>Source: UWS module handbook, Assessment Component 1 and marking guide.</p></aside>
+</section>
+
+<section class="slide slide--teal" id="checklist" tabindex="-1" aria-label="The final checklist">
+  <div class="foot"><span>Next Steps / Assessment 1</span><span>Submission checklist</span></div>
+  <div class="eyebrow">Before submission</div>
+  <h2>The final checklist</h2>
+  
+  <ul class="chk">
+    <li><b>One A4 leaflet page</b> written for patients and families attending a long-term conditions clinic.</li>
+    <li><b>A clear introduction</b> explaining the leaflet’s purpose.</li>
+    <li><b>Integrated care:</b> a definition and what it can achieve for the reader.</li>
+    <li><b>Person-centred care:</b> a definition and what it means for someone with a long-term condition.</li>
+    <li><b>The House of Care:</b> all supporting parts and the central conversation, with their purpose explained.</li>
+    <li><b>Readable at normal A4 size:</b> clear wording, suitable text size, space between sections and relevant images.</li>
+    <li><b>A separate reference page:</b> 3 or 4 up-to-date, peer-reviewed sources from course texts or equivalent sources, in Cite Them Right Harvard.</li>
+    <li><b>Your own work:</b> follow the handbook’s rules on AI-generated content and complete the required declaration and submission front page.</li>
+    <li><b>The current Brightspace instructions:</b> check the submission point, deadline and required documents.</li>
+    <li><b>Support if needed:</b> contact your tutor promptly if you are having difficulty completing or submitting the assessment.</li>
+  </ul>
+  <div class="band">Check <b>every criterion</b>. Use enough explanation to meet the brief; you do not need to match the example’s length.</div>
+  <aside class="speaker-note"><p>The current Brightspace assessment page confirms the submission arrangements. If there is a difficulty, contact the tutor before the deadline where possible and follow the relevant university process.</p><p>The page requirement is one A4 leaflet, with a separate reference page. There is no leaflet word count in the handbook. Check content coverage and readability together: a list of unexplained labels is insufficient, and extra words do not automatically improve an answer.</p><p>The handbook says in-text citations are not required on the leaflet. The separate reference list is still required. The source list should contain materials the student has read and used to develop the leaflet.</p><p>Sources: UWS module handbook, Assessment Component 1; uploaded Next Steps assessment information, including the required submission front page.</p></aside>
+</section>
+
+</main>
+
+<div class="nav"><button id="prev" aria-label="Previous slide">←</button><span id="lbl">1 / 8</span><button id="next" aria-label="Next slide">→</button></div>
+<div class="progress" id="bar"></div>
+<div class="notes-panel" id="notesPanel" role="dialog" aria-label="Presenter notes"><h3 id="notesTitle">Presenter notes</h3><div id="notesBody"></div></div>
+
+<div class="overlay" id="slidesOverlay" role="dialog" aria-modal="true" aria-label="Slide navigator"><div class="modal"><button class="close" data-close="slidesOverlay">Close</button><h2>Slide navigator</h2><div class="slide-list" id="slideList"></div></div></div>
+<div class="overlay" id="helpOverlay" role="dialog" aria-modal="true" aria-label="Controls"><div class="modal"><button class="close" data-close="helpOverlay">Close</button><h2>Controls</h2><ul><li><b>← / →</b> or Page Up / Page Down: move slides</li><li><b>Home / End</b>: first / last slide</li><li><b>N</b>: presenter notes</li><li><b>S</b>: slide navigator</li><li><b>R</b>: sources</li><li><b>G</b>: glossary</li><li><b>F</b>: full screen</li><li><b>Esc</b>: close</li></ul><p>A short deck on Assessment 1, to run before the main topic. Print produces one slide per page. The example slide also has a button to read the leaflet at full size.</p></div></div>
+<div class="overlay" id="debriefOverlay" role="dialog" aria-modal="true" aria-label="Marking guide"><div class="modal"><button class="close" data-close="debriefOverlay">Close</button><h2>Component 1 marking guide</h2><p>Design 15 · Introduction 5 · Readability 15 · House of Care 30 · Integrated care 15 · Person-centred care 15 · References 5 · Total 100.</p></div></div>
+<div class="overlay" id="glossOverlay" role="dialog" aria-modal="true" aria-label="Glossary"><div class="modal"><button class="close" data-close="glossOverlay">Close</button><h2>Glossary</h2><ul>
+<li><b>Long-term condition:</b> a condition that lasts over time and may require ongoing care and support.</li>
+<li><b>Integrated care:</b> health, social care and community services coordinating their work around the person.</li>
+<li><b>Person-centred care:</b> care shaped around the person’s needs and preferences, with decisions made together.</li>
+<li><b>House of Care:</b> a framework showing what supports the care and support planning conversation: organisational systems, informed and involved people, professionals working in partnership, and support beyond medicine.</li>
+<li><b>Care and support planning:</b> preparing for a conversation, discussing what matters, agreeing a plan together and reviewing it.</li>
+<li><b>Peer-reviewed:</b> assessed by relevant specialists before publication. A recognised publisher or organisation does not by itself establish peer review.</li>
+<li><b>Cite Them Right Harvard:</b> the author–date referencing style used at UWS. The details needed depend on the type of source. See the <a href="https://uws-uk.libguides.com/referencing" target="_blank" rel="noopener">UWS referencing guide</a>.</li>
+</ul></div></div>
+<div class="overlay" id="sourcesOverlay" role="dialog" aria-modal="true" aria-label="Teaching sources and further reading"><div class="modal"><button class="close" data-close="sourcesOverlay">Close</button><h2>Teaching sources and further reading</h2>
+<p>These sources support the teaching in this deck. Select sources that support your own leaflet and meet the handbook’s requirements. An official report or patient leaflet is not automatically peer-reviewed.</p>
+<h3>Assessment requirements</h3><p>University of the West of Scotland (2025) <i>Module Handbook: Next Steps 2025–26</i>. Assessment Component 1 and marking guide. Use your current Brightspace assessment page for submission arrangements.</p>
+<h3>Frameworks, reports and patient information</h3><ol>
+<li>Coulter, A., Roberts, S. and Dixon, A. (2013) <i>Delivering better services for people with long-term conditions: Building the house of care</i>. London: The King’s Fund. <a href="https://www.kingsfund.org.uk/insight-and-analysis/reports/better-services-people-long-term-conditions" target="_blank" rel="noopener">Report page</a>.</li>
+<li>Ham, C., Heenan, D., Longley, M. and Steel, D.R. (2013) <i>Integrated care in Northern Ireland, Scotland and Wales: Lessons for England</i>. London: The King’s Fund. <a href="https://www.kingsfund.org.uk/insight-and-analysis/reports/integrated-care-northern-ireland-scotland-wales" target="_blank" rel="noopener">Report page</a>.</li>
+<li>The Health Foundation (2014) <i>Person-centred care made simple: What everyone should know about person-centred care</i>. London: The Health Foundation. <a href="https://www.health.org.uk/resources-and-toolkits/quick-guides/person-centred-care-made-simple" target="_blank" rel="noopener">Guide and citation details</a>.</li>
+<li>Year of Care Partnerships (2021) <i>Personalised care and support planning: How can it help?</i> Patient information leaflet. <a href="https://www.yearofcare.co.uk/wp-content/uploads/2024/12/2.-PCSP-how-can-it-help-leaflet-Dec-2021.pdf" target="_blank" rel="noopener">December 2021 leaflet</a>.</li>
+<li>Health and Social Care Alliance Scotland (n.d.) <i>The House of Care Model</i>. <a href="https://www.alliance-scotland.org.uk/past-work-and-projects/scotlands-house-of-care/the-house-of-care-model/" target="_blank" rel="noopener">Scottish framework and explanation</a> (Accessed: 23 October 2026).</li>
+</ol><h3>Journal articles for further reading</h3><ol>
+<li>Roberts, S., Eaton, S., Finch, T., Lewis-Barned, N., Lhussier, M., Oliver, L., Rapley, T. and Temple-Scott, D. (2019) ‘The Year of Care approach: developing a model and delivery programme for care and support planning in long term conditions within general practice’, <i>BMC Family Practice</i>, 20, article 153. <a href="https://doi.org/10.1186/s12875-019-1042-4" target="_blank" rel="noopener">doi:10.1186/s12875-019-1042-4</a>.</li>
+<li>Thomson, L.J.M. and Chatterjee, H.J. (2024) ‘Barriers and enablers of integrated care in the UK: a rapid evidence review of review articles and grey literature 2018–2022’, <i>Frontiers in Public Health</i>, 11, article 1286479. <a href="https://doi.org/10.3389/fpubh.2023.1286479" target="_blank" rel="noopener">doi:10.3389/fpubh.2023.1286479</a>.</li>
+</ol><p>Older foundational publications explain the origins of the framework. Consider currency and relevance when choosing the evidence for your own leaflet. The <a href="https://uws-uk.libguides.com/referencing" target="_blank" rel="noopener">UWS referencing guide</a> explains how to format your final reference list.</p>
+</div></div>
+
+<div class="overlay" id="leafletOverlay" role="dialog" aria-modal="true" aria-labelledby="leafletViewTitle"><div class="modal leaflet-modal"><div class="leaflet-modal-head"><button class="close" data-close="leafletOverlay">Close</button><h2 id="leafletViewTitle">Illustrative leaflet</h2><p>Fictional clinic. This example’s length is not a word target. The separate reference page is additional.</p></div><div id="leafletFullView" class="leaflet-full-view"></div></div></div>
+
+<script>
+(function(){
+/* ---------- deck shell ---------- */
+const slides=[...document.querySelectorAll('.slide')],total=slides.length;let cur=0;
+const bar=document.getElementById('bar'),lbl=document.getElementById('lbl'),prev=document.getElementById('prev'),next=document.getElementById('next'),ann=document.getElementById('ann');
+const notesPanel=document.getElementById('notesPanel'),notesBody=document.getElementById('notesBody'),notesTitle=document.getElementById('notesTitle');
+const menuBtn=document.getElementById('menuBtn'),tools=document.getElementById('tools');
+function updateNotes(){const n=slides[cur].querySelector('.speaker-note');notesTitle.textContent='Presenter notes · '+(cur+1)+' / '+total;notesBody.innerHTML=n?n.innerHTML:'<p>No presenter notes for this slide.</p>';}
+function show(n){slides[cur]?.classList.remove('active');cur=Math.max(0,Math.min(n,total-1));slides[cur].classList.add('active');bar.style.width=((cur+1)/total*100)+'%';lbl.textContent=(cur+1)+' / '+total;prev.disabled=cur===0;next.disabled=cur===total-1;ann.textContent=slides[cur].getAttribute('aria-label');slides[cur].focus({preventScroll:true});location.hash='slide-'+(cur+1);updateNotes();requestAnimationFrame(fitLeaflet);}
+function openOverlay(id){const o=document.getElementById(id);o?.classList.add('open');o?.querySelector('button')?.focus();}
+function closeAll(){document.querySelectorAll('.overlay.open').forEach(x=>x.classList.remove('open'));notesPanel.classList.remove('open');tools.classList.remove('open');menuBtn.setAttribute('aria-expanded','false');}
+prev.onclick=()=>show(cur-1);next.onclick=()=>show(cur+1);
+menuBtn.onclick=()=>{const on=tools.classList.toggle('open');menuBtn.setAttribute('aria-expanded',String(on));};
+document.getElementById('notesBtn').onclick=()=>notesPanel.classList.toggle('open');
+document.getElementById('slidesBtn').onclick=()=>openOverlay('slidesOverlay');
+document.getElementById('sourcesBtn').onclick=()=>openOverlay('sourcesOverlay');document.getElementById('glossBtn').onclick=()=>openOverlay('glossOverlay');
+document.getElementById('helpBtn').onclick=()=>openOverlay('helpOverlay');
+document.getElementById('fsBtn').onclick=()=>document.documentElement.requestFullscreen?.();
+document.getElementById('printBtn').onclick=()=>window.print();
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>document.getElementById(b.dataset.close).classList.remove('open'));
+document.querySelectorAll('[data-overlay]').forEach(b=>b.addEventListener('click',()=>openOverlay(b.dataset.overlay)));
+document.querySelectorAll('[data-toggle]').forEach(b=>b.addEventListener('click',()=>{const x=document.getElementById(b.dataset.toggle);const willShow=x.hidden;x.hidden=!willShow;b.textContent=willShow?b.dataset.on:b.dataset.off;b.classList.toggle('on',willShow);}));
+const slideList=document.getElementById('slideList');slides.forEach((s,i)=>{const b=document.createElement('button');const h=s.querySelector('h1,h2,.bigline');b.textContent=(i+1)+'. '+(h?h.textContent.trim().slice(0,70):s.getAttribute('aria-label'));b.onclick=()=>{document.getElementById('slidesOverlay').classList.remove('open');show(i)};slideList.appendChild(b)});
+document.querySelectorAll('.timer').forEach(t=>{const secs=parseInt(t.dataset.secs,10);let left=secs,iv=null;const buttons=t.nextElementSibling?.querySelectorAll('button[data-act]')||[];const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');const draw=()=>{t.textContent=fmt(left);if(left===0)t.style.color='var(--coral)'};buttons.forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.act;if(a==='start'&&!iv){iv=setInterval(()=>{if(left>0){left--;draw()}else{clearInterval(iv);iv=null}},1000)}else if(a==='pause'){clearInterval(iv);iv=null}else if(a==='reset'){clearInterval(iv);iv=null;left=secs;t.style.color='';draw()}}));draw();});
+document.addEventListener('keydown',e=>{const tag=e.target.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT')return;if(e.key==='Escape'){closeAll();return}if(document.querySelector('.overlay.open'))return;if(e.key==='ArrowRight'||e.key==='PageDown'||(e.key===' '&&tag!=='BUTTON')){e.preventDefault();show(cur+1)}else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(cur-1)}else if(e.key==='Home'){show(0)}else if(e.key==='End'){show(total-1)}else if(e.key.toLowerCase()==='n'){notesPanel.classList.toggle('open')}else if(e.key.toLowerCase()==='s'){openOverlay('slidesOverlay')}else if(e.key.toLowerCase()==='r'){openOverlay('sourcesOverlay')}else if(e.key.toLowerCase()==='g'){openOverlay('glossOverlay')}else if(e.key.toLowerCase()==='f'){document.documentElement.requestFullscreen?.()}});
+
+
+/* ---------- leaflet checklist ---------- */
+document.querySelectorAll('.ck').forEach(c=>{const t=()=>c.classList.toggle('done');c.addEventListener('click',t);c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});});
+function fitLeaflet(){
+  const row=document.querySelector('#example .lfrow');
+  if(!row || !document.getElementById('example').classList.contains('active'))return;
+  const mobile=window.innerWidth<=820;
+  const maxHeight=mobile?Math.min(window.innerHeight*.85,650):Math.max(380,row.clientHeight-2);
+  const maxWidth=mobile?row.clientWidth:Math.min(row.clientWidth*.46,520);
+  row.style.setProperty('--lfs',Math.min(maxHeight/1123,maxWidth/794,1));
+}
+window.addEventListener('resize',fitLeaflet);
+document.getElementById('leafletOpenBtn').addEventListener('click',()=>{
+  const view=document.getElementById('leafletFullView');
+  if(!view.firstElementChild)view.appendChild(document.querySelector('#example .lf').cloneNode(true));
+  openOverlay('leafletOverlay');
+});
+const m=location.hash.match(/slide-(\d+)/);show(m?parseInt(m[1],10)-1:0);
+})();
+</script>
+</body>
+</html>
